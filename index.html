@@ -21,11 +21,15 @@
 }
 
 :root {
+
     --primary: #8b5cf6;
     --secondary: #6366f1;
+
     --background: #08080b;
+
     --text: #ffffff;
     --muted: #a1a1aa;
+
     --card-opacity: .78;
     --blur: 18px;
     --radius: 24px;
@@ -36,11 +40,23 @@ html {
 }
 
 body {
+
     min-height: 100vh;
-    font-family: Inter, Arial, Helvetica, sans-serif;
-    color: var(--text);
-    background: var(--background);
-    overflow-x: hidden;
+
+    font-family:
+        Inter,
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    color:
+        var(--text);
+
+    background:
+        var(--background);
+
+    overflow-x:
+        hidden;
 }
 
 /* =====================================================
@@ -48,8 +64,11 @@ body {
 ===================================================== */
 
 #background {
+
     position: fixed;
+
     inset: 0;
+
     z-index: -10;
 
     background:
@@ -59,19 +78,26 @@ body {
             var(--secondary)
         );
 
-    background-size: cover;
-    background-position: center;
+    background-size:
+        cover;
+
+    background-position:
+        center;
 
     transition:
-        background-image 1.2s ease,
-        background-color 1.2s ease;
+        background-image 1.2s ease;
 }
 
 #background::after {
+
     content: "";
+
     position: absolute;
+
     inset: 0;
-    background: rgba(0,0,0,.45);
+
+    background:
+        rgba(0,0,0,.45);
 }
 
 /* =====================================================
@@ -79,14 +105,20 @@ body {
 ===================================================== */
 
 #particles {
+
     position: fixed;
+
     inset: 0;
+
     z-index: -5;
+
     pointer-events: none;
+
     overflow: hidden;
 }
 
 .particle {
+
     position: absolute;
 
     width: 4px;
@@ -95,20 +127,25 @@ body {
     border-radius: 50%;
 
     background: white;
+
     opacity: .45;
 
     animation:
-        particleFloat linear infinite;
+        particleFloat
+        linear
+        infinite;
 }
 
 @keyframes particleFloat {
 
     from {
-        transform: translateY(110vh);
+        transform:
+            translateY(110vh);
     }
 
     to {
-        transform: translateY(-110vh);
+        transform:
+            translateY(-110vh);
     }
 
 }
@@ -120,7 +157,7 @@ body {
 .topbar {
 
     width:
-        min(1100px, 94%);
+        min(1100px,94%);
 
     margin:
         18px auto;
@@ -137,9 +174,14 @@ body {
 
 .logo {
 
-    font-size: 16px;
-    font-weight: 900;
-    letter-spacing: 4px;
+    font-size:
+        16px;
+
+    font-weight:
+        900;
+
+    letter-spacing:
+        4px;
 }
 
 .languages {
@@ -299,6 +341,7 @@ body {
 }
 
 .avatar:hover {
+
     transform:
         scale(1.05);
 }
@@ -395,6 +438,7 @@ h1 {
 }
 
 .stat strong {
+
     font-size:
         22px;
 }
@@ -535,9 +579,6 @@ h1 {
 
     border-radius:
         14px;
-
-    object-fit:
-        cover;
 
     background:
         linear-gradient(
@@ -792,563 +833,133 @@ h1 {
    PLAYLIST
 ===================================================== */
 
-const playlist = [
+.playlist {
 
-    {
-        title: "20 Ligações",
-        artist: "Baco Exu do Blues",
+    display:
+        grid;
 
-        // music1.mp3 está na mesma pasta do index.html
-        src: "./music1.mp3",
+    gap:
+        8px;
 
-        cover: ""
-    }
-
-];
-
-
-let currentSong = 0;
-
-let isPlaying = false;
-
-let shuffle = false;
-
-let loop = false;
-
-
-const audio = new Audio();
-
-audio.volume = 0.8;
-
-
-/* =====================================================
-   PLAYER
-===================================================== */
-
-function loadSong(index, autoplay = false) {
-
-    if (playlist.length === 0) {
-        console.error("Nenhuma música foi adicionada à playlist.");
-        return;
-    }
-
-    if (index < 0) {
-        index = playlist.length - 1;
-    }
-
-    if (index >= playlist.length) {
-        index = 0;
-    }
-
-    currentSong = index;
-
-    const song = playlist[currentSong];
-
-    audio.src = song.src;
-
-    document.getElementById("musicTitle").textContent =
-        song.title;
-
-    document.getElementById("musicArtist").textContent =
-        song.artist;
-
-
-    const cover =
-        document.getElementById("musicCover");
-
-
-    if (song.cover) {
-
-        cover.style.backgroundImage =
-            `url("${song.cover}")`;
-
-        cover.textContent = "";
-
-    } else {
-
-        cover.style.backgroundImage = "";
-
-        cover.textContent = "🎵";
-
-    }
-
-
-    renderPlaylist();
-
-
-    if (autoplay) {
-
-        audio.play()
-            .then(() => {
-
-                isPlaying = true;
-
-                updatePlayButton();
-
-            })
-            .catch(error => {
-
-                console.error(
-                    "Falha ao reproduzir:",
-                    error
-                );
-
-            });
-
-    }
-
+    margin-top:
+        18px;
 }
 
+.playlist-item {
 
-/* =====================================================
-   PLAY / PAUSE
-===================================================== */
+    display:
+        flex;
 
-function toggleMusic() {
+    align-items:
+        center;
 
-    if (audio.paused) {
+    gap:
+        12px;
 
-        if (!audio.src) {
-            loadSong(currentSong);
-        }
+    padding:
+        12px;
 
-        audio.play()
-            .then(() => {
+    border-radius:
+        12px;
 
-                isPlaying = true;
+    background:
+        rgba(255,255,255,.04);
 
-                updatePlayButton();
+    border:
+        1px solid
+        rgba(255,255,255,.07);
 
-            })
-            .catch(error => {
+    cursor:
+        pointer;
 
-                console.error(
-                    "Falha ao reproduzir:",
-                    error
-                );
-
-            });
-
-    } else {
-
-        audio.pause();
-
-        isPlaying = false;
-
-        updatePlayButton();
-
-    }
-
+    transition:
+        .2s ease;
 }
 
+.playlist-item:hover {
 
-function updatePlayButton() {
+    background:
+        rgba(255,255,255,.08);
 
-    document.getElementById("playButton").textContent =
-        audio.paused ? "▶" : "⏸";
-
+    border-color:
+        var(--primary);
 }
 
+.playlist-item.active {
 
-/* =====================================================
-   PRÓXIMA
-===================================================== */
+    background:
+        rgba(139,92,246,.15);
 
-function nextSong() {
-
-    if (playlist.length <= 1) {
-
-        loadSong(
-            currentSong,
-            true
-        );
-
-        return;
-
-    }
-
-
-    if (shuffle) {
-
-        let next;
-
-        do {
-
-            next =
-                Math.floor(
-                    Math.random() *
-                    playlist.length
-                );
-
-        } while (
-            next === currentSong
-        );
-
-
-        loadSong(
-            next,
-            true
-        );
-
-        return;
-
-    }
-
-
-    loadSong(
-        currentSong + 1,
-        true
-    );
-
+    border-color:
+        var(--primary);
 }
 
+.playlist-number {
 
-/* =====================================================
-   ANTERIOR
-===================================================== */
+    width:
+        28px;
 
-function previousSong() {
+    height:
+        28px;
 
-    loadSong(
-        currentSong - 1,
-        true
-    );
+    display:
+        flex;
 
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    border-radius:
+        8px;
+
+    background:
+        rgba(255,255,255,.08);
+
+    color:
+        var(--muted);
+
+    font-size:
+        12px;
 }
 
+.playlist-name {
 
-/* =====================================================
-   SHUFFLE
-===================================================== */
+    min-width:
+        0;
 
-function toggleShuffle() {
+    display:
+        flex;
 
-    shuffle = !shuffle;
-
-    document.getElementById(
-        "shuffleButton"
-    ).classList.toggle(
-        "active",
-        shuffle
-    );
-
+    flex-direction:
+        column;
 }
 
+.playlist-name strong {
 
-/* =====================================================
-   LOOP
-===================================================== */
+    overflow:
+        hidden;
 
-function toggleLoop() {
+    text-overflow:
+        ellipsis;
 
-    loop = !loop;
-
-    document.getElementById(
-        "loopButton"
-    ).classList.toggle(
-        "active",
-        loop
-    );
-
+    white-space:
+        nowrap;
 }
 
+.playlist-name span {
 
-/* =====================================================
-   RENDER PLAYLIST
-===================================================== */
+    margin-top:
+        3px;
 
-function renderPlaylist() {
+    color:
+        var(--muted);
 
-    const container =
-        document.getElementById(
-            "playlist"
-        );
-
-
-    container.innerHTML = "";
-
-
-    playlist.forEach(
-        (song, index) => {
-
-            const item =
-                document.createElement(
-                    "div"
-                );
-
-
-            item.className =
-                "playlist-item";
-
-
-            if (
-                index === currentSong
-            ) {
-
-                item.classList.add(
-                    "active"
-                );
-
-            }
-
-
-            item.innerHTML = `
-
-                <div class="playlist-number">
-                    ${index + 1}
-                </div>
-
-                <div class="playlist-name">
-
-                    <strong>
-                        ${escapeHTML(song.title)}
-                    </strong>
-
-                    <span>
-                        ${escapeHTML(song.artist)}
-                    </span>
-
-                </div>
-
-            `;
-
-
-            item.onclick = () => {
-
-                loadSong(
-                    index,
-                    true
-                );
-
-            };
-
-
-            container.appendChild(
-                item
-            );
-
-        }
-    );
-
+    font-size:
+        12px;
 }
 
-
-/* =====================================================
-   TEMPO DA MÚSICA
-===================================================== */
-
-audio.addEventListener(
-    "timeupdate",
-    () => {
-
-        if (!audio.duration) {
-            return;
-        }
-
-
-        const progress =
-            document.getElementById(
-                "progress"
-            );
-
-
-        progress.value =
-            (
-                audio.currentTime /
-                audio.duration
-            ) * 100;
-
-
-        document.getElementById(
-            "currentTime"
-        ).textContent =
-            formatTime(
-                audio.currentTime
-            );
-
-
-        document.getElementById(
-            "duration"
-        ).textContent =
-            formatTime(
-                audio.duration
-            );
-
-    }
-);
-
-
-/* =====================================================
-   FINAL DA MÚSICA
-===================================================== */
-
-audio.addEventListener(
-    "ended",
-    () => {
-
-        if (loop) {
-
-            audio.currentTime = 0;
-
-            audio.play();
-
-            return;
-
-        }
-
-        nextSong();
-
-    }
-);
-
-
-/* =====================================================
-   PLAY
-===================================================== */
-
-audio.addEventListener(
-    "play",
-    () => {
-
-        isPlaying = true;
-
-        updatePlayButton();
-
-    }
-);
-
-
-/* =====================================================
-   PAUSE
-===================================================== */
-
-audio.addEventListener(
-    "pause",
-    () => {
-
-        isPlaying = false;
-
-        updatePlayButton();
-
-    }
-);
-
-
-/* =====================================================
-   ERRO DE CARREGAMENTO
-===================================================== */
-
-audio.addEventListener(
-    "error",
-    () => {
-
-        console.error(
-            "================================="
-        );
-
-        console.error(
-            "ERRO AO CARREGAR A MÚSICA"
-        );
-
-        console.error(
-            "URL:",
-            audio.src
-        );
-
-        console.error(
-            "O arquivo esperado é:",
-            "./music1.mp3"
-        );
-
-        console.error(
-            "================================="
-        );
-
-    }
-);
-
-
-/* =====================================================
-   PROGRESSO
-===================================================== */
-
-document.getElementById(
-    "progress"
-).addEventListener(
-    "input",
-    event => {
-
-        if (!audio.duration) {
-            return;
-        }
-
-
-        audio.currentTime =
-            (
-                Number(
-                    event.target.value
-                ) / 100
-            ) *
-            audio.duration;
-
-    }
-);
-
-
-/* =====================================================
-   VOLUME
-===================================================== */
-
-document.getElementById(
-    "volume"
-).addEventListener(
-    "input",
-    event => {
-
-        audio.volume =
-            Number(
-                event.target.value
-            );
-
-    }
-);
-
-
-/* =====================================================
-   FORMATAÇÃO DE TEMPO
-===================================================== */
-
-function formatTime(seconds) {
-
-    if (
-        !Number.isFinite(seconds)
-    ) {
-
-        return "0:00";
-
-    }
-
-
-    const minutes =
-        Math.floor(
-            seconds / 60
-        );
-
-
-    const remaining =
-        Math.floor(
-            seconds % 60
-        )
-        .toString()
-        .padStart(
-            2,
-            "0"
-        );
-
-
-    return `${minutes}:${remaining}`;
-
-}
 /* =====================================================
    GALERIA
 ===================================================== */
@@ -1473,6 +1084,7 @@ function formatTime(seconds) {
 }
 
 .hidden {
+
     display:
         none !important;
 }
@@ -1513,6 +1125,7 @@ function formatTime(seconds) {
 }
 
 .modal h2 {
+
     margin-bottom:
         20px;
 }
@@ -1571,6 +1184,14 @@ function formatTime(seconds) {
         none;
 }
 
+.modal input:focus,
+.modal textarea:focus,
+.modal select:focus {
+
+    border-color:
+        var(--primary);
+}
+
 .modal textarea {
 
     min-height:
@@ -1578,14 +1199,6 @@ function formatTime(seconds) {
 
     resize:
         vertical;
-}
-
-.modal input:focus,
-.modal textarea:focus,
-.modal select:focus {
-
-    border-color:
-        var(--primary);
 }
 
 .grid {
@@ -1691,6 +1304,94 @@ function formatTime(seconds) {
         10px;
 }
 
+.music-editor-list {
+
+    display:
+        grid;
+
+    gap:
+        8px;
+
+    margin-top:
+        10px;
+}
+
+.music-editor-item {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    gap:
+        10px;
+
+    padding:
+        12px;
+
+    border-radius:
+        12px;
+
+    background:
+        rgba(255,255,255,.06);
+
+    border:
+        1px solid
+        rgba(255,255,255,.1);
+}
+
+.music-editor-info {
+
+    min-width:
+        0;
+}
+
+.music-editor-info strong {
+
+    display:
+        block;
+
+    overflow:
+        hidden;
+
+    white-space:
+        nowrap;
+
+    text-overflow:
+        ellipsis;
+}
+
+.music-editor-info span {
+
+    display:
+        block;
+
+    margin-top:
+        3px;
+
+    color:
+        var(--muted);
+
+    font-size:
+        12px;
+}
+
+.music-delete {
+
+    flex-shrink:
+        0;
+
+    background:
+        rgba(239,68,68,.15) !important;
+
+    border-color:
+        rgba(239,68,68,.3) !important;
+}
+
 /* =====================================================
    RESPONSIVO
 ===================================================== */
@@ -1698,11 +1399,13 @@ function formatTime(seconds) {
 @media(max-width:600px) {
 
     .profile-content {
+
         padding:
             0 20px 30px;
     }
 
     .banner {
+
         height:
             180px;
     }
@@ -1720,16 +1423,19 @@ function formatTime(seconds) {
     }
 
     h1 {
+
         font-size:
             28px;
     }
 
     .grid {
+
         grid-template-columns:
             1fr;
     }
 
     .music-main {
+
         align-items:
             flex-start;
     }
@@ -1770,7 +1476,10 @@ function formatTime(seconds) {
 
 <article class="profile-card">
 
-    <div id="banner" class="banner"></div>
+    <div
+        id="banner"
+        class="banner"
+    ></div>
 
     <div class="profile-content">
 
@@ -1792,11 +1501,17 @@ function formatTime(seconds) {
 
         </h1>
 
-        <div id="username" class="username">
+        <div
+            id="username"
+            class="username"
+        >
             @usuario
         </div>
 
-        <p id="bio" class="bio">
+        <p
+            id="bio"
+            class="bio"
+        >
             Bem-vindo ao meu perfil! 👋
         </p>
 
@@ -1840,7 +1555,10 @@ function formatTime(seconds) {
 
         </div>
 
-        <div id="links" class="links"></div>
+        <div
+            id="links"
+            class="links"
+        ></div>
 
         <!-- =================================================
              PLAYER
@@ -1869,14 +1587,14 @@ function formatTime(seconds) {
                             id="musicTitle"
                             class="music-title"
                         >
-                            20 Ligações
+                            Nenhuma música
                         </div>
 
                         <div
                             id="musicArtist"
                             class="music-artist"
                         >
-                            Baco Exu do Blues
+                            Adicione músicas pelo editor
                         </div>
 
                     </div>
@@ -2117,19 +1835,25 @@ function formatTime(seconds) {
         Nome
     </label>
 
-    <input id="editName">
+    <input
+        id="editName"
+    >
 
     <label>
         Username
     </label>
 
-    <input id="editUsername">
+    <input
+        id="editUsername"
+    >
 
     <label>
         Biografia
     </label>
 
-    <textarea id="editBio"></textarea>
+    <textarea
+        id="editBio"
+    ></textarea>
 
     <div class="grid">
 
@@ -2161,6 +1885,10 @@ function formatTime(seconds) {
 
     </div>
 
+    <!-- =================================================
+         AVATAR
+    ================================================= -->
+
     <h3>
         🖼️ Avatar
     </h3>
@@ -2170,6 +1898,10 @@ function formatTime(seconds) {
         type="file"
         accept="image/png,image/jpeg,image/webp,image/gif"
     >
+
+    <!-- =================================================
+         FUNDOS
+    ================================================= -->
 
     <h3>
         🌄 Fundos
@@ -2205,6 +1937,10 @@ function formatTime(seconds) {
         </option>
 
     </select>
+
+    <!-- =================================================
+         APARÊNCIA
+    ================================================= -->
 
     <h3>
         ✨ Aparência
@@ -2255,6 +1991,10 @@ function formatTime(seconds) {
 
     </label>
 
+    <!-- =================================================
+         ESTATÍSTICAS
+    ================================================= -->
+
     <h3>
         📊 Estatísticas
     </h3>
@@ -2291,6 +2031,10 @@ function formatTime(seconds) {
 
     </div>
 
+    <!-- =================================================
+         LINKS
+    ================================================= -->
+
     <h3>
         🔗 Links
     </h3>
@@ -2310,6 +2054,43 @@ function formatTime(seconds) {
         placeholder="GitHub"
     >
 
+    <!-- =================================================
+         PLAYLIST
+    ================================================= -->
+
+    <h3>
+        🎵 Playlist
+    </h3>
+
+    <p
+        style="
+            color:#a1a1aa;
+            font-size:13px;
+            line-height:1.5;
+            margin-bottom:10px;
+        "
+    >
+        Você pode adicionar até 4 músicas.
+        Os áudios ficam salvos no armazenamento
+        deste navegador.
+    </p>
+
+    <input
+        id="musicInput"
+        type="file"
+        multiple
+        accept="audio/mpeg,audio/mp3,audio/wav,audio/ogg,audio/webm"
+    >
+
+    <div
+        id="musicEditorList"
+        class="music-editor-list"
+    ></div>
+
+    <!-- =================================================
+         GALERIA
+    ================================================= -->
+
     <h3>
         🖼️ Galeria
     </h3>
@@ -2321,6 +2102,10 @@ function formatTime(seconds) {
         accept="image/png,image/jpeg,image/webp,image/gif"
     >
 
+    <!-- =================================================
+         ARQUIVOS
+    ================================================= -->
+
     <h3>
         📎 Arquivos
     </h3>
@@ -2330,6 +2115,10 @@ function formatTime(seconds) {
         type="file"
         multiple
     >
+
+    <!-- =================================================
+         AÇÕES
+    ================================================= -->
 
     <div class="actions">
 
@@ -2394,6 +2183,7 @@ import {
 from
 "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
+
 const firebaseConfig = {
 
     apiKey:
@@ -2418,17 +2208,26 @@ const firebaseConfig = {
         "G-KC2ZXS400D"
 };
 
+
 const app =
-    initializeApp(firebaseConfig);
+    initializeApp(
+        firebaseConfig
+    );
+
 
 const auth =
     getAuth(app);
 
+
 window.firebaseUser =
     null;
 
+
 window.firebaseLogin =
-    async function(email, password) {
+    async function(
+        email,
+        password
+    ) {
 
         return await
             signInWithEmailAndPassword(
@@ -2439,12 +2238,16 @@ window.firebaseLogin =
 
     };
 
+
 window.firebaseLogout =
     async function() {
 
-        await signOut(auth);
+        await signOut(
+            auth
+        );
 
     };
+
 
 onAuthStateChanged(
     auth,
@@ -2459,7 +2262,7 @@ onAuthStateChanged(
 </script>
 
 <!-- =====================================================
-     SISTEMA
+     SISTEMA PRINCIPAL
 ===================================================== -->
 
 <script>
@@ -2526,11 +2329,13 @@ const defaultProfile = {
 
 };
 
+
 /* =====================================================
-   CARREGAMENTO SEGURO DO PERFIL
+   CARREGAR PERFIL
 ===================================================== */
 
-let savedProfile = null;
+let savedProfile =
+    null;
 
 try {
 
@@ -2544,11 +2349,12 @@ try {
 } catch(error) {
 
     console.warn(
-        "Perfil salvo inválido. Restaurando padrão.",
+        "Perfil salvo inválido.",
         error
     );
 
 }
+
 
 let profile = {
 
@@ -2558,57 +2364,75 @@ let profile = {
 
 };
 
-/*
-   Corrige perfis antigos.
-*/
 
 profile.links =
-    Array.isArray(profile.links)
+    Array.isArray(
+        profile.links
+    )
         ? profile.links
         : [];
 
+
 profile.gallery =
-    Array.isArray(profile.gallery)
+    Array.isArray(
+        profile.gallery
+    )
         ? profile.gallery
         : [];
 
+
 profile.files =
-    Array.isArray(profile.files)
+    Array.isArray(
+        profile.files
+    )
         ? profile.files
         : [];
 
+
 profile.backgrounds =
-    Array.isArray(profile.backgrounds)
+    Array.isArray(
+        profile.backgrounds
+    )
         ? profile.backgrounds
         : [];
+
 
 profile.name =
     profile.name ??
     defaultProfile.name;
 
+
 profile.username =
     profile.username ??
     defaultProfile.username;
+
 
 profile.bio =
     profile.bio ??
     defaultProfile.bio;
 
+
 profile.avatar =
     profile.avatar ??
     "";
+
 
 profile.primary =
     profile.primary ??
     defaultProfile.primary;
 
+
 profile.secondary =
     profile.secondary ??
     defaultProfile.secondary;
 
+
 profile.backgroundTime =
-    Number(profile.backgroundTime) ||
+    Number(
+        profile.backgroundTime
+    ) ||
     defaultProfile.backgroundTime;
+
 
 profile.opacity =
     Number(
@@ -2616,11 +2440,13 @@ profile.opacity =
         defaultProfile.opacity
     );
 
+
 profile.blur =
     Number(
         profile.blur ??
         defaultProfile.blur
     );
+
 
 profile.radius =
     Number(
@@ -2628,24 +2454,35 @@ profile.radius =
         defaultProfile.radius
     );
 
+
 profile.particles =
     profile.particles ??
     defaultProfile.particles;
 
+
 profile.posts =
-    Number(profile.posts) || 0;
+    Number(
+        profile.posts
+    ) || 0;
+
 
 profile.followers =
-    Number(profile.followers) || 0;
+    Number(
+        profile.followers
+    ) || 0;
+
 
 profile.views =
-    Number(profile.views) || 0;
+    Number(
+        profile.views
+    ) || 0;
+
 
 /* =====================================================
    PLAYLIST
 ===================================================== */
 
-const playlist = [
+const DEFAULT_PLAYLIST = [
 
     {
 
@@ -2665,13 +2502,110 @@ const playlist = [
 
 ];
 
-let currentSong = 0;
 
-let isPlaying = false;
+let playlist = [];
 
-let shuffle = false;
 
-let loop = false;
+function loadPlaylist() {
+
+    try {
+
+        const saved =
+            JSON.parse(
+                localStorage.getItem(
+                    "myPlaylist"
+                )
+            );
+
+
+        if (
+            Array.isArray(saved) &&
+            saved.length > 0
+        ) {
+
+            playlist =
+                saved.slice(
+                    0,
+                    4
+                );
+
+        } else {
+
+            playlist =
+                JSON.parse(
+                    JSON.stringify(
+                        DEFAULT_PLAYLIST
+                    )
+                );
+
+        }
+
+    } catch(error) {
+
+        console.error(
+            "Erro ao carregar playlist:",
+            error
+        );
+
+        playlist =
+            JSON.parse(
+                JSON.stringify(
+                    DEFAULT_PLAYLIST
+                )
+            );
+
+    }
+
+}
+
+
+function savePlaylist() {
+
+    try {
+
+        localStorage.setItem(
+            "myPlaylist",
+            JSON.stringify(
+                playlist
+            )
+        );
+
+        return true;
+
+    } catch(error) {
+
+        console.error(
+            "Erro ao salvar playlist:",
+            error
+        );
+
+        alert(
+            "Não foi possível salvar a playlist. O armazenamento do navegador pode estar cheio."
+        );
+
+        return false;
+
+    }
+
+}
+
+
+/* =====================================================
+   PLAYER
+===================================================== */
+
+let currentSong =
+    0;
+
+let isPlaying =
+    false;
+
+let shuffle =
+    false;
+
+let loop =
+    false;
+
 
 /* =====================================================
    AUDIO
@@ -2682,40 +2616,26 @@ const audio =
         "audioPlayer"
     );
 
+
 audio.volume =
     0.8;
+
 
 audio.addEventListener(
     "error",
     () => {
 
         console.error(
-            "================================="
-        );
-
-        console.error(
-            "ERRO AO CARREGAR A MÚSICA"
-        );
-
-        console.error(
-            "URL:",
+            "Erro ao carregar:",
             audio.src
-        );
-
-        console.error(
-            "Verifique se existe:",
-            "./music/music1.mp3"
-        );
-
-        console.error(
-            "================================="
         );
 
     }
 );
 
+
 /* =====================================================
-   PLAYER
+   CARREGAR MÚSICA
 ===================================================== */
 
 function loadSong(
@@ -2723,35 +2643,63 @@ function loadSong(
     autoplay = false
 ) {
 
-    if (!playlist.length) {
+    if (
+        !playlist.length
+    ) {
+
+        audio.pause();
+
+        audio.removeAttribute(
+            "src"
+        );
+
+        document.getElementById(
+            "musicTitle"
+        ).textContent =
+            "Nenhuma música";
+
+        document.getElementById(
+            "musicArtist"
+        ).textContent =
+            "Adicione uma música pelo editor";
+
+        renderPlaylist();
 
         return;
 
     }
 
-    if (index < 0) {
+
+    if (
+        index < 0
+    ) {
 
         index =
             playlist.length - 1;
 
     }
 
+
     if (
         index >=
         playlist.length
     ) {
 
-        index = 0;
+        index =
+            0;
 
     }
 
+
     currentSong =
         index;
+
 
     const song =
         playlist[
             currentSong
         ];
+
 
     audio.pause();
 
@@ -2761,22 +2709,28 @@ function loadSong(
     audio.src =
         song.src;
 
+
     document.getElementById(
         "musicTitle"
     ).textContent =
         song.title;
+
 
     document.getElementById(
         "musicArtist"
     ).textContent =
         song.artist;
 
+
     const cover =
         document.getElementById(
             "musicCover"
         );
 
-    if (song.cover) {
+
+    if (
+        song.cover
+    ) {
 
         cover.style.backgroundImage =
             `url("${song.cover}")`;
@@ -2794,68 +2748,79 @@ function loadSong(
 
     }
 
+
     document.getElementById(
         "progress"
     ).value =
         0;
+
 
     document.getElementById(
         "currentTime"
     ).textContent =
         "0:00";
 
+
     document.getElementById(
         "duration"
     ).textContent =
         "0:00";
 
+
     renderPlaylist();
 
-    if (autoplay) {
+
+    if (
+        autoplay
+    ) {
 
         audio.play()
-            .then(() => {
+            .catch(
+                error => {
 
-                isPlaying =
-                    true;
+                    console.warn(
+                        "Não foi possível iniciar:",
+                        error
+                    );
 
-                updatePlayButton();
-
-            })
-            .catch(error => {
-
-                console.warn(
-                    "Não foi possível iniciar a música:",
-                    error
-                );
-
-            });
+                }
+            );
 
     }
 
 }
 
+
+/* =====================================================
+   PLAY / PAUSE
+===================================================== */
+
 function toggleMusic() {
 
-    if (audio.paused) {
+    if (
+        !playlist.length
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+        audio.paused
+    ) {
 
         audio.play()
-            .then(() => {
+            .catch(
+                error => {
 
-                isPlaying =
-                    true;
+                    console.error(
+                        "Falha ao reproduzir:",
+                        error
+                    );
 
-                updatePlayButton();
-
-            })
-            .catch(error => {
-
-                console.error(
-                    "Falha ao reproduzir:",
-                    error
-                );
-
-            });
+                }
+            );
 
     } else {
 
@@ -2864,6 +2829,7 @@ function toggleMusic() {
     }
 
 }
+
 
 function updatePlayButton() {
 
@@ -2876,7 +2842,21 @@ function updatePlayButton() {
 
 }
 
+
+/* =====================================================
+   PRÓXIMA
+===================================================== */
+
 function nextSong() {
+
+    if (
+        !playlist.length
+    ) {
+
+        return;
+
+    }
+
 
     if (
         shuffle &&
@@ -2898,6 +2878,7 @@ function nextSong() {
             currentSong
         );
 
+
         loadSong(
             next,
             true
@@ -2907,6 +2888,7 @@ function nextSong() {
 
     }
 
+
     loadSong(
         currentSong + 1,
         true
@@ -2914,7 +2896,21 @@ function nextSong() {
 
 }
 
+
+/* =====================================================
+   ANTERIOR
+===================================================== */
+
 function previousSong() {
+
+    if (
+        !playlist.length
+    ) {
+
+        return;
+
+    }
+
 
     loadSong(
         currentSong - 1,
@@ -2923,10 +2919,16 @@ function previousSong() {
 
 }
 
+
+/* =====================================================
+   SHUFFLE
+===================================================== */
+
 function toggleShuffle() {
 
     shuffle =
         !shuffle;
+
 
     document.getElementById(
         "shuffleButton"
@@ -2937,10 +2939,16 @@ function toggleShuffle() {
 
 }
 
+
+/* =====================================================
+   LOOP
+===================================================== */
+
 function toggleLoop() {
 
     loop =
         !loop;
+
 
     document.getElementById(
         "loopButton"
@@ -2951,6 +2959,11 @@ function toggleLoop() {
 
 }
 
+
+/* =====================================================
+   RENDER PLAYLIST
+===================================================== */
+
 function renderPlaylist() {
 
     const container =
@@ -2958,8 +2971,10 @@ function renderPlaylist() {
             "playlist"
         );
 
+
     container.innerHTML =
         "";
+
 
     playlist.forEach(
         (
@@ -2972,8 +2987,10 @@ function renderPlaylist() {
                     "div"
                 );
 
+
             item.className =
                 "playlist-item";
+
 
             if (
                 index ===
@@ -2986,25 +3003,68 @@ function renderPlaylist() {
 
             }
 
-            item.innerHTML = `
 
-                <div class="playlist-number">
-                    ${index + 1}
-                </div>
+            const number =
+                document.createElement(
+                    "div"
+                );
 
-                <div class="playlist-name">
 
-                    <strong>
-                        ${escapeHTML(song.title)}
-                    </strong>
+            number.className =
+                "playlist-number";
 
-                    <span>
-                        ${escapeHTML(song.artist)}
-                    </span>
 
-                </div>
+            number.textContent =
+                index + 1;
 
-            `;
+
+            const name =
+                document.createElement(
+                    "div"
+                );
+
+
+            name.className =
+                "playlist-name";
+
+
+            const title =
+                document.createElement(
+                    "strong"
+                );
+
+
+            title.textContent =
+                song.title;
+
+
+            const artist =
+                document.createElement(
+                    "span"
+                );
+
+
+            artist.textContent =
+                song.artist;
+
+
+            name.appendChild(
+                title
+            );
+
+            name.appendChild(
+                artist
+            );
+
+
+            item.appendChild(
+                number
+            );
+
+            item.appendChild(
+                name
+            );
+
 
             item.onclick =
                 () => {
@@ -3016,6 +3076,7 @@ function renderPlaylist() {
 
                 };
 
+
             container.appendChild(
                 item
             );
@@ -3025,8 +3086,9 @@ function renderPlaylist() {
 
 }
 
+
 /* =====================================================
-   EVENTOS DO AUDIO
+   EVENTOS AUDIO
 ===================================================== */
 
 audio.addEventListener(
@@ -3043,6 +3105,7 @@ audio.addEventListener(
     }
 );
 
+
 audio.addEventListener(
     "timeupdate",
     () => {
@@ -3057,10 +3120,12 @@ audio.addEventListener(
 
         }
 
+
         const progress =
             document.getElementById(
                 "progress"
             );
+
 
         progress.value =
             (
@@ -3068,6 +3133,7 @@ audio.addEventListener(
                 audio.duration
             ) *
             100;
+
 
         document.getElementById(
             "currentTime"
@@ -3079,11 +3145,14 @@ audio.addEventListener(
     }
 );
 
+
 audio.addEventListener(
     "ended",
     () => {
 
-        if (loop) {
+        if (
+            loop
+        ) {
 
             audio.currentTime =
                 0;
@@ -3094,10 +3163,12 @@ audio.addEventListener(
 
         }
 
+
         nextSong();
 
     }
 );
+
 
 audio.addEventListener(
     "play",
@@ -3111,6 +3182,7 @@ audio.addEventListener(
     }
 );
 
+
 audio.addEventListener(
     "pause",
     () => {
@@ -3122,6 +3194,11 @@ audio.addEventListener(
 
     }
 );
+
+
+/* =====================================================
+   PROGRESSO
+===================================================== */
 
 document.getElementById(
     "progress"
@@ -3139,16 +3216,23 @@ document.getElementById(
 
         }
 
+
         audio.currentTime =
             (
                 Number(
                     event.target.value
-                ) / 100
+                ) /
+                100
             ) *
             audio.duration;
 
     }
 );
+
+
+/* =====================================================
+   VOLUME
+===================================================== */
 
 document.getElementById(
     "volume"
@@ -3164,6 +3248,11 @@ document.getElementById(
     }
 );
 
+
+/* =====================================================
+   FORMATAÇÃO
+===================================================== */
+
 function formatTime(
     seconds
 ) {
@@ -3178,10 +3267,12 @@ function formatTime(
 
     }
 
+
     const minutes =
         Math.floor(
             seconds / 60
         );
+
 
     const remaining =
         Math.floor(
@@ -3193,9 +3284,13 @@ function formatTime(
             "0"
         );
 
-    return `${minutes}:${remaining}`;
+
+    return (
+        `${minutes}:${remaining}`
+    );
 
 }
+
 
 /* =====================================================
    FUNDO
@@ -3203,21 +3298,25 @@ function formatTime(
 
 let backgroundInterval;
 
+
 function applyBackground() {
 
     clearInterval(
         backgroundInterval
     );
 
+
     const background =
         document.getElementById(
             "background"
         );
 
+
     const banner =
         document.getElementById(
             "banner"
         );
+
 
     const backgrounds =
         Array.isArray(
@@ -3226,11 +3325,14 @@ function applyBackground() {
             ? profile.backgrounds
             : [];
 
+
     if (
         backgrounds.length
     ) {
 
-        let index = 0;
+        let index =
+            0;
+
 
         function change() {
 
@@ -3239,11 +3341,14 @@ function applyBackground() {
                     index
                 ];
 
+
             background.style.backgroundImage =
                 `url("${image}")`;
 
+
             banner.style.backgroundImage =
                 `url("${image}")`;
+
 
             index =
                 (
@@ -3253,11 +3358,12 @@ function applyBackground() {
 
         }
 
+
         change();
 
+
         if (
-            backgrounds.length >
-            1
+            backgrounds.length > 1
         ) {
 
             backgroundInterval =
@@ -3277,8 +3383,10 @@ function applyBackground() {
                 ${profile.secondary}
             )`;
 
+
         background.style.backgroundImage =
             gradient;
+
 
         banner.style.backgroundImage =
             gradient;
@@ -3286,6 +3394,7 @@ function applyBackground() {
     }
 
 }
+
 
 /* =====================================================
    PARTÍCULAS
@@ -3298,8 +3407,10 @@ function renderParticles() {
             "particles"
         );
 
+
     container.innerHTML =
         "";
+
 
     if (
         !profile.particles
@@ -3308,6 +3419,7 @@ function renderParticles() {
         return;
 
     }
+
 
     for (
         let i = 0;
@@ -3320,13 +3432,16 @@ function renderParticles() {
                 "div"
             );
 
+
         particle.className =
             "particle";
+
 
         particle.style.left =
             Math.random() *
             100 +
             "%";
+
 
         particle.style.animationDuration =
             (
@@ -3336,10 +3451,12 @@ function renderParticles() {
             ) +
             "s";
 
+
         particle.style.animationDelay =
             -Math.random() *
             20 +
             "s";
+
 
         container.appendChild(
             particle
@@ -3348,6 +3465,7 @@ function renderParticles() {
     }
 
 }
+
 
 /* =====================================================
    RENDER PERFIL
@@ -3362,12 +3480,14 @@ function renderProfile() {
             profile.primary
         );
 
+
     document.documentElement
         .style
         .setProperty(
             "--secondary",
             profile.secondary
         );
+
 
     document.documentElement
         .style
@@ -3376,54 +3496,66 @@ function renderProfile() {
             profile.opacity
         );
 
+
     document.documentElement
         .style
         .setProperty(
             "--blur",
-            profile.blur + "px"
+            profile.blur +
+            "px"
         );
+
 
     document.documentElement
         .style
         .setProperty(
             "--radius",
-            profile.radius + "px"
+            profile.radius +
+            "px"
         );
+
 
     document.getElementById(
         "name"
     ).textContent =
         profile.name;
 
+
     document.getElementById(
         "username"
     ).textContent =
         profile.username;
+
 
     document.getElementById(
         "bio"
     ).textContent =
         profile.bio;
 
+
     document.getElementById(
         "posts"
     ).textContent =
         profile.posts;
+
 
     document.getElementById(
         "followers"
     ).textContent =
         profile.followers;
 
+
     document.getElementById(
         "views"
     ).textContent =
         profile.views;
 
+
     const avatar =
         document.getElementById(
             "avatar"
         );
+
 
     if (
         profile.avatar
@@ -3439,6 +3571,7 @@ function renderProfile() {
 
     }
 
+
     renderLinks();
 
     renderGallery();
@@ -3451,6 +3584,7 @@ function renderProfile() {
 
 }
 
+
 /* =====================================================
    LINKS
 ===================================================== */
@@ -3462,17 +3596,12 @@ function renderLinks() {
             "links"
         );
 
+
     container.innerHTML =
         "";
 
-    const links =
-        Array.isArray(
-            profile.links
-        )
-            ? profile.links
-            : [];
 
-    links.forEach(
+    profile.links.forEach(
         link => {
 
             if (
@@ -3484,23 +3613,29 @@ function renderLinks() {
 
             }
 
+
             const a =
                 document.createElement(
                     "a"
                 );
 
+
             a.href =
                 link.url;
+
 
             a.target =
                 "_blank";
 
+
             a.rel =
                 "noopener noreferrer";
+
 
             a.textContent =
                 link.label ||
                 link.url;
+
 
             container.appendChild(
                 a
@@ -3510,6 +3645,7 @@ function renderLinks() {
     );
 
 }
+
 
 /* =====================================================
    GALERIA
@@ -3522,33 +3658,36 @@ function renderGallery() {
             "gallery"
         );
 
+
     container.innerHTML =
         "";
 
-    const gallery =
-        Array.isArray(
-            profile.gallery
-        )
-            ? profile.gallery
-            : [];
 
-    gallery.forEach(
+    profile.gallery.forEach(
         image => {
 
-            if (!image) {
+            if (
+                !image
+            ) {
+
                 return;
+
             }
+
 
             const img =
                 document.createElement(
                     "img"
                 );
 
+
             img.src =
                 image;
 
+
             img.loading =
                 "lazy";
+
 
             container.appendChild(
                 img
@@ -3558,6 +3697,7 @@ function renderGallery() {
     );
 
 }
+
 
 /* =====================================================
    ARQUIVOS
@@ -3570,17 +3710,12 @@ function renderFiles() {
             "files"
         );
 
+
     container.innerHTML =
         "";
 
-    const files =
-        Array.isArray(
-            profile.files
-        )
-            ? profile.files
-            : [];
 
-    files.forEach(
+    profile.files.forEach(
         file => {
 
             if (
@@ -3592,18 +3727,22 @@ function renderFiles() {
 
             }
 
+
             const div =
                 document.createElement(
                     "div"
                 );
 
+
             div.className =
                 "file";
+
 
             const name =
                 document.createElement(
                     "span"
                 );
+
 
             name.textContent =
                 "📎 " +
@@ -3612,28 +3751,35 @@ function renderFiles() {
                     "Arquivo"
                 );
 
+
             const link =
                 document.createElement(
                     "a"
                 );
 
+
             link.href =
                 file.data;
+
 
             link.download =
                 file.name ||
                 "arquivo";
 
+
             link.textContent =
                 "Abrir";
+
 
             div.appendChild(
                 name
             );
 
+
             div.appendChild(
                 link
             );
+
 
             container.appendChild(
                 div
@@ -3643,6 +3789,7 @@ function renderFiles() {
     );
 
 }
+
 
 /* =====================================================
    FILE → DATA URL
@@ -3661,14 +3808,17 @@ function fileToDataURL(
             const reader =
                 new FileReader();
 
+
             reader.onload =
                 () =>
                     resolve(
                         reader.result
                     );
 
+
             reader.onerror =
                 reject;
+
 
             reader.readAsDataURL(
                 file
@@ -3678,6 +3828,7 @@ function fileToDataURL(
     );
 
 }
+
 
 /* =====================================================
    LOGIN
@@ -3689,23 +3840,28 @@ async function login(
 
     event.preventDefault();
 
+
     const email =
         document.getElementById(
             "loginEmail"
         ).value;
+
 
     const password =
         document.getElementById(
             "loginPassword"
         ).value;
 
+
     const error =
         document.getElementById(
             "loginError"
         );
 
+
     error.textContent =
         "";
+
 
     try {
 
@@ -3714,21 +3870,23 @@ async function login(
             password
         );
 
+
         document.getElementById(
             "loginModal"
         ).classList.add(
             "hidden"
         );
 
+
         openEditor();
 
-    } catch (
-        firebaseError
-    ) {
+
+    } catch(errorObject) {
 
         console.error(
-            firebaseError
+            errorObject
         );
+
 
         error.textContent =
             "E-mail ou senha incorretos.";
@@ -3736,6 +3894,7 @@ async function login(
     }
 
 }
+
 
 /* =====================================================
    EDITOR
@@ -3751,6 +3910,7 @@ function openLogin() {
 
 }
 
+
 function openEditor() {
 
     if (
@@ -3763,15 +3923,18 @@ function openEditor() {
 
     }
 
+
     document.getElementById(
         "editorModal"
     ).classList.remove(
         "hidden"
     );
 
+
     loadEditor();
 
 }
+
 
 function closeEditor() {
 
@@ -3783,6 +3946,11 @@ function closeEditor() {
 
 }
 
+
+/* =====================================================
+   CARREGAR EDITOR
+===================================================== */
+
 function loadEditor() {
 
     document.getElementById(
@@ -3790,65 +3958,531 @@ function loadEditor() {
     ).value =
         profile.name;
 
+
     document.getElementById(
         "editUsername"
     ).value =
         profile.username;
+
 
     document.getElementById(
         "editBio"
     ).value =
         profile.bio;
 
+
     document.getElementById(
         "editPrimary"
     ).value =
         profile.primary;
+
 
     document.getElementById(
         "editSecondary"
     ).value =
         profile.secondary;
 
+
     document.getElementById(
         "backgroundTime"
     ).value =
         profile.backgroundTime;
+
 
     document.getElementById(
         "cardOpacity"
     ).value =
         profile.opacity;
 
+
     document.getElementById(
         "cardBlur"
     ).value =
         profile.blur;
+
 
     document.getElementById(
         "cardRadius"
     ).value =
         profile.radius;
 
+
     document.getElementById(
         "particlesToggle"
     ).checked =
         profile.particles;
+
 
     document.getElementById(
         "editPosts"
     ).value =
         profile.posts;
 
+
     document.getElementById(
         "editFollowers"
     ).value =
         profile.followers;
 
+
+    document.getElementById(
+        "discordLink"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "youtubeLink"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "githubLink"
+    ).value =
+        "";
+
+
+    profile.links.forEach(
+        link => {
+
+            if (
+                link.label ===
+                "Discord"
+            ) {
+
+                document.getElementById(
+                    "discordLink"
+                ).value =
+                    link.url;
+
+            }
+
+
+            if (
+                link.label ===
+                "YouTube"
+            ) {
+
+                document.getElementById(
+                    "youtubeLink"
+                ).value =
+                    link.url;
+
+            }
+
+
+            if (
+                link.label ===
+                "GitHub"
+            ) {
+
+                document.getElementById(
+                    "githubLink"
+                ).value =
+                    link.url;
+
+            }
+
+        }
+    );
+
+
+    renderMusicEditor();
+
 }
 
+
 /* =====================================================
-   SALVAR
+   EDITOR DA PLAYLIST
+===================================================== */
+
+function renderMusicEditor() {
+
+    const container =
+        document.getElementById(
+            "musicEditorList"
+        );
+
+
+    container.innerHTML =
+        "";
+
+
+    if (
+        !playlist.length
+    ) {
+
+        const empty =
+            document.createElement(
+                "div"
+            );
+
+
+        empty.style.color =
+            "#a1a1aa";
+
+
+        empty.style.fontSize =
+            "13px";
+
+
+        empty.textContent =
+            "Nenhuma música adicionada.";
+
+
+        container.appendChild(
+            empty
+        );
+
+
+        return;
+
+    }
+
+
+    playlist.forEach(
+        (
+            song,
+            index
+        ) => {
+
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+
+            item.className =
+                "music-editor-item";
+
+
+            const info =
+                document.createElement(
+                    "div"
+                );
+
+
+            info.className =
+                "music-editor-info";
+
+
+            const title =
+                document.createElement(
+                    "strong"
+                );
+
+
+            title.textContent =
+                `${index + 1}. ${song.title}`;
+
+
+            const artist =
+                document.createElement(
+                    "span"
+                );
+
+
+            artist.textContent =
+                song.artist;
+
+
+            info.appendChild(
+                title
+            );
+
+
+            info.appendChild(
+                artist
+            );
+
+
+            const remove =
+                document.createElement(
+                    "button"
+                );
+
+
+            remove.className =
+                "music-delete";
+
+
+            remove.textContent =
+                "🗑️ Remover";
+
+
+            remove.onclick =
+                () => {
+
+                    removeMusic(
+                        index
+                    );
+
+                };
+
+
+            item.appendChild(
+                info
+            );
+
+
+            item.appendChild(
+                remove
+            );
+
+
+            container.appendChild(
+                item
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   ADICIONAR MÚSICAS
+===================================================== */
+
+async function addMusicFiles() {
+
+    const input =
+        document.getElementById(
+            "musicInput"
+        );
+
+
+    if (
+        !input.files.length
+    ) {
+
+        return true;
+
+    }
+
+
+    const files =
+        Array.from(
+            input.files
+        );
+
+
+    if (
+        playlist.length +
+        files.length >
+        4
+    ) {
+
+        alert(
+            `Você só pode ter 4 músicas.\n\n` +
+            `Atualmente: ${playlist.length}/4`
+        );
+
+
+        input.value =
+            "";
+
+
+        return false;
+
+    }
+
+
+    const MAX_SIZE =
+        1 * 1024 * 1024;
+
+
+    for (
+        const file
+        of files
+    ) {
+
+        if (
+            !file.type.startsWith(
+                "audio/"
+            )
+        ) {
+
+            alert(
+                `"${file.name}" não é um áudio.`
+            );
+
+            continue;
+
+        }
+
+
+        if (
+            file.size >
+            MAX_SIZE
+        ) {
+
+            alert(
+                `"${file.name}" é muito grande.\n\n` +
+                `Limite: 1 MB por música.\n` +
+                `Tamanho atual: ` +
+                `${(
+                    file.size /
+                    1024 /
+                    1024
+                ).toFixed(2)} MB`
+            );
+
+
+            continue;
+
+        }
+
+
+        try {
+
+            const data =
+                await fileToDataURL(
+                    file
+                );
+
+
+            playlist.push({
+
+                title:
+                    file.name
+                        .replace(
+                            /\.[^/.]+$/,
+                            ""
+                        ),
+
+                artist:
+                    "Meu Perfil",
+
+                src:
+                    data,
+
+                cover:
+                    ""
+
+            });
+
+
+        } catch(error) {
+
+            console.error(
+                "Erro ao converter áudio:",
+                error
+            );
+
+        }
+
+    }
+
+
+    input.value =
+        "";
+
+
+    renderMusicEditor();
+
+
+    renderPlaylist();
+
+
+    return true;
+
+}
+
+
+/* =====================================================
+   REMOVER MÚSICA
+===================================================== */
+
+function removeMusic(
+    index
+) {
+
+    if (
+        index < 0 ||
+        index >= playlist.length
+    ) {
+
+        return;
+
+    }
+
+
+    const wasCurrent =
+        index === currentSong;
+
+
+    playlist.splice(
+        index,
+        1
+    );
+
+
+    if (
+        currentSong >=
+        playlist.length
+    ) {
+
+        currentSong =
+            Math.max(
+                0,
+                playlist.length - 1
+            );
+
+    }
+
+
+    savePlaylist();
+
+
+    renderMusicEditor();
+
+    renderPlaylist();
+
+
+    if (
+        playlist.length > 0 &&
+        wasCurrent
+    ) {
+
+        loadSong(
+            currentSong,
+            false
+        );
+
+    }
+
+
+    if (
+        playlist.length === 0
+    ) {
+
+        audio.pause();
+
+        audio.removeAttribute(
+            "src"
+        );
+
+
+        document.getElementById(
+            "musicTitle"
+        ).textContent =
+            "Nenhuma música";
+
+
+        document.getElementById(
+            "musicArtist"
+        ).textContent =
+            "Adicione uma música pelo editor";
+
+    }
+
+}
+
+
+/* =====================================================
+   SALVAR PERFIL
 ===================================================== */
 
 async function saveProfile() {
@@ -3863,30 +4497,36 @@ async function saveProfile() {
 
     }
 
+
     profile.name =
         document.getElementById(
             "editName"
         ).value;
+
 
     profile.username =
         document.getElementById(
             "editUsername"
         ).value;
 
+
     profile.bio =
         document.getElementById(
             "editBio"
         ).value;
+
 
     profile.primary =
         document.getElementById(
             "editPrimary"
         ).value;
 
+
     profile.secondary =
         document.getElementById(
             "editSecondary"
         ).value;
+
 
     profile.backgroundTime =
         Number(
@@ -3895,12 +4535,14 @@ async function saveProfile() {
             ).value
         );
 
+
     profile.opacity =
         Number(
             document.getElementById(
                 "cardOpacity"
             ).value
         );
+
 
     profile.blur =
         Number(
@@ -3909,6 +4551,7 @@ async function saveProfile() {
             ).value
         );
 
+
     profile.radius =
         Number(
             document.getElementById(
@@ -3916,10 +4559,12 @@ async function saveProfile() {
             ).value
         );
 
+
     profile.particles =
         document.getElementById(
             "particlesToggle"
         ).checked;
+
 
     profile.posts =
         Number(
@@ -3928,6 +4573,7 @@ async function saveProfile() {
             ).value
         );
 
+
     profile.followers =
         Number(
             document.getElementById(
@@ -3935,28 +4581,36 @@ async function saveProfile() {
             ).value
         );
 
+
     /* =================================================
        LINKS
     ================================================= */
 
-    const newLinks = [];
+    const newLinks =
+        [];
+
 
     const discord =
         document.getElementById(
             "discordLink"
         ).value.trim();
 
+
     const youtube =
         document.getElementById(
             "youtubeLink"
         ).value.trim();
+
 
     const github =
         document.getElementById(
             "githubLink"
         ).value.trim();
 
-    if (discord) {
+
+    if (
+        discord
+    ) {
 
         newLinks.push({
 
@@ -3970,7 +4624,10 @@ async function saveProfile() {
 
     }
 
-    if (youtube) {
+
+    if (
+        youtube
+    ) {
 
         newLinks.push({
 
@@ -3984,7 +4641,10 @@ async function saveProfile() {
 
     }
 
-    if (github) {
+
+    if (
+        github
+    ) {
 
         newLinks.push({
 
@@ -3998,17 +4658,10 @@ async function saveProfile() {
 
     }
 
-    /*
-       Só substitui links se o usuário
-       realmente colocou algum.
-    */
 
-    if (newLinks.length) {
+    profile.links =
+        newLinks;
 
-        profile.links =
-            newLinks;
-
-    }
 
     /* =================================================
        AVATAR
@@ -4018,6 +4671,7 @@ async function saveProfile() {
         document.getElementById(
             "avatarInput"
         ).files[0];
+
 
     if (
         avatarFile
@@ -4030,6 +4684,7 @@ async function saveProfile() {
 
     }
 
+
     /* =================================================
        FUNDOS
     ================================================= */
@@ -4038,6 +4693,7 @@ async function saveProfile() {
         document.getElementById(
             "backgroundInput"
         ).files;
+
 
     for (
         const file
@@ -4052,6 +4708,7 @@ async function saveProfile() {
 
     }
 
+
     /* =================================================
        GALERIA
     ================================================= */
@@ -4060,6 +4717,7 @@ async function saveProfile() {
         document.getElementById(
             "galleryInput"
         ).files;
+
 
     for (
         const file
@@ -4074,6 +4732,7 @@ async function saveProfile() {
 
     }
 
+
     /* =================================================
        ARQUIVOS
     ================================================= */
@@ -4082,6 +4741,7 @@ async function saveProfile() {
         document.getElementById(
             "filesInput"
         ).files;
+
 
     for (
         const file
@@ -4102,14 +4762,77 @@ async function saveProfile() {
 
     }
 
-    saveLocal();
+
+    /* =================================================
+       MÚSICAS
+    ================================================= */
+
+    const musicSuccess =
+        await addMusicFiles();
+
+
+    if (
+        !musicSuccess
+    ) {
+
+        return;
+
+    }
+
+
+    /* =================================================
+       SALVAR
+    ================================================= */
+
+    try {
+
+        localStorage.setItem(
+            "myProfile",
+            JSON.stringify(
+                profile
+            )
+        );
+
+
+        localStorage.setItem(
+            "myPlaylist",
+            JSON.stringify(
+                playlist
+            )
+        );
+
+
+    } catch(error) {
+
+        console.error(
+            "Erro ao salvar:",
+            error
+        );
+
+
+        alert(
+            "Não foi possível salvar tudo.\n\n" +
+            "O armazenamento do navegador provavelmente está cheio.\n\n" +
+            "Tente remover imagens, arquivos ou músicas."
+        );
+
+
+        return;
+
+    }
+
 
     renderProfile();
+
+
+    renderMusicEditor();
+
 
     document.getElementById(
         "saveMessage"
     ).textContent =
         "✓ Salvo com sucesso!";
+
 
     setTimeout(
         () => {
@@ -4125,8 +4848,62 @@ async function saveProfile() {
 
 }
 
+
 /* =====================================================
-   SALVAR LOCALMENTE
+   RESTAURAR PERFIL
+===================================================== */
+
+function resetProfile() {
+
+    if (
+        !confirm(
+            "Restaurar o perfil e apagar as músicas salvas?"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    profile =
+        JSON.parse(
+            JSON.stringify(
+                defaultProfile
+            )
+        );
+
+
+    playlist =
+        JSON.parse(
+            JSON.stringify(
+                DEFAULT_PLAYLIST
+            )
+        );
+
+
+    saveLocal();
+
+
+    savePlaylist();
+
+
+    renderProfile();
+
+
+    loadEditor();
+
+
+    loadSong(
+        0,
+        false
+    );
+
+}
+
+
+/* =====================================================
+   SALVAR LOCAL
 ===================================================== */
 
 function saveLocal() {
@@ -4140,51 +4917,27 @@ function saveLocal() {
             )
         );
 
+        return true;
+
     } catch(error) {
 
         console.error(
-            "Não foi possível salvar o perfil:",
+            "Erro ao salvar perfil:",
             error
         );
 
+
         alert(
-            "Não foi possível salvar. As imagens/arquivos podem ter ultrapassado o limite do navegador."
+            "O perfil ultrapassou o limite de armazenamento do navegador."
         );
+
+
+        return false;
 
     }
 
 }
 
-/* =====================================================
-   RESTAURAR
-===================================================== */
-
-function resetProfile() {
-
-    if (
-        !confirm(
-            "Restaurar o perfil?"
-        )
-    ) {
-
-        return;
-
-    }
-
-    profile =
-        JSON.parse(
-            JSON.stringify(
-                defaultProfile
-            )
-        );
-
-    saveLocal();
-
-    renderProfile();
-
-    loadEditor();
-
-}
 
 /* =====================================================
    LOGOUT
@@ -4192,31 +4945,23 @@ function resetProfile() {
 
 async function logout() {
 
-    await window.firebaseLogout();
+    try {
 
-    closeEditor();
+        await window.firebaseLogout();
 
-}
+        closeEditor();
 
-/* =====================================================
-   ESCAPE HTML
-===================================================== */
+    } catch(error) {
 
-function escapeHTML(
-    text
-) {
-
-    const div =
-        document.createElement(
-            "div"
+        console.error(
+            "Erro ao sair:",
+            error
         );
 
-    div.textContent =
-        text ?? "";
-
-    return div.innerHTML;
+    }
 
 }
+
 
 /* =====================================================
    IDIOMA
@@ -4231,10 +4976,12 @@ function setLanguage(
         language
     );
 
+
     document.documentElement.lang =
         language;
 
 }
+
 
 /* =====================================================
    ATALHO SECRETO
@@ -4257,6 +5004,7 @@ document.addEventListener(
 
             event.preventDefault();
 
+
             if (
                 window.firebaseUser
             ) {
@@ -4274,16 +5022,33 @@ document.addEventListener(
     }
 );
 
+
 /* =====================================================
-   INICIAR
+   INICIALIZAÇÃO
 ===================================================== */
 
-loadSong(
-    0,
-    false
-);
+loadPlaylist();
+
 
 renderProfile();
+
+
+renderPlaylist();
+
+
+renderMusicEditor();
+
+
+if (
+    playlist.length
+) {
+
+    loadSong(
+        0,
+        false
+    );
+
+}
 
 </script>
 
