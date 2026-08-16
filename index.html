@@ -1,1761 +1,1945 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
 
-<title>Meu Perfil</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<style>
+    <title>Meu Perfil</title>
 
-/* =====================================================
-   VARIÁVEIS
-===================================================== */
+    <style>
 
-:root {
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    --primary: #8b5cf6;
-    --secondary: #6366f1;
+        :root {
 
-    --background: #08080b;
+            --primary: #8b5cf6;
+            --secondary: #6366f1;
 
-    --text: #ffffff;
-    --muted: #a1a1aa;
+            --background: #08080b;
 
-    --card-opacity: .78;
-    --blur: 18px;
-    --radius: 24px;
+            --text: #ffffff;
+            --muted: #a1a1aa;
 
-}
+            --card-opacity: .78;
+            --blur: 18px;
+            --radius: 24px;
 
+        }
 
-/* =====================================================
-   RESET
-===================================================== */
+        html {
+            scroll-behavior: smooth;
+        }
 
-* {
-    box-sizing: border-box;
-}
+        body {
 
-html {
-    scroll-behavior: smooth;
-}
+            min-height: 100vh;
 
-body {
+            font-family:
+                Inter,
+                Arial,
+                Helvetica,
+                sans-serif;
 
-    margin: 0;
+            color: var(--text);
 
-    min-height: 100vh;
+            background:
+                var(--background);
 
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
+            overflow-x: hidden;
 
-    color: var(--text);
+        }
 
-    background:
-        var(--background);
 
-    overflow-x: hidden;
+        /* =====================================================
+           FUNDO
+        ===================================================== */
 
-}
+        #background {
 
+            position: fixed;
 
-/* =====================================================
-   FUNDO
-===================================================== */
+            inset: 0;
 
-#background {
+            z-index: -10;
 
-    position: fixed;
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--secondary)
+                );
 
-    inset: 0;
+            background-size: cover;
 
-    z-index: -20;
+            background-position: center;
 
-    background:
-        linear-gradient(
-            135deg,
-            var(--primary),
-            var(--secondary)
-        );
+            transition:
+                background-image 1.2s ease,
+                background-color 1.2s ease;
 
-    background-size: cover;
+        }
 
-    background-position: center;
 
-    transition:
-        background 1.2s ease,
-        background-image 1.2s ease;
+        #background::after {
 
-}
+            content: "";
 
+            position: absolute;
 
-#background::before {
+            inset: 0;
 
-    content: "";
+            background:
+                rgba(0,0,0,.42);
 
-    position: absolute;
+        }
 
-    inset: -20%;
 
-    background:
+        /* =====================================================
+           PARTÍCULAS
+        ===================================================== */
 
-        radial-gradient(
-            circle at 20% 20%,
-            var(--primary),
-            transparent 30%
-        ),
+        #particles {
 
-        radial-gradient(
-            circle at 80% 80%,
-            var(--secondary),
-            transparent 30%
-        );
+            position: fixed;
 
-    opacity: .45;
+            inset: 0;
 
-    animation:
-        backgroundMove
-        18s
-        ease-in-out
-        infinite
-        alternate;
+            z-index: -5;
 
-}
+            pointer-events: none;
 
+            overflow: hidden;
 
-#background::after {
+        }
 
-    content: "";
 
-    position: absolute;
+        .particle {
 
-    inset: 0;
+            position: absolute;
 
-    background:
-        rgba(0,0,0,.42);
+            width: 4px;
 
-    backdrop-filter:
-        blur(2px);
+            height: 4px;
 
-}
+            border-radius: 50%;
 
+            background: white;
 
-@keyframes backgroundMove {
+            opacity: .45;
 
-    from {
+            animation:
+                particleFloat linear infinite;
 
-        transform:
-            translate(
-                -4%,
-                -3%
-            )
-            scale(1);
+        }
 
-    }
 
-    to {
+        @keyframes particleFloat {
 
-        transform:
-            translate(
-                4%,
-                3%
-            )
-            scale(1.15);
+            from {
 
-    }
+                transform:
+                    translateY(110vh);
 
-}
+            }
 
+            to {
 
-/* =====================================================
-   PARTÍCULAS
-===================================================== */
+                transform:
+                    translateY(-110vh);
 
-#particles {
+            }
 
-    position: fixed;
+        }
 
-    inset: 0;
 
-    z-index: -5;
+        /* =====================================================
+           TOPO
+        ===================================================== */
 
-    pointer-events: none;
+        .topbar {
 
-    overflow: hidden;
+            width: min(1100px, 94%);
 
-}
+            margin:
+                18px auto;
 
+            display: flex;
 
-.particle {
+            align-items: center;
 
-    position: absolute;
+            justify-content:
+                space-between;
 
-    width: 4px;
+        }
 
-    height: 4px;
 
-    border-radius: 50%;
+        .logo {
 
-    background:
-        var(--primary);
+            font-size: 16px;
 
-    box-shadow:
-        0 0 12px
-        var(--primary);
+            font-weight: 900;
 
-    opacity: .6;
+            letter-spacing: 4px;
 
-    animation:
-        particleFloat
-        linear
-        infinite;
+        }
 
-}
 
+        .languages {
 
-@keyframes particleFloat {
+            display: flex;
 
-    from {
+            gap: 6px;
 
-        transform:
-            translateY(110vh);
+        }
 
-    }
 
-    to {
+        .languages button {
 
-        transform:
-            translateY(-20vh);
+            border:
+                1px solid
+                rgba(255,255,255,.12);
 
-    }
+            background:
+                rgba(15,15,20,.75);
 
-}
+            color: white;
 
+            padding:
+                8px 11px;
 
-/* =====================================================
-   CONTAINER
-===================================================== */
+            border-radius: 10px;
 
-.container {
+            cursor: pointer;
 
-    width:
-        min(
-            1050px,
-            94%
-        );
+            backdrop-filter:
+                blur(10px);
 
-    margin:
-        auto;
+        }
 
-    padding:
-        45px 0;
 
-}
+        .languages button:hover {
 
+            border-color:
+                var(--primary);
 
-/* =====================================================
-   PERFIL
-===================================================== */
+        }
 
-.profile {
 
-    background:
-        rgba(
-            18,
-            18,
-            23,
-            var(--card-opacity)
-        );
+        /* =====================================================
+           CONTAINER
+        ===================================================== */
 
-    border:
-        1px solid
-        rgba(
-            255,
-            255,
-            255,
-            .10
-        );
+        .container {
 
-    border-radius:
-        var(--radius);
+            width:
+                min(1000px,94%);
 
-    overflow:
-        hidden;
+            margin:
+                30px auto 60px;
 
-    backdrop-filter:
-        blur(
-            var(--blur)
-        );
+        }
 
-    box-shadow:
 
-        0 30px 90px
-        rgba(
-            0,
-            0,
-            0,
-            .55
-        ),
+        /* =====================================================
+           CARD
+        ===================================================== */
 
-        0 0 80px
-        rgba(
-            139,
-            92,
-            246,
-            .10
-        );
+        .profile-card {
 
-    animation:
-        profileEnter
-        .8s
-        ease;
+            overflow: hidden;
 
-}
+            border:
+                1px solid
+                rgba(255,255,255,.12);
 
+            border-radius:
+                var(--radius);
 
-@keyframes profileEnter {
+            background:
+                rgba(
+                    18,
+                    18,
+                    23,
+                    var(--card-opacity)
+                );
 
-    from {
+            backdrop-filter:
+                blur(var(--blur));
 
-        opacity: 0;
+            -webkit-backdrop-filter:
+                blur(var(--blur));
 
-        transform:
-            translateY(30px)
-            scale(.97);
+            box-shadow:
+                0 30px 100px
+                rgba(0,0,0,.5);
 
-    }
+        }
 
-    to {
 
-        opacity: 1;
+        /* =====================================================
+           BANNER
+        ===================================================== */
 
-        transform:
-            translateY(0)
-            scale(1);
+        .banner {
 
-    }
+            height: 250px;
 
-}
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--secondary)
+                );
 
+            background-size: cover;
 
-/* =====================================================
-   BANNER
-===================================================== */
+            background-position: center;
 
-.banner {
+            transition:
+                1s ease;
 
-    height:
-        250px;
+        }
 
-    position:
-        relative;
 
-    background:
-        linear-gradient(
-            135deg,
-            var(--primary),
-            var(--secondary)
-        );
+        /* =====================================================
+           PROFILE
+        ===================================================== */
 
-    background-size:
-        cover;
+        .profile-content {
 
-    background-position:
-        center;
+            padding:
+                0 40px 45px;
 
-}
+        }
 
 
-.banner::after {
+        .avatar {
 
-    content: "";
+            width: 145px;
 
-    position:
-        absolute;
+            height: 145px;
 
-    inset: 0;
+            margin-top:
+                -72px;
 
-    background:
-        linear-gradient(
-            transparent 25%,
-            rgba(0,0,0,.65)
-        );
+            border-radius: 50%;
 
-}
+            object-fit: cover;
 
+            background: #18181b;
 
-/* =====================================================
-   CONTEÚDO
-===================================================== */
+            border:
+                6px solid
+                rgba(255,255,255,.15);
 
-.content {
+            box-shadow:
+                0 15px 50px
+                rgba(0,0,0,.6);
 
-    padding:
-        0 38px 40px;
+            transition:
+                transform .3s ease;
 
-    position:
-        relative;
+        }
 
-}
 
+        .avatar:hover {
 
-/* =====================================================
-   AVATAR
-===================================================== */
+            transform:
+                scale(1.05);
 
-.avatar {
+        }
 
-    width:
-        145px;
 
-    height:
-        145px;
+        h1 {
 
-    margin-top:
-        -72px;
+            margin-top: 15px;
 
-    object-fit:
-        cover;
+            font-size: 36px;
 
-    border-radius:
-        50%;
+        }
 
-    border:
-        6px solid
-        rgba(
-            255,
-            255,
-            255,
-            .15
-        );
 
-    background:
-        #18181b;
+        .verified {
 
-    box-shadow:
-        0 15px 40px
-        rgba(
-            0,
-            0,
-            0,
-            .55
-        );
+            display: inline-flex;
 
-    position:
-        relative;
+            align-items: center;
 
-    z-index:
-        2;
+            justify-content: center;
 
-    transition:
-        .3s;
+            width: 22px;
 
-}
+            height: 22px;
 
+            border-radius: 50%;
 
-.avatar:hover {
+            background:
+                var(--primary);
 
-    transform:
-        scale(1.06)
-        rotate(2deg);
+            font-size: 12px;
 
-    box-shadow:
-        0 0 40px
-        rgba(
-            139,
-            92,
-            246,
-            .4
-        );
+        }
 
-}
 
+        .username {
 
-/* =====================================================
-   NOME
-===================================================== */
+            color:
+                var(--muted);
 
-.name {
+            margin-top: 4px;
 
-    display:
-        inline-block;
+        }
 
-    margin-top:
-        15px;
 
-    font-size:
-        34px;
+        .bio {
 
-    font-weight:
-        900;
+            margin-top: 18px;
 
-}
+            max-width: 700px;
 
+            color:
+                #e4e4e7;
 
-.badge {
+            line-height: 1.7;
 
-    display:
-        inline-block;
+            white-space: pre-wrap;
 
-    margin-left:
-        8px;
+        }
 
-    padding:
-        5px 10px;
 
-    border-radius:
-        999px;
+        /* =====================================================
+           ESTATÍSTICAS
+        ===================================================== */
 
-    background:
-        var(--primary);
+        .stats {
 
-    font-size:
-        11px;
+            display: flex;
 
-    font-weight:
-        bold;
+            flex-wrap: wrap;
 
-}
+            gap: 40px;
 
+            margin:
+                30px 0;
 
-.username {
+        }
 
-    color:
-        var(--muted);
 
-    margin-top:
-        4px;
+        .stat {
 
-}
+            display: flex;
 
+            flex-direction: column;
 
-/* =====================================================
-   BIO
-===================================================== */
+        }
 
-.bio {
 
-    margin-top:
-        20px;
+        .stat strong {
 
-    line-height:
-        1.75;
+            font-size: 22px;
 
-    color:
-        #e4e4e7;
+        }
 
-    white-space:
-        pre-wrap;
 
-}
+        .stat span {
 
+            color:
+                var(--muted);
 
-/* =====================================================
-   ESTATÍSTICAS
-===================================================== */
+            font-size: 13px;
 
-.stats {
+            margin-top: 3px;
 
-    display:
-        flex;
+        }
 
-    gap:
-        35px;
 
-    margin:
-        28px 0;
+        /* =====================================================
+           LINKS
+        ===================================================== */
 
-    flex-wrap:
-        wrap;
+        .links {
 
-}
+            display: flex;
 
+            flex-wrap: wrap;
 
-.stat {
+            gap: 10px;
 
-    display:
-        flex;
+        }
 
-    flex-direction:
-        column;
 
-}
+        .links a {
 
+            padding:
+                11px 15px;
 
-.stat strong {
+            border-radius: 12px;
 
-    font-size:
-        21px;
+            color: white;
 
-}
+            text-decoration: none;
 
+            background:
+                rgba(255,255,255,.07);
 
-.stat span {
+            border:
+                1px solid
+                rgba(255,255,255,.1);
 
-    color:
-        var(--muted);
+            transition:
+                .25s ease;
 
-    font-size:
-        13px;
+        }
 
-}
 
+        .links a:hover {
 
-/* =====================================================
-   LINKS
-===================================================== */
+            transform:
+                translateY(-3px);
 
-.links {
+            border-color:
+                var(--primary);
 
-    display:
-        flex;
+        }
 
-    gap:
-        10px;
 
-    flex-wrap:
-        wrap;
+        /* =====================================================
+           SEÇÕES
+        ===================================================== */
 
-}
+        .section {
 
+            margin-top:
+                40px;
 
-.link {
+        }
 
-    color:
-        white;
 
-    text-decoration:
-        none;
+        .section-title {
 
-    padding:
-        11px 16px;
+            margin-bottom:
+                15px;
 
-    border-radius:
-        12px;
+            font-size: 21px;
 
-    background:
-        rgba(
-            255,
-            255,
-            255,
-            .07
-        );
+        }
 
-    border:
-        1px solid
-        rgba(
-            255,
-            255,
-            255,
-            .10
-        );
 
-    transition:
-        .2s;
+        /* =====================================================
+           GALERIA
+        ===================================================== */
 
-}
+        .gallery {
 
+            display: grid;
 
-.link:hover {
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(180px,1fr)
+                );
 
-    transform:
-        translateY(-4px);
+            gap: 12px;
 
-    border-color:
-        var(--primary);
+        }
 
-    box-shadow:
-        0 0 25px
-        rgba(
-            139,
-            92,
-            246,
-            .25
-        );
 
-}
+        .gallery img {
 
+            width: 100%;
 
-/* =====================================================
-   SEÇÕES
-===================================================== */
+            height: 190px;
 
-.section {
+            object-fit: cover;
 
-    margin-top:
-        35px;
+            border-radius: 15px;
 
-}
+            cursor: pointer;
 
+            transition:
+                transform .3s ease;
 
-.section-title {
+        }
 
-    font-size:
-        21px;
 
-    font-weight:
-        900;
+        .gallery img:hover {
 
-    margin-bottom:
-        15px;
+            transform:
+                scale(1.025);
 
-}
+        }
 
 
-/* =====================================================
-   GALERIA
-===================================================== */
+        /* =====================================================
+           ARQUIVOS
+        ===================================================== */
 
-.gallery {
+        .files {
 
-    display:
-        grid;
+            display: grid;
 
-    grid-template-columns:
-        repeat(
-            auto-fit,
-            minmax(
-                180px,
-                1fr
-            )
-        );
+            gap: 10px;
 
-    gap:
-        13px;
+        }
 
-}
 
+        .file {
 
-.gallery img {
+            display: flex;
 
-    width:
-        100%;
+            align-items: center;
 
-    height:
-        190px;
+            justify-content:
+                space-between;
 
-    object-fit:
-        cover;
+            gap: 15px;
 
-    border-radius:
-        16px;
+            padding: 14px;
 
-    transition:
-        .25s;
+            border-radius: 12px;
 
-    cursor:
-        pointer;
+            background:
+                rgba(255,255,255,.06);
 
-}
+        }
 
 
-.gallery img:hover {
+        .file a {
 
-    transform:
-        translateY(-4px)
-        scale(1.02);
+            color:
+                #c4b5fd;
 
-}
+        }
 
 
-/* =====================================================
-   ARQUIVOS
-===================================================== */
+        /* =====================================================
+           MODAIS
+        ===================================================== */
 
-.files {
+        .overlay {
 
-    display:
-        grid;
+            position: fixed;
 
-    gap:
-        10px;
+            inset: 0;
 
-}
+            z-index: 1000;
 
+            display: flex;
 
-.file {
+            align-items: center;
 
-    display:
-        flex;
+            justify-content: center;
 
-    justify-content:
-        space-between;
+            padding: 20px;
 
-    align-items:
-        center;
+            background:
+                rgba(0,0,0,.82);
 
-    padding:
-        15px;
+            backdrop-filter:
+                blur(14px);
 
-    border-radius:
-        14px;
+        }
 
-    background:
-        rgba(
-            255,
-            255,
-            255,
-            .05
-        );
 
-    border:
-        1px solid
-        rgba(
-            255,
-            255,
-            255,
-            .08
-        );
+        .hidden {
 
-}
+            display: none !important;
 
+        }
 
-.file a {
 
-    color:
-        var(--primary);
+        .modal {
 
-    text-decoration:
-        none;
+            width:
+                min(430px,100%);
 
-}
+            max-height:
+                92vh;
 
+            overflow-y:
+                auto;
 
-/* =====================================================
-   MODAIS
-===================================================== */
+            padding: 28px;
 
-#login,
-#editor {
+            border-radius: 20px;
 
-    display:
-        none;
+            border:
+                1px solid
+                rgba(255,255,255,.12);
 
-    position:
-        fixed;
+            background:
+                #18181b;
 
-    inset:
-        0;
+            box-shadow:
+                0 30px 100px
+                rgba(0,0,0,.8);
 
-    align-items:
-        center;
+        }
 
-    justify-content:
-        center;
 
-    z-index:
-        9999;
+        .editor {
 
-    background:
-        rgba(
-            0,
-            0,
-            0,
-            .85
-        );
+            width:
+                min(850px,100%);
 
-    backdrop-filter:
-        blur(18px);
+        }
 
-}
 
+        .modal h2 {
 
-.login-box,
-.editor-box {
+            margin-bottom:
+                20px;
 
-    background:
-        #18181b;
+        }
 
-    border:
-        1px solid
-        rgba(
-            255,
-            255,
-            255,
-            .12
-        );
 
-    border-radius:
-        22px;
+        .modal h3 {
 
-    padding:
-        30px;
+            margin-top:
+                25px;
 
-    box-shadow:
-        0 30px 80px
-        rgba(
-            0,
-            0,
-            0,
-            .7
-        );
+            margin-bottom:
+                12px;
 
-}
+        }
 
 
-.login-box {
+        .modal label {
 
-    width:
-        min(
-            380px,
-            90%
-        );
+            display: block;
 
-    text-align:
-        center;
+            color:
+                #d4d4d8;
 
-}
+            font-size: 13px;
 
+            margin-top: 10px;
 
-.editor-box {
+        }
 
-    width:
-        min(
-            760px,
-            92%
-        );
 
-    max-height:
-        90vh;
+        .modal input,
+        .modal textarea,
+        .modal select {
 
-    overflow:
-        auto;
+            width: 100%;
 
-}
+            padding: 11px;
 
+            margin:
+                6px 0 10px;
 
-/* =====================================================
-   INPUTS
-===================================================== */
+            border:
+                1px solid
+                rgba(255,255,255,.1);
 
-input,
-textarea,
-select {
+            border-radius: 10px;
 
-    width:
-        100%;
+            background:
+                #09090b;
 
-    padding:
-        12px;
+            color: white;
 
-    margin:
-        7px 0 15px;
+            outline: none;
 
-    background:
-        #09090b;
+        }
 
-    color:
-        white;
 
-    border:
-        1px solid
-        rgba(
-            255,
-            255,
-            255,
-            .10
-        );
+        .modal textarea {
 
-    border-radius:
-        10px;
+            min-height:
+                100px;
 
-    outline:
-        none;
+            resize:
+                vertical;
 
-}
+        }
 
 
-input:focus,
-textarea:focus,
-select:focus {
+        .modal input:focus,
+        .modal textarea:focus,
+        .modal select:focus {
 
-    border-color:
-        var(--primary);
+            border-color:
+                var(--primary);
 
-}
+        }
 
 
-textarea {
+        .grid {
 
-    min-height:
-        100px;
+            display: grid;
 
-    resize:
-        vertical;
+            grid-template-columns:
+                1fr 1fr;
 
-}
+            gap: 10px;
 
+        }
 
-label {
 
-    color:
-        #d4d4d8;
+        .modal button {
 
-    font-size:
-        13px;
+            padding:
+                10px 14px;
 
-}
+            border-radius: 10px;
 
+            border:
+                1px solid
+                rgba(255,255,255,.12);
 
-button {
+            background:
+                rgba(255,255,255,.07);
 
-    padding:
-        11px 16px;
+            color: white;
 
-    border:
-        0;
+            cursor: pointer;
 
-    border-radius:
-        10px;
+        }
 
-    background:
-        var(--primary);
 
-    color:
-        white;
+        .modal button:hover {
 
-    font-weight:
-        bold;
+            border-color:
+                var(--primary);
 
-    cursor:
-        pointer;
+        }
 
-    transition:
-        .2s;
 
-}
+        .primary-button {
 
+            background:
+                var(--primary) !important;
 
-button:hover {
+            border-color:
+                transparent !important;
 
-    transform:
-        translateY(-2px);
+        }
 
-    filter:
-        brightness(1.15);
 
-}
+        .editor-header {
 
+            display: flex;
 
-.buttons {
+            align-items: center;
 
-    display:
-        flex;
+            justify-content:
+                space-between;
 
-    gap:
-        10px;
+        }
 
-    flex-wrap:
-        wrap;
 
-    margin-top:
-        15px;
+        .close-button {
 
-}
+            font-size: 22px;
 
+        }
 
-.separator {
 
-    height:
-        1px;
+        .actions {
 
-    background:
-        rgba(
-            255,
-            255,
-            255,
-            .10
-        );
+            display: flex;
 
-    margin:
-        25px 0;
+            flex-wrap: wrap;
 
-}
+            gap: 8px;
 
+            margin-top: 25px;
 
-.error {
+        }
 
-    display:
-        none;
 
-    color:
-        #ef4444;
+        .error {
 
-    margin-bottom:
-        10px;
+            min-height: 20px;
 
-}
+            margin: 5px 0;
 
+            color:
+                #f87171;
 
-/* =====================================================
-   MOBILE
-===================================================== */
+        }
 
-@media(max-width:600px) {
 
-    .container {
+        .success {
 
-        padding:
-            15px 0;
+            color:
+                #4ade80;
 
-    }
+        }
 
-    .banner {
 
-        height:
-            180px;
+        /* =====================================================
+           RESPONSIVO
+        ===================================================== */
 
-    }
+        @media(max-width:600px) {
 
-    .content {
+            .profile-content {
 
-        padding:
-            0 20px 25px;
+                padding:
+                    0 20px 30px;
 
-    }
+            }
 
-    .avatar {
 
-        width:
-            110px;
+            .banner {
 
-        height:
-            110px;
+                height: 180px;
 
-        margin-top:
-            -55px;
+            }
 
-    }
 
-    .name {
+            .avatar {
 
-        font-size:
-            27px;
+                width: 110px;
 
-    }
+                height: 110px;
 
-}
+                margin-top:
+                    -55px;
 
-</style>
+            }
+
+
+            h1 {
+
+                font-size: 28px;
+
+            }
+
+
+            .grid {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+        }
+
+    </style>
 
 </head>
+
 
 <body>
 
 
-<!-- FUNDO -->
+<!-- =========================================================
+     FUNDO
+========================================================= -->
 
 <div id="background"></div>
 
 <div id="particles"></div>
 
 
-<!-- PERFIL -->
+<!-- =========================================================
+     TOPO
+========================================================= -->
 
-<div class="container">
+<header class="topbar">
 
-<main class="profile">
-
-    <div
-        class="banner"
-        id="banner">
+    <div class="logo">
+        PROFILE
     </div>
 
 
-    <div class="content">
+    <div class="languages">
 
-        <img
-            id="avatar"
-            class="avatar"
-            alt="Avatar"
+        <button
+            onclick="setLanguage('pt-BR')"
+        >
+            🇧🇷 PT-BR
+        </button>
+
+
+        <button
+            onclick="setLanguage('en-US')"
+        >
+            🇺🇸 EN
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- =========================================================
+     PERFIL
+========================================================= -->
+
+<main class="container">
+
+    <article class="profile-card">
+
+
+        <div
+            id="banner"
+            class="banner"
+        ></div>
+
+
+        <div class="profile-content">
+
+
+            <img
+                id="avatar"
+                class="avatar"
+                alt="Avatar"
+            >
+
+
+            <h1>
+
+                <span id="name">
+                    Meu Nome
+                </span>
+
+                <span class="verified">
+                    ✓
+                </span>
+
+            </h1>
+
+
+            <div
+                id="username"
+                class="username"
+            >
+                @usuario
+            </div>
+
+
+            <p
+                id="bio"
+                class="bio"
+            >
+                Bem-vindo ao meu perfil!
+            </p>
+
+
+            <!-- ESTATÍSTICAS -->
+
+            <div class="stats">
+
+
+                <div class="stat">
+
+                    <strong id="views">
+                        0
+                    </strong>
+
+                    <span
+                        data-i18n="views"
+                    >
+                        Visualizações
+                    </span>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <strong id="posts">
+                        0
+                    </strong>
+
+                    <span
+                        data-i18n="posts"
+                    >
+                        Posts
+                    </span>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <strong id="followers">
+                        0
+                    </strong>
+
+                    <span
+                        data-i18n="followers"
+                    >
+                        Seguidores
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- LINKS -->
+
+            <div
+                id="links"
+                class="links"
+            ></div>
+
+
+            <!-- GALERIA -->
+
+            <section class="section">
+
+                <h2
+                    class="section-title"
+                    data-i18n="gallery"
+                >
+                    🖼️ Galeria
+                </h2>
+
+                <div
+                    id="gallery"
+                    class="gallery"
+                ></div>
+
+            </section>
+
+
+            <!-- ARQUIVOS -->
+
+            <section class="section">
+
+                <h2
+                    class="section-title"
+                    data-i18n="files"
+                >
+                    📎 Arquivos
+                </h2>
+
+                <div
+                    id="files"
+                    class="files"
+                ></div>
+
+            </section>
+
+
+        </div>
+
+    </article>
+
+</main>
+
+
+<!-- =========================================================
+     LOGIN
+========================================================= -->
+
+<div
+    id="loginModal"
+    class="overlay hidden"
+>
+
+
+    <form
+        class="modal"
+        onsubmit="login(event)"
+    >
+
+        <h2
+            data-i18n="privateArea"
+        >
+            🔐 Área privada
+        </h2>
+
+
+        <p
+            data-i18n="passwordText"
+        >
+            Entre com sua conta para editar.
+        </p>
+
+
+        <label>
+            E-mail
+        </label>
+
+
+        <input
+            id="loginEmail"
+            type="email"
+            autocomplete="email"
+            required
         >
 
 
-        <div>
+        <label>
+            Senha
+        </label>
 
-            <span
-                id="name"
-                class="name">
-            </span>
 
-            <span
-                class="badge">
-                ✓
-            </span>
-
-        </div>
+        <input
+            id="loginPassword"
+            type="password"
+            autocomplete="current-password"
+            required
+        >
 
 
         <div
-            id="username"
-            class="username">
+            id="loginError"
+            class="error"
+        ></div>
+
+
+        <button
+            class="primary-button"
+            type="submit"
+            data-i18n="enter"
+        >
+            Entrar
+        </button>
+
+
+    </form>
+
+</div>
+
+
+<!-- =========================================================
+     EDITOR
+========================================================= -->
+
+<div
+    id="editorModal"
+    class="overlay hidden"
+>
+
+
+    <div class="modal editor">
+
+
+        <div class="editor-header">
+
+            <h2
+                data-i18n="editor"
+            >
+                🎨 Editor completo
+            </h2>
+
+
+            <button
+                class="close-button"
+                onclick="closeEditor()"
+            >
+                ×
+            </button>
+
         </div>
 
 
-        <div
-            id="bio"
-            class="bio">
+        <!-- PERFIL -->
+
+        <h3
+            data-i18n="profile"
+        >
+            👤 Perfil
+        </h3>
+
+
+        <label
+            data-i18n="name"
+        >
+            Nome
+        </label>
+
+
+        <input
+            id="editName"
+        >
+
+
+        <label
+            data-i18n="username"
+        >
+            Username
+        </label>
+
+
+        <input
+            id="editUsername"
+        >
+
+
+        <label
+            data-i18n="bio"
+        >
+            Biografia
+        </label>
+
+
+        <textarea
+            id="editBio"
+        ></textarea>
+
+
+        <!-- CORES -->
+
+        <div class="grid">
+
+
+            <div>
+
+                <label>
+                    Cor principal
+                </label>
+
+                <input
+                    id="editPrimary"
+                    type="color"
+                >
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    Cor secundária
+                </label>
+
+                <input
+                    id="editSecondary"
+                    type="color"
+                >
+
+            </div>
+
+
         </div>
+
+
+        <!-- AVATAR -->
+
+        <h3>
+            🖼️ Avatar
+        </h3>
+
+
+        <input
+            id="avatarInput"
+            type="file"
+            accept="image/png,image/jpeg,image/webp,image/gif"
+        >
+
+
+        <!-- FUNDOS -->
+
+        <h3
+            data-i18n="background"
+        >
+            🌄 Fundo
+        </h3>
+
+
+        <label>
+            Adicionar fundos
+        </label>
+
+
+        <input
+            id="backgroundInput"
+            type="file"
+            multiple
+            accept="image/png,image/jpeg,image/webp,image/gif"
+        >
+
+
+        <label
+            data-i18n="backgroundTime"
+        >
+            Tempo de troca
+        </label>
+
+
+        <select
+            id="backgroundTime"
+        >
+
+            <option value="3000">
+                3 segundos
+            </option>
+
+            <option value="5000">
+                5 segundos
+            </option>
+
+            <option value="8000">
+                8 segundos
+            </option>
+
+            <option value="15000">
+                15 segundos
+            </option>
+
+        </select>
+
+
+        <label>
+            Fundo quando não houver imagem
+        </label>
+
+
+        <select
+            id="backgroundMode"
+        >
+
+            <option value="gradient">
+                Gradiente
+            </option>
+
+            <option value="solid">
+                Cor sólida
+            </option>
+
+        </select>
+
+
+        <!-- APARÊNCIA -->
+
+        <h3
+            data-i18n="appearance"
+        >
+            ✨ Aparência
+        </h3>
+
+
+        <label>
+            Transparência
+        </label>
+
+
+        <input
+            id="cardOpacity"
+            type="range"
+            min=".2"
+            max="1"
+            step=".05"
+        >
+
+
+        <label>
+            Blur
+        </label>
+
+
+        <input
+            id="cardBlur"
+            type="range"
+            min="0"
+            max="40"
+        >
+
+
+        <label>
+            Arredondamento
+        </label>
+
+
+        <input
+            id="cardRadius"
+            type="range"
+            min="0"
+            max="50"
+        >
+
+
+        <label>
+
+            <input
+                id="particlesToggle"
+                type="checkbox"
+            >
+
+            <span
+                data-i18n="particles"
+            >
+                Partículas
+            </span>
+
+        </label>
 
 
         <!-- ESTATÍSTICAS -->
 
-        <div class="stats">
-
-            <div class="stat">
-
-                <strong id="views">
-                    0
-                </strong>
-
-                <span>
-                    Visualizações
-                </span>
-
-            </div>
+        <h3
+            data-i18n="statistics"
+        >
+            📊 Estatísticas
+        </h3>
 
 
-            <div class="stat">
+        <div class="grid">
 
-                <strong id="posts">
-                    0
-                </strong>
 
-                <span>
+            <div>
+
+                <label>
                     Posts
-                </span>
+                </label>
+
+                <input
+                    id="editPosts"
+                    type="number"
+                    min="0"
+                >
 
             </div>
 
 
-            <div class="stat">
+            <div>
 
-                <strong id="followers">
-                    0
-                </strong>
-
-                <span>
+                <label>
                     Seguidores
-                </span>
+                </label>
+
+                <input
+                    id="editFollowers"
+                    type="number"
+                    min="0"
+                >
 
             </div>
+
 
         </div>
 
 
         <!-- LINKS -->
 
-        <div
-            id="links"
-            class="links">
-        </div>
+        <h3
+            data-i18n="links"
+        >
+            🔗 Links
+        </h3>
+
+
+        <input
+            id="discordLink"
+            placeholder="Discord"
+        >
+
+
+        <input
+            id="youtubeLink"
+            placeholder="YouTube"
+        >
+
+
+        <input
+            id="githubLink"
+            placeholder="GitHub"
+        >
 
 
         <!-- GALERIA -->
 
-        <section class="section">
+        <h3
+            data-i18n="gallery"
+        >
+            🖼️ Galeria
+        </h3>
 
-            <div class="section-title">
-                🖼️ Galeria
-            </div>
 
-            <div
-                id="gallery"
-                class="gallery">
-            </div>
-
-        </section>
+        <input
+            id="galleryInput"
+            type="file"
+            multiple
+            accept="image/png,image/jpeg,image/webp,image/gif"
+        >
 
 
         <!-- ARQUIVOS -->
 
-        <section class="section">
+        <h3
+            data-i18n="files"
+        >
+            📎 Arquivos
+        </h3>
 
-            <div class="section-title">
-                📎 Arquivos
-            </div>
 
-            <div
-                id="files"
-                class="files">
-            </div>
+        <input
+            id="filesInput"
+            type="file"
+            multiple
+        >
 
-        </section>
+
+        <!-- AÇÕES -->
+
+        <div class="actions">
+
+
+            <button
+                class="primary-button"
+                onclick="saveProfile()"
+                data-i18n="save"
+            >
+                💾 Salvar tudo
+            </button>
+
+
+            <button
+                onclick="resetProfile()"
+            >
+                🔄 Restaurar
+            </button>
+
+
+            <button
+                onclick="logout()"
+            >
+                🚪 Sair
+            </button>
+
+
+            <button
+                onclick="closeEditor()"
+                data-i18n="close"
+            >
+                Fechar
+            </button>
+
+
+        </div>
+
+
+        <div
+            id="saveMessage"
+            class="success"
+        ></div>
+
 
     </div>
 
-</main>
-
 </div>
 
 
-<!-- =================================================
-     LOGIN
-================================================= -->
+<!-- =========================================================
+     FIREBASE
+========================================================= -->
 
-<div id="login">
+<script type="module">
 
-<div class="login-box">
 
-    <h2>
-        🔐 Área privada
-    </h2>
+    import {
+        initializeApp
+    }
+    from
+        "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
-    <p>
-        Digite a senha para editar.
-    </p>
 
-    <div
-        id="error"
-        class="error">
+    import {
+        getAuth,
+        signInWithEmailAndPassword,
+        onAuthStateChanged,
+        signOut
+    }
+    from
+        "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
-        Senha incorreta.
 
-    </div>
+    const firebaseConfig = {
 
-    <input
-        id="password"
-        type="password"
-        placeholder="Senha"
-        autocomplete="current-password"
-    >
+        apiKey:
+            "AIzaSyB35ktkxiS_MPTrSflfHhBe5snYAV0iV6Q",
 
-    <button onclick="login()">
-        Entrar
-    </button>
+        authDomain:
+            "myprofile-7db79.firebaseapp.com",
 
-</div>
+        projectId:
+            "myprofile-7db79",
 
-</div>
+        storageBucket:
+            "myprofile-7db79.firebasestorage.app",
 
+        messagingSenderId:
+            "947862565874",
 
-<!-- =================================================
-     EDITOR
-================================================= -->
+        appId:
+            "1:947862565874:web:3116335ff6f1822f0df16b",
 
-<div id="editor">
+        measurementId:
+            "G-KC2ZXS400D"
 
-<div class="editor-box">
+    };
 
-<h2>
-    🎨 Editor completo
-</h2>
 
+    const app =
+        initializeApp(
+            firebaseConfig
+        );
 
-<!-- PERFIL -->
 
-<h3>
-    👤 Perfil
-</h3>
+    const auth =
+        getAuth(app);
 
-<label>
-    Nome
-</label>
 
-<input
-    id="editName"
->
+    window.firebaseAuth =
+        auth;
 
 
-<label>
-    Username
-</label>
+    window.firebaseLogin =
+        async function(
+            email,
+            password
+        ) {
 
-<input
-    id="editUsername"
->
+            return await
+                signInWithEmailAndPassword(
+                    auth,
+                    email,
+                    password
+                );
 
+        };
 
-<label>
-    Biografia
-</label>
 
-<textarea
-    id="editBio">
-</textarea>
+    window.firebaseLogout =
+        async function() {
 
+            await signOut(auth);
 
-<label>
-    Avatar
-</label>
+        };
 
-<input
-    id="editAvatar"
-    type="file"
-    accept="image/*"
->
 
+    onAuthStateChanged(
+        auth,
+        user => {
 
-<label>
-    Cor principal
-</label>
+            window.firebaseUser =
+                user;
 
-<input
-    id="editColor"
-    type="color"
->
+        }
 
-
-<label>
-    Cor secundária
-</label>
-
-<input
-    id="editSecondary"
-    type="color"
->
-
-
-<div class="separator"></div>
-
-
-<!-- FUNDO -->
-
-<h3>
-    🌄 Fundo
-</h3>
-
-<label>
-    Adicionar fundos
-</label>
-
-<input
-    id="backgroundInput"
-    type="file"
-    accept="image/*"
-    multiple
->
-
-
-<label>
-    Tempo de troca
-</label>
-
-<select id="backgroundTime">
-
-    <option value="3000">
-        3 segundos
-    </option>
-
-    <option value="5000">
-        5 segundos
-    </option>
-
-    <option value="8000">
-        8 segundos
-    </option>
-
-    <option value="15000">
-        15 segundos
-    </option>
-
-</select>
-
-
-<label>
-    Fundo sem imagem
-</label>
-
-<select id="backgroundMode">
-
-    <option value="gradient">
-        Gradiente
-    </option>
-
-    <option value="solid">
-        Cor sólida
-    </option>
-
-</select>
-
-
-<div class="separator"></div>
-
-
-<!-- APARÊNCIA -->
-
-<h3>
-    ✨ Aparência
-</h3>
-
-
-<label>
-    Transparência
-</label>
-
-<input
-    id="cardOpacity"
-    type="range"
-    min=".2"
-    max="1"
-    step=".05"
->
-
-
-<label>
-    Blur
-</label>
-
-<input
-    id="blur"
-    type="range"
-    min="0"
-    max="40"
-    step="1"
->
-
-
-<label>
-    Arredondamento
-</label>
-
-<input
-    id="radius"
-    type="range"
-    min="0"
-    max="40"
-    step="1"
->
-
-
-<br>
-
-
-<label>
-
-    <input
-        id="particlesEnabled"
-        type="checkbox"
-        style="width:auto"
-    >
-
-    Partículas
-
-</label>
-
-
-<br><br>
-
-
-<label>
-
-    <input
-        id="backgroundAnimation"
-        type="checkbox"
-        style="width:auto"
-    >
-
-    Fundo animado
-
-</label>
-
-
-<div class="separator"></div>
-
-
-<!-- ESTATÍSTICAS -->
-
-<h3>
-    📊 Estatísticas
-</h3>
-
-
-<label>
-    Visualizações
-</label>
-
-<input
-    id="editViews"
-    type="number"
->
-
-
-<label>
-    Posts
-</label>
-
-<input
-    id="editPosts"
-    type="number"
->
-
-
-<label>
-    Seguidores
-</label>
-
-<input
-    id="editFollowers"
-    type="number"
->
-
-
-<div class="separator"></div>
-
-
-<!-- LINKS -->
-
-<h3>
-    🔗 Links
-</h3>
-
-
-<label>
-    Discord
-</label>
-
-<input
-    id="editDiscord"
-    placeholder="https://discord.com/"
->
-
-
-<label>
-    YouTube
-</label>
-
-<input
-    id="editYoutube"
-    placeholder="https://youtube.com/"
->
-
-
-<label>
-    GitHub
-</label>
-
-<input
-    id="editGithub"
-    placeholder="https://github.com/"
->
-
-
-<div class="separator"></div>
-
-
-<!-- GALERIA -->
-
-<h3>
-    🖼️ Galeria
-</h3>
-
-<input
-    id="galleryInput"
-    type="file"
-    accept="image/*"
-    multiple
->
-
-
-<div class="separator"></div>
-
-
-<!-- ARQUIVOS -->
-
-<h3>
-    📎 Arquivos
-</h3>
-
-<input
-    id="fileInput"
-    type="file"
-    multiple
->
-
-
-<div class="separator"></div>
-
-
-<!-- SEGURANÇA -->
-
-<h3>
-    🔐 Segurança
-</h3>
-
-
-<label>
-    Nova senha
-</label>
-
-<input
-    id="newPassword"
-    type="password"
-    placeholder="Mínimo de 8 caracteres"
->
-
-
-<div class="buttons">
-
-    <button onclick="saveProfile()">
-        💾 Salvar tudo
-    </button>
-
-    <button onclick="exportProfile()">
-        📤 Exportar
-    </button>
-
-    <button onclick="importProfile()">
-        📥 Importar
-    </button>
-
-    <button onclick="closeEditor()">
-        Fechar
-    </button>
-
-</div>
-
-
-<input
-    id="importFile"
-    type="file"
-    accept=".json"
-    style="display:none"
->
-
-</div>
-
-</div>
-
-
-<script>
-
-/* =====================================================
-   CONFIGURAÇÃO
-===================================================== */
-
-const DEFAULT_PASSWORD =
-    "V7!qR9#Lm2@Xp6$Zk4";
-
-const DEFAULT_AVATAR =
-    "https://placehold.co/300x300/18181b/ffffff?text=PROFILE";
-
-
-/* =====================================================
-   PERFIL
-===================================================== */
-
-let profile =
-    JSON.parse(
-        localStorage.getItem(
-            "myProfile"
-        ) || "null"
     );
 
 
-/* =====================================================
-   PERFIL PADRÃO
-===================================================== */
+</script>
 
-if (!profile) {
 
-    profile = {
+<!-- =========================================================
+     SISTEMA DO SITE
+========================================================= -->
+
+<script>
+
+
+    /* =====================================================
+       IDIOMAS
+    ===================================================== */
+
+
+    const translations = {
+
+
+        "pt-BR": {
+
+            views:
+                "Visualizações",
+
+            posts:
+                "Posts",
+
+            followers:
+                "Seguidores",
+
+            gallery:
+                "🖼️ Galeria",
+
+            files:
+                "📎 Arquivos",
+
+            privateArea:
+                "🔐 Área privada",
+
+            passwordText:
+                "Entre com sua conta para editar.",
+
+            enter:
+                "Entrar",
+
+            editor:
+                "🎨 Editor completo",
+
+            profile:
+                "👤 Perfil",
+
+            background:
+                "🌄 Fundo",
+
+            appearance:
+                "✨ Aparência",
+
+            statistics:
+                "📊 Estatísticas",
+
+            links:
+                "🔗 Links",
+
+            save:
+                "💾 Salvar tudo",
+
+            close:
+                "Fechar",
+
+            particles:
+                "Partículas"
+
+        },
+
+
+        "en-US": {
+
+            views:
+                "Views",
+
+            posts:
+                "Posts",
+
+            followers:
+                "Followers",
+
+            gallery:
+                "🖼️ Gallery",
+
+            files:
+                "📎 Files",
+
+            privateArea:
+                "🔐 Private Area",
+
+            passwordText:
+                "Sign in to edit your profile.",
+
+            enter:
+                "Sign in",
+
+            editor:
+                "🎨 Full Editor",
+
+            profile:
+                "👤 Profile",
+
+            background:
+                "🌄 Background",
+
+            appearance:
+                "✨ Appearance",
+
+            statistics:
+                "📊 Statistics",
+
+            links:
+                "🔗 Links",
+
+            save:
+                "💾 Save everything",
+
+            close:
+                "Close",
+
+            particles:
+                "Particles"
+
+        }
+
+    };
+
+
+    let currentLanguage =
+        localStorage.getItem(
+            "profileLanguage"
+        );
+
+
+    if (!currentLanguage) {
+
+        currentLanguage =
+            navigator.language
+                ?.toLowerCase()
+                .startsWith("en")
+                ? "en-US"
+                : "pt-BR";
+
+    }
+
+
+    function setLanguage(
+        language
+    ) {
+
+        currentLanguage =
+            language;
+
+        localStorage.setItem(
+            "profileLanguage",
+            language
+        );
+
+
+        document.documentElement.lang =
+            language;
+
+
+        document
+            .querySelectorAll(
+                "[data-i18n]"
+            )
+            .forEach(
+                element => {
+
+                    const key =
+                        element.dataset.i18n;
+
+                    if (
+                        translations[
+                            language
+                        ][key]
+                    ) {
+
+                        element.textContent =
+                            translations[
+                                language
+                            ][key];
+
+                    }
+
+                }
+            );
+
+
+        renderProfile();
+
+    }
+
+
+    /* =====================================================
+       CONFIGURAÇÃO PADRÃO
+    ===================================================== */
+
+
+    const defaultProfile = {
+
 
         name:
-            "Seu Nome",
+            "Meu Nome",
 
         username:
             "@usuario",
@@ -1764,24 +1948,24 @@ if (!profile) {
             "Bem-vindo ao meu perfil! 👋",
 
         avatar:
-            DEFAULT_AVATAR,
+            "",
 
-        backgrounds:
-            [],
-
-        color:
+        primary:
             "#8b5cf6",
 
         secondary:
             "#6366f1",
 
-        backgroundMode:
-            "gradient",
+        backgrounds:
+            [],
 
         backgroundTime:
             5000,
 
-        cardOpacity:
+        backgroundMode:
+            "gradient",
+
+        opacity:
             .78,
 
         blur:
@@ -1793,26 +1977,17 @@ if (!profile) {
         particles:
             true,
 
-        backgroundAnimation:
-            true,
-
-        views:
-            0,
-
         posts:
             0,
 
         followers:
             0,
 
-        discord:
-            "",
+        views:
+            0,
 
-        youtube:
-            "",
-
-        github:
-            "",
+        links:
+            [],
 
         gallery:
             [],
@@ -1822,1022 +1997,558 @@ if (!profile) {
 
     };
 
-    saveProfileData();
 
-}
+    let profile =
+        JSON.parse(
+            localStorage.getItem(
+                "myProfile"
+            )
+        ) ||
+        defaultProfile;
 
 
-/* =====================================================
-   SENHA
-===================================================== */
+    let backgroundInterval;
 
-if (
-    !localStorage.getItem(
-        "profilePassword"
-    )
-) {
 
-    localStorage.setItem(
-        "profilePassword",
-        DEFAULT_PASSWORD
-    );
+    /* =====================================================
+       SALVAR
+    ===================================================== */
 
-}
 
+    function saveLocal() {
 
-/* =====================================================
-   SALVAR DADOS
-===================================================== */
-
-function saveProfileData() {
-
-    localStorage.setItem(
-        "myProfile",
-        JSON.stringify(profile)
-    );
-
-}
-
-
-/* =====================================================
-   LER ARQUIVO
-===================================================== */
-
-function readFile(file) {
-
-    return new Promise(
-        (resolve, reject) => {
-
-            const reader =
-                new FileReader();
-
-            reader.onload =
-                () =>
-                    resolve(
-                        reader.result
-                    );
-
-            reader.onerror =
-                reject;
-
-            reader.readAsDataURL(
-                file
-            );
-
-        }
-    );
-
-}
-
-
-/* =====================================================
-   CONTADOR DE VISUALIZAÇÕES
-===================================================== */
-
-function registerView() {
-
-    /*
-       Cada carregamento da página
-       adiciona uma visualização.
-    */
-
-    profile.views =
-        Number(
-            profile.views || 0
-        ) + 1;
-
-    saveProfileData();
-
-}
-
-
-/* =====================================================
-   RENDER
-===================================================== */
-
-function render() {
-
-    const root =
-        document.documentElement;
-
-
-    root.style.setProperty(
-        "--primary",
-        profile.color
-    );
-
-
-    root.style.setProperty(
-        "--secondary",
-        profile.secondary
-    );
-
-
-    root.style.setProperty(
-        "--card-opacity",
-        profile.cardOpacity
-    );
-
-
-    root.style.setProperty(
-        "--blur",
-        profile.blur + "px"
-    );
-
-
-    root.style.setProperty(
-        "--radius",
-        profile.radius + "px"
-    );
-
-
-    document.getElementById(
-        "name"
-    ).textContent =
-        profile.name;
-
-
-    document.getElementById(
-        "username"
-    ).textContent =
-        profile.username;
-
-
-    document.getElementById(
-        "bio"
-    ).textContent =
-        profile.bio;
-
-
-    document.getElementById(
-        "views"
-    ).textContent =
-        Number(
-            profile.views
-        ).toLocaleString(
-            "pt-BR"
-        );
-
-
-    document.getElementById(
-        "posts"
-    ).textContent =
-        Number(
-            profile.posts
-        ).toLocaleString(
-            "pt-BR"
-        );
-
-
-    document.getElementById(
-        "followers"
-    ).textContent =
-        Number(
-            profile.followers
-        ).toLocaleString(
-            "pt-BR"
-        );
-
-
-    document.getElementById(
-        "avatar"
-    ).src =
-        profile.avatar;
-
-
-    renderLinks();
-
-    renderGallery();
-
-    renderFiles();
-
-    applyBackground();
-
-    createParticles();
-
-}
-
-
-/* =====================================================
-   FUNDOS
-===================================================== */
-
-let backgroundIndex = 0;
-
-let backgroundTimer = null;
-
-
-function applyBackground() {
-
-    const background =
-        document.getElementById(
-            "background"
-        );
-
-
-    clearInterval(
-        backgroundTimer
-    );
-
-
-    if (
-        profile.backgrounds &&
-        profile.backgrounds.length > 0
-    ) {
-
-        background.style.background =
-            `url("${profile.backgrounds[0]}")
-             center / cover no-repeat`;
-
-
-        backgroundIndex = 0;
-
-
-        if (
-            profile.backgrounds.length > 1
-        ) {
-
-            backgroundTimer =
-                setInterval(
-                    () => {
-
-                        backgroundIndex++;
-
-                        if (
-                            backgroundIndex >=
-                            profile.backgrounds.length
-                        ) {
-
-                            backgroundIndex = 0;
-
-                        }
-
-
-                        background.style.background =
-                            `url("${profile.backgrounds[backgroundIndex]}")
-                             center / cover no-repeat`;
-
-                    },
-                    profile.backgroundTime
-                );
-
-        }
-
-    }
-
-    else {
-
-        if (
-            profile.backgroundMode ===
-            "solid"
-        ) {
-
-            background.style.background =
-                profile.color;
-
-        }
-
-        else {
-
-            background.style.background =
-                `linear-gradient(
-                    135deg,
-                    ${profile.color},
-                    ${profile.secondary}
-                )`;
-
-        }
-
-    }
-
-
-    if (
-        profile.backgroundAnimation
-    ) {
-
-        background.style.setProperty(
-            "--animation-state",
-            "running"
+        localStorage.setItem(
+            "myProfile",
+            JSON.stringify(
+                profile
+            )
         );
 
     }
 
-}
+
+    /* =====================================================
+       HTML SEGURO
+    ===================================================== */
 
 
-/* =====================================================
-   PARTÍCULAS
-===================================================== */
-
-function createParticles() {
-
-    const container =
-        document.getElementById(
-            "particles"
-        );
-
-
-    container.innerHTML = "";
-
-
-    if (
-        !profile.particles
+    function escapeHTML(
+        text
     ) {
 
-        return;
-
-    }
-
-
-    for (
-        let i = 0;
-        i < 45;
-        i++
-    ) {
-
-        const particle =
+        const div =
             document.createElement(
                 "div"
             );
 
+        div.textContent =
+            text;
 
-        particle.className =
-            "particle";
-
-
-        particle.style.left =
-            Math.random() * 100 + "%";
-
-
-        particle.style.animationDuration =
-            (
-                8 +
-                Math.random() * 18
-            ) + "s";
-
-
-        particle.style.animationDelay =
-            (
-                -Math.random() * 20
-            ) + "s";
-
-
-        particle.style.opacity =
-            .2 +
-            Math.random() * .7;
-
-
-        container.appendChild(
-            particle
-        );
+        return div.innerHTML;
 
     }
 
-}
+
+    /* =====================================================
+       RENDER
+    ===================================================== */
 
 
-/* =====================================================
-   LINKS
-===================================================== */
+    function renderProfile() {
 
-function renderLinks() {
 
-    const container =
+        document.documentElement
+            .style
+            .setProperty(
+                "--primary",
+                profile.primary
+            );
+
+
+        document.documentElement
+            .style
+            .setProperty(
+                "--secondary",
+                profile.secondary
+            );
+
+
+        document.documentElement
+            .style
+            .setProperty(
+                "--card-opacity",
+                profile.opacity
+            );
+
+
+        document.documentElement
+            .style
+            .setProperty(
+                "--blur",
+                profile.blur + "px"
+            );
+
+
+        document.documentElement
+            .style
+            .setProperty(
+                "--radius",
+                profile.radius + "px"
+            );
+
+
         document.getElementById(
-            "links"
+            "name"
+        ).textContent =
+            profile.name;
+
+
+        document.getElementById(
+            "username"
+        ).textContent =
+            profile.username;
+
+
+        document.getElementById(
+            "bio"
+        ).textContent =
+            profile.bio;
+
+
+        document.getElementById(
+            "posts"
+        ).textContent =
+            profile.posts
+                .toLocaleString(
+                    currentLanguage
+                );
+
+
+        document.getElementById(
+            "followers"
+        ).textContent =
+            profile.followers
+                .toLocaleString(
+                    currentLanguage
+                );
+
+
+        document.getElementById(
+            "views"
+        ).textContent =
+            profile.views
+                .toLocaleString(
+                    currentLanguage
+                );
+
+
+        const avatar =
+            document.getElementById(
+                "avatar"
+            );
+
+
+        if (
+            profile.avatar
+        ) {
+
+            avatar.src =
+                profile.avatar;
+
+        } else {
+
+            avatar.src =
+                "https://placehold.co/300x300/18181b/ffffff?text=PROFILE";
+
+        }
+
+
+        renderLinks();
+
+        renderGallery();
+
+        renderFiles();
+
+        applyBackground();
+
+        renderParticles();
+
+    }
+
+
+    /* =====================================================
+       LINKS
+    ===================================================== */
+
+
+    function renderLinks() {
+
+
+        const container =
+            document.getElementById(
+                "links"
+            );
+
+
+        container.innerHTML =
+            "";
+
+
+        profile.links
+            .forEach(
+                link => {
+
+                    const a =
+                        document.createElement(
+                            "a"
+                        );
+
+
+                    a.href =
+                        link.url;
+
+
+                    a.target =
+                        "_blank";
+
+
+                    a.rel =
+                        "noopener noreferrer";
+
+
+                    a.textContent =
+                        link.label;
+
+
+                    container.appendChild(
+                        a
+                    );
+
+                }
+            );
+
+    }
+
+
+    /* =====================================================
+       GALERIA
+    ===================================================== */
+
+
+    function renderGallery() {
+
+
+        const container =
+            document.getElementById(
+                "gallery"
+            );
+
+
+        container.innerHTML =
+            "";
+
+
+        profile.gallery
+            .forEach(
+                image => {
+
+                    const img =
+                        document.createElement(
+                            "img"
+                        );
+
+
+                    img.src =
+                        image;
+
+
+                    img.loading =
+                        "lazy";
+
+
+                    img.alt =
+                        "Imagem da galeria";
+
+
+                    container.appendChild(
+                        img
+                    );
+
+                }
+            );
+
+    }
+
+
+    /* =====================================================
+       ARQUIVOS
+    ===================================================== */
+
+
+    function renderFiles() {
+
+
+        const container =
+            document.getElementById(
+                "files"
+            );
+
+
+        container.innerHTML =
+            "";
+
+
+        profile.files
+            .forEach(
+                file => {
+
+                    const div =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    div.className =
+                        "file";
+
+
+                    const name =
+                        document.createElement(
+                            "span"
+                        );
+
+
+                    name.textContent =
+                        "📎 " +
+                        file.name;
+
+
+                    const link =
+                        document.createElement(
+                            "a"
+                        );
+
+
+                    link.href =
+                        file.data;
+
+
+                    link.download =
+                        file.name;
+
+
+                    link.textContent =
+                        currentLanguage ===
+                        "en-US"
+                        ? "Open"
+                        : "Abrir";
+
+
+                    div.appendChild(
+                        name
+                    );
+
+
+                    div.appendChild(
+                        link
+                    );
+
+
+                    container.appendChild(
+                        div
+                    );
+
+                }
+            );
+
+    }
+
+
+    /* =====================================================
+       FUNDO
+    ===================================================== */
+
+
+    function applyBackground() {
+
+
+        clearInterval(
+            backgroundInterval
         );
 
 
-    container.innerHTML = "";
+        const background =
+            document.getElementById(
+                "background"
+            );
 
 
-    const links = [
-
-        [
-            "💬 Discord",
-            profile.discord
-        ],
-
-        [
-            "▶️ YouTube",
-            profile.youtube
-        ],
-
-        [
-            "💻 GitHub",
-            profile.github
-        ]
-
-    ];
+        const banner =
+            document.getElementById(
+                "banner"
+            );
 
 
-    links.forEach(
-        ([name, url]) => {
+        if (
+            profile.backgrounds.length
+        ) {
 
-            if (
-                !url ||
-                !/^https?:\/\//i.test(url)
-            ) {
 
-                return;
+            let index = 0;
+
+
+            function changeBackground() {
+
+
+                const image =
+                    profile.backgrounds[
+                        index
+                    ];
+
+
+                background.style.backgroundImage =
+                    `url("${image}")`;
+
+
+                banner.style.backgroundImage =
+                    `url("${image}")`;
+
+
+                index =
+                    (
+                        index + 1
+                    ) %
+                    profile.backgrounds.length;
 
             }
 
 
-            const a =
-                document.createElement(
-                    "a"
-                );
+            changeBackground();
 
 
-            a.className =
-                "link";
+            if (
+                profile.backgrounds
+                    .length > 1
+            ) {
+
+                backgroundInterval =
+                    setInterval(
+                        changeBackground,
+                        profile.backgroundTime
+                    );
+
+            }
 
 
-            a.textContent =
-                name;
+        } else {
 
 
-            a.href =
-                url;
+            if (
+                profile.backgroundMode ===
+                "solid"
+            ) {
+
+                background.style.backgroundImage =
+                    "none";
+
+                background.style.backgroundColor =
+                    profile.primary;
+
+                banner.style.backgroundImage =
+                    "none";
+
+                banner.style.backgroundColor =
+                    profile.primary;
+
+            } else {
+
+                const gradient =
+                    `linear-gradient(
+                        135deg,
+                        ${profile.primary},
+                        ${profile.secondary}
+                    )`;
 
 
-            a.target =
-                "_blank";
+                background.style.backgroundImage =
+                    gradient;
 
 
-            a.rel =
-                "noopener noreferrer";
+                banner.style.backgroundImage =
+                    gradient;
 
-
-            container.appendChild(
-                a
-            );
-
-        }
-    );
-
-}
-
-
-/* =====================================================
-   GALERIA
-===================================================== */
-
-function renderGallery() {
-
-    const container =
-        document.getElementById(
-            "gallery"
-        );
-
-
-    container.innerHTML = "";
-
-
-    profile.gallery.forEach(
-        image => {
-
-            const img =
-                document.createElement(
-                    "img"
-                );
-
-
-            img.src =
-                image;
-
-
-            img.loading =
-                "lazy";
-
-
-            img.alt =
-                "Imagem do perfil";
-
-
-            container.appendChild(
-                img
-            );
+            }
 
         }
-    );
 
-}
-
-
-/* =====================================================
-   ARQUIVOS
-===================================================== */
-
-function renderFiles() {
-
-    const container =
-        document.getElementById(
-            "files"
-        );
+    }
 
 
-    container.innerHTML = "";
+    /* =====================================================
+       PARTÍCULAS
+    ===================================================== */
 
 
-    profile.files.forEach(
-        file => {
+    function renderParticles() {
 
-            const div =
+
+        const container =
+            document.getElementById(
+                "particles"
+            );
+
+
+        container.innerHTML =
+            "";
+
+
+        if (
+            !profile.particles
+        ) {
+
+            return;
+
+        }
+
+
+        for (
+            let i = 0;
+            i < 45;
+            i++
+        ) {
+
+
+            const particle =
                 document.createElement(
                     "div"
                 );
 
 
-            div.className =
-                "file";
+            particle.className =
+                "particle";
 
 
-            const span =
-                document.createElement(
-                    "span"
-                );
+            particle.style.left =
+                Math.random() *
+                100 +
+                "%";
 
 
-            span.textContent =
-                "📎 " +
-                file.name;
+            particle.style.animationDuration =
+                8 +
+                Math.random() *
+                18 +
+                "s";
 
 
-            const a =
-                document.createElement(
-                    "a"
-                );
-
-
-            a.href =
-                file.data;
-
-
-            a.download =
-                file.name;
-
-
-            a.textContent =
-                "Abrir";
-
-
-            div.appendChild(
-                span
-            );
-
-
-            div.appendChild(
-                a
-            );
+            particle.style.animationDelay =
+                -Math.random() *
+                20 +
+                "s";
 
 
             container.appendChild(
-                div
-            );
-
-        }
-    );
-
-}
-
-
-/* =====================================================
-   EDITOR SECRETO
-===================================================== */
-
-document.addEventListener(
-    "keydown",
-    event => {
-
-        if (
-
-            event.ctrlKey &&
-
-            event.shiftKey &&
-
-            event.key.toLowerCase() ===
-                "e"
-
-        ) {
-
-            event.preventDefault();
-
-
-            document.getElementById(
-                "login"
-            ).style.display =
-                "flex";
-
-
-            document.getElementById(
-                "password"
-            ).focus();
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-   LOGIN
-===================================================== */
-
-function login() {
-
-    const password =
-        document.getElementById(
-            "password"
-        ).value;
-
-
-    const savedPassword =
-        localStorage.getItem(
-            "profilePassword"
-        );
-
-
-    if (
-        password !==
-        savedPassword
-    ) {
-
-        document.getElementById(
-            "error"
-        ).style.display =
-            "block";
-
-        return;
-
-    }
-
-
-    document.getElementById(
-        "error"
-    ).style.display =
-        "none";
-
-
-    document.getElementById(
-        "password"
-    ).value =
-        "";
-
-
-    document.getElementById(
-        "login"
-    ).style.display =
-        "none";
-
-
-    openEditor();
-
-}
-
-
-/* =====================================================
-   ABRIR EDITOR
-===================================================== */
-
-function openEditor() {
-
-    document.getElementById(
-        "editor"
-    ).style.display =
-        "flex";
-
-
-    document.getElementById(
-        "editName"
-    ).value =
-        profile.name;
-
-
-    document.getElementById(
-        "editUsername"
-    ).value =
-        profile.username;
-
-
-    document.getElementById(
-        "editBio"
-    ).value =
-        profile.bio;
-
-
-    document.getElementById(
-        "editColor"
-    ).value =
-        profile.color;
-
-
-    document.getElementById(
-        "editSecondary"
-    ).value =
-        profile.secondary;
-
-
-    document.getElementById(
-        "backgroundTime"
-    ).value =
-        profile.backgroundTime;
-
-
-    document.getElementById(
-        "backgroundMode"
-    ).value =
-        profile.backgroundMode;
-
-
-    document.getElementById(
-        "cardOpacity"
-    ).value =
-        profile.cardOpacity;
-
-
-    document.getElementById(
-        "blur"
-    ).value =
-        profile.blur;
-
-
-    document.getElementById(
-        "radius"
-    ).value =
-        profile.radius;
-
-
-    document.getElementById(
-        "particlesEnabled"
-    ).checked =
-        profile.particles;
-
-
-    document.getElementById(
-        "backgroundAnimation"
-    ).checked =
-        profile.backgroundAnimation;
-
-
-    document.getElementById(
-        "editViews"
-    ).value =
-        profile.views;
-
-
-    document.getElementById(
-        "editPosts"
-    ).value =
-        profile.posts;
-
-
-    document.getElementById(
-        "editFollowers"
-    ).value =
-        profile.followers;
-
-
-    document.getElementById(
-        "editDiscord"
-    ).value =
-        profile.discord;
-
-
-    document.getElementById(
-        "editYoutube"
-    ).value =
-        profile.youtube;
-
-
-    document.getElementById(
-        "editGithub"
-    ).value =
-        profile.github;
-
-}
-
-
-/* =====================================================
-   FECHAR EDITOR
-===================================================== */
-
-function closeEditor() {
-
-    document.getElementById(
-        "editor"
-    ).style.display =
-        "none";
-
-}
-
-
-/* =====================================================
-   SALVAR PERFIL
-===================================================== */
-
-async function saveProfile() {
-
-    profile.name =
-        document.getElementById(
-            "editName"
-        ).value.trim();
-
-
-    profile.username =
-        document.getElementById(
-            "editUsername"
-        ).value.trim();
-
-
-    profile.bio =
-        document.getElementById(
-            "editBio"
-        ).value;
-
-
-    profile.color =
-        document.getElementById(
-            "editColor"
-        ).value;
-
-
-    profile.secondary =
-        document.getElementById(
-            "editSecondary"
-        ).value;
-
-
-    profile.backgroundTime =
-        Number(
-            document.getElementById(
-                "backgroundTime"
-            ).value
-        );
-
-
-    profile.backgroundMode =
-        document.getElementById(
-            "backgroundMode"
-        ).value;
-
-
-    profile.cardOpacity =
-        Number(
-            document.getElementById(
-                "cardOpacity"
-            ).value
-        );
-
-
-    profile.blur =
-        Number(
-            document.getElementById(
-                "blur"
-            ).value
-        );
-
-
-    profile.radius =
-        Number(
-            document.getElementById(
-                "radius"
-            ).value
-        );
-
-
-    profile.particles =
-        document.getElementById(
-            "particlesEnabled"
-        ).checked;
-
-
-    profile.backgroundAnimation =
-        document.getElementById(
-            "backgroundAnimation"
-        ).checked;
-
-
-    profile.views =
-        Math.max(
-            0,
-            Number(
-                document.getElementById(
-                    "editViews"
-                ).value
-            ) || 0
-        );
-
-
-    profile.posts =
-        Math.max(
-            0,
-            Number(
-                document.getElementById(
-                    "editPosts"
-                ).value
-            ) || 0
-        );
-
-
-    profile.followers =
-        Math.max(
-            0,
-            Number(
-                document.getElementById(
-                    "editFollowers"
-                ).value
-            ) || 0
-        );
-
-
-    profile.discord =
-        document.getElementById(
-            "editDiscord"
-        ).value.trim();
-
-
-    profile.youtube =
-        document.getElementById(
-            "editYoutube"
-        ).value.trim();
-
-
-    profile.github =
-        document.getElementById(
-            "editGithub"
-        ).value.trim();
-
-
-    /* =================================================
-       AVATAR
-    ================================================= */
-
-    const avatar =
-        document.getElementById(
-            "editAvatar"
-        ).files[0];
-
-
-    if (avatar) {
-
-        if (
-            avatar.type.startsWith(
-                "image/"
-            )
-        ) {
-
-            profile.avatar =
-                await readFile(
-                    avatar
-                );
-
-        }
-
-    }
-
-
-    /* =================================================
-       FUNDOS
-    ================================================= */
-
-    const backgrounds =
-        [
-            ...document.getElementById(
-                "backgroundInput"
-            ).files
-        ];
-
-
-    for (
-        const image of backgrounds
-    ) {
-
-        if (
-            image.type.startsWith(
-                "image/"
-            )
-        ) {
-
-            /*
-               Limite de 8 MB por imagem.
-            */
-
-            if (
-                image.size >
-                8 * 1024 * 1024
-            ) {
-
-                continue;
-
-            }
-
-
-            profile.backgrounds.push(
-                await readFile(
-                    image
-                )
+                particle
             );
 
         }
@@ -2845,315 +2556,767 @@ async function saveProfile() {
     }
 
 
-    /* =================================================
-       GALERIA
-    ================================================= */
-
-    const gallery =
-        [
-            ...document.getElementById(
-                "galleryInput"
-            ).files
-        ];
+    /* =====================================================
+       VISUALIZAÇÕES
+    ===================================================== */
 
 
-    for (
-        const image of gallery
-    ) {
+    function registerView() {
 
-        if (
-            !image.type.startsWith(
-                "image/"
-            )
-        ) {
 
-            continue;
-
-        }
+        const viewed =
+            sessionStorage.getItem(
+                "profileViewed"
+            );
 
 
         if (
-            image.size >
-            8 * 1024 * 1024
+            viewed
         ) {
 
-            continue;
-
-        }
-
-
-        profile.gallery.push(
-            await readFile(
-                image
-            )
-        );
-
-    }
-
-
-    /* =================================================
-       ARQUIVOS
-    ================================================= */
-
-    const files =
-        [
-            ...document.getElementById(
-                "fileInput"
-            ).files
-        ];
-
-
-    for (
-        const file of files
-    ) {
-
-        /*
-           Limite:
-           5 MB.
-        */
-
-        if (
-            file.size >
-            5 * 1024 * 1024
-        ) {
-
-            continue;
-
-        }
-
-
-        profile.files.push({
-
-            name:
-                file.name,
-
-            data:
-                await readFile(
-                    file
-                )
-
-        });
-
-    }
-
-
-    /* =================================================
-       NOVA SENHA
-    ================================================= */
-
-    const newPassword =
-        document.getElementById(
-            "newPassword"
-        ).value.trim();
-
-
-    if (
-        newPassword.length >= 8
-    ) {
-
-        localStorage.setItem(
-            "profilePassword",
-            newPassword
-        );
-
-    }
-
-
-    saveProfileData();
-
-    render();
-
-    closeEditor();
-
-
-    /*
-       Limpa os campos de upload.
-    */
-
-    document.getElementById(
-        "editAvatar"
-    ).value = "";
-
-
-    document.getElementById(
-        "backgroundInput"
-    ).value = "";
-
-
-    document.getElementById(
-        "galleryInput"
-    ).value = "";
-
-
-    document.getElementById(
-        "fileInput"
-    ).value = "";
-
-
-    document.getElementById(
-        "newPassword"
-    ).value = "";
-
-
-    alert(
-        "✅ Perfil salvo com sucesso!"
-    );
-
-}
-
-
-/* =====================================================
-   EXPORTAR
-===================================================== */
-
-function exportProfile() {
-
-    const data =
-        JSON.stringify(
-            profile,
-            null,
-            2
-        );
-
-
-    const blob =
-        new Blob(
-            [data],
-            {
-                type:
-                    "application/json"
-            }
-        );
-
-
-    const url =
-        URL.createObjectURL(
-            blob
-        );
-
-
-    const link =
-        document.createElement(
-            "a"
-        );
-
-
-    link.href =
-        url;
-
-
-    link.download =
-        "meu-perfil.json";
-
-
-    link.click();
-
-
-    URL.revokeObjectURL(
-        url
-    );
-
-}
-
-
-/* =====================================================
-   IMPORTAR
-===================================================== */
-
-function importProfile() {
-
-    document.getElementById(
-        "importFile"
-    ).click();
-
-}
-
-
-document.getElementById(
-    "importFile"
-).addEventListener(
-    "change",
-    async event => {
-
-        const file =
-            event.target.files[0];
-
-
-        if (!file)
             return;
+
+        }
+
+
+        profile.views++;
+
+
+        sessionStorage.setItem(
+            "profileViewed",
+            "true"
+        );
+
+
+        saveLocal();
+
+    }
+
+
+    /* =====================================================
+       LOGIN
+    ===================================================== */
+
+
+    function openLogin() {
+
+        document
+            .getElementById(
+                "loginModal"
+            )
+            .classList.remove(
+                "hidden"
+            );
+
+
+        document
+            .getElementById(
+                "loginEmail"
+            )
+            .focus();
+
+    }
+
+
+    function closeLogin() {
+
+        document
+            .getElementById(
+                "loginModal"
+            )
+            .classList.add(
+                "hidden"
+            );
+
+    }
+
+
+    async function login(
+        event
+    ) {
+
+
+        event.preventDefault();
+
+
+        const email =
+            document.getElementById(
+                "loginEmail"
+            ).value;
+
+
+        const password =
+            document.getElementById(
+                "loginPassword"
+            ).value;
+
+
+        const error =
+            document.getElementById(
+                "loginError"
+            );
+
+
+        error.textContent =
+            "";
 
 
         try {
 
-            const imported =
-                JSON.parse(
-                    await file.text()
+
+            await window.firebaseLogin(
+                email,
+                password
+            );
+
+
+            closeLogin();
+
+            openEditor();
+
+
+        } catch (
+            firebaseError
+        ) {
+
+
+            console.error(
+                firebaseError
+            );
+
+
+            error.textContent =
+                "E-mail ou senha incorretos.";
+
+        }
+
+    }
+
+
+    /* =====================================================
+       EDITOR
+    ===================================================== */
+
+
+    function openEditor() {
+
+
+        if (
+            !window.firebaseUser
+        ) {
+
+            openLogin();
+
+            return;
+
+        }
+
+
+        document
+            .getElementById(
+                "editorModal"
+            )
+            .classList.remove(
+                "hidden"
+            );
+
+
+        loadEditor();
+
+    }
+
+
+    function closeEditor() {
+
+        document
+            .getElementById(
+                "editorModal"
+            )
+            .classList.add(
+                "hidden"
+            );
+
+    }
+
+
+    function loadEditor() {
+
+
+        document.getElementById(
+            "editName"
+        ).value =
+            profile.name;
+
+
+        document.getElementById(
+            "editUsername"
+        ).value =
+            profile.username;
+
+
+        document.getElementById(
+            "editBio"
+        ).value =
+            profile.bio;
+
+
+        document.getElementById(
+            "editPrimary"
+        ).value =
+            profile.primary;
+
+
+        document.getElementById(
+            "editSecondary"
+        ).value =
+            profile.secondary;
+
+
+        document.getElementById(
+            "backgroundTime"
+        ).value =
+            profile.backgroundTime;
+
+
+        document.getElementById(
+            "backgroundMode"
+        ).value =
+            profile.backgroundMode;
+
+
+        document.getElementById(
+            "cardOpacity"
+        ).value =
+            profile.opacity;
+
+
+        document.getElementById(
+            "cardBlur"
+        ).value =
+            profile.blur;
+
+
+        document.getElementById(
+            "cardRadius"
+        ).value =
+            profile.radius;
+
+
+        document.getElementById(
+            "particlesToggle"
+        ).checked =
+            profile.particles;
+
+
+        document.getElementById(
+            "editPosts"
+        ).value =
+            profile.posts;
+
+
+        document.getElementById(
+            "editFollowers"
+        ).value =
+            profile.followers;
+
+
+        document.getElementById(
+            "discordLink"
+        ).value =
+            getLink(
+                "Discord"
+            );
+
+
+        document.getElementById(
+            "youtubeLink"
+        ).value =
+            getLink(
+                "YouTube"
+            );
+
+
+        document.getElementById(
+            "githubLink"
+        ).value =
+            getLink(
+                "GitHub"
+            );
+
+    }
+
+
+    function getLink(
+        label
+    ) {
+
+        const found =
+            profile.links.find(
+                link =>
+                    link.label
+                        .toLowerCase()
+                        .includes(
+                            label.toLowerCase()
+                        )
+            );
+
+
+        return found
+            ? found.url
+            : "";
+
+    }
+
+
+    /* =====================================================
+       SALVAR PERFIL
+    ===================================================== */
+
+
+    async function saveProfile() {
+
+
+        if (
+            !window.firebaseUser
+        ) {
+
+            openLogin();
+
+            return;
+
+        }
+
+
+        profile.name =
+            document.getElementById(
+                "editName"
+            ).value;
+
+
+        profile.username =
+            document.getElementById(
+                "editUsername"
+            ).value;
+
+
+        profile.bio =
+            document.getElementById(
+                "editBio"
+            ).value;
+
+
+        profile.primary =
+            document.getElementById(
+                "editPrimary"
+            ).value;
+
+
+        profile.secondary =
+            document.getElementById(
+                "editSecondary"
+            ).value;
+
+
+        profile.backgroundTime =
+            Number(
+                document.getElementById(
+                    "backgroundTime"
+                ).value
+            );
+
+
+        profile.backgroundMode =
+            document.getElementById(
+                "backgroundMode"
+            ).value;
+
+
+        profile.opacity =
+            Number(
+                document.getElementById(
+                    "cardOpacity"
+                ).value
+            );
+
+
+        profile.blur =
+            Number(
+                document.getElementById(
+                    "cardBlur"
+                ).value
+            );
+
+
+        profile.radius =
+            Number(
+                document.getElementById(
+                    "cardRadius"
+                ).value
+            );
+
+
+        profile.particles =
+            document.getElementById(
+                "particlesToggle"
+            ).checked;
+
+
+        profile.posts =
+            Number(
+                document.getElementById(
+                    "editPosts"
+                ).value
+            );
+
+
+        profile.followers =
+            Number(
+                document.getElementById(
+                    "editFollowers"
+                ).value
+            );
+
+
+        /* LINKS */
+
+
+        profile.links = [];
+
+
+        const links = [
+
+            [
+                "💬 Discord",
+                "discordLink"
+            ],
+
+            [
+                "▶️ YouTube",
+                "youtubeLink"
+            ],
+
+            [
+                "💻 GitHub",
+                "githubLink"
+            ]
+
+        ];
+
+
+        links.forEach(
+            ([label,id]) => {
+
+
+                const url =
+                    document.getElementById(
+                        id
+                    ).value.trim();
+
+
+                if (
+                    url
+                ) {
+
+                    profile.links.push({
+
+                        label:
+                            label,
+
+                        url:
+                            url
+
+                    });
+
+                }
+
+            }
+        );
+
+
+        /* AVATAR */
+
+
+        const avatarFile =
+            document.getElementById(
+                "avatarInput"
+            ).files[0];
+
+
+        if (
+            avatarFile
+        ) {
+
+            profile.avatar =
+                await fileToDataURL(
+                    avatarFile
                 );
 
+        }
 
-            if (
-                typeof imported !==
-                    "object" ||
 
-                !imported.name ||
+        /* FUNDOS */
 
-                !imported.username
-            ) {
 
-                throw new Error(
-                    "Perfil inválido"
+        const backgroundFiles =
+            document.getElementById(
+                "backgroundInput"
+            ).files;
+
+
+        for (
+            const file
+            of backgroundFiles
+        ) {
+
+            profile.backgrounds.push(
+                await fileToDataURL(
+                    file
+                )
+            );
+
+        }
+
+
+        /* GALERIA */
+
+
+        const galleryFiles =
+            document.getElementById(
+                "galleryInput"
+            ).files;
+
+
+        for (
+            const file
+            of galleryFiles
+        ) {
+
+            profile.gallery.push(
+                await fileToDataURL(
+                    file
+                )
+            );
+
+        }
+
+
+        /* ARQUIVOS */
+
+
+        const files =
+            document.getElementById(
+                "filesInput"
+            ).files;
+
+
+        for (
+            const file
+            of files
+        ) {
+
+            profile.files.push({
+
+                name:
+                    file.name,
+
+                data:
+                    await fileToDataURL(
+                        file
+                    )
+
+            });
+
+        }
+
+
+        saveLocal();
+
+        renderProfile();
+
+
+        document.getElementById(
+            "saveMessage"
+        ).textContent =
+            currentLanguage ===
+            "en-US"
+            ? "Saved successfully!"
+            : "Salvo com sucesso!";
+
+
+        setTimeout(
+            () => {
+
+                document.getElementById(
+                    "saveMessage"
+                ).textContent =
+                    "";
+
+            },
+            2500
+        );
+
+    }
+
+
+    /* =====================================================
+       FILE → DATA URL
+    ===================================================== */
+
+
+    function fileToDataURL(
+        file
+    ) {
+
+        return new Promise(
+            (
+                resolve,
+                reject
+            ) => {
+
+
+                const reader =
+                    new FileReader();
+
+
+                reader.onload =
+                    () =>
+                        resolve(
+                            reader.result
+                        );
+
+
+                reader.onerror =
+                    reject;
+
+
+                reader.readAsDataURL(
+                    file
                 );
 
             }
-
-
-            profile =
-                imported;
-
-
-            saveProfileData();
-
-            render();
-
-
-            alert(
-                "✅ Perfil importado!"
-            );
-
-        }
-
-        catch {
-
-            alert(
-                "❌ Arquivo de perfil inválido."
-            );
-
-        }
-
-
-        event.target.value = "";
+        );
 
     }
-);
 
 
-/* =====================================================
-   INICIALIZAÇÃO
-===================================================== */
+    /* =====================================================
+       RESTAURAR
+    ===================================================== */
 
-/*
-   PRIMEIRO:
-   registra a visita.
 
-   DEPOIS:
-   renderiza o perfil.
-*/
+    function resetProfile() {
 
-registerView();
 
-render();
+        if (
+            !confirm(
+                currentLanguage ===
+                "en-US"
+                ? "Reset the profile?"
+                : "Restaurar o perfil?"
+            )
+        ) {
+
+            return;
+
+        }
+
+
+        profile =
+            JSON.parse(
+                JSON.stringify(
+                    defaultProfile
+                )
+            );
+
+
+        saveLocal();
+
+        renderProfile();
+
+        loadEditor();
+
+    }
+
+
+    /* =====================================================
+       LOGOUT
+    ===================================================== */
+
+
+    async function logout() {
+
+
+        await window.firebaseLogout();
+
+
+        closeEditor();
+
+    }
+
+
+    /* =====================================================
+       ATALHO SECRETO
+    ===================================================== */
+
+
+    document.addEventListener(
+        "keydown",
+        event => {
+
+
+            if (
+
+                event.ctrlKey &&
+
+                event.shiftKey &&
+
+                event.key
+                    .toLowerCase() ===
+                    "e"
+
+            ) {
+
+
+                event.preventDefault();
+
+
+                if (
+                    window.firebaseUser
+                ) {
+
+                    openEditor();
+
+                } else {
+
+                    openLogin();
+
+                }
+
+            }
+
+        }
+    );
+
+
+    /* =====================================================
+       INICIALIZAÇÃO
+    ===================================================== */
+
+
+    setLanguage(
+        currentLanguage
+    );
+
+
+    registerView();
+
+
+    renderProfile();
+
 
 </script>
 
+
 </body>
+
 </html>
