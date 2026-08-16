@@ -792,115 +792,563 @@ h1 {
    PLAYLIST
 ===================================================== */
 
-.playlist {
+const playlist = [
 
-    margin-top:
-        15px;
+    {
+        title: "20 Ligações",
+        artist: "Baco Exu do Blues",
 
-    display:
-        grid;
+        // music1.mp3 está na mesma pasta do index.html
+        src: "./music1.mp3",
 
-    gap:
-        7px;
+        cover: ""
+    }
+
+];
+
+
+let currentSong = 0;
+
+let isPlaying = false;
+
+let shuffle = false;
+
+let loop = false;
+
+
+const audio = new Audio();
+
+audio.volume = 0.8;
+
+
+/* =====================================================
+   PLAYER
+===================================================== */
+
+function loadSong(index, autoplay = false) {
+
+    if (playlist.length === 0) {
+        console.error("Nenhuma música foi adicionada à playlist.");
+        return;
+    }
+
+    if (index < 0) {
+        index = playlist.length - 1;
+    }
+
+    if (index >= playlist.length) {
+        index = 0;
+    }
+
+    currentSong = index;
+
+    const song = playlist[currentSong];
+
+    audio.src = song.src;
+
+    document.getElementById("musicTitle").textContent =
+        song.title;
+
+    document.getElementById("musicArtist").textContent =
+        song.artist;
+
+
+    const cover =
+        document.getElementById("musicCover");
+
+
+    if (song.cover) {
+
+        cover.style.backgroundImage =
+            `url("${song.cover}")`;
+
+        cover.textContent = "";
+
+    } else {
+
+        cover.style.backgroundImage = "";
+
+        cover.textContent = "🎵";
+
+    }
+
+
+    renderPlaylist();
+
+
+    if (autoplay) {
+
+        audio.play()
+            .then(() => {
+
+                isPlaying = true;
+
+                updatePlayButton();
+
+            })
+            .catch(error => {
+
+                console.error(
+                    "Falha ao reproduzir:",
+                    error
+                );
+
+            });
+
+    }
+
 }
 
-.playlist-item {
 
-    display:
-        flex;
+/* =====================================================
+   PLAY / PAUSE
+===================================================== */
 
-    align-items:
-        center;
+function toggleMusic() {
 
-    gap:
-        12px;
+    if (audio.paused) {
 
-    padding:
-        12px;
+        if (!audio.src) {
+            loadSong(currentSong);
+        }
 
-    border-radius:
-        12px;
+        audio.play()
+            .then(() => {
 
-    cursor:
-        pointer;
+                isPlaying = true;
 
-    background:
-        rgba(255,255,255,.04);
+                updatePlayButton();
 
-    border:
-        1px solid
-        transparent;
+            })
+            .catch(error => {
 
-    transition:
-        .2s ease;
+                console.error(
+                    "Falha ao reproduzir:",
+                    error
+                );
+
+            });
+
+    } else {
+
+        audio.pause();
+
+        isPlaying = false;
+
+        updatePlayButton();
+
+    }
+
 }
 
-.playlist-item:hover {
 
-    background:
-        rgba(255,255,255,.08);
+function updatePlayButton() {
+
+    document.getElementById("playButton").textContent =
+        audio.paused ? "▶" : "⏸";
+
 }
 
-.playlist-item.active {
 
-    border-color:
-        var(--primary);
+/* =====================================================
+   PRÓXIMA
+===================================================== */
 
-    background:
-        rgba(139,92,246,.12);
+function nextSong() {
+
+    if (playlist.length <= 1) {
+
+        loadSong(
+            currentSong,
+            true
+        );
+
+        return;
+
+    }
+
+
+    if (shuffle) {
+
+        let next;
+
+        do {
+
+            next =
+                Math.floor(
+                    Math.random() *
+                    playlist.length
+                );
+
+        } while (
+            next === currentSong
+        );
+
+
+        loadSong(
+            next,
+            true
+        );
+
+        return;
+
+    }
+
+
+    loadSong(
+        currentSong + 1,
+        true
+    );
+
 }
 
-.playlist-number {
 
-    width:
-        25px;
+/* =====================================================
+   ANTERIOR
+===================================================== */
 
-    text-align:
-        center;
+function previousSong() {
 
-    color:
-        var(--muted);
+    loadSong(
+        currentSong - 1,
+        true
+    );
+
 }
 
-.playlist-name {
 
-    flex:
-        1;
+/* =====================================================
+   SHUFFLE
+===================================================== */
 
-    min-width:
-        0;
+function toggleShuffle() {
+
+    shuffle = !shuffle;
+
+    document.getElementById(
+        "shuffleButton"
+    ).classList.toggle(
+        "active",
+        shuffle
+    );
+
 }
 
-.playlist-name strong {
 
-    display:
-        block;
+/* =====================================================
+   LOOP
+===================================================== */
 
-    white-space:
-        nowrap;
+function toggleLoop() {
 
-    overflow:
-        hidden;
+    loop = !loop;
 
-    text-overflow:
-        ellipsis;
+    document.getElementById(
+        "loopButton"
+    ).classList.toggle(
+        "active",
+        loop
+    );
+
 }
 
-.playlist-name span {
 
-    display:
-        block;
+/* =====================================================
+   RENDER PLAYLIST
+===================================================== */
 
-    color:
-        var(--muted);
+function renderPlaylist() {
 
-    font-size:
-        12px;
+    const container =
+        document.getElementById(
+            "playlist"
+        );
 
-    margin-top:
-        2px;
+
+    container.innerHTML = "";
+
+
+    playlist.forEach(
+        (song, index) => {
+
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+
+            item.className =
+                "playlist-item";
+
+
+            if (
+                index === currentSong
+            ) {
+
+                item.classList.add(
+                    "active"
+                );
+
+            }
+
+
+            item.innerHTML = `
+
+                <div class="playlist-number">
+                    ${index + 1}
+                </div>
+
+                <div class="playlist-name">
+
+                    <strong>
+                        ${escapeHTML(song.title)}
+                    </strong>
+
+                    <span>
+                        ${escapeHTML(song.artist)}
+                    </span>
+
+                </div>
+
+            `;
+
+
+            item.onclick = () => {
+
+                loadSong(
+                    index,
+                    true
+                );
+
+            };
+
+
+            container.appendChild(
+                item
+            );
+
+        }
+    );
+
 }
 
+
+/* =====================================================
+   TEMPO DA MÚSICA
+===================================================== */
+
+audio.addEventListener(
+    "timeupdate",
+    () => {
+
+        if (!audio.duration) {
+            return;
+        }
+
+
+        const progress =
+            document.getElementById(
+                "progress"
+            );
+
+
+        progress.value =
+            (
+                audio.currentTime /
+                audio.duration
+            ) * 100;
+
+
+        document.getElementById(
+            "currentTime"
+        ).textContent =
+            formatTime(
+                audio.currentTime
+            );
+
+
+        document.getElementById(
+            "duration"
+        ).textContent =
+            formatTime(
+                audio.duration
+            );
+
+    }
+);
+
+
+/* =====================================================
+   FINAL DA MÚSICA
+===================================================== */
+
+audio.addEventListener(
+    "ended",
+    () => {
+
+        if (loop) {
+
+            audio.currentTime = 0;
+
+            audio.play();
+
+            return;
+
+        }
+
+        nextSong();
+
+    }
+);
+
+
+/* =====================================================
+   PLAY
+===================================================== */
+
+audio.addEventListener(
+    "play",
+    () => {
+
+        isPlaying = true;
+
+        updatePlayButton();
+
+    }
+);
+
+
+/* =====================================================
+   PAUSE
+===================================================== */
+
+audio.addEventListener(
+    "pause",
+    () => {
+
+        isPlaying = false;
+
+        updatePlayButton();
+
+    }
+);
+
+
+/* =====================================================
+   ERRO DE CARREGAMENTO
+===================================================== */
+
+audio.addEventListener(
+    "error",
+    () => {
+
+        console.error(
+            "================================="
+        );
+
+        console.error(
+            "ERRO AO CARREGAR A MÚSICA"
+        );
+
+        console.error(
+            "URL:",
+            audio.src
+        );
+
+        console.error(
+            "O arquivo esperado é:",
+            "./music1.mp3"
+        );
+
+        console.error(
+            "================================="
+        );
+
+    }
+);
+
+
+/* =====================================================
+   PROGRESSO
+===================================================== */
+
+document.getElementById(
+    "progress"
+).addEventListener(
+    "input",
+    event => {
+
+        if (!audio.duration) {
+            return;
+        }
+
+
+        audio.currentTime =
+            (
+                Number(
+                    event.target.value
+                ) / 100
+            ) *
+            audio.duration;
+
+    }
+);
+
+
+/* =====================================================
+   VOLUME
+===================================================== */
+
+document.getElementById(
+    "volume"
+).addEventListener(
+    "input",
+    event => {
+
+        audio.volume =
+            Number(
+                event.target.value
+            );
+
+    }
+);
+
+
+/* =====================================================
+   FORMATAÇÃO DE TEMPO
+===================================================== */
+
+function formatTime(seconds) {
+
+    if (
+        !Number.isFinite(seconds)
+    ) {
+
+        return "0:00";
+
+    }
+
+
+    const minutes =
+        Math.floor(
+            seconds / 60
+        );
+
+
+    const remaining =
+        Math.floor(
+            seconds % 60
+        )
+        .toString()
+        .padStart(
+            2,
+            "0"
+        );
+
+
+    return `${minutes}:${remaining}`;
+
+}
 /* =====================================================
    GALERIA
 ===================================================== */
