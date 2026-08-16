@@ -104,12 +104,19 @@
             letter-spacing: 2px;
         }
         
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
         .languages {
             display: flex;
             gap: 4px;
         }
         
-        .languages button {
+        .languages button,
+        .edit-button {
             border: 1px solid rgba(255,255,255,.12);
             background: rgba(15,15,20,.75);
             color: white;
@@ -118,10 +125,24 @@
             cursor: pointer;
             backdrop-filter: blur(10px);
             font-size: 11px;
+            transition: all .2s ease;
         }
         
-        .languages button:hover {
+        .languages button:hover,
+        .edit-button:hover {
             border-color: var(--primary);
+            background: rgba(139,92,246,.2);
+        }
+        
+        .edit-button {
+            background: var(--primary);
+            border-color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .edit-button:hover {
+            background: var(--secondary);
+            border-color: var(--secondary);
         }
         
         /* =====================================================
@@ -762,7 +783,8 @@
                 letter-spacing: 1px;
             }
             
-            .languages button {
+            .languages button,
+            .edit-button {
                 padding: 4px 6px;
                 font-size: 10px;
             }
@@ -869,9 +891,14 @@
     
     <header class="topbar">
         <div id="siteLogo" class="logo">PROFILE</div>
-        <div class="languages">
-            <button onclick="setLanguage('pt-BR')">🇧🇷 PT</button>
-            <button onclick="setLanguage('en-US')">🇺🇸 EN</button>
+        <div class="topbar-right">
+            <div class="languages">
+                <button onclick="setLanguage('pt-BR')">🇧🇷 PT</button>
+                <button onclick="setLanguage('en-US')">🇺🇸 EN</button>
+            </div>
+            <button class="edit-button" onclick="openEditor()">
+                ✏️ Editar Perfil
+            </button>
         </div>
     </header>
     
@@ -967,14 +994,21 @@
     <!-- LOGIN -->
     <div id="loginModal" class="overlay hidden">
         <form class="modal" onsubmit="login(event)">
-            <h2>🔐 Área privada</h2>
-            <p style="font-size:12px;">Entre com sua conta para editar o perfil.</p>
+            <h2>🔐 Login</h2>
+            <p style="font-size:12px;margin-bottom:15px;">
+                Entre com seu e-mail e senha para editar o perfil.
+            </p>
             <label>E-mail</label>
-            <input id="loginEmail" type="email" autocomplete="email" required>
+            <input id="loginEmail" type="email" placeholder="seu@email.com" autocomplete="email" required>
             <label>Senha</label>
-            <input id="loginPassword" type="password" autocomplete="current-password" required>
+            <input id="loginPassword" type="password" placeholder="Sua senha" autocomplete="current-password" required>
             <div id="loginError" class="error"></div>
-            <button class="primary-button" type="submit" style="width:100%;">Entrar</button>
+            <button class="primary-button" type="submit" style="width:100%;margin-top:10px;">
+                Entrar
+            </button>
+            <button type="button" onclick="closeLogin()" style="width:100%;margin-top:5px;">
+                Cancelar
+            </button>
         </form>
     </div>
     
@@ -1278,7 +1312,7 @@
         
         let profile = normalizeProfile(savedProfile);
         let playlist = [];
-        const MAX_AUDIO_SIZE_MB = 50; // Limite maior usando IndexedDB
+        const MAX_AUDIO_SIZE_MB = 50;
         const MAX_AUDIO_SIZE_BYTES = MAX_AUDIO_SIZE_MB * 1024 * 1024;
         
         // =====================================================
@@ -1287,7 +1321,7 @@
         async function loadMusicFromDB() {
             try {
                 playlist = await getAllSongsFromDB();
-                playlist = playlist.slice(0, 4); // Manter máximo 4 músicas
+                playlist = playlist.slice(0, 4);
                 console.log(`${playlist.length} música(s) carregada(s) do IndexedDB`);
             } catch(error) {
                 console.error("Erro ao carregar músicas do IndexedDB:", error);
@@ -1326,14 +1360,12 @@
             audio.pause();
             audio.currentTime = 0;
             
-            // Usar Blob URL em vez de Data URL para melhor performance
             if (song.blob) {
                 if (audio.src && audio.src.startsWith('blob:')) {
                     URL.revokeObjectURL(audio.src);
                 }
                 audio.src = URL.createObjectURL(song.blob);
             } else if (song.data) {
-                // Compatibilidade com versões anteriores
                 audio.src = song.data;
             }
             
@@ -1707,6 +1739,10 @@
             document.getElementById("loginModal").classList.remove("hidden");
         }
         
+        function closeLogin() {
+            document.getElementById("loginModal").classList.add("hidden");
+        }
+        
         function openEditor() {
             if (!window.firebaseUser) {
                 openLogin();
@@ -1837,7 +1873,6 @@
             }
             
             for (const file of selected) {
-                // Verificar tamanho do arquivo (50MB)
                 if (file.size > MAX_AUDIO_SIZE_BYTES) {
                     alert(`O arquivo "${file.name}" excede o limite de ${MAX_AUDIO_SIZE_MB}MB.`);
                     continue;
@@ -1846,7 +1881,7 @@
                 const songData = {
                     title: file.name.replace(/\.[^/.]+$/, ""),
                     artist: "Artista desconhecido",
-                    blob: file, // Armazenar como Blob no IndexedDB
+                    blob: file,
                     cover: ""
                 };
                 
