@@ -1,1 +1,3159 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
 
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Meu Perfil</title>
+
+<style>
+
+/* =====================================================
+   VARIÁVEIS
+===================================================== */
+
+:root {
+
+    --primary: #8b5cf6;
+    --secondary: #6366f1;
+
+    --background: #08080b;
+
+    --text: #ffffff;
+    --muted: #a1a1aa;
+
+    --card-opacity: .78;
+    --blur: 18px;
+    --radius: 24px;
+
+}
+
+
+/* =====================================================
+   RESET
+===================================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+
+    margin: 0;
+
+    min-height: 100vh;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    color: var(--text);
+
+    background:
+        var(--background);
+
+    overflow-x: hidden;
+
+}
+
+
+/* =====================================================
+   FUNDO
+===================================================== */
+
+#background {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: -20;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--secondary)
+        );
+
+    background-size: cover;
+
+    background-position: center;
+
+    transition:
+        background 1.2s ease,
+        background-image 1.2s ease;
+
+}
+
+
+#background::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: -20%;
+
+    background:
+
+        radial-gradient(
+            circle at 20% 20%,
+            var(--primary),
+            transparent 30%
+        ),
+
+        radial-gradient(
+            circle at 80% 80%,
+            var(--secondary),
+            transparent 30%
+        );
+
+    opacity: .45;
+
+    animation:
+        backgroundMove
+        18s
+        ease-in-out
+        infinite
+        alternate;
+
+}
+
+
+#background::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        rgba(0,0,0,.42);
+
+    backdrop-filter:
+        blur(2px);
+
+}
+
+
+@keyframes backgroundMove {
+
+    from {
+
+        transform:
+            translate(
+                -4%,
+                -3%
+            )
+            scale(1);
+
+    }
+
+    to {
+
+        transform:
+            translate(
+                4%,
+                3%
+            )
+            scale(1.15);
+
+    }
+
+}
+
+
+/* =====================================================
+   PARTÍCULAS
+===================================================== */
+
+#particles {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: -5;
+
+    pointer-events: none;
+
+    overflow: hidden;
+
+}
+
+
+.particle {
+
+    position: absolute;
+
+    width: 4px;
+
+    height: 4px;
+
+    border-radius: 50%;
+
+    background:
+        var(--primary);
+
+    box-shadow:
+        0 0 12px
+        var(--primary);
+
+    opacity: .6;
+
+    animation:
+        particleFloat
+        linear
+        infinite;
+
+}
+
+
+@keyframes particleFloat {
+
+    from {
+
+        transform:
+            translateY(110vh);
+
+    }
+
+    to {
+
+        transform:
+            translateY(-20vh);
+
+    }
+
+}
+
+
+/* =====================================================
+   CONTAINER
+===================================================== */
+
+.container {
+
+    width:
+        min(
+            1050px,
+            94%
+        );
+
+    margin:
+        auto;
+
+    padding:
+        45px 0;
+
+}
+
+
+/* =====================================================
+   PERFIL
+===================================================== */
+
+.profile {
+
+    background:
+        rgba(
+            18,
+            18,
+            23,
+            var(--card-opacity)
+        );
+
+    border:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            .10
+        );
+
+    border-radius:
+        var(--radius);
+
+    overflow:
+        hidden;
+
+    backdrop-filter:
+        blur(
+            var(--blur)
+        );
+
+    box-shadow:
+
+        0 30px 90px
+        rgba(
+            0,
+            0,
+            0,
+            .55
+        ),
+
+        0 0 80px
+        rgba(
+            139,
+            92,
+            246,
+            .10
+        );
+
+    animation:
+        profileEnter
+        .8s
+        ease;
+
+}
+
+
+@keyframes profileEnter {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(30px)
+            scale(.97);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+
+    }
+
+}
+
+
+/* =====================================================
+   BANNER
+===================================================== */
+
+.banner {
+
+    height:
+        250px;
+
+    position:
+        relative;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--secondary)
+        );
+
+    background-size:
+        cover;
+
+    background-position:
+        center;
+
+}
+
+
+.banner::after {
+
+    content: "";
+
+    position:
+        absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            transparent 25%,
+            rgba(0,0,0,.65)
+        );
+
+}
+
+
+/* =====================================================
+   CONTEÚDO
+===================================================== */
+
+.content {
+
+    padding:
+        0 38px 40px;
+
+    position:
+        relative;
+
+}
+
+
+/* =====================================================
+   AVATAR
+===================================================== */
+
+.avatar {
+
+    width:
+        145px;
+
+    height:
+        145px;
+
+    margin-top:
+        -72px;
+
+    object-fit:
+        cover;
+
+    border-radius:
+        50%;
+
+    border:
+        6px solid
+        rgba(
+            255,
+            255,
+            255,
+            .15
+        );
+
+    background:
+        #18181b;
+
+    box-shadow:
+        0 15px 40px
+        rgba(
+            0,
+            0,
+            0,
+            .55
+        );
+
+    position:
+        relative;
+
+    z-index:
+        2;
+
+    transition:
+        .3s;
+
+}
+
+
+.avatar:hover {
+
+    transform:
+        scale(1.06)
+        rotate(2deg);
+
+    box-shadow:
+        0 0 40px
+        rgba(
+            139,
+            92,
+            246,
+            .4
+        );
+
+}
+
+
+/* =====================================================
+   NOME
+===================================================== */
+
+.name {
+
+    display:
+        inline-block;
+
+    margin-top:
+        15px;
+
+    font-size:
+        34px;
+
+    font-weight:
+        900;
+
+}
+
+
+.badge {
+
+    display:
+        inline-block;
+
+    margin-left:
+        8px;
+
+    padding:
+        5px 10px;
+
+    border-radius:
+        999px;
+
+    background:
+        var(--primary);
+
+    font-size:
+        11px;
+
+    font-weight:
+        bold;
+
+}
+
+
+.username {
+
+    color:
+        var(--muted);
+
+    margin-top:
+        4px;
+
+}
+
+
+/* =====================================================
+   BIO
+===================================================== */
+
+.bio {
+
+    margin-top:
+        20px;
+
+    line-height:
+        1.75;
+
+    color:
+        #e4e4e7;
+
+    white-space:
+        pre-wrap;
+
+}
+
+
+/* =====================================================
+   ESTATÍSTICAS
+===================================================== */
+
+.stats {
+
+    display:
+        flex;
+
+    gap:
+        35px;
+
+    margin:
+        28px 0;
+
+    flex-wrap:
+        wrap;
+
+}
+
+
+.stat {
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+}
+
+
+.stat strong {
+
+    font-size:
+        21px;
+
+}
+
+
+.stat span {
+
+    color:
+        var(--muted);
+
+    font-size:
+        13px;
+
+}
+
+
+/* =====================================================
+   LINKS
+===================================================== */
+
+.links {
+
+    display:
+        flex;
+
+    gap:
+        10px;
+
+    flex-wrap:
+        wrap;
+
+}
+
+
+.link {
+
+    color:
+        white;
+
+    text-decoration:
+        none;
+
+    padding:
+        11px 16px;
+
+    border-radius:
+        12px;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            .07
+        );
+
+    border:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            .10
+        );
+
+    transition:
+        .2s;
+
+}
+
+
+.link:hover {
+
+    transform:
+        translateY(-4px);
+
+    border-color:
+        var(--primary);
+
+    box-shadow:
+        0 0 25px
+        rgba(
+            139,
+            92,
+            246,
+            .25
+        );
+
+}
+
+
+/* =====================================================
+   SEÇÕES
+===================================================== */
+
+.section {
+
+    margin-top:
+        35px;
+
+}
+
+
+.section-title {
+
+    font-size:
+        21px;
+
+    font-weight:
+        900;
+
+    margin-bottom:
+        15px;
+
+}
+
+
+/* =====================================================
+   GALERIA
+===================================================== */
+
+.gallery {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(
+                180px,
+                1fr
+            )
+        );
+
+    gap:
+        13px;
+
+}
+
+
+.gallery img {
+
+    width:
+        100%;
+
+    height:
+        190px;
+
+    object-fit:
+        cover;
+
+    border-radius:
+        16px;
+
+    transition:
+        .25s;
+
+    cursor:
+        pointer;
+
+}
+
+
+.gallery img:hover {
+
+    transform:
+        translateY(-4px)
+        scale(1.02);
+
+}
+
+
+/* =====================================================
+   ARQUIVOS
+===================================================== */
+
+.files {
+
+    display:
+        grid;
+
+    gap:
+        10px;
+
+}
+
+
+.file {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    align-items:
+        center;
+
+    padding:
+        15px;
+
+    border-radius:
+        14px;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            .05
+        );
+
+    border:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            .08
+        );
+
+}
+
+
+.file a {
+
+    color:
+        var(--primary);
+
+    text-decoration:
+        none;
+
+}
+
+
+/* =====================================================
+   MODAIS
+===================================================== */
+
+#login,
+#editor {
+
+    display:
+        none;
+
+    position:
+        fixed;
+
+    inset:
+        0;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    z-index:
+        9999;
+
+    background:
+        rgba(
+            0,
+            0,
+            0,
+            .85
+        );
+
+    backdrop-filter:
+        blur(18px);
+
+}
+
+
+.login-box,
+.editor-box {
+
+    background:
+        #18181b;
+
+    border:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            .12
+        );
+
+    border-radius:
+        22px;
+
+    padding:
+        30px;
+
+    box-shadow:
+        0 30px 80px
+        rgba(
+            0,
+            0,
+            0,
+            .7
+        );
+
+}
+
+
+.login-box {
+
+    width:
+        min(
+            380px,
+            90%
+        );
+
+    text-align:
+        center;
+
+}
+
+
+.editor-box {
+
+    width:
+        min(
+            760px,
+            92%
+        );
+
+    max-height:
+        90vh;
+
+    overflow:
+        auto;
+
+}
+
+
+/* =====================================================
+   INPUTS
+===================================================== */
+
+input,
+textarea,
+select {
+
+    width:
+        100%;
+
+    padding:
+        12px;
+
+    margin:
+        7px 0 15px;
+
+    background:
+        #09090b;
+
+    color:
+        white;
+
+    border:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            .10
+        );
+
+    border-radius:
+        10px;
+
+    outline:
+        none;
+
+}
+
+
+input:focus,
+textarea:focus,
+select:focus {
+
+    border-color:
+        var(--primary);
+
+}
+
+
+textarea {
+
+    min-height:
+        100px;
+
+    resize:
+        vertical;
+
+}
+
+
+label {
+
+    color:
+        #d4d4d8;
+
+    font-size:
+        13px;
+
+}
+
+
+button {
+
+    padding:
+        11px 16px;
+
+    border:
+        0;
+
+    border-radius:
+        10px;
+
+    background:
+        var(--primary);
+
+    color:
+        white;
+
+    font-weight:
+        bold;
+
+    cursor:
+        pointer;
+
+    transition:
+        .2s;
+
+}
+
+
+button:hover {
+
+    transform:
+        translateY(-2px);
+
+    filter:
+        brightness(1.15);
+
+}
+
+
+.buttons {
+
+    display:
+        flex;
+
+    gap:
+        10px;
+
+    flex-wrap:
+        wrap;
+
+    margin-top:
+        15px;
+
+}
+
+
+.separator {
+
+    height:
+        1px;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            .10
+        );
+
+    margin:
+        25px 0;
+
+}
+
+
+.error {
+
+    display:
+        none;
+
+    color:
+        #ef4444;
+
+    margin-bottom:
+        10px;
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:600px) {
+
+    .container {
+
+        padding:
+            15px 0;
+
+    }
+
+    .banner {
+
+        height:
+            180px;
+
+    }
+
+    .content {
+
+        padding:
+            0 20px 25px;
+
+    }
+
+    .avatar {
+
+        width:
+            110px;
+
+        height:
+            110px;
+
+        margin-top:
+            -55px;
+
+    }
+
+    .name {
+
+        font-size:
+            27px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<!-- FUNDO -->
+
+<div id="background"></div>
+
+<div id="particles"></div>
+
+
+<!-- PERFIL -->
+
+<div class="container">
+
+<main class="profile">
+
+    <div
+        class="banner"
+        id="banner">
+    </div>
+
+
+    <div class="content">
+
+        <img
+            id="avatar"
+            class="avatar"
+            alt="Avatar"
+        >
+
+
+        <div>
+
+            <span
+                id="name"
+                class="name">
+            </span>
+
+            <span
+                class="badge">
+                ✓
+            </span>
+
+        </div>
+
+
+        <div
+            id="username"
+            class="username">
+        </div>
+
+
+        <div
+            id="bio"
+            class="bio">
+        </div>
+
+
+        <!-- ESTATÍSTICAS -->
+
+        <div class="stats">
+
+            <div class="stat">
+
+                <strong id="views">
+                    0
+                </strong>
+
+                <span>
+                    Visualizações
+                </span>
+
+            </div>
+
+
+            <div class="stat">
+
+                <strong id="posts">
+                    0
+                </strong>
+
+                <span>
+                    Posts
+                </span>
+
+            </div>
+
+
+            <div class="stat">
+
+                <strong id="followers">
+                    0
+                </strong>
+
+                <span>
+                    Seguidores
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- LINKS -->
+
+        <div
+            id="links"
+            class="links">
+        </div>
+
+
+        <!-- GALERIA -->
+
+        <section class="section">
+
+            <div class="section-title">
+                🖼️ Galeria
+            </div>
+
+            <div
+                id="gallery"
+                class="gallery">
+            </div>
+
+        </section>
+
+
+        <!-- ARQUIVOS -->
+
+        <section class="section">
+
+            <div class="section-title">
+                📎 Arquivos
+            </div>
+
+            <div
+                id="files"
+                class="files">
+            </div>
+
+        </section>
+
+    </div>
+
+</main>
+
+</div>
+
+
+<!-- =================================================
+     LOGIN
+================================================= -->
+
+<div id="login">
+
+<div class="login-box">
+
+    <h2>
+        🔐 Área privada
+    </h2>
+
+    <p>
+        Digite a senha para editar.
+    </p>
+
+    <div
+        id="error"
+        class="error">
+
+        Senha incorreta.
+
+    </div>
+
+    <input
+        id="password"
+        type="password"
+        placeholder="Senha"
+        autocomplete="current-password"
+    >
+
+    <button onclick="login()">
+        Entrar
+    </button>
+
+</div>
+
+</div>
+
+
+<!-- =================================================
+     EDITOR
+================================================= -->
+
+<div id="editor">
+
+<div class="editor-box">
+
+<h2>
+    🎨 Editor completo
+</h2>
+
+
+<!-- PERFIL -->
+
+<h3>
+    👤 Perfil
+</h3>
+
+<label>
+    Nome
+</label>
+
+<input
+    id="editName"
+>
+
+
+<label>
+    Username
+</label>
+
+<input
+    id="editUsername"
+>
+
+
+<label>
+    Biografia
+</label>
+
+<textarea
+    id="editBio">
+</textarea>
+
+
+<label>
+    Avatar
+</label>
+
+<input
+    id="editAvatar"
+    type="file"
+    accept="image/*"
+>
+
+
+<label>
+    Cor principal
+</label>
+
+<input
+    id="editColor"
+    type="color"
+>
+
+
+<label>
+    Cor secundária
+</label>
+
+<input
+    id="editSecondary"
+    type="color"
+>
+
+
+<div class="separator"></div>
+
+
+<!-- FUNDO -->
+
+<h3>
+    🌄 Fundo
+</h3>
+
+<label>
+    Adicionar fundos
+</label>
+
+<input
+    id="backgroundInput"
+    type="file"
+    accept="image/*"
+    multiple
+>
+
+
+<label>
+    Tempo de troca
+</label>
+
+<select id="backgroundTime">
+
+    <option value="3000">
+        3 segundos
+    </option>
+
+    <option value="5000">
+        5 segundos
+    </option>
+
+    <option value="8000">
+        8 segundos
+    </option>
+
+    <option value="15000">
+        15 segundos
+    </option>
+
+</select>
+
+
+<label>
+    Fundo sem imagem
+</label>
+
+<select id="backgroundMode">
+
+    <option value="gradient">
+        Gradiente
+    </option>
+
+    <option value="solid">
+        Cor sólida
+    </option>
+
+</select>
+
+
+<div class="separator"></div>
+
+
+<!-- APARÊNCIA -->
+
+<h3>
+    ✨ Aparência
+</h3>
+
+
+<label>
+    Transparência
+</label>
+
+<input
+    id="cardOpacity"
+    type="range"
+    min=".2"
+    max="1"
+    step=".05"
+>
+
+
+<label>
+    Blur
+</label>
+
+<input
+    id="blur"
+    type="range"
+    min="0"
+    max="40"
+    step="1"
+>
+
+
+<label>
+    Arredondamento
+</label>
+
+<input
+    id="radius"
+    type="range"
+    min="0"
+    max="40"
+    step="1"
+>
+
+
+<br>
+
+
+<label>
+
+    <input
+        id="particlesEnabled"
+        type="checkbox"
+        style="width:auto"
+    >
+
+    Partículas
+
+</label>
+
+
+<br><br>
+
+
+<label>
+
+    <input
+        id="backgroundAnimation"
+        type="checkbox"
+        style="width:auto"
+    >
+
+    Fundo animado
+
+</label>
+
+
+<div class="separator"></div>
+
+
+<!-- ESTATÍSTICAS -->
+
+<h3>
+    📊 Estatísticas
+</h3>
+
+
+<label>
+    Visualizações
+</label>
+
+<input
+    id="editViews"
+    type="number"
+>
+
+
+<label>
+    Posts
+</label>
+
+<input
+    id="editPosts"
+    type="number"
+>
+
+
+<label>
+    Seguidores
+</label>
+
+<input
+    id="editFollowers"
+    type="number"
+>
+
+
+<div class="separator"></div>
+
+
+<!-- LINKS -->
+
+<h3>
+    🔗 Links
+</h3>
+
+
+<label>
+    Discord
+</label>
+
+<input
+    id="editDiscord"
+    placeholder="https://discord.com/"
+>
+
+
+<label>
+    YouTube
+</label>
+
+<input
+    id="editYoutube"
+    placeholder="https://youtube.com/"
+>
+
+
+<label>
+    GitHub
+</label>
+
+<input
+    id="editGithub"
+    placeholder="https://github.com/"
+>
+
+
+<div class="separator"></div>
+
+
+<!-- GALERIA -->
+
+<h3>
+    🖼️ Galeria
+</h3>
+
+<input
+    id="galleryInput"
+    type="file"
+    accept="image/*"
+    multiple
+>
+
+
+<div class="separator"></div>
+
+
+<!-- ARQUIVOS -->
+
+<h3>
+    📎 Arquivos
+</h3>
+
+<input
+    id="fileInput"
+    type="file"
+    multiple
+>
+
+
+<div class="separator"></div>
+
+
+<!-- SEGURANÇA -->
+
+<h3>
+    🔐 Segurança
+</h3>
+
+
+<label>
+    Nova senha
+</label>
+
+<input
+    id="newPassword"
+    type="password"
+    placeholder="Mínimo de 8 caracteres"
+>
+
+
+<div class="buttons">
+
+    <button onclick="saveProfile()">
+        💾 Salvar tudo
+    </button>
+
+    <button onclick="exportProfile()">
+        📤 Exportar
+    </button>
+
+    <button onclick="importProfile()">
+        📥 Importar
+    </button>
+
+    <button onclick="closeEditor()">
+        Fechar
+    </button>
+
+</div>
+
+
+<input
+    id="importFile"
+    type="file"
+    accept=".json"
+    style="display:none"
+>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   CONFIGURAÇÃO
+===================================================== */
+
+const DEFAULT_PASSWORD =
+    "V7!qR9#Lm2@Xp6$Zk4";
+
+const DEFAULT_AVATAR =
+    "https://placehold.co/300x300/18181b/ffffff?text=PROFILE";
+
+
+/* =====================================================
+   PERFIL
+===================================================== */
+
+let profile =
+    JSON.parse(
+        localStorage.getItem(
+            "myProfile"
+        ) || "null"
+    );
+
+
+/* =====================================================
+   PERFIL PADRÃO
+===================================================== */
+
+if (!profile) {
+
+    profile = {
+
+        name:
+            "Seu Nome",
+
+        username:
+            "@usuario",
+
+        bio:
+            "Bem-vindo ao meu perfil! 👋",
+
+        avatar:
+            DEFAULT_AVATAR,
+
+        backgrounds:
+            [],
+
+        color:
+            "#8b5cf6",
+
+        secondary:
+            "#6366f1",
+
+        backgroundMode:
+            "gradient",
+
+        backgroundTime:
+            5000,
+
+        cardOpacity:
+            .78,
+
+        blur:
+            18,
+
+        radius:
+            24,
+
+        particles:
+            true,
+
+        backgroundAnimation:
+            true,
+
+        views:
+            0,
+
+        posts:
+            0,
+
+        followers:
+            0,
+
+        discord:
+            "",
+
+        youtube:
+            "",
+
+        github:
+            "",
+
+        gallery:
+            [],
+
+        files:
+            []
+
+    };
+
+    saveProfileData();
+
+}
+
+
+/* =====================================================
+   SENHA
+===================================================== */
+
+if (
+    !localStorage.getItem(
+        "profilePassword"
+    )
+) {
+
+    localStorage.setItem(
+        "profilePassword",
+        DEFAULT_PASSWORD
+    );
+
+}
+
+
+/* =====================================================
+   SALVAR DADOS
+===================================================== */
+
+function saveProfileData() {
+
+    localStorage.setItem(
+        "myProfile",
+        JSON.stringify(profile)
+    );
+
+}
+
+
+/* =====================================================
+   LER ARQUIVO
+===================================================== */
+
+function readFile(file) {
+
+    return new Promise(
+        (resolve, reject) => {
+
+            const reader =
+                new FileReader();
+
+            reader.onload =
+                () =>
+                    resolve(
+                        reader.result
+                    );
+
+            reader.onerror =
+                reject;
+
+            reader.readAsDataURL(
+                file
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   CONTADOR DE VISUALIZAÇÕES
+===================================================== */
+
+function registerView() {
+
+    /*
+       Cada carregamento da página
+       adiciona uma visualização.
+    */
+
+    profile.views =
+        Number(
+            profile.views || 0
+        ) + 1;
+
+    saveProfileData();
+
+}
+
+
+/* =====================================================
+   RENDER
+===================================================== */
+
+function render() {
+
+    const root =
+        document.documentElement;
+
+
+    root.style.setProperty(
+        "--primary",
+        profile.color
+    );
+
+
+    root.style.setProperty(
+        "--secondary",
+        profile.secondary
+    );
+
+
+    root.style.setProperty(
+        "--card-opacity",
+        profile.cardOpacity
+    );
+
+
+    root.style.setProperty(
+        "--blur",
+        profile.blur + "px"
+    );
+
+
+    root.style.setProperty(
+        "--radius",
+        profile.radius + "px"
+    );
+
+
+    document.getElementById(
+        "name"
+    ).textContent =
+        profile.name;
+
+
+    document.getElementById(
+        "username"
+    ).textContent =
+        profile.username;
+
+
+    document.getElementById(
+        "bio"
+    ).textContent =
+        profile.bio;
+
+
+    document.getElementById(
+        "views"
+    ).textContent =
+        Number(
+            profile.views
+        ).toLocaleString(
+            "pt-BR"
+        );
+
+
+    document.getElementById(
+        "posts"
+    ).textContent =
+        Number(
+            profile.posts
+        ).toLocaleString(
+            "pt-BR"
+        );
+
+
+    document.getElementById(
+        "followers"
+    ).textContent =
+        Number(
+            profile.followers
+        ).toLocaleString(
+            "pt-BR"
+        );
+
+
+    document.getElementById(
+        "avatar"
+    ).src =
+        profile.avatar;
+
+
+    renderLinks();
+
+    renderGallery();
+
+    renderFiles();
+
+    applyBackground();
+
+    createParticles();
+
+}
+
+
+/* =====================================================
+   FUNDOS
+===================================================== */
+
+let backgroundIndex = 0;
+
+let backgroundTimer = null;
+
+
+function applyBackground() {
+
+    const background =
+        document.getElementById(
+            "background"
+        );
+
+
+    clearInterval(
+        backgroundTimer
+    );
+
+
+    if (
+        profile.backgrounds &&
+        profile.backgrounds.length > 0
+    ) {
+
+        background.style.background =
+            `url("${profile.backgrounds[0]}")
+             center / cover no-repeat`;
+
+
+        backgroundIndex = 0;
+
+
+        if (
+            profile.backgrounds.length > 1
+        ) {
+
+            backgroundTimer =
+                setInterval(
+                    () => {
+
+                        backgroundIndex++;
+
+                        if (
+                            backgroundIndex >=
+                            profile.backgrounds.length
+                        ) {
+
+                            backgroundIndex = 0;
+
+                        }
+
+
+                        background.style.background =
+                            `url("${profile.backgrounds[backgroundIndex]}")
+                             center / cover no-repeat`;
+
+                    },
+                    profile.backgroundTime
+                );
+
+        }
+
+    }
+
+    else {
+
+        if (
+            profile.backgroundMode ===
+            "solid"
+        ) {
+
+            background.style.background =
+                profile.color;
+
+        }
+
+        else {
+
+            background.style.background =
+                `linear-gradient(
+                    135deg,
+                    ${profile.color},
+                    ${profile.secondary}
+                )`;
+
+        }
+
+    }
+
+
+    if (
+        profile.backgroundAnimation
+    ) {
+
+        background.style.setProperty(
+            "--animation-state",
+            "running"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   PARTÍCULAS
+===================================================== */
+
+function createParticles() {
+
+    const container =
+        document.getElementById(
+            "particles"
+        );
+
+
+    container.innerHTML = "";
+
+
+    if (
+        !profile.particles
+    ) {
+
+        return;
+
+    }
+
+
+    for (
+        let i = 0;
+        i < 45;
+        i++
+    ) {
+
+        const particle =
+            document.createElement(
+                "div"
+            );
+
+
+        particle.className =
+            "particle";
+
+
+        particle.style.left =
+            Math.random() * 100 + "%";
+
+
+        particle.style.animationDuration =
+            (
+                8 +
+                Math.random() * 18
+            ) + "s";
+
+
+        particle.style.animationDelay =
+            (
+                -Math.random() * 20
+            ) + "s";
+
+
+        particle.style.opacity =
+            .2 +
+            Math.random() * .7;
+
+
+        container.appendChild(
+            particle
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   LINKS
+===================================================== */
+
+function renderLinks() {
+
+    const container =
+        document.getElementById(
+            "links"
+        );
+
+
+    container.innerHTML = "";
+
+
+    const links = [
+
+        [
+            "💬 Discord",
+            profile.discord
+        ],
+
+        [
+            "▶️ YouTube",
+            profile.youtube
+        ],
+
+        [
+            "💻 GitHub",
+            profile.github
+        ]
+
+    ];
+
+
+    links.forEach(
+        ([name, url]) => {
+
+            if (
+                !url ||
+                !/^https?:\/\//i.test(url)
+            ) {
+
+                return;
+
+            }
+
+
+            const a =
+                document.createElement(
+                    "a"
+                );
+
+
+            a.className =
+                "link";
+
+
+            a.textContent =
+                name;
+
+
+            a.href =
+                url;
+
+
+            a.target =
+                "_blank";
+
+
+            a.rel =
+                "noopener noreferrer";
+
+
+            container.appendChild(
+                a
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   GALERIA
+===================================================== */
+
+function renderGallery() {
+
+    const container =
+        document.getElementById(
+            "gallery"
+        );
+
+
+    container.innerHTML = "";
+
+
+    profile.gallery.forEach(
+        image => {
+
+            const img =
+                document.createElement(
+                    "img"
+                );
+
+
+            img.src =
+                image;
+
+
+            img.loading =
+                "lazy";
+
+
+            img.alt =
+                "Imagem do perfil";
+
+
+            container.appendChild(
+                img
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   ARQUIVOS
+===================================================== */
+
+function renderFiles() {
+
+    const container =
+        document.getElementById(
+            "files"
+        );
+
+
+    container.innerHTML = "";
+
+
+    profile.files.forEach(
+        file => {
+
+            const div =
+                document.createElement(
+                    "div"
+                );
+
+
+            div.className =
+                "file";
+
+
+            const span =
+                document.createElement(
+                    "span"
+                );
+
+
+            span.textContent =
+                "📎 " +
+                file.name;
+
+
+            const a =
+                document.createElement(
+                    "a"
+                );
+
+
+            a.href =
+                file.data;
+
+
+            a.download =
+                file.name;
+
+
+            a.textContent =
+                "Abrir";
+
+
+            div.appendChild(
+                span
+            );
+
+
+            div.appendChild(
+                a
+            );
+
+
+            container.appendChild(
+                div
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   EDITOR SECRETO
+===================================================== */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+
+            event.ctrlKey &&
+
+            event.shiftKey &&
+
+            event.key.toLowerCase() ===
+                "e"
+
+        ) {
+
+            event.preventDefault();
+
+
+            document.getElementById(
+                "login"
+            ).style.display =
+                "flex";
+
+
+            document.getElementById(
+                "password"
+            ).focus();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+function login() {
+
+    const password =
+        document.getElementById(
+            "password"
+        ).value;
+
+
+    const savedPassword =
+        localStorage.getItem(
+            "profilePassword"
+        );
+
+
+    if (
+        password !==
+        savedPassword
+    ) {
+
+        document.getElementById(
+            "error"
+        ).style.display =
+            "block";
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "error"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "password"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "login"
+    ).style.display =
+        "none";
+
+
+    openEditor();
+
+}
+
+
+/* =====================================================
+   ABRIR EDITOR
+===================================================== */
+
+function openEditor() {
+
+    document.getElementById(
+        "editor"
+    ).style.display =
+        "flex";
+
+
+    document.getElementById(
+        "editName"
+    ).value =
+        profile.name;
+
+
+    document.getElementById(
+        "editUsername"
+    ).value =
+        profile.username;
+
+
+    document.getElementById(
+        "editBio"
+    ).value =
+        profile.bio;
+
+
+    document.getElementById(
+        "editColor"
+    ).value =
+        profile.color;
+
+
+    document.getElementById(
+        "editSecondary"
+    ).value =
+        profile.secondary;
+
+
+    document.getElementById(
+        "backgroundTime"
+    ).value =
+        profile.backgroundTime;
+
+
+    document.getElementById(
+        "backgroundMode"
+    ).value =
+        profile.backgroundMode;
+
+
+    document.getElementById(
+        "cardOpacity"
+    ).value =
+        profile.cardOpacity;
+
+
+    document.getElementById(
+        "blur"
+    ).value =
+        profile.blur;
+
+
+    document.getElementById(
+        "radius"
+    ).value =
+        profile.radius;
+
+
+    document.getElementById(
+        "particlesEnabled"
+    ).checked =
+        profile.particles;
+
+
+    document.getElementById(
+        "backgroundAnimation"
+    ).checked =
+        profile.backgroundAnimation;
+
+
+    document.getElementById(
+        "editViews"
+    ).value =
+        profile.views;
+
+
+    document.getElementById(
+        "editPosts"
+    ).value =
+        profile.posts;
+
+
+    document.getElementById(
+        "editFollowers"
+    ).value =
+        profile.followers;
+
+
+    document.getElementById(
+        "editDiscord"
+    ).value =
+        profile.discord;
+
+
+    document.getElementById(
+        "editYoutube"
+    ).value =
+        profile.youtube;
+
+
+    document.getElementById(
+        "editGithub"
+    ).value =
+        profile.github;
+
+}
+
+
+/* =====================================================
+   FECHAR EDITOR
+===================================================== */
+
+function closeEditor() {
+
+    document.getElementById(
+        "editor"
+    ).style.display =
+        "none";
+
+}
+
+
+/* =====================================================
+   SALVAR PERFIL
+===================================================== */
+
+async function saveProfile() {
+
+    profile.name =
+        document.getElementById(
+            "editName"
+        ).value.trim();
+
+
+    profile.username =
+        document.getElementById(
+            "editUsername"
+        ).value.trim();
+
+
+    profile.bio =
+        document.getElementById(
+            "editBio"
+        ).value;
+
+
+    profile.color =
+        document.getElementById(
+            "editColor"
+        ).value;
+
+
+    profile.secondary =
+        document.getElementById(
+            "editSecondary"
+        ).value;
+
+
+    profile.backgroundTime =
+        Number(
+            document.getElementById(
+                "backgroundTime"
+            ).value
+        );
+
+
+    profile.backgroundMode =
+        document.getElementById(
+            "backgroundMode"
+        ).value;
+
+
+    profile.cardOpacity =
+        Number(
+            document.getElementById(
+                "cardOpacity"
+            ).value
+        );
+
+
+    profile.blur =
+        Number(
+            document.getElementById(
+                "blur"
+            ).value
+        );
+
+
+    profile.radius =
+        Number(
+            document.getElementById(
+                "radius"
+            ).value
+        );
+
+
+    profile.particles =
+        document.getElementById(
+            "particlesEnabled"
+        ).checked;
+
+
+    profile.backgroundAnimation =
+        document.getElementById(
+            "backgroundAnimation"
+        ).checked;
+
+
+    profile.views =
+        Math.max(
+            0,
+            Number(
+                document.getElementById(
+                    "editViews"
+                ).value
+            ) || 0
+        );
+
+
+    profile.posts =
+        Math.max(
+            0,
+            Number(
+                document.getElementById(
+                    "editPosts"
+                ).value
+            ) || 0
+        );
+
+
+    profile.followers =
+        Math.max(
+            0,
+            Number(
+                document.getElementById(
+                    "editFollowers"
+                ).value
+            ) || 0
+        );
+
+
+    profile.discord =
+        document.getElementById(
+            "editDiscord"
+        ).value.trim();
+
+
+    profile.youtube =
+        document.getElementById(
+            "editYoutube"
+        ).value.trim();
+
+
+    profile.github =
+        document.getElementById(
+            "editGithub"
+        ).value.trim();
+
+
+    /* =================================================
+       AVATAR
+    ================================================= */
+
+    const avatar =
+        document.getElementById(
+            "editAvatar"
+        ).files[0];
+
+
+    if (avatar) {
+
+        if (
+            avatar.type.startsWith(
+                "image/"
+            )
+        ) {
+
+            profile.avatar =
+                await readFile(
+                    avatar
+                );
+
+        }
+
+    }
+
+
+    /* =================================================
+       FUNDOS
+    ================================================= */
+
+    const backgrounds =
+        [
+            ...document.getElementById(
+                "backgroundInput"
+            ).files
+        ];
+
+
+    for (
+        const image of backgrounds
+    ) {
+
+        if (
+            image.type.startsWith(
+                "image/"
+            )
+        ) {
+
+            /*
+               Limite de 8 MB por imagem.
+            */
+
+            if (
+                image.size >
+                8 * 1024 * 1024
+            ) {
+
+                continue;
+
+            }
+
+
+            profile.backgrounds.push(
+                await readFile(
+                    image
+                )
+            );
+
+        }
+
+    }
+
+
+    /* =================================================
+       GALERIA
+    ================================================= */
+
+    const gallery =
+        [
+            ...document.getElementById(
+                "galleryInput"
+            ).files
+        ];
+
+
+    for (
+        const image of gallery
+    ) {
+
+        if (
+            !image.type.startsWith(
+                "image/"
+            )
+        ) {
+
+            continue;
+
+        }
+
+
+        if (
+            image.size >
+            8 * 1024 * 1024
+        ) {
+
+            continue;
+
+        }
+
+
+        profile.gallery.push(
+            await readFile(
+                image
+            )
+        );
+
+    }
+
+
+    /* =================================================
+       ARQUIVOS
+    ================================================= */
+
+    const files =
+        [
+            ...document.getElementById(
+                "fileInput"
+            ).files
+        ];
+
+
+    for (
+        const file of files
+    ) {
+
+        /*
+           Limite:
+           5 MB.
+        */
+
+        if (
+            file.size >
+            5 * 1024 * 1024
+        ) {
+
+            continue;
+
+        }
+
+
+        profile.files.push({
+
+            name:
+                file.name,
+
+            data:
+                await readFile(
+                    file
+                )
+
+        });
+
+    }
+
+
+    /* =================================================
+       NOVA SENHA
+    ================================================= */
+
+    const newPassword =
+        document.getElementById(
+            "newPassword"
+        ).value.trim();
+
+
+    if (
+        newPassword.length >= 8
+    ) {
+
+        localStorage.setItem(
+            "profilePassword",
+            newPassword
+        );
+
+    }
+
+
+    saveProfileData();
+
+    render();
+
+    closeEditor();
+
+
+    /*
+       Limpa os campos de upload.
+    */
+
+    document.getElementById(
+        "editAvatar"
+    ).value = "";
+
+
+    document.getElementById(
+        "backgroundInput"
+    ).value = "";
+
+
+    document.getElementById(
+        "galleryInput"
+    ).value = "";
+
+
+    document.getElementById(
+        "fileInput"
+    ).value = "";
+
+
+    document.getElementById(
+        "newPassword"
+    ).value = "";
+
+
+    alert(
+        "✅ Perfil salvo com sucesso!"
+    );
+
+}
+
+
+/* =====================================================
+   EXPORTAR
+===================================================== */
+
+function exportProfile() {
+
+    const data =
+        JSON.stringify(
+            profile,
+            null,
+            2
+        );
+
+
+    const blob =
+        new Blob(
+            [data],
+            {
+                type:
+                    "application/json"
+            }
+        );
+
+
+    const url =
+        URL.createObjectURL(
+            blob
+        );
+
+
+    const link =
+        document.createElement(
+            "a"
+        );
+
+
+    link.href =
+        url;
+
+
+    link.download =
+        "meu-perfil.json";
+
+
+    link.click();
+
+
+    URL.revokeObjectURL(
+        url
+    );
+
+}
+
+
+/* =====================================================
+   IMPORTAR
+===================================================== */
+
+function importProfile() {
+
+    document.getElementById(
+        "importFile"
+    ).click();
+
+}
+
+
+document.getElementById(
+    "importFile"
+).addEventListener(
+    "change",
+    async event => {
+
+        const file =
+            event.target.files[0];
+
+
+        if (!file)
+            return;
+
+
+        try {
+
+            const imported =
+                JSON.parse(
+                    await file.text()
+                );
+
+
+            if (
+                typeof imported !==
+                    "object" ||
+
+                !imported.name ||
+
+                !imported.username
+            ) {
+
+                throw new Error(
+                    "Perfil inválido"
+                );
+
+            }
+
+
+            profile =
+                imported;
+
+
+            saveProfileData();
+
+            render();
+
+
+            alert(
+                "✅ Perfil importado!"
+            );
+
+        }
+
+        catch {
+
+            alert(
+                "❌ Arquivo de perfil inválido."
+            );
+
+        }
+
+
+        event.target.value = "";
+
+    }
+);
+
+
+/* =====================================================
+   INICIALIZAÇÃO
+===================================================== */
+
+/*
+   PRIMEIRO:
+   registra a visita.
+
+   DEPOIS:
+   renderiza o perfil.
+*/
+
+registerView();
+
+render();
+
+</script>
+
+</body>
+</html>
