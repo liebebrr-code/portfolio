@@ -112,6 +112,18 @@
             animation: barGlitch 2s infinite;
         }
         
+        /* Glitch para perfil secreto */
+        .secret-glitch {
+            animation: secretGlitch 0.1s infinite;
+        }
+        
+        @keyframes secretGlitch {
+            0%, 100% { transform: translate(0); opacity: 1; }
+            25% { transform: translate(-5px, 3px); opacity: 0.3; }
+            50% { transform: translate(5px, -3px); opacity: 0.6; }
+            75% { transform: translate(-3px, -5px); opacity: 0.4; }
+        }
+        
         @keyframes glitchText {
             0%, 100% { transform: translate(0); }
             20% { transform: translate(-2px, 2px); }
@@ -163,45 +175,24 @@
         }
         
         /* =====================================================
-           PARTICULAS
-        ===================================================== */
-        #particles {
-            position: fixed;
-            inset: 0;
-            z-index: -5;
-            pointer-events: none;
-            overflow: hidden;
-        }
-        
-        .particle {
-            position: absolute;
-            width: 3px;
-            height: 3px;
-            border-radius: 50%;
-            background: white;
-            opacity: .35;
-            animation: particleFloat linear infinite;
-        }
-        
-        @keyframes particleFloat {
-            from { transform: translateY(110vh); }
-            to { transform: translateY(-110vh); }
-        }
-        
-        /* =====================================================
-           TOPO COMPACTO
+           TOPO
         ===================================================== */
         .topbar {
             width: min(900px, 94%);
-            margin: 8px auto;
+            margin: 10px auto;
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 10px;
+            padding: 8px 15px;
+            background: rgba(15,15,20,.5);
+            border-radius: 12px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,.1);
         }
         
         .logo {
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 700;
             letter-spacing: 2px;
         }
@@ -222,8 +213,8 @@
             border: 1px solid rgba(255,255,255,.12);
             background: rgba(15,15,20,.75);
             color: white;
-            padding: 5px 8px;
-            border-radius: 6px;
+            padding: 6px 10px;
+            border-radius: 8px;
             cursor: pointer;
             backdrop-filter: blur(10px);
             font-size: 11px;
@@ -234,6 +225,7 @@
         .edit-button:hover {
             border-color: var(--primary);
             background: rgba(139,92,246,.2);
+            transform: translateY(-1px);
         }
         
         .edit-button {
@@ -268,9 +260,6 @@
             box-shadow: 0 20px 60px rgba(0,0,0,.5);
         }
         
-        /* =====================================================
-           BANNER COMPACTO
-        ===================================================== */
         .banner {
             height: 140px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
@@ -279,11 +268,8 @@
             transition: background-image 0.5s ease;
         }
         
-        /* =====================================================
-           PERFIL COMPACTO
-        ===================================================== */
         .profile-content {
-            padding: 0 20px 25px;
+            padding: 0 25px 30px;
         }
         
         .avatar {
@@ -293,18 +279,18 @@
             border-radius: 50%;
             object-fit: cover;
             background: #18181b;
-            border: 3px solid rgba(255,255,255,.15);
+            border: 4px solid rgba(255,255,255,.15);
             box-shadow: 0 10px 30px rgba(0,0,0,.6);
             transition: transform .2s ease;
         }
         
         .avatar:hover {
-            transform: scale(1.03);
+            transform: scale(1.05);
         }
         
         h1 {
-            margin-top: 8px;
-            font-size: 22px;
+            margin-top: 10px;
+            font-size: 24px;
             word-break: break-word;
         }
         
@@ -312,59 +298,241 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
             border-radius: 50%;
             background: var(--primary);
-            font-size: 10px;
+            font-size: 12px;
             vertical-align: middle;
         }
         
         .username {
             color: var(--muted);
-            margin-top: 2px;
-            word-break: break-word;
+            margin-top: 4px;
             font-size: 13px;
         }
         
         .bio {
-            margin-top: 10px;
+            margin-top: 12px;
             max-width: 600px;
             color: #e4e4e7;
-            line-height: 1.5;
+            line-height: 1.6;
             white-space: pre-wrap;
             overflow-wrap: anywhere;
             font-size: 13px;
         }
         
         /* =====================================================
-           PORCENTAGEM DE CARREGAMENTO
+           BADGE DE PORCENTAGEM
         ===================================================== */
-        .loading-percentage {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 6px;
-            background: rgba(139,92,246,.2);
+        .percentage-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 8px;
+            background: rgba(139,92,246,.15);
             border: 1px solid var(--primary);
             font-size: 12px;
             font-weight: 700;
-            margin-top: 10px;
+            margin-top: 12px;
             animation: percentagePulse 2s infinite;
         }
         
         @keyframes percentagePulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
+            0%, 100% { box-shadow: 0 0 10px rgba(139,92,246,.3); }
+            50% { box-shadow: 0 0 20px rgba(139,92,246,.6); }
         }
         
         /* =====================================================
-           ESTATISTICAS COMPACTAS
+           SEÇÃO SECRETA
+        ===================================================== */
+        .secret-section {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 12px;
+            background: rgba(0,0,0,.3);
+            border: 1px dashed rgba(139,92,246,.3);
+        }
+        
+        .secret-section.visible {
+            display: block;
+            animation: secretReveal 0.5s ease;
+        }
+        
+        @keyframes secretReveal {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* =====================================================
+           MODAIS
+        ===================================================== */
+        .overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            background: rgba(0,0,0,.85);
+            backdrop-filter: blur(15px);
+            overflow-y: auto;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .modal {
+            width: min(400px, 100%);
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 25px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,.1);
+            background: #18181b;
+            box-shadow: 0 25px 70px rgba(0,0,0,.8);
+        }
+        
+        .editor {
+            width: min(700px, 100%);
+        }
+        
+        .modal h2 {
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .modal h3 {
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: var(--primary);
+            border-bottom: 1px solid rgba(255,255,255,.1);
+            padding-bottom: 5px;
+        }
+        
+        .modal label {
+            display: block;
+            color: #d4d4d8;
+            font-size: 12px;
+            margin-top: 8px;
+            font-weight: 600;
+        }
+        
+        .modal input,
+        .modal textarea,
+        .modal select {
+            width: 100%;
+            padding: 8px 10px;
+            margin: 4px 0 8px;
+            border: 1px solid rgba(255,255,255,.15);
+            border-radius: 8px;
+            background: #09090b;
+            color: white;
+            outline: none;
+            font-size: 13px;
+        }
+        
+        .modal input[type="color"] {
+            height: 35px;
+            padding: 3px;
+            cursor: pointer;
+        }
+        
+        .modal input[type="range"] {
+            cursor: pointer;
+            height: 5px;
+            padding: 0;
+        }
+        
+        .modal textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        
+        .modal input:focus,
+        .modal textarea:focus,
+        .modal select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(139,92,246,.2);
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        
+        .modal button {
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,.1);
+            background: rgba(255,255,255,.07);
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all .2s ease;
+        }
+        
+        .modal button:hover {
+            border-color: var(--primary);
+            background: rgba(139,92,246,.2);
+            transform: translateY(-1px);
+        }
+        
+        .primary-button {
+            background: var(--primary) !important;
+            border-color: transparent !important;
+        }
+        
+        .editor-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .close-button {
+            font-size: 20px;
+            padding: 6px 10px !important;
+            background: rgba(239,68,68,.2) !important;
+        }
+        
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,.1);
+        }
+        
+        .error {
+            min-height: 18px;
+            margin: 5px 0;
+            color: #f87171;
+            font-size: 12px;
+        }
+        
+        .success {
+            color: #4ade80;
+            margin-top: 10px;
+            font-size: 12px;
+        }
+        
+        /* =====================================================
+           ESTATISTICAS
         ===================================================== */
         .stats {
             display: flex;
             flex-wrap: wrap;
-            gap: 25px;
-            margin: 18px 0;
+            gap: 30px;
+            margin: 20px 0;
         }
         
         .stat {
@@ -373,84 +541,85 @@
         }
         
         .stat strong {
-            font-size: 16px;
+            font-size: 18px;
         }
         
         .stat span {
             color: var(--muted);
             font-size: 11px;
-            margin-top: 1px;
+            margin-top: 2px;
         }
         
         /* =====================================================
-           LINKS COMPACTOS
+           LINKS
         ===================================================== */
         .links {
             display: flex;
             flex-wrap: wrap;
-            gap: 6px;
+            gap: 8px;
         }
         
         .links a {
-            padding: 7px 10px;
-            border-radius: 8px;
+            padding: 8px 12px;
+            border-radius: 10px;
             color: white;
             text-decoration: none;
             background: rgba(255,255,255,.07);
             border: 1px solid rgba(255,255,255,.1);
             transition: .2s ease;
-            word-break: break-word;
             font-size: 12px;
         }
         
         .links a:hover {
             transform: translateY(-2px);
             border-color: var(--primary);
+            background: rgba(139,92,246,.2);
         }
         
         /* =====================================================
-           SEÇÕES COMPACTAS
+           SEÇÕES
         ===================================================== */
         .section {
-            margin-top: 25px;
+            margin-top: 30px;
         }
         
         .section-title {
-            margin-bottom: 10px;
-            font-size: 16px;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: 700;
         }
         
         /* =====================================================
-           PLAYER COMPACTO
+           PLAYER
         ===================================================== */
         .music-player {
             margin-top: 10px;
-            padding: 15px;
-            border-radius: 14px;
+            padding: 20px;
+            border-radius: 16px;
             border: 1px solid rgba(255,255,255,.1);
             background: rgba(255,255,255,.06);
             backdrop-filter: blur(10px);
-            box-shadow: 0 8px 25px rgba(0,0,0,.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,.3);
         }
         
         .music-main {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 15px;
         }
         
         .music-cover {
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             flex-shrink: 0;
-            border-radius: 8px;
+            border-radius: 12px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             background-size: cover;
             background-position: center;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
+            font-size: 24px;
         }
         
         .music-info {
@@ -459,7 +628,7 @@
         }
         
         .music-title {
-            font-size: 13px;
+            font-size: 15px;
             font-weight: 700;
             white-space: nowrap;
             overflow: hidden;
@@ -468,49 +637,49 @@
         
         .music-artist {
             color: var(--muted);
-            margin-top: 2px;
-            font-size: 11px;
+            margin-top: 3px;
+            font-size: 12px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
         
         .progress-container {
-            margin-top: 10px;
+            margin-top: 15px;
         }
         
         #progress {
             width: 100%;
             cursor: pointer;
             accent-color: var(--primary);
-            height: 4px;
+            height: 5px;
         }
         
         .time {
             display: flex;
             justify-content: space-between;
             color: var(--muted);
-            font-size: 9px;
-            margin-top: 2px;
+            font-size: 10px;
+            margin-top: 4px;
         }
         
         .music-controls {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 6px;
-            margin-top: 8px;
+            gap: 10px;
+            margin-top: 12px;
         }
         
         .music-controls button {
-            width: 30px;
-            height: 30px;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
             border: 1px solid rgba(255,255,255,.1);
             background: rgba(255,255,255,.07);
             color: white;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 14px;
             transition: .2s ease;
             display: flex;
             align-items: center;
@@ -518,26 +687,26 @@
         }
         
         .music-controls button:hover {
-            transform: scale(1.05);
+            transform: scale(1.1);
             border-color: var(--primary);
         }
         
         .music-controls .play {
-            width: 38px;
-            height: 38px;
+            width: 45px;
+            height: 45px;
             background: var(--primary);
             border: none;
-            font-size: 14px;
+            font-size: 18px;
         }
         
         .music-options {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            margin-top: 6px;
+            gap: 15px;
+            margin-top: 10px;
             color: var(--muted);
-            font-size: 10px;
+            font-size: 11px;
         }
         
         .music-options button {
@@ -545,7 +714,7 @@
             background: transparent;
             color: var(--muted);
             cursor: pointer;
-            font-size: 10px;
+            font-size: 11px;
         }
         
         .music-options button.active {
@@ -555,33 +724,33 @@
         .volume {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 8px;
             justify-content: center;
-            margin-top: 8px;
-            font-size: 10px;
+            margin-top: 10px;
+            font-size: 11px;
         }
         
         #volume {
-            width: 80px;
+            width: 100px;
             accent-color: var(--primary);
-            height: 3px;
+            height: 4px;
         }
         
         /* =====================================================
-           PLAYLIST COMPACTA
+           PLAYLIST
         ===================================================== */
         .playlist {
             display: grid;
-            gap: 4px;
-            margin-top: 10px;
+            gap: 6px;
+            margin-top: 15px;
         }
         
         .playlist-item {
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 6px 8px;
-            border-radius: 6px;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 10px;
             background: rgba(255,255,255,.04);
             border: 1px solid rgba(255,255,255,.06);
             cursor: pointer;
@@ -599,15 +768,15 @@
         }
         
         .playlist-number {
-            width: 20px;
-            height: 20px;
-            border-radius: 4px;
+            width: 25px;
+            height: 25px;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
             background: rgba(255,255,255,.07);
             color: var(--muted);
-            font-size: 9px;
+            font-size: 10px;
         }
         
         .playlist-name {
@@ -620,58 +789,58 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            font-size: 11px;
+            font-size: 12px;
         }
         
         .playlist-name span {
             color: var(--muted);
-            font-size: 9px;
-            margin-top: 1px;
+            font-size: 10px;
+            margin-top: 2px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
         
         /* =====================================================
-           GALERIA COMPACTA
+           GALERIA
         ===================================================== */
         .gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 6px;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
         }
         
         .gallery-item {
             position: relative;
-            border-radius: 8px;
+            border-radius: 10px;
             overflow: hidden;
             cursor: pointer;
         }
         
         .gallery img {
             width: 100%;
-            height: 120px;
+            height: 150px;
             object-fit: cover;
-            border-radius: 8px;
+            border-radius: 10px;
             transition: transform .2s ease;
             display: block;
         }
         
         .gallery img:hover {
-            transform: scale(1.02);
+            transform: scale(1.03);
         }
         
         .gallery-delete-btn {
             position: absolute;
-            top: 4px;
-            right: 4px;
+            top: 6px;
+            right: 6px;
             background: rgba(0,0,0,.7);
             color: white;
             border: none;
-            border-radius: 4px;
-            padding: 3px 6px;
+            border-radius: 6px;
+            padding: 4px 8px;
             cursor: pointer;
-            font-size: 10px;
+            font-size: 11px;
             opacity: 0;
             transition: opacity .2s ease;
             z-index: 2;
@@ -686,20 +855,20 @@
         }
         
         /* =====================================================
-           ARQUIVOS COMPACTOS
+           ARQUIVOS
         ===================================================== */
         .files {
             display: grid;
-            gap: 5px;
+            gap: 8px;
         }
         
         .file {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 10px;
-            padding: 8px 10px;
-            border-radius: 6px;
+            gap: 12px;
+            padding: 10px 12px;
+            border-radius: 8px;
             background: rgba(255,255,255,.06);
             overflow: hidden;
         }
@@ -708,187 +877,40 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            font-size: 11px;
+            font-size: 12px;
         }
         
         .file a {
             color: #c4b5fd;
             flex-shrink: 0;
-            font-size: 11px;
-        }
-        
-        /* =====================================================
-           MODAIS COMPACTOS
-        ===================================================== */
-        .overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 15px;
-            background: rgba(0,0,0,.82);
-            backdrop-filter: blur(12px);
-            overflow-y: auto;
-        }
-        
-        .hidden {
-            display: none !important;
-        }
-        
-        .modal {
-            width: min(350px, 100%);
-            max-height: 90vh;
-            overflow-y: auto;
-            padding: 18px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,.1);
-            background: #18181b;
-            box-shadow: 0 20px 60px rgba(0,0,0,.8);
-        }
-        
-        .editor {
-            width: min(650px, 100%);
-        }
-        
-        .modal h2 {
-            margin-bottom: 12px;
-            font-size: 16px;
-        }
-        
-        .modal h3 {
-            margin-top: 16px;
-            margin-bottom: 8px;
-            font-size: 13px;
-        }
-        
-        .modal label {
-            display: block;
-            color: #d4d4d8;
-            font-size: 11px;
-            margin-top: 6px;
-        }
-        
-        .modal input,
-        .modal textarea,
-        .modal select {
-            width: 100%;
-            padding: 7px 9px;
-            margin: 3px 0 6px;
-            border: 1px solid rgba(255,255,255,.1);
-            border-radius: 6px;
-            background: #09090b;
-            color: white;
-            outline: none;
             font-size: 12px;
         }
         
-        .modal input[type="color"] {
-            height: 30px;
-            padding: 2px;
-            cursor: pointer;
-        }
-        
-        .modal input[type="range"] {
-            cursor: pointer;
-            height: 4px;
-            padding: 0;
-        }
-        
-        .modal textarea {
-            min-height: 70px;
-            resize: vertical;
-        }
-        
-        .modal input:focus,
-        .modal textarea:focus,
-        .modal select:focus {
-            border-color: var(--primary);
-        }
-        
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6px;
-        }
-        
-        .modal button {
-            padding: 7px 10px;
-            border-radius: 6px;
-            border: 1px solid rgba(255,255,255,.1);
-            background: rgba(255,255,255,.07);
-            color: white;
-            cursor: pointer;
-            font-size: 11px;
-        }
-        
-        .modal button:hover {
-            border-color: var(--primary);
-        }
-        
-        .primary-button {
-            background: var(--primary) !important;
-            border-color: transparent !important;
-        }
-        
-        .editor-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-        }
-        
-        .close-button {
-            font-size: 18px;
-            padding: 4px 8px !important;
-        }
-        
-        .actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
-            margin-top: 16px;
-        }
-        
-        .error {
-            min-height: 16px;
-            margin: 3px 0;
-            color: #f87171;
-            font-size: 11px;
-        }
-        
-        .success {
-            color: #4ade80;
-            margin-top: 8px;
-            font-size: 11px;
-        }
-        
         /* =====================================================
-           MUSIC EDITOR COMPACTO
+           MUSIC EDITOR
         ===================================================== */
         .music-editor-item {
             display: grid;
             grid-template-columns: 1fr 1fr auto;
-            gap: 5px;
-            padding: 8px;
-            margin-bottom: 5px;
+            gap: 8px;
+            padding: 10px;
+            margin-bottom: 8px;
             border: 1px solid rgba(255,255,255,.08);
-            border-radius: 8px;
+            border-radius: 10px;
             background: rgba(255,255,255,.04);
         }
         
         .music-editor-item input {
             margin: 0;
-            font-size: 11px;
-            padding: 5px 7px;
+            font-size: 12px;
+            padding: 6px 8px;
         }
         
         .music-editor-item button {
             background: rgba(239,68,68,.15);
             color: #fca5a5;
-            font-size: 10px;
-            padding: 5px 8px;
+            font-size: 11px;
+            padding: 6px 10px;
         }
         
         /* =====================================================
@@ -898,17 +920,7 @@
             .topbar {
                 width: 92%;
                 margin: 6px auto;
-            }
-            
-            .logo {
-                font-size: 11px;
-                letter-spacing: 1px;
-            }
-            
-            .languages button,
-            .edit-button {
-                padding: 4px 6px;
-                font-size: 10px;
+                padding: 6px 10px;
             }
             
             .container {
@@ -917,7 +929,7 @@
             }
             
             .profile-content {
-                padding: 0 12px 18px;
+                padding: 0 15px 20px;
             }
             
             .banner {
@@ -928,42 +940,42 @@
                 width: 70px;
                 height: 70px;
                 margin-top: -35px;
-                border-width: 2px;
+                border-width: 3px;
             }
             
             h1 {
-                font-size: 18px;
+                font-size: 20px;
             }
             
             .stats {
-                gap: 15px;
-                margin: 12px 0;
+                gap: 20px;
+                margin: 15px 0;
             }
             
             .stat strong {
-                font-size: 14px;
-            }
-            
-            .music-player {
-                padding: 10px;
-            }
-            
-            .music-cover {
-                width: 40px;
-                height: 40px;
                 font-size: 16px;
             }
             
+            .music-player {
+                padding: 15px;
+            }
+            
+            .music-cover {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+            
             .music-controls button {
-                width: 26px;
-                height: 26px;
-                font-size: 10px;
+                width: 30px;
+                height: 30px;
+                font-size: 12px;
             }
             
             .music-controls .play {
-                width: 32px;
-                height: 32px;
-                font-size: 12px;
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
             }
             
             .gallery {
@@ -971,7 +983,7 @@
             }
             
             .gallery img {
-                height: 90px;
+                height: 120px;
             }
             
             .grid {
@@ -979,8 +991,8 @@
             }
             
             .modal {
-                padding: 12px;
-                border-radius: 8px;
+                padding: 15px;
+                border-radius: 12px;
             }
             
             .music-editor-item {
@@ -1004,28 +1016,14 @@
                 width: 200px;
             }
         }
-        
-        @media(max-width:380px) {
-            .gallery {
-                grid-template-columns: 1fr;
-            }
-            
-            .stats {
-                gap: 10px;
-            }
-            
-            .languages {
-                gap: 2px;
-            }
-        }
     </style>
 </head>
 <body>
     <!-- TELA DE ENTRADA COM GLITCH -->
     <div id="entryScreen">
         <div class="glitch-container">
-            <div class="glitch-title">PROFILE</div>
-            <div class="glitch-subtitle">CLIQUE PARA INICIAR</div>
+            <div class="glitch-title" id="entryTitle">PROFILE</div>
+            <div class="glitch-subtitle" id="entrySubtitle">CLIQUE PARA INICIAR</div>
             <div class="glitch-percentage" id="entryPercentage">0%</div>
             <div class="glitch-bar">
                 <div class="glitch-bar-fill" id="entryBar" style="width: 0%;"></div>
@@ -1034,7 +1032,6 @@
     </div>
     
     <div id="background"></div>
-    <div id="particles"></div>
     
     <header class="topbar">
         <div id="siteLogo" class="logo">PROFILE</div>
@@ -1065,8 +1062,16 @@
                 <p id="bio" class="bio">Bem-vindo ao meu perfil! 👋</p>
                 
                 <!-- PORCENTAGEM -->
-                <div class="loading-percentage" id="profilePercentage">
-                    🎯 50%
+                <div class="percentage-badge" id="profilePercentage">
+                    🎯 50% Completo
+                </div>
+                
+                <!-- SEÇÃO SECRETA (aparece com porcentagem baixa) -->
+                <div class="secret-section" id="secretSection">
+                    <h3 style="color: var(--primary); margin-bottom: 10px;">🔒 Perfil Secreto</h3>
+                    <p id="secretContent" style="color: #d4d4d8; font-size: 12px;">
+                        Este conteúdo é secreto e só aparece quando a porcentagem está abaixo de 30%.
+                    </p>
                 </div>
                 
                 <!-- ESTATÍSTICAS -->
@@ -1147,7 +1152,7 @@
     <div id="loginModal" class="overlay hidden">
         <form class="modal" onsubmit="login(event)">
             <h2>🔐 Login</h2>
-            <p style="font-size:12px;margin-bottom:15px;">
+            <p style="font-size:13px;margin-bottom:20px;">
                 Entre com seu e-mail e senha para editar o perfil.
             </p>
             <label>E-mail</label>
@@ -1155,10 +1160,10 @@
             <label>Senha</label>
             <input id="loginPassword" type="password" placeholder="Sua senha" autocomplete="current-password" required>
             <div id="loginError" class="error"></div>
-            <button class="primary-button" type="submit" style="width:100%;margin-top:10px;">
+            <button class="primary-button" type="submit" style="width:100%;margin-top:15px;">
                 Entrar
             </button>
-            <button type="button" onclick="closeLogin()" style="width:100%;margin-top:5px;">
+            <button type="button" onclick="closeLogin()" style="width:100%;margin-top:8px;">
                 Cancelar
             </button>
         </form>
@@ -1168,13 +1173,13 @@
     <div id="editorModal" class="overlay hidden">
         <div class="modal editor">
             <div class="editor-header">
-                <h2>🎨 Editor completo</h2>
+                <h2>🎨 Editor Completo</h2>
                 <button class="close-button" onclick="closeEditor()">×</button>
             </div>
             
-            <!-- PERFIL -->
-            <h3>👤 Perfil</h3>
-            <label>Título do site</label>
+            <!-- PERFIL PRINCIPAL -->
+            <h3>👤 Perfil Principal</h3>
+            <label>Título do Site</label>
             <input id="editTitle" placeholder="Meu Perfil">
             <label>Nome</label>
             <input id="editName">
@@ -1184,32 +1189,50 @@
             <textarea id="editBio"></textarea>
             
             <!-- PORCENTAGEM -->
-            <h3>🎯 Porcentagem</h3>
-            <label>Porcentagem de carregamento (0-100%)</label>
-            <input id="editPercentage" type="number" min="0" max="100" placeholder="50">
-            <label>Texto da porcentagem</label>
-            <input id="editPercentageText" placeholder="Completo, Carregando, etc.">
-            
-            <!-- CORES -->
+            <h3>🎯 Porcentagem de Carregamento</h3>
             <div class="grid">
                 <div>
-                    <label>Cor principal</label>
+                    <label>Porcentagem (0-100%)</label>
+                    <input id="editPercentage" type="number" min="0" max="100" placeholder="50">
+                </div>
+                <div>
+                    <label>Texto da Porcentagem</label>
+                    <input id="editPercentageText" placeholder="Completo, Carregando...">
+                </div>
+            </div>
+            <label>
+                <input id="editSecretProfile" type="checkbox" checked>
+                Ativar Perfil Secreto (aparece com % baixa)
+            </label>
+            <label>Conteúdo do Perfil Secreto</label>
+            <textarea id="editSecretContent" placeholder="Este conteúdo aparece quando a porcentagem está abaixo de 30%"></textarea>
+            
+            <!-- APARÊNCIA -->
+            <h3>✨ Aparência</h3>
+            <div class="grid">
+                <div>
+                    <label>Cor Principal</label>
                     <input id="editPrimary" type="color">
                 </div>
                 <div>
-                    <label>Cor secundária</label>
+                    <label>Cor Secundária</label>
                     <input id="editSecondary" type="color">
                 </div>
             </div>
+            <label>Transparência</label>
+            <input id="cardOpacity" type="range" min=".2" max="1" step=".05">
+            <label>Blur</label>
+            <input id="cardBlur" type="range" min="0" max="40">
+            <label>Arredondamento</label>
+            <input id="cardRadius" type="range" min="0" max="50">
             
-            <!-- AVATAR -->
-            <h3>🖼️ Avatar</h3>
+            <!-- AVATAR E FUNDOS -->
+            <h3>🖼️ Avatar e Fundos</h3>
+            <label>Avatar</label>
             <input id="avatarInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
-            
-            <!-- FUNDOS -->
-            <h3>🌄 Fundos</h3>
+            <label>Fundos (múltiplos)</label>
             <input id="backgroundInput" type="file" multiple accept="image/png,image/jpeg,image/webp,image/gif">
-            <label>Tempo de troca</label>
+            <label>Tempo de Troca</label>
             <select id="backgroundTime">
                 <option value="3000">3 segundos</option>
                 <option value="5000">5 segundos</option>
@@ -1217,17 +1240,7 @@
                 <option value="15000">15 segundos</option>
             </select>
             
-            <!-- APARÊNCIA -->
-            <h3>✨ Aparência</h3>
-            <label>Transparência</label>
-            <input id="cardOpacity" type="range" min=".2" max="1" step=".05">
-            <label>Blur</label>
-            <input id="cardBlur" type="range" min="0" max="40">
-            <label>Arredondamento</label>
-            <input id="cardRadius" type="range" min="0" max="50">
-            <label><input id="particlesToggle" type="checkbox"> Partículas</label>
-            
-            <!-- ESTATISTICAS -->
+            <!-- ESTATÍSTICAS -->
             <h3>📊 Estatísticas</h3>
             <div class="grid">
                 <div>
@@ -1241,14 +1254,17 @@
             </div>
             
             <!-- LINKS -->
-            <h3>🔗 Links</h3>
-            <input id="discordLink" placeholder="Discord">
-            <input id="youtubeLink" placeholder="YouTube">
-            <input id="githubLink" placeholder="GitHub">
+            <h3>🔗 Links Sociais</h3>
+            <label>Discord</label>
+            <input id="discordLink" placeholder="https://discord.gg/...">
+            <label>YouTube</label>
+            <input id="youtubeLink" placeholder="https://youtube.com/...">
+            <label>GitHub</label>
+            <input id="githubLink" placeholder="https://github.com/...">
             
-            <!-- MUSICAS -->
+            <!-- MÚSICAS -->
             <h3>🎵 Músicas</h3>
-            <p style="color:#a1a1aa;font-size:11px;margin-bottom:8px;">
+            <p style="color:#a1a1aa;font-size:12px;margin-bottom:10px;">
                 Máximo 4 músicas. Até 50MB por arquivo (armazenado no IndexedDB).
             </p>
             <input id="musicInput" type="file" multiple accept="audio/*">
@@ -1265,7 +1281,7 @@
             
             <!-- AÇÕES -->
             <div class="actions">
-                <button type="button" class="primary-button" onclick="saveProfile()">💾 Salvar tudo</button>
+                <button type="button" class="primary-button" onclick="saveProfile()">💾 Salvar Tudo</button>
                 <button type="button" onclick="resetProfile()">🔄 Restaurar</button>
                 <button type="button" onclick="logout()">🚪 Sair</button>
                 <button type="button" onclick="closeEditor()">Fechar</button>
@@ -1427,7 +1443,9 @@
             gallery: [],
             files: [],
             percentage: 50,
-            percentageText: "Completo"
+            percentageText: "Completo",
+            secretProfile: true,
+            secretContent: "Este conteúdo é secreto e só aparece quando a porcentagem está abaixo de 30%."
         };
         
         function normalizeProfile(data) {
@@ -1449,6 +1467,8 @@
             result.particles = Boolean(result.particles);
             result.percentage = Number(result.percentage) || 50;
             result.percentageText = result.percentageText || "Completo";
+            result.secretProfile = Boolean(result.secretProfile);
+            result.secretContent = result.secretContent || "";
             return result;
         }
         
@@ -1664,8 +1684,17 @@
             const entryScreen = document.getElementById("entryScreen");
             const percentageElement = document.getElementById("entryPercentage");
             const barElement = document.getElementById("entryBar");
+            const titleElement = document.getElementById("entryTitle");
+            const subtitleElement = document.getElementById("entrySubtitle");
             
             currentEntryPercentage = 0;
+            
+            // Verificar se deve mostrar perfil secreto
+            if (profile.secretProfile && profile.percentage < 30) {
+                titleElement.textContent = "SECRET";
+                subtitleElement.textContent = "PERFIL RESTRITO";
+                titleElement.classList.add("secret-glitch");
+            }
             
             entryInterval = setInterval(() => {
                 currentEntryPercentage += Math.random() * 15;
@@ -1737,22 +1766,6 @@
             }
         }
         
-        function renderParticles() {
-            const container = document.getElementById("particles");
-            container.innerHTML = "";
-            
-            if (!profile.particles) return;
-            
-            for (let i = 0; i < 35; i++) {
-                const particle = document.createElement("div");
-                particle.className = "particle";
-                particle.style.left = Math.random() * 100 + "%";
-                particle.style.animationDuration = (8 + Math.random() * 18) + "s";
-                particle.style.animationDelay = -Math.random() * 20 + "s";
-                container.appendChild(particle);
-            }
-        }
-        
         function renderProfile() {
             document.title = profile.title || "Meu Perfil";
             document.getElementById("siteLogo").textContent = profile.title || "PROFILE";
@@ -1775,6 +1788,15 @@
             document.getElementById("profilePercentage").textContent = 
                 `🎯 ${profile.percentage}% ${profile.percentageText}`;
             
+            // Mostrar/ocultar perfil secreto
+            const secretSection = document.getElementById("secretSection");
+            if (profile.secretProfile && profile.percentage < 30) {
+                secretSection.classList.add("visible");
+                document.getElementById("secretContent").textContent = profile.secretContent;
+            } else {
+                secretSection.classList.remove("visible");
+            }
+            
             const avatar = document.getElementById("avatar");
             if (profile.avatar) {
                 avatar.src = profile.avatar;
@@ -1786,7 +1808,6 @@
             renderGallery();
             renderFiles();
             applyBackground();
-            renderParticles();
             renderPlaylist();
         }
         
@@ -1859,25 +1880,25 @@
             container.innerHTML = "";
             
             if (!profile.gallery.length) {
-                container.innerHTML = '<p style="color:#71717a;font-size:11px;">Nenhuma imagem na galeria.</p>';
+                container.innerHTML = '<p style="color:#71717a;font-size:12px;">Nenhuma imagem na galeria.</p>';
                 return;
             }
             
             profile.gallery.forEach((image, index) => {
                 const item = document.createElement("div");
-                item.style.cssText = "display:flex;align-items:center;gap:8px;margin-bottom:5px;padding:5px;background:rgba(255,255,255,.04);border-radius:6px;";
+                item.style.cssText = "display:flex;align-items:center;gap:10px;margin-bottom:8px;padding:8px;background:rgba(255,255,255,.04);border-radius:8px;";
                 
                 const img = document.createElement("img");
                 img.src = image;
-                img.style.cssText = "width:40px;height:40px;object-fit:cover;border-radius:4px;";
+                img.style.cssText = "width:50px;height:50px;object-fit:cover;border-radius:6px;";
                 
                 const text = document.createElement("span");
                 text.textContent = `Imagem ${index + 1}`;
-                text.style.cssText = "flex:1;font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;";
+                text.style.cssText = "flex:1;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;";
                 
                 const deleteBtn = document.createElement("button");
                 deleteBtn.textContent = "🗑️";
-                deleteBtn.style.cssText = "background:rgba(239,68,68,.15);color:#fca5a5;padding:4px 8px;border-radius:4px;font-size:10px;";
+                deleteBtn.style.cssText = "background:rgba(239,68,68,.15);color:#fca5a5;padding:5px 10px;border-radius:6px;font-size:11px;";
                 deleteBtn.onclick = () => deleteGalleryImage(index);
                 
                 item.appendChild(img);
@@ -1969,13 +1990,14 @@
             document.getElementById("editBio").value = profile.bio;
             document.getElementById("editPercentage").value = profile.percentage;
             document.getElementById("editPercentageText").value = profile.percentageText;
+            document.getElementById("editSecretProfile").checked = profile.secretProfile;
+            document.getElementById("editSecretContent").value = profile.secretContent;
             document.getElementById("editPrimary").value = profile.primary;
             document.getElementById("editSecondary").value = profile.secondary;
             document.getElementById("backgroundTime").value = profile.backgroundTime;
             document.getElementById("cardOpacity").value = profile.opacity;
             document.getElementById("cardBlur").value = profile.blur;
             document.getElementById("cardRadius").value = profile.radius;
-            document.getElementById("particlesToggle").checked = profile.particles;
             document.getElementById("editPosts").value = profile.posts;
             document.getElementById("editFollowers").value = profile.followers;
             
@@ -1999,7 +2021,7 @@
             container.innerHTML = "";
             
             if (!playlist.length) {
-                container.innerHTML = '<p style="color:#71717a;font-size:11px;">Nenhuma música adicionada.</p>';
+                container.innerHTML = '<p style="color:#71717a;font-size:12px;">Nenhuma música adicionada.</p>';
                 return;
             }
             
@@ -2128,13 +2150,14 @@
             profile.bio = document.getElementById("editBio").value;
             profile.percentage = Number(document.getElementById("editPercentage").value) || 0;
             profile.percentageText = document.getElementById("editPercentageText").value || "Completo";
+            profile.secretProfile = document.getElementById("editSecretProfile").checked;
+            profile.secretContent = document.getElementById("editSecretContent").value;
             profile.primary = document.getElementById("editPrimary").value;
             profile.secondary = document.getElementById("editSecondary").value;
             profile.backgroundTime = Number(document.getElementById("backgroundTime").value);
             profile.opacity = Number(document.getElementById("cardOpacity").value);
             profile.blur = Number(document.getElementById("cardBlur").value);
             profile.radius = Number(document.getElementById("cardRadius").value);
-            profile.particles = document.getElementById("particlesToggle").checked;
             profile.posts = Number(document.getElementById("editPosts").value) || 0;
             profile.followers = Number(document.getElementById("editFollowers").value) || 0;
             
