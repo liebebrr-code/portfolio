@@ -1056,7 +1056,7 @@
             <!-- MUSICAS -->
             <h3>🎵 Músicas</h3>
             <p style="color:#a1a1aa;font-size:11px;margin-bottom:8px;">
-                Máximo 4 músicas. Limite de 4MB por arquivo de áudio.
+                Máximo 4 músicas. Até 50MB por arquivo (armazenado no IndexedDB).
             </p>
             <input id="musicInput" type="file" multiple accept="audio/*">
             <div id="musicEditorList" style="margin-top:10px;"></div>
@@ -1145,6 +1145,88 @@
     
     <!-- SISTEMA -->
     <script>
+        // =====================================================
+        // INDEXEDDB PARA ARMAZENAMENTO DE MÚSICAS
+        // =====================================================
+        const DB_NAME = 'ProfileMusicDB';
+        const DB_VERSION = 1;
+        const STORE_NAME = 'songs';
+        
+        function openMusicDB() {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open(DB_NAME, DB_VERSION);
+                
+                request.onerror = () => reject(request.error);
+                request.onsuccess = () => resolve(request.result);
+                
+                request.onupgradeneeded = (event) => {
+                    const db = event.target.result;
+                    if (!db.objectStoreNames.contains(STORE_NAME)) {
+                        db.createObjectStore(STORE_NAME, { keyPath: 'id', autoIncrement: true });
+                    }
+                };
+            });
+        }
+        
+        async function saveSongToDB(song) {
+            const db = await openMusicDB();
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction([STORE_NAME], 'readwrite');
+                const store = transaction.objectStore(STORE_NAME);
+                const request = store.add(song);
+                
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = () => reject(request.error);
+                
+                transaction.oncomplete = () => db.close();
+            });
+        }
+        
+        async function getAllSongsFromDB() {
+            const db = await openMusicDB();
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction([STORE_NAME], 'readonly');
+                const store = transaction.objectStore(STORE_NAME);
+                const request = store.getAll();
+                
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = () => reject(request.error);
+                
+                transaction.oncomplete = () => db.close();
+            });
+        }
+        
+        async function deleteSongFromDB(id) {
+            const db = await openMusicDB();
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction([STORE_NAME], 'readwrite');
+                const store = transaction.objectStore(STORE_NAME);
+                const request = store.delete(id);
+                
+                request.onsuccess = () => resolve();
+                request.onerror = () => reject(request.error);
+                
+                transaction.oncomplete = () => db.close();
+            });
+        }
+        
+        async function clearSongsDB() {
+            const db = await openMusicDB();
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction([STORE_NAME], 'readwrite');
+                const store = transaction.objectStore(STORE_NAME);
+                const request = store.clear();
+                
+                request.onsuccess = () => resolve();
+                request.onerror = () => reject(request.error);
+                
+                transaction.oncomplete = () => db.close();
+            });
+        }
+        
+        // =====================================================
+        // PERFIL PADRÃO
+        // =====================================================
         const defaultProfile = {
             title: "Meu Perfil",
             name: "Meu Nome",
@@ -1195,34 +1277,27 @@
         }
         
         let profile = normalizeProfile(savedProfile);
-        
         let playlist = [];
-        const MAX_AUDIO_SIZE_MB = 4;
+        const MAX_AUDIO_SIZE_MB = 50; // Limite maior usando IndexedDB
         const MAX_AUDIO_SIZE_BYTES = MAX_AUDIO_SIZE_MB * 1024 * 1024;
         
-        function loadLocalMusic() {
+        // =====================================================
+        // CARREGAR MÚSICAS DO INDEXEDDB
+        // =====================================================
+        async function loadMusicFromDB() {
             try {
-                const saved = JSON.parse(localStorage.getItem("myProfileMusic"));
-                if (Array.isArray(saved)) {
-                    playlist = saved.slice(0, 4);
-                } else {
-                    playlist = [];
-                }
+                playlist = await getAllSongsFromDB();
+                playlist = playlist.slice(0, 4); // Manter máximo 4 músicas
+                console.log(`${playlist.length} música(s) carregada(s) do IndexedDB`);
             } catch(error) {
-                console.error("Erro ao carregar músicas:", error);
+                console.error("Erro ao carregar músicas do IndexedDB:", error);
                 playlist = [];
             }
         }
         
-        function saveLocalMusic() {
-            try {
-                localStorage.setItem("myProfileMusic", JSON.stringify(playlist.slice(0, 4)));
-            } catch(error) {
-                console.error("Erro ao salvar músicas:", error);
-                alert("Não foi possível salvar as músicas. O LocalStorage pode estar cheio.");
-            }
-        }
-        
+        // =====================================================
+        // ÁUDIO
+        // =====================================================
         const audio = new Audio();
         audio.preload = "metadata";
         audio.volume = .8;
@@ -1250,7 +1325,17 @@
             
             audio.pause();
             audio.currentTime = 0;
-            audio.src = song.data;
+            
+            // Usar Blob URL em vez de Data URL para melhor performance
+            if (song.blob) {
+                if (audio.src && audio.src.startsWith('blob:')) {
+                    URL.revokeObjectURL(audio.src);
+                }
+                audio.src = URL.createObjectURL(song.blob);
+            } else if (song.data) {
+                // Compatibilidade com versões anteriores
+                audio.src = song.data;
+            }
             
             document.getElementById("musicTitle").textContent = song.title;
             document.getElementById("musicArtist").textContent = song.artist;
@@ -1386,6 +1471,9 @@
             return `${minutes}:${remaining}`;
         }
         
+        // =====================================================
+        // FUNDO
+        // =====================================================
         let backgroundInterval;
         
         function applyBackground() {
@@ -1595,6 +1683,9 @@
             });
         }
         
+        // =====================================================
+        // LOGIN
+        // =====================================================
         async function login(event) {
             event.preventDefault();
             const email = document.getElementById("loginEmail").value.trim();
@@ -1679,28 +1770,53 @@
                     <button type="button" data-remove>🗑️ Remover</button>
                 `;
                 
-                item.querySelector("[data-title]").addEventListener("input", event => {
+                item.querySelector("[data-title]").addEventListener("input", async event => {
                     playlist[index].title = event.target.value;
-                    saveLocalMusic();
+                    await updateSongInDB(playlist[index]);
                 });
                 
-                item.querySelector("[data-artist]").addEventListener("input", event => {
+                item.querySelector("[data-artist]").addEventListener("input", async event => {
                     playlist[index].artist = event.target.value;
-                    saveLocalMusic();
+                    await updateSongInDB(playlist[index]);
                 });
                 
-                item.querySelector("[data-remove]").addEventListener("click", () => {
+                item.querySelector("[data-remove]").addEventListener("click", async () => {
+                    if (playlist[index].id) {
+                        await deleteSongFromDB(playlist[index].id);
+                    }
                     playlist.splice(index, 1);
                     if (currentSong >= playlist.length) {
                         currentSong = Math.max(0, playlist.length - 1);
                     }
-                    saveLocalMusic();
                     renderMusicEditor();
                     loadSong(currentSong, false);
                 });
                 
                 container.appendChild(item);
             });
+        }
+        
+        async function updateSongInDB(song) {
+            if (song.id) {
+                try {
+                    const db = await openMusicDB();
+                    await new Promise((resolve, reject) => {
+                        const transaction = db.transaction([STORE_NAME], 'readwrite');
+                        const store = transaction.objectStore(STORE_NAME);
+                        store.put(song);
+                        transaction.oncomplete = () => {
+                            db.close();
+                            resolve();
+                        };
+                        transaction.onerror = () => {
+                            db.close();
+                            reject(transaction.error);
+                        };
+                    });
+                } catch(error) {
+                    console.error("Erro ao atualizar música no IndexedDB:", error);
+                }
+            }
         }
         
         document.getElementById("musicInput").addEventListener("change", async event => {
@@ -1721,27 +1837,33 @@
             }
             
             for (const file of selected) {
-                // Verificar tamanho do arquivo (4MB)
+                // Verificar tamanho do arquivo (50MB)
                 if (file.size > MAX_AUDIO_SIZE_BYTES) {
                     alert(`O arquivo "${file.name}" excede o limite de ${MAX_AUDIO_SIZE_MB}MB.`);
                     continue;
                 }
                 
-                const data = await fileToDataURL(file);
-                
-                playlist.push({
+                const songData = {
                     title: file.name.replace(/\.[^/.]+$/, ""),
                     artist: "Artista desconhecido",
-                    data: data,
+                    blob: file, // Armazenar como Blob no IndexedDB
                     cover: ""
-                });
+                };
+                
+                try {
+                    const id = await saveSongToDB(songData);
+                    songData.id = id;
+                    playlist.push(songData);
+                } catch(error) {
+                    console.error("Erro ao salvar música no IndexedDB:", error);
+                    alert("Não foi possível salvar a música.");
+                }
             }
             
             if (playlist.length > 4) {
                 playlist = playlist.slice(0, 4);
             }
             
-            saveLocalMusic();
             renderMusicEditor();
             renderPlaylist();
             
@@ -1892,9 +2014,16 @@
             }
         });
         
-        loadLocalMusic();
-        renderProfile();
-        loadSong(0, false);
+        // =====================================================
+        // INICIALIZAÇÃO
+        // =====================================================
+        async function init() {
+            await loadMusicFromDB();
+            renderProfile();
+            loadSong(0, false);
+        }
+        
+        init();
     </script>
 </body>
 </html>
