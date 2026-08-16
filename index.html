@@ -269,7 +269,7 @@
         }
         
         .banner {
-            height: 140px;
+            height: 200px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             background-size: cover;
             background-position: center;
@@ -281,9 +281,9 @@
         }
         
         .avatar {
-            width: 90px;
-            height: 90px;
-            margin-top: -45px;
+            width: 100px;
+            height: 100px;
+            margin-top: -50px;
             border-radius: 50%;
             object-fit: cover;
             background: #18181b;
@@ -924,7 +924,7 @@
             }
             
             .banner {
-                height: 100px;
+                height: 120px;
             }
             
             .avatar {
@@ -1199,12 +1199,26 @@
                 </div>
             </div>
             
-            <!-- AVATARES -->
-            <h3 data-i18n="avatars">🖼️ Avatares</h3>
+            <!-- AVATARES E FUNDOS -->
+            <h3 data-i18n="avatars_backgrounds">🖼️ Avatares e Fundos</h3>
+            
             <label data-i18n="normal_avatar">Avatar Normal</label>
             <input id="avatarNormalInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
+            
             <label data-i18n="secret_avatar">Avatar Secreto</label>
             <input id="avatarSecretInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
+            
+            <label data-i18n="normal_banner">Banner Normal</label>
+            <input id="bannerNormalInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
+            
+            <label data-i18n="secret_banner">Banner Secreto</label>
+            <input id="bannerSecretInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
+            
+            <label data-i18n="normal_background">Fundo Normal</label>
+            <input id="backgroundNormalInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
+            
+            <label data-i18n="secret_background">Fundo Secreto</label>
+            <input id="backgroundSecretInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
             
             <!-- LINKS -->
             <h3 data-i18n="social_links">🔗 Links Sociais</h3>
@@ -1347,9 +1361,13 @@
                 appearance: '✨ Aparência',
                 primary_color: 'Cor Principal',
                 secondary_color: 'Cor Secundária',
-                avatars: '🖼️ Avatares',
+                avatars_backgrounds: '🖼️ Avatares e Fundos',
                 normal_avatar: 'Avatar Normal',
                 secret_avatar: 'Avatar Secreto',
+                normal_banner: 'Banner Normal',
+                secret_banner: 'Banner Secreto',
+                normal_background: 'Fundo Normal',
+                secret_background: 'Fundo Secreto',
                 social_links: '🔗 Links Sociais',
                 music_section: '🎵 Músicas',
                 music_limit: 'Máximo 4 músicas por playlist. Até 50MB por arquivo.',
@@ -1395,9 +1413,13 @@
                 appearance: '✨ Appearance',
                 primary_color: 'Primary Color',
                 secondary_color: 'Secondary Color',
-                avatars: '🖼️ Avatars',
+                avatars_backgrounds: '🖼️ Avatars and Backgrounds',
                 normal_avatar: 'Normal Avatar',
                 secret_avatar: 'Secret Avatar',
+                normal_banner: 'Normal Banner',
+                secret_banner: 'Secret Banner',
+                normal_background: 'Normal Background',
+                secret_background: 'Secret Background',
                 social_links: '🔗 Social Links',
                 music_section: '🎵 Music',
                 music_limit: 'Max 4 songs per playlist. Up to 50MB per file.',
@@ -1520,13 +1542,17 @@
                 name: "Meu Nome",
                 username: "@usuario",
                 bio: "Bem-vindo ao meu perfil! 👋",
-                avatar: ""
+                avatar: "",
+                banner: "",
+                background: ""
             },
             secret: {
                 name: "???",
                 username: "@secreto",
                 bio: "Você encontrou o perfil secreto! 🔥",
-                avatar: ""
+                avatar: "",
+                banner: "",
+                background: ""
             }
         };
         
@@ -1825,10 +1851,12 @@
             const currentProfile = isSecret ? profile.secret : profile.normal;
             currentPlaylist = isSecret ? playlistSecret : playlistNormal;
             
+            // Aplicar nome, username e bio
             document.getElementById("name").textContent = currentProfile.name;
             document.getElementById("username").textContent = currentProfile.username;
             document.getElementById("bio").textContent = currentProfile.bio;
             
+            // Aplicar avatar
             const avatar = document.getElementById("avatar");
             if (currentProfile.avatar) {
                 avatar.src = currentProfile.avatar;
@@ -1836,6 +1864,27 @@
                 avatar.src = "https://placehold.co/300x300/18181b/ffffff?text=PROFILE";
             }
             
+            // Aplicar banner
+            const banner = document.getElementById("banner");
+            if (currentProfile.banner) {
+                banner.style.backgroundImage = `url("${currentProfile.banner}")`;
+                banner.style.backgroundSize = "cover";
+                banner.style.backgroundPosition = "center";
+            } else {
+                banner.style.backgroundImage = `linear-gradient(135deg, ${profile.primary}, ${profile.secondary})`;
+            }
+            
+            // Aplicar fundo (background)
+            const background = document.getElementById("background");
+            if (currentProfile.background) {
+                background.style.backgroundImage = `url("${currentProfile.background}")`;
+                background.style.backgroundSize = "cover";
+                background.style.backgroundPosition = "center";
+            } else {
+                background.style.backgroundImage = `linear-gradient(135deg, ${profile.primary}, ${profile.secondary})`;
+            }
+            
+            // Aplicar badge
             const badge = document.getElementById("profileBadge");
             if (isSecret) {
                 badge.innerHTML = `🔒 ${translations[currentLanguage].secret_profile}`;
@@ -1845,6 +1894,7 @@
                 badge.className = "profile-badge normal";
             }
             
+            // Aplicar playlist
             currentSong = 0;
             renderPlaylist();
             loadSong(0, false);
@@ -1858,38 +1908,8 @@
         }
         
         // =====================================================
-        // FUNDO
+        // RENDER PROFILE
         // =====================================================
-        let backgroundInterval;
-        
-        function applyBackground() {
-            clearInterval(backgroundInterval);
-            const background = document.getElementById("background");
-            const banner = document.getElementById("banner");
-            const backgrounds = profile.backgrounds;
-            
-            if (backgrounds.length) {
-                let index = 0;
-                
-                function change() {
-                    const image = backgrounds[index];
-                    background.style.backgroundImage = `url("${image}")`;
-                    banner.style.backgroundImage = `url("${image}")`;
-                    index = (index + 1) % backgrounds.length;
-                }
-                
-                change();
-                
-                if (backgrounds.length > 1) {
-                    backgroundInterval = setInterval(change, profile.backgroundTime);
-                }
-            } else {
-                const gradient = `linear-gradient(135deg, ${profile.primary}, ${profile.secondary})`;
-                background.style.backgroundImage = gradient;
-                banner.style.backgroundImage = gradient;
-            }
-        }
-        
         function renderProfile() {
             document.title = profile.title || "Meu Perfil";
             document.getElementById("siteLogo").textContent = profile.title || "PROFILE";
@@ -1907,7 +1927,6 @@
             renderLinks();
             renderGallery();
             renderFiles();
-            applyBackground();
         }
         
         function renderLinks() {
@@ -2280,6 +2299,7 @@
             
             profile.links = newLinks;
             
+            // Avatares
             const avatarNormalFile = document.getElementById("avatarNormalInput").files[0];
             if (avatarNormalFile) {
                 profile.normal.avatar = await fileToDataURL(avatarNormalFile);
@@ -2290,11 +2310,35 @@
                 profile.secret.avatar = await fileToDataURL(avatarSecretFile);
             }
             
+            // Banners
+            const bannerNormalFile = document.getElementById("bannerNormalInput").files[0];
+            if (bannerNormalFile) {
+                profile.normal.banner = await fileToDataURL(bannerNormalFile);
+            }
+            
+            const bannerSecretFile = document.getElementById("bannerSecretInput").files[0];
+            if (bannerSecretFile) {
+                profile.secret.banner = await fileToDataURL(bannerSecretFile);
+            }
+            
+            // Fundos (backgrounds)
+            const backgroundNormalFile = document.getElementById("backgroundNormalInput").files[0];
+            if (backgroundNormalFile) {
+                profile.normal.background = await fileToDataURL(backgroundNormalFile);
+            }
+            
+            const backgroundSecretFile = document.getElementById("backgroundSecretInput").files[0];
+            if (backgroundSecretFile) {
+                profile.secret.background = await fileToDataURL(backgroundSecretFile);
+            }
+            
+            // Galeria
             const galleryFiles = document.getElementById("galleryInput").files;
             for (const file of galleryFiles) {
                 profile.gallery.push(await fileToDataURL(file));
             }
             
+            // Arquivos
             const files = document.getElementById("filesInput").files;
             for (const file of files) {
                 profile.files.push({
