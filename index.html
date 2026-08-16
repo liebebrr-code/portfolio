@@ -14,6 +14,10 @@
 
 <style>
 
+/* =====================================================
+   RESET
+===================================================== */
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -78,14 +82,13 @@ body {
             var(--secondary)
         );
 
-    background-size:
-        cover;
+    background-size: cover;
 
-    background-position:
-        center;
+    background-position: center;
 
     transition:
-        background-image 1.2s ease;
+        background-image 1s ease,
+        background-color 1s ease;
 }
 
 #background::after {
@@ -101,7 +104,7 @@ body {
 }
 
 /* =====================================================
-   PARTÍCULAS
+   PARTICULAS
 ===================================================== */
 
 #particles {
@@ -131,9 +134,7 @@ body {
     opacity: .45;
 
     animation:
-        particleFloat
-        linear
-        infinite;
+        particleFloat linear infinite;
 }
 
 @keyframes particleFloat {
@@ -157,7 +158,7 @@ body {
 .topbar {
 
     width:
-        min(1100px,94%);
+        min(1100px, 94%);
 
     margin:
         18px auto;
@@ -170,6 +171,8 @@ body {
 
     justify-content:
         space-between;
+
+    gap: 15px;
 }
 
 .logo {
@@ -341,7 +344,6 @@ body {
 }
 
 .avatar:hover {
-
     transform:
         scale(1.05);
 }
@@ -353,6 +355,9 @@ h1 {
 
     font-size:
         36px;
+
+    word-break:
+        break-word;
 }
 
 .verified {
@@ -380,6 +385,9 @@ h1 {
 
     font-size:
         12px;
+
+    vertical-align:
+        middle;
 }
 
 .username {
@@ -389,6 +397,9 @@ h1 {
 
     margin-top:
         4px;
+
+    word-break:
+        break-word;
 }
 
 .bio {
@@ -407,10 +418,13 @@ h1 {
 
     white-space:
         pre-wrap;
+
+    overflow-wrap:
+        anywhere;
 }
 
 /* =====================================================
-   ESTATÍSTICAS
+   ESTATISTICAS
 ===================================================== */
 
 .stats {
@@ -438,7 +452,6 @@ h1 {
 }
 
 .stat strong {
-
     font-size:
         22px;
 }
@@ -494,6 +507,9 @@ h1 {
 
     transition:
         .25s ease;
+
+    word-break:
+        break-word;
 }
 
 .links a:hover {
@@ -531,7 +547,7 @@ h1 {
 .music-player {
 
     margin-top:
-        35px;
+        15px;
 
     padding:
         22px;
@@ -643,6 +659,15 @@ h1 {
 
     font-size:
         14px;
+
+    white-space:
+        nowrap;
+
+    overflow:
+        hidden;
+
+    text-overflow:
+        ellipsis;
 }
 
 .progress-container {
@@ -842,7 +867,7 @@ h1 {
         8px;
 
     margin-top:
-        18px;
+        20px;
 }
 
 .playlist-item {
@@ -867,7 +892,7 @@ h1 {
 
     border:
         1px solid
-        rgba(255,255,255,.07);
+        rgba(255,255,255,.06);
 
     cursor:
         pointer;
@@ -897,10 +922,13 @@ h1 {
 .playlist-number {
 
     width:
-        28px;
+        30px;
 
     height:
-        28px;
+        30px;
+
+    border-radius:
+        8px;
 
     display:
         flex;
@@ -911,11 +939,8 @@ h1 {
     justify-content:
         center;
 
-    border-radius:
-        8px;
-
     background:
-        rgba(255,255,255,.08);
+        rgba(255,255,255,.07);
 
     color:
         var(--muted);
@@ -938,26 +963,35 @@ h1 {
 
 .playlist-name strong {
 
+    white-space:
+        nowrap;
+
     overflow:
         hidden;
 
     text-overflow:
         ellipsis;
-
-    white-space:
-        nowrap;
 }
 
 .playlist-name span {
-
-    margin-top:
-        3px;
 
     color:
         var(--muted);
 
     font-size:
         12px;
+
+    margin-top:
+        3px;
+
+    white-space:
+        nowrap;
+
+    overflow:
+        hidden;
+
+    text-overflow:
+        ellipsis;
 }
 
 /* =====================================================
@@ -1041,12 +1075,30 @@ h1 {
 
     background:
         rgba(255,255,255,.06);
+
+    overflow:
+        hidden;
+}
+
+.file span {
+
+    overflow:
+        hidden;
+
+    text-overflow:
+        ellipsis;
+
+    white-space:
+        nowrap;
 }
 
 .file a {
 
     color:
         #c4b5fd;
+
+    flex-shrink:
+        0;
 }
 
 /* =====================================================
@@ -1081,10 +1133,12 @@ h1 {
 
     backdrop-filter:
         blur(14px);
+
+    overflow-y:
+        auto;
 }
 
 .hidden {
-
     display:
         none !important;
 }
@@ -1125,7 +1179,6 @@ h1 {
 }
 
 .modal h2 {
-
     margin-bottom:
         20px;
 }
@@ -1184,12 +1237,21 @@ h1 {
         none;
 }
 
-.modal input:focus,
-.modal textarea:focus,
-.modal select:focus {
+.modal input[type="color"] {
 
-    border-color:
-        var(--primary);
+    height:
+        45px;
+
+    padding:
+        4px;
+
+    cursor:
+        pointer;
+}
+
+.modal input[type="range"] {
+    cursor:
+        pointer;
 }
 
 .modal textarea {
@@ -1199,6 +1261,14 @@ h1 {
 
     resize:
         vertical;
+}
+
+.modal input:focus,
+.modal textarea:focus,
+.modal select:focus {
+
+    border-color:
+        var(--primary);
 }
 
 .grid {
@@ -1260,6 +1330,9 @@ h1 {
 
     justify-content:
         space-between;
+
+    gap:
+        15px;
 }
 
 .close-button {
@@ -1304,104 +1377,98 @@ h1 {
         10px;
 }
 
-.music-editor-list {
-
-    display:
-        grid;
-
-    gap:
-        8px;
-
-    margin-top:
-        10px;
-}
+/* =====================================================
+   MUSIC EDITOR
+===================================================== */
 
 .music-editor-item {
 
     display:
-        flex;
+        grid;
 
-    align-items:
-        center;
-
-    justify-content:
-        space-between;
+    grid-template-columns:
+        1fr 1fr auto;
 
     gap:
-        10px;
+        8px;
 
     padding:
         12px;
+
+    margin-bottom:
+        10px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
 
     border-radius:
         12px;
 
     background:
-        rgba(255,255,255,.06);
-
-    border:
-        1px solid
-        rgba(255,255,255,.1);
+        rgba(255,255,255,.04);
 }
 
-.music-editor-info {
-
-    min-width:
-        0;
+.music-editor-item input {
+    margin: 0;
 }
 
-.music-editor-info strong {
-
-    display:
-        block;
-
-    overflow:
-        hidden;
-
-    white-space:
-        nowrap;
-
-    text-overflow:
-        ellipsis;
-}
-
-.music-editor-info span {
-
-    display:
-        block;
-
-    margin-top:
-        3px;
-
-    color:
-        var(--muted);
-
-    font-size:
-        12px;
-}
-
-.music-delete {
-
-    flex-shrink:
-        0;
+.music-editor-item button {
 
     background:
-        rgba(239,68,68,.15) !important;
+        rgba(239,68,68,.15);
 
-    border-color:
-        rgba(239,68,68,.3) !important;
+    color:
+        #fca5a5;
 }
 
 /* =====================================================
-   RESPONSIVO
+   CELULAR
 ===================================================== */
 
-@media(max-width:600px) {
+@media(max-width: 600px) {
+
+    .topbar {
+
+        width:
+            92%;
+
+        margin:
+            12px auto;
+
+    }
+
+    .logo {
+
+        font-size:
+            13px;
+
+        letter-spacing:
+            2px;
+    }
+
+    .languages button {
+
+        padding:
+            7px 8px;
+
+        font-size:
+            11px;
+    }
+
+    .container {
+
+        width:
+            94%;
+
+        margin:
+            20px auto 40px;
+    }
 
     .profile-content {
 
         padding:
-            0 20px 30px;
+            0 18px 30px;
     }
 
     .banner {
@@ -1413,19 +1480,97 @@ h1 {
     .avatar {
 
         width:
-            110px;
+            105px;
 
         height:
-            110px;
+            105px;
 
         margin-top:
-            -55px;
+            -52px;
+
+        border-width:
+            5px;
     }
 
     h1 {
 
         font-size:
-            28px;
+            27px;
+    }
+
+    .stats {
+
+        gap:
+            25px;
+
+        margin:
+            25px 0;
+    }
+
+    .stat strong {
+
+        font-size:
+            19px;
+    }
+
+    .music-player {
+
+        padding:
+            15px;
+    }
+
+    .music-main {
+
+        gap:
+            12px;
+    }
+
+    .music-cover {
+
+        width:
+            65px;
+
+        height:
+            65px;
+
+        font-size:
+            24px;
+    }
+
+    .music-title {
+
+        font-size:
+            16px;
+    }
+
+    .music-controls button {
+
+        width:
+            40px;
+
+        height:
+            40px;
+    }
+
+    .music-controls .play {
+
+        width:
+            50px;
+
+        height:
+            50px;
+    }
+
+    .gallery {
+
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .gallery img {
+
+        height:
+            145px;
     }
 
     .grid {
@@ -1434,10 +1579,52 @@ h1 {
             1fr;
     }
 
-    .music-main {
+    .modal {
 
-        align-items:
-            flex-start;
+        padding:
+            20px;
+
+        border-radius:
+            16px;
+    }
+
+    .music-editor-item {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+    .music-editor-item button {
+
+        width:
+            100%;
+    }
+
+}
+
+/* =====================================================
+   CELULAR MUITO PEQUENO
+===================================================== */
+
+@media(max-width:380px) {
+
+    .gallery {
+
+        grid-template-columns:
+            1fr;
+    }
+
+    .stats {
+
+        gap:
+            18px;
+    }
+
+    .languages {
+
+        gap:
+            3px;
     }
 
 }
@@ -1454,23 +1641,31 @@ h1 {
 
 <header class="topbar">
 
-    <div class="logo">
+    <div
+        id="siteLogo"
+        class="logo"
+    >
         PROFILE
     </div>
 
     <div class="languages">
 
-        <button onclick="setLanguage('pt-BR')">
-            🇧🇷 PT-BR
+        <button
+            onclick="setLanguage('pt-BR')"
+        >
+            🇧🇷 PT
         </button>
 
-        <button onclick="setLanguage('en-US')">
+        <button
+            onclick="setLanguage('en-US')"
+        >
             🇺🇸 EN
         </button>
 
     </div>
 
 </header>
+
 
 <main class="container">
 
@@ -1515,6 +1710,9 @@ h1 {
             Bem-vindo ao meu perfil! 👋
         </p>
 
+
+        <!-- ESTATÍSTICAS -->
+
         <div class="stats">
 
             <div class="stat">
@@ -1555,10 +1753,14 @@ h1 {
 
         </div>
 
+
+        <!-- LINKS -->
+
         <div
             id="links"
             class="links"
         ></div>
+
 
         <!-- =================================================
              PLAYER
@@ -1601,6 +1803,7 @@ h1 {
 
                 </div>
 
+
                 <div class="progress-container">
 
                     <input
@@ -1625,6 +1828,7 @@ h1 {
                     </div>
 
                 </div>
+
 
                 <div class="music-controls">
 
@@ -1652,6 +1856,7 @@ h1 {
 
                 </div>
 
+
                 <div class="music-options">
 
                     <button
@@ -1670,6 +1875,7 @@ h1 {
 
                 </div>
 
+
                 <div class="volume">
 
                     <span>
@@ -1687,10 +1893,6 @@ h1 {
 
                 </div>
 
-                <audio
-                    id="audioPlayer"
-                    preload="metadata"
-                ></audio>
 
                 <div
                     id="playlist"
@@ -1701,9 +1903,8 @@ h1 {
 
         </section>
 
-        <!-- =================================================
-             GALERIA
-        ================================================= -->
+
+        <!-- GALERIA -->
 
         <section class="section">
 
@@ -1718,9 +1919,8 @@ h1 {
 
         </section>
 
-        <!-- =================================================
-             ARQUIVOS
-        ================================================= -->
+
+        <!-- ARQUIVOS -->
 
         <section class="section">
 
@@ -1741,6 +1941,7 @@ h1 {
 
 </main>
 
+
 <!-- =====================================================
      LOGIN
 ===================================================== -->
@@ -1760,7 +1961,7 @@ h1 {
     </h2>
 
     <p>
-        Entre com sua conta para editar.
+        Entre com sua conta para editar o perfil.
     </p>
 
     <label>
@@ -1801,6 +2002,7 @@ h1 {
 
 </div>
 
+
 <!-- =====================================================
      EDITOR
 ===================================================== -->
@@ -1827,9 +2029,21 @@ h1 {
 
     </div>
 
+
+    <!-- PERFIL -->
+
     <h3>
         👤 Perfil
     </h3>
+
+    <label>
+        Título do site
+    </label>
+
+    <input
+        id="editTitle"
+        placeholder="Meu Perfil"
+    >
 
     <label>
         Nome
@@ -1854,6 +2068,9 @@ h1 {
     <textarea
         id="editBio"
     ></textarea>
+
+
+    <!-- CORES -->
 
     <div class="grid">
 
@@ -1885,9 +2102,8 @@ h1 {
 
     </div>
 
-    <!-- =================================================
-         AVATAR
-    ================================================= -->
+
+    <!-- AVATAR -->
 
     <h3>
         🖼️ Avatar
@@ -1899,9 +2115,8 @@ h1 {
         accept="image/png,image/jpeg,image/webp,image/gif"
     >
 
-    <!-- =================================================
-         FUNDOS
-    ================================================= -->
+
+    <!-- FUNDOS -->
 
     <h3>
         🌄 Fundos
@@ -1938,9 +2153,8 @@ h1 {
 
     </select>
 
-    <!-- =================================================
-         APARÊNCIA
-    ================================================= -->
+
+    <!-- APARÊNCIA -->
 
     <h3>
         ✨ Aparência
@@ -1991,9 +2205,8 @@ h1 {
 
     </label>
 
-    <!-- =================================================
-         ESTATÍSTICAS
-    ================================================= -->
+
+    <!-- ESTATISTICAS -->
 
     <h3>
         📊 Estatísticas
@@ -2031,9 +2244,8 @@ h1 {
 
     </div>
 
-    <!-- =================================================
-         LINKS
-    ================================================= -->
+
+    <!-- LINKS -->
 
     <h3>
         🔗 Links
@@ -2054,42 +2266,40 @@ h1 {
         placeholder="GitHub"
     >
 
+
     <!-- =================================================
-         PLAYLIST
+         MUSICAS
     ================================================= -->
 
     <h3>
-        🎵 Playlist
+        🎵 Músicas
     </h3>
 
     <p
         style="
             color:#a1a1aa;
             font-size:13px;
-            line-height:1.5;
-            margin-bottom:10px;
+            margin-bottom:12px;
         "
     >
-        Você pode adicionar até 4 músicas.
-        Os áudios ficam salvos no armazenamento
-        deste navegador.
+        Você pode adicionar no máximo 4 músicas.
+        Elas ficam salvas no LocalStorage deste navegador.
     </p>
 
     <input
         id="musicInput"
         type="file"
         multiple
-        accept="audio/mpeg,audio/mp3,audio/wav,audio/ogg,audio/webm"
+        accept="audio/*"
     >
 
     <div
         id="musicEditorList"
-        class="music-editor-list"
+        style="margin-top:15px;"
     ></div>
 
-    <!-- =================================================
-         GALERIA
-    ================================================= -->
+
+    <!-- GALERIA -->
 
     <h3>
         🖼️ Galeria
@@ -2102,9 +2312,8 @@ h1 {
         accept="image/png,image/jpeg,image/webp,image/gif"
     >
 
-    <!-- =================================================
-         ARQUIVOS
-    ================================================= -->
+
+    <!-- ARQUIVOS -->
 
     <h3>
         📎 Arquivos
@@ -2116,9 +2325,8 @@ h1 {
         multiple
     >
 
-    <!-- =================================================
-         AÇÕES
-    ================================================= -->
+
+    <!-- AÇÕES -->
 
     <div class="actions">
 
@@ -2153,6 +2361,7 @@ h1 {
 
     </div>
 
+
     <div
         id="saveMessage"
         class="success"
@@ -2161,6 +2370,7 @@ h1 {
 </div>
 
 </div>
+
 
 <!-- =====================================================
      FIREBASE
@@ -2183,6 +2393,19 @@ import {
 from
 "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
+import {
+    getDatabase,
+    ref,
+    get,
+    set
+}
+from
+"https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+
+
+/* =====================================================
+   CONFIGURAÇÃO FIREBASE
+===================================================== */
 
 const firebaseConfig = {
 
@@ -2191,6 +2414,9 @@ const firebaseConfig = {
 
     authDomain:
         "myprofile-7db79.firebaseapp.com",
+
+    databaseURL:
+        "https://myprofile-7db79-default-rtdb.firebaseio.com",
 
     projectId:
         "myprofile-7db79",
@@ -2206,6 +2432,7 @@ const firebaseConfig = {
 
     measurementId:
         "G-KC2ZXS400D"
+
 };
 
 
@@ -2218,6 +2445,14 @@ const app =
 const auth =
     getAuth(app);
 
+
+const database =
+    getDatabase(app);
+
+
+/* =====================================================
+   FUNÇÕES GLOBAIS
+===================================================== */
 
 window.firebaseUser =
     null;
@@ -2249,20 +2484,118 @@ window.firebaseLogout =
     };
 
 
+/* =====================================================
+   SALVAR NO REALTIME DATABASE
+===================================================== */
+
+window.saveFirebaseProfile =
+    async function(
+        userId,
+        data
+    ) {
+
+        await set(
+            ref(
+                database,
+                "profiles/" + userId
+            ),
+            data
+        );
+
+    };
+
+
+/* =====================================================
+   CARREGAR DO REALTIME DATABASE
+===================================================== */
+
+window.loadFirebaseProfile =
+    async function(
+        userId
+    ) {
+
+        const snapshot =
+            await get(
+                ref(
+                    database,
+                    "profiles/" + userId
+                )
+            );
+
+        if (
+            snapshot.exists()
+        ) {
+
+            return snapshot.val();
+
+        }
+
+        return null;
+
+    };
+
+
+/* =====================================================
+   AUTH STATE
+===================================================== */
+
 onAuthStateChanged(
     auth,
-    user => {
+    async user => {
 
         window.firebaseUser =
             user;
+
+        if (
+            user
+        ) {
+
+            console.log(
+                "Usuário conectado:",
+                user.email
+            );
+
+            try {
+
+                const remoteProfile =
+                    await window.loadFirebaseProfile(
+                        user.uid
+                    );
+
+                if (
+                    remoteProfile
+                ) {
+
+                    profile =
+                        normalizeProfile(
+                            remoteProfile
+                        );
+
+                    saveLocal();
+
+                    renderProfile();
+
+                }
+
+            } catch(error) {
+
+                console.error(
+                    "Erro ao carregar perfil:",
+                    error
+                );
+
+            }
+
+        }
 
     }
 );
 
 </script>
 
+
 <!-- =====================================================
-     SISTEMA PRINCIPAL
+     SISTEMA
 ===================================================== -->
 
 <script>
@@ -2272,6 +2605,9 @@ onAuthStateChanged(
 ===================================================== */
 
 const defaultProfile = {
+
+    title:
+        "Meu Perfil",
 
     name:
         "Meu Nome",
@@ -2331,7 +2667,129 @@ const defaultProfile = {
 
 
 /* =====================================================
-   CARREGAR PERFIL
+   NORMALIZAR PERFIL
+===================================================== */
+
+function normalizeProfile(
+    data
+) {
+
+    const result = {
+
+        ...defaultProfile,
+        ...(data || {})
+
+    };
+
+    result.links =
+        Array.isArray(
+            result.links
+        )
+            ? result.links
+            : [];
+
+    result.gallery =
+        Array.isArray(
+            result.gallery
+        )
+            ? result.gallery
+            : [];
+
+    result.files =
+        Array.isArray(
+            result.files
+        )
+            ? result.files
+            : [];
+
+    result.backgrounds =
+        Array.isArray(
+            result.backgrounds
+        )
+            ? result.backgrounds
+            : [];
+
+    result.backgroundTime =
+        Number(
+            result.backgroundTime
+        ) ||
+        5000;
+
+    result.opacity =
+        Number(
+            result.opacity
+        );
+
+    if (
+        !Number.isFinite(
+            result.opacity
+        )
+    ) {
+
+        result.opacity =
+            .78;
+
+    }
+
+    result.blur =
+        Number(
+            result.blur
+        );
+
+    if (
+        !Number.isFinite(
+            result.blur
+        )
+    ) {
+
+        result.blur =
+            18;
+
+    }
+
+    result.radius =
+        Number(
+            result.radius
+        );
+
+    if (
+        !Number.isFinite(
+            result.radius
+        )
+    ) {
+
+        result.radius =
+            24;
+
+    }
+
+    result.posts =
+        Number(
+            result.posts
+        ) || 0;
+
+    result.followers =
+        Number(
+            result.followers
+        ) || 0;
+
+    result.views =
+        Number(
+            result.views
+        ) || 0;
+
+    result.particles =
+        Boolean(
+            result.particles
+        );
+
+    return result;
+
+}
+
+
+/* =====================================================
+   LOCALSTORAGE
 ===================================================== */
 
 let savedProfile =
@@ -2349,178 +2807,40 @@ try {
 } catch(error) {
 
     console.warn(
-        "Perfil salvo inválido.",
+        "Perfil local inválido.",
         error
     );
 
 }
 
-
-let profile = {
-
-    ...defaultProfile,
-
-    ...(savedProfile || {})
-
-};
-
-
-profile.links =
-    Array.isArray(
-        profile.links
-    )
-        ? profile.links
-        : [];
-
-
-profile.gallery =
-    Array.isArray(
-        profile.gallery
-    )
-        ? profile.gallery
-        : [];
-
-
-profile.files =
-    Array.isArray(
-        profile.files
-    )
-        ? profile.files
-        : [];
-
-
-profile.backgrounds =
-    Array.isArray(
-        profile.backgrounds
-    )
-        ? profile.backgrounds
-        : [];
-
-
-profile.name =
-    profile.name ??
-    defaultProfile.name;
-
-
-profile.username =
-    profile.username ??
-    defaultProfile.username;
-
-
-profile.bio =
-    profile.bio ??
-    defaultProfile.bio;
-
-
-profile.avatar =
-    profile.avatar ??
-    "";
-
-
-profile.primary =
-    profile.primary ??
-    defaultProfile.primary;
-
-
-profile.secondary =
-    profile.secondary ??
-    defaultProfile.secondary;
-
-
-profile.backgroundTime =
-    Number(
-        profile.backgroundTime
-    ) ||
-    defaultProfile.backgroundTime;
-
-
-profile.opacity =
-    Number(
-        profile.opacity ??
-        defaultProfile.opacity
+let profile =
+    normalizeProfile(
+        savedProfile
     );
-
-
-profile.blur =
-    Number(
-        profile.blur ??
-        defaultProfile.blur
-    );
-
-
-profile.radius =
-    Number(
-        profile.radius ??
-        defaultProfile.radius
-    );
-
-
-profile.particles =
-    profile.particles ??
-    defaultProfile.particles;
-
-
-profile.posts =
-    Number(
-        profile.posts
-    ) || 0;
-
-
-profile.followers =
-    Number(
-        profile.followers
-    ) || 0;
-
-
-profile.views =
-    Number(
-        profile.views
-    ) || 0;
 
 
 /* =====================================================
-   PLAYLIST
+   MUSICAS LOCALSTORAGE
 ===================================================== */
-
-const DEFAULT_PLAYLIST = [
-
-    {
-
-        title:
-            "20 Ligações",
-
-        artist:
-            "Baco Exu do Blues",
-
-        src:
-            "./music/music1.mp3",
-
-        cover:
-            ""
-
-    }
-
-];
-
 
 let playlist = [];
 
 
-function loadPlaylist() {
+function loadLocalMusic() {
 
     try {
 
         const saved =
             JSON.parse(
                 localStorage.getItem(
-                    "myPlaylist"
+                    "myProfileMusic"
                 )
             );
 
-
         if (
-            Array.isArray(saved) &&
-            saved.length > 0
+            Array.isArray(
+                saved
+            )
         ) {
 
             playlist =
@@ -2531,59 +2851,48 @@ function loadPlaylist() {
 
         } else {
 
-            playlist =
-                JSON.parse(
-                    JSON.stringify(
-                        DEFAULT_PLAYLIST
-                    )
-                );
+            playlist = [];
 
         }
 
     } catch(error) {
 
         console.error(
-            "Erro ao carregar playlist:",
+            "Erro ao carregar músicas:",
             error
         );
 
-        playlist =
-            JSON.parse(
-                JSON.stringify(
-                    DEFAULT_PLAYLIST
-                )
-            );
+        playlist = [];
 
     }
 
 }
 
 
-function savePlaylist() {
+function saveLocalMusic() {
 
     try {
 
         localStorage.setItem(
-            "myPlaylist",
+            "myProfileMusic",
             JSON.stringify(
-                playlist
+                playlist.slice(
+                    0,
+                    4
+                )
             )
         );
-
-        return true;
 
     } catch(error) {
 
         console.error(
-            "Erro ao salvar playlist:",
+            "Erro ao salvar músicas:",
             error
         );
 
         alert(
-            "Não foi possível salvar a playlist. O armazenamento do navegador pode estar cheio."
+            "Não foi possível salvar as músicas. O LocalStorage pode estar cheio."
         );
-
-        return false;
 
     }
 
@@ -2591,14 +2900,21 @@ function savePlaylist() {
 
 
 /* =====================================================
-   PLAYER
+   AUDIO
 ===================================================== */
+
+const audio =
+    new Audio();
+
+audio.preload =
+    "metadata";
+
+audio.volume =
+    .8;
+
 
 let currentSong =
     0;
-
-let isPlaying =
-    false;
 
 let shuffle =
     false;
@@ -2608,34 +2924,7 @@ let loop =
 
 
 /* =====================================================
-   AUDIO
-===================================================== */
-
-const audio =
-    document.getElementById(
-        "audioPlayer"
-    );
-
-
-audio.volume =
-    0.8;
-
-
-audio.addEventListener(
-    "error",
-    () => {
-
-        console.error(
-            "Erro ao carregar:",
-            audio.src
-        );
-
-    }
-);
-
-
-/* =====================================================
-   CARREGAR MÚSICA
+   CARREGAR MUSICA
 ===================================================== */
 
 function loadSong(
@@ -2661,9 +2950,14 @@ function loadSong(
         document.getElementById(
             "musicArtist"
         ).textContent =
-            "Adicione uma música pelo editor";
+            "Adicione músicas pelo editor";
 
-        renderPlaylist();
+        document.getElementById(
+            "playlist"
+        ).innerHTML =
+            "";
+
+        updatePlayButton();
 
         return;
 
@@ -2685,8 +2979,7 @@ function loadSong(
         playlist.length
     ) {
 
-        index =
-            0;
+        index = 0;
 
     }
 
@@ -2707,7 +3000,7 @@ function loadSong(
         0;
 
     audio.src =
-        song.src;
+        song.data;
 
 
     document.getElementById(
@@ -2779,7 +3072,7 @@ function loadSong(
                 error => {
 
                     console.warn(
-                        "Não foi possível iniciar:",
+                        "Não foi possível reproduzir:",
                         error
                     );
 
@@ -2801,6 +3094,10 @@ function toggleMusic() {
         !playlist.length
     ) {
 
+        alert(
+            "Adicione uma música primeiro."
+        );
+
         return;
 
     }
@@ -2810,12 +3107,22 @@ function toggleMusic() {
         audio.paused
     ) {
 
+        if (
+            !audio.src
+        ) {
+
+            loadSong(
+                currentSong
+            );
+
+        }
+
+
         audio.play()
             .catch(
                 error => {
 
                     console.error(
-                        "Falha ao reproduzir:",
                         error
                     );
 
@@ -2929,7 +3236,6 @@ function toggleShuffle() {
     shuffle =
         !shuffle;
 
-
     document.getElementById(
         "shuffleButton"
     ).classList.toggle(
@@ -2949,7 +3255,6 @@ function toggleLoop() {
     loop =
         !loop;
 
-
     document.getElementById(
         "loopButton"
     ).classList.toggle(
@@ -2961,7 +3266,7 @@ function toggleLoop() {
 
 
 /* =====================================================
-   RENDER PLAYLIST
+   PLAYLIST
 ===================================================== */
 
 function renderPlaylist() {
@@ -2970,7 +3275,6 @@ function renderPlaylist() {
         document.getElementById(
             "playlist"
         );
-
 
     container.innerHTML =
         "";
@@ -3004,66 +3308,25 @@ function renderPlaylist() {
             }
 
 
-            const number =
-                document.createElement(
-                    "div"
-                );
+            item.innerHTML = `
 
+                <div class="playlist-number">
+                    ${index + 1}
+                </div>
 
-            number.className =
-                "playlist-number";
+                <div class="playlist-name">
 
+                    <strong>
+                        ${escapeHTML(song.title)}
+                    </strong>
 
-            number.textContent =
-                index + 1;
+                    <span>
+                        ${escapeHTML(song.artist)}
+                    </span>
 
+                </div>
 
-            const name =
-                document.createElement(
-                    "div"
-                );
-
-
-            name.className =
-                "playlist-name";
-
-
-            const title =
-                document.createElement(
-                    "strong"
-                );
-
-
-            title.textContent =
-                song.title;
-
-
-            const artist =
-                document.createElement(
-                    "span"
-                );
-
-
-            artist.textContent =
-                song.artist;
-
-
-            name.appendChild(
-                title
-            );
-
-            name.appendChild(
-                artist
-            );
-
-
-            item.appendChild(
-                number
-            );
-
-            item.appendChild(
-                name
-            );
+            `;
 
 
             item.onclick =
@@ -3088,7 +3351,7 @@ function renderPlaylist() {
 
 
 /* =====================================================
-   EVENTOS AUDIO
+   AUDIO EVENTS
 ===================================================== */
 
 audio.addEventListener(
@@ -3121,18 +3384,13 @@ audio.addEventListener(
         }
 
 
-        const progress =
-            document.getElementById(
-                "progress"
-            );
-
-
-        progress.value =
+        document.getElementById(
+            "progress"
+        ).value =
             (
                 audio.currentTime /
                 audio.duration
-            ) *
-            100;
+            ) * 100;
 
 
         document.getElementById(
@@ -3163,7 +3421,6 @@ audio.addEventListener(
 
         }
 
-
         nextSong();
 
     }
@@ -3172,25 +3429,23 @@ audio.addEventListener(
 
 audio.addEventListener(
     "play",
-    () => {
-
-        isPlaying =
-            true;
-
-        updatePlayButton();
-
-    }
+    updatePlayButton
 );
 
 
 audio.addEventListener(
     "pause",
+    updatePlayButton
+);
+
+
+audio.addEventListener(
+    "error",
     () => {
 
-        isPlaying =
-            false;
-
-        updatePlayButton();
+        console.error(
+            "Erro ao carregar a música."
+        );
 
     }
 );
@@ -3221,8 +3476,7 @@ document.getElementById(
             (
                 Number(
                     event.target.value
-                ) /
-                100
+                ) / 100
             ) *
             audio.duration;
 
@@ -3250,7 +3504,7 @@ document.getElementById(
 
 
 /* =====================================================
-   FORMATAÇÃO
+   TEMPO
 ===================================================== */
 
 function formatTime(
@@ -3285,9 +3539,7 @@ function formatTime(
         );
 
 
-    return (
-        `${minutes}:${remaining}`
-    );
+    return `${minutes}:${remaining}`;
 
 }
 
@@ -3319,19 +3571,14 @@ function applyBackground() {
 
 
     const backgrounds =
-        Array.isArray(
-            profile.backgrounds
-        )
-            ? profile.backgrounds
-            : [];
+        profile.backgrounds;
 
 
     if (
         backgrounds.length
     ) {
 
-        let index =
-            0;
+        let index = 0;
 
 
         function change() {
@@ -3397,7 +3644,7 @@ function applyBackground() {
 
 
 /* =====================================================
-   PARTÍCULAS
+   PARTICULAS
 ===================================================== */
 
 function renderParticles() {
@@ -3468,50 +3715,55 @@ function renderParticles() {
 
 
 /* =====================================================
-   RENDER PERFIL
+   RENDER PROFILE
 ===================================================== */
 
 function renderProfile() {
 
-    document.documentElement
-        .style
+    document.title =
+        profile.title ||
+        "Meu Perfil";
+
+
+    document.getElementById(
+        "siteLogo"
+    ).textContent =
+        profile.title ||
+        "PROFILE";
+
+
+    document.documentElement.style
         .setProperty(
             "--primary",
             profile.primary
         );
 
 
-    document.documentElement
-        .style
+    document.documentElement.style
         .setProperty(
             "--secondary",
             profile.secondary
         );
 
 
-    document.documentElement
-        .style
+    document.documentElement.style
         .setProperty(
             "--card-opacity",
             profile.opacity
         );
 
 
-    document.documentElement
-        .style
+    document.documentElement.style
         .setProperty(
             "--blur",
-            profile.blur +
-            "px"
+            profile.blur + "px"
         );
 
 
-    document.documentElement
-        .style
+    document.documentElement.style
         .setProperty(
             "--radius",
-            profile.radius +
-            "px"
+            profile.radius + "px"
         );
 
 
@@ -3581,6 +3833,8 @@ function renderProfile() {
     applyBackground();
 
     renderParticles();
+
+    renderPlaylist();
 
 }
 
@@ -3844,7 +4098,7 @@ async function login(
     const email =
         document.getElementById(
             "loginEmail"
-        ).value;
+        ).value.trim();
 
 
     const password =
@@ -3897,7 +4151,7 @@ async function login(
 
 
 /* =====================================================
-   EDITOR
+   LOGIN MODAL
 ===================================================== */
 
 function openLogin() {
@@ -3910,6 +4164,10 @@ function openLogin() {
 
 }
 
+
+/* =====================================================
+   EDITOR
+===================================================== */
 
 function openEditor() {
 
@@ -3952,6 +4210,12 @@ function closeEditor() {
 ===================================================== */
 
 function loadEditor() {
+
+    document.getElementById(
+        "editTitle"
+    ).value =
+        profile.title;
+
 
     document.getElementById(
         "editName"
@@ -4025,68 +4289,7 @@ function loadEditor() {
         profile.followers;
 
 
-    document.getElementById(
-        "discordLink"
-    ).value =
-        "";
-
-
-    document.getElementById(
-        "youtubeLink"
-    ).value =
-        "";
-
-
-    document.getElementById(
-        "githubLink"
-    ).value =
-        "";
-
-
-    profile.links.forEach(
-        link => {
-
-            if (
-                link.label ===
-                "Discord"
-            ) {
-
-                document.getElementById(
-                    "discordLink"
-                ).value =
-                    link.url;
-
-            }
-
-
-            if (
-                link.label ===
-                "YouTube"
-            ) {
-
-                document.getElementById(
-                    "youtubeLink"
-                ).value =
-                    link.url;
-
-            }
-
-
-            if (
-                link.label ===
-                "GitHub"
-            ) {
-
-                document.getElementById(
-                    "githubLink"
-                ).value =
-                    link.url;
-
-            }
-
-        }
-    );
-
+    loadExistingLinks();
 
     renderMusicEditor();
 
@@ -4094,7 +4297,60 @@ function loadEditor() {
 
 
 /* =====================================================
-   EDITOR DA PLAYLIST
+   LINKS EXISTENTES
+===================================================== */
+
+function loadExistingLinks() {
+
+    const discord =
+        profile.links.find(
+            link =>
+                link.label ===
+                "Discord"
+        );
+
+
+    const youtube =
+        profile.links.find(
+            link =>
+                link.label ===
+                "YouTube"
+        );
+
+
+    const github =
+        profile.links.find(
+            link =>
+                link.label ===
+                "GitHub"
+        );
+
+
+    document.getElementById(
+        "discordLink"
+    ).value =
+        discord?.url ||
+        "";
+
+
+    document.getElementById(
+        "youtubeLink"
+    ).value =
+        youtube?.url ||
+        "";
+
+
+    document.getElementById(
+        "githubLink"
+    ).value =
+        github?.url ||
+        "";
+
+}
+
+
+/* =====================================================
+   EDITOR DE MUSICAS
 ===================================================== */
 
 function renderMusicEditor() {
@@ -4113,28 +4369,16 @@ function renderMusicEditor() {
         !playlist.length
     ) {
 
-        const empty =
-            document.createElement(
-                "div"
-            );
+        container.innerHTML = `
 
+            <p style="
+                color:#71717a;
+                font-size:13px;
+            ">
+                Nenhuma música adicionada.
+            </p>
 
-        empty.style.color =
-            "#a1a1aa";
-
-
-        empty.style.fontSize =
-            "13px";
-
-
-        empty.textContent =
-            "Nenhuma música adicionada.";
-
-
-        container.appendChild(
-            empty
-        );
-
+        `;
 
         return;
 
@@ -4157,77 +4401,96 @@ function renderMusicEditor() {
                 "music-editor-item";
 
 
-            const info =
-                document.createElement(
-                    "div"
-                );
+            item.innerHTML = `
+
+                <input
+                    value="${escapeAttribute(song.title)}"
+                    placeholder="Título"
+                    data-title
+                >
+
+                <input
+                    value="${escapeAttribute(song.artist)}"
+                    placeholder="Artista"
+                    data-artist
+                >
+
+                <button
+                    type="button"
+                    data-remove
+                >
+                    🗑️ Remover
+                </button>
+
+            `;
 
 
-            info.className =
-                "music-editor-info";
+            item.querySelector(
+                "[data-title]"
+            ).addEventListener(
+                "input",
+                event => {
 
+                    playlist[index].title =
+                        event.target.value;
 
-            const title =
-                document.createElement(
-                    "strong"
-                );
+                    saveLocalMusic();
 
-
-            title.textContent =
-                `${index + 1}. ${song.title}`;
-
-
-            const artist =
-                document.createElement(
-                    "span"
-                );
-
-
-            artist.textContent =
-                song.artist;
-
-
-            info.appendChild(
-                title
+                }
             );
 
 
-            info.appendChild(
-                artist
+            item.querySelector(
+                "[data-artist]"
+            ).addEventListener(
+                "input",
+                event => {
+
+                    playlist[index].artist =
+                        event.target.value;
+
+                    saveLocalMusic();
+
+                }
             );
 
 
-            const remove =
-                document.createElement(
-                    "button"
-                );
-
-
-            remove.className =
-                "music-delete";
-
-
-            remove.textContent =
-                "🗑️ Remover";
-
-
-            remove.onclick =
+            item.querySelector(
+                "[data-remove]"
+            ).addEventListener(
+                "click",
                 () => {
 
-                    removeMusic(
-                        index
+                    playlist.splice(
+                        index,
+                        1
                     );
 
-                };
+
+                    if (
+                        currentSong >=
+                        playlist.length
+                    ) {
+
+                        currentSong =
+                            Math.max(
+                                0,
+                                playlist.length - 1
+                            );
+
+                    }
 
 
-            item.appendChild(
-                info
-            );
+                    saveLocalMusic();
 
+                    renderMusicEditor();
 
-            item.appendChild(
-                remove
+                    loadSong(
+                        currentSong,
+                        false
+                    );
+
+                }
             );
 
 
@@ -4242,100 +4505,74 @@ function renderMusicEditor() {
 
 
 /* =====================================================
-   ADICIONAR MÚSICAS
+   ADICIONAR MUSICAS
 ===================================================== */
 
-async function addMusicFiles() {
+document.getElementById(
+    "musicInput"
+).addEventListener(
+    "change",
+    async event => {
 
-    const input =
-        document.getElementById(
-            "musicInput"
-        );
-
-
-    if (
-        !input.files.length
-    ) {
-
-        return true;
-
-    }
-
-
-    const files =
-        Array.from(
-            input.files
-        );
-
-
-    if (
-        playlist.length +
-        files.length >
-        4
-    ) {
-
-        alert(
-            `Você só pode ter 4 músicas.\n\n` +
-            `Atualmente: ${playlist.length}/4`
-        );
-
-
-        input.value =
-            "";
-
-
-        return false;
-
-    }
-
-
-    const MAX_SIZE =
-        1 * 1024 * 1024;
-
-
-    for (
-        const file
-        of files
-    ) {
-
-        if (
-            !file.type.startsWith(
-                "audio/"
-            )
-        ) {
-
-            alert(
-                `"${file.name}" não é um áudio.`
+        const files =
+            Array.from(
+                event.target.files
             );
 
-            continue;
+
+        if (
+            !files.length
+        ) {
+
+            return;
 
         }
 
 
+        const remaining =
+            4 -
+            playlist.length;
+
+
         if (
-            file.size >
-            MAX_SIZE
+            remaining <= 0
         ) {
 
             alert(
-                `"${file.name}" é muito grande.\n\n` +
-                `Limite: 1 MB por música.\n` +
-                `Tamanho atual: ` +
-                `${(
-                    file.size /
-                    1024 /
-                    1024
-                ).toFixed(2)} MB`
+                "A playlist já possui 4 músicas."
             );
 
+            event.target.value =
+                "";
 
-            continue;
+            return;
 
         }
 
 
-        try {
+        const selected =
+            files.slice(
+                0,
+                remaining
+            );
+
+
+        if (
+            files.length >
+            remaining
+        ) {
+
+            alert(
+                `Só ${remaining} música(s) foram adicionada(s). O limite é 4.`
+            );
+
+        }
+
+
+        for (
+            const file
+            of selected
+        ) {
 
             const data =
                 await fileToDataURL(
@@ -4346,16 +4583,15 @@ async function addMusicFiles() {
             playlist.push({
 
                 title:
-                    file.name
-                        .replace(
-                            /\.[^/.]+$/,
-                            ""
-                        ),
+                    file.name.replace(
+                        /\.[^/.]+$/,
+                        ""
+                    ),
 
                 artist:
-                    "Meu Perfil",
+                    "Artista desconhecido",
 
-                src:
+                data:
                     data,
 
                 cover:
@@ -4363,122 +4599,34 @@ async function addMusicFiles() {
 
             });
 
+        }
 
-        } catch(error) {
 
-            console.error(
-                "Erro ao converter áudio:",
-                error
+        saveLocalMusic();
+
+        renderMusicEditor();
+
+        renderPlaylist();
+
+
+        if (
+            playlist.length ===
+            1
+        ) {
+
+            loadSong(
+                0,
+                false
             );
 
         }
 
-    }
 
-
-    input.value =
-        "";
-
-
-    renderMusicEditor();
-
-
-    renderPlaylist();
-
-
-    return true;
-
-}
-
-
-/* =====================================================
-   REMOVER MÚSICA
-===================================================== */
-
-function removeMusic(
-    index
-) {
-
-    if (
-        index < 0 ||
-        index >= playlist.length
-    ) {
-
-        return;
+        event.target.value =
+            "";
 
     }
-
-
-    const wasCurrent =
-        index === currentSong;
-
-
-    playlist.splice(
-        index,
-        1
-    );
-
-
-    if (
-        currentSong >=
-        playlist.length
-    ) {
-
-        currentSong =
-            Math.max(
-                0,
-                playlist.length - 1
-            );
-
-    }
-
-
-    savePlaylist();
-
-
-    renderMusicEditor();
-
-    renderPlaylist();
-
-
-    if (
-        playlist.length > 0 &&
-        wasCurrent
-    ) {
-
-        loadSong(
-            currentSong,
-            false
-        );
-
-    }
-
-
-    if (
-        playlist.length === 0
-    ) {
-
-        audio.pause();
-
-        audio.removeAttribute(
-            "src"
-        );
-
-
-        document.getElementById(
-            "musicTitle"
-        ).textContent =
-            "Nenhuma música";
-
-
-        document.getElementById(
-            "musicArtist"
-        ).textContent =
-            "Adicione uma música pelo editor";
-
-    }
-
-}
+);
 
 
 /* =====================================================
@@ -4496,6 +4644,15 @@ async function saveProfile() {
         return;
 
     }
+
+
+    /* PERFIL */
+
+    profile.title =
+        document.getElementById(
+            "editTitle"
+        ).value.trim() ||
+        "Meu Perfil";
 
 
     profile.name =
@@ -4571,7 +4728,7 @@ async function saveProfile() {
             document.getElementById(
                 "editPosts"
             ).value
-        );
+        ) || 0;
 
 
     profile.followers =
@@ -4579,15 +4736,14 @@ async function saveProfile() {
             document.getElementById(
                 "editFollowers"
             ).value
-        );
+        ) || 0;
 
 
     /* =================================================
        LINKS
     ================================================= */
 
-    const newLinks =
-        [];
+    const newLinks = [];
 
 
     const discord =
@@ -4764,58 +4920,35 @@ async function saveProfile() {
 
 
     /* =================================================
-       MÚSICAS
+       LOCAL
     ================================================= */
 
-    const musicSuccess =
-        await addMusicFiles();
-
-
-    if (
-        !musicSuccess
-    ) {
-
-        return;
-
-    }
+    saveLocal();
 
 
     /* =================================================
-       SALVAR
+       FIREBASE
     ================================================= */
 
     try {
 
-        localStorage.setItem(
-            "myProfile",
-            JSON.stringify(
-                profile
-            )
+        await window.saveFirebaseProfile(
+            window.firebaseUser.uid,
+            profile
         );
-
-
-        localStorage.setItem(
-            "myPlaylist",
-            JSON.stringify(
-                playlist
-            )
-        );
-
 
     } catch(error) {
 
         console.error(
-            "Erro ao salvar:",
+            "Erro no Firebase:",
             error
         );
 
-
         alert(
-            "Não foi possível salvar tudo.\n\n" +
-            "O armazenamento do navegador provavelmente está cheio.\n\n" +
-            "Tente remover imagens, arquivos ou músicas."
+            "O perfil foi salvo localmente, mas não foi possível salvar no Firebase."
         );
 
+        renderProfile();
 
         return;
 
@@ -4825,13 +4958,10 @@ async function saveProfile() {
     renderProfile();
 
 
-    renderMusicEditor();
-
-
     document.getElementById(
         "saveMessage"
     ).textContent =
-        "✓ Salvo com sucesso!";
+        "✓ Tudo salvo com sucesso!";
 
 
     setTimeout(
@@ -4844,59 +4974,6 @@ async function saveProfile() {
 
         },
         2500
-    );
-
-}
-
-
-/* =====================================================
-   RESTAURAR PERFIL
-===================================================== */
-
-function resetProfile() {
-
-    if (
-        !confirm(
-            "Restaurar o perfil e apagar as músicas salvas?"
-        )
-    ) {
-
-        return;
-
-    }
-
-
-    profile =
-        JSON.parse(
-            JSON.stringify(
-                defaultProfile
-            )
-        );
-
-
-    playlist =
-        JSON.parse(
-            JSON.stringify(
-                DEFAULT_PLAYLIST
-            )
-        );
-
-
-    saveLocal();
-
-
-    savePlaylist();
-
-
-    renderProfile();
-
-
-    loadEditor();
-
-
-    loadSong(
-        0,
-        false
     );
 
 }
@@ -4917,24 +4994,75 @@ function saveLocal() {
             )
         );
 
-        return true;
-
     } catch(error) {
 
         console.error(
-            "Erro ao salvar perfil:",
+            "Erro ao salvar LocalStorage:",
             error
         );
 
-
         alert(
-            "O perfil ultrapassou o limite de armazenamento do navegador."
+            "O LocalStorage está cheio. Algumas imagens/arquivos podem ser grandes demais."
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   RESTAURAR
+===================================================== */
+
+async function resetProfile() {
+
+    if (
+        !confirm(
+            "Restaurar o perfil para o padrão?"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    profile =
+        JSON.parse(
+            JSON.stringify(
+                defaultProfile
+            )
         );
 
 
-        return false;
+    saveLocal();
+
+
+    if (
+        window.firebaseUser
+    ) {
+
+        try {
+
+            await window.saveFirebaseProfile(
+                window.firebaseUser.uid,
+                profile
+            );
+
+        } catch(error) {
+
+            console.error(
+                error
+            );
+
+        }
 
     }
+
+
+    renderProfile();
+
+    loadEditor();
 
 }
 
@@ -4954,11 +5082,60 @@ async function logout() {
     } catch(error) {
 
         console.error(
-            "Erro ao sair:",
             error
         );
 
     }
+
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(
+    text
+) {
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+
+    div.textContent =
+        text ?? "";
+
+
+    return div.innerHTML;
+
+}
+
+
+function escapeAttribute(
+    text
+) {
+
+    return String(
+        text ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    );
 
 }
 
@@ -4984,7 +5161,7 @@ function setLanguage(
 
 
 /* =====================================================
-   ATALHO SECRETO
+   ATALHO
 ===================================================== */
 
 document.addEventListener(
@@ -5024,31 +5201,17 @@ document.addEventListener(
 
 
 /* =====================================================
-   INICIALIZAÇÃO
+   INICIAR
 ===================================================== */
 
-loadPlaylist();
-
+loadLocalMusic();
 
 renderProfile();
 
-
-renderPlaylist();
-
-
-renderMusicEditor();
-
-
-if (
-    playlist.length
-) {
-
-    loadSong(
-        0,
-        false
-    );
-
-}
+loadSong(
+    0,
+    false
+);
 
 </script>
 
