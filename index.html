@@ -5,1187 +5,278 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meu Perfil</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        
-        :root {
-            --primary: #8b5cf6;
-            --secondary: #6366f1;
-            --background: #08080b;
-            --text: #ffffff;
-            --muted: #a1a1aa;
-            --card-opacity: .78;
-            --blur: 18px;
-            --radius: 20px;
-        }
-        
-        html {
-            scroll-behavior: smooth;
-            font-size: 14px;
-        }
-        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        :root { --primary: #8b5cf6; --secondary: #6366f1; --text: #ffffff; --muted: #a1a1aa; }
         body {
             min-height: 100vh;
-            font-family: Inter, Arial, Helvetica, sans-serif;
+            font-family: Arial, sans-serif;
             color: var(--text);
-            background: var(--background);
-            overflow-x: hidden;
-            line-height: 1.5;
-        }
-        
-        #entryScreen {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            background: #000;
+            background: #08080b;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            transition: opacity 0.5s ease;
+            padding: 20px;
         }
-        
-        #entryScreen.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-        
-        .roll-container {
-            text-align: center;
-            position: relative;
-        }
-        
-        .roll-title {
-            font-size: 48px;
-            font-weight: 900;
-            letter-spacing: 8px;
-            animation: rollPulse 2s infinite;
-            text-shadow: 2px 0 #ff00ff, -2px 0 #00ffff;
-        }
-        
-        .roll-subtitle {
-            font-size: 14px;
-            color: #888;
-            margin-top: 20px;
-        }
-        
-        .roll-percentage {
-            font-size: 72px;
-            font-weight: 900;
-            margin-top: 30px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .roll-bar {
-            width: 300px;
-            height: 4px;
-            background: #222;
-            border-radius: 2px;
-            margin-top: 20px;
-            overflow: hidden;
-        }
-        
-        .roll-bar-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            transition: width 0.1s ease;
-        }
-        
-        .roll-result {
-            font-size: 24px;
-            font-weight: 700;
-            margin-top: 30px;
-            padding: 15px 30px;
-            border-radius: 12px;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        
-        .roll-result.show {
-            opacity: 1;
-        }
-        
-        .roll-result.normal {
-            background: rgba(139,92,246,.2);
-            border: 2px solid var(--primary);
-            color: #c4b5fd;
-        }
-        
-        .roll-result.secret {
-            background: rgba(239,68,68,.2);
-            border: 2px solid #ef4444;
-            color: #fca5a5;
-        }
-        
-        @keyframes rollPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-        
         #background {
             position: fixed;
-            inset: -50px;
-            z-index: -10;
+            inset: 0;
+            z-index: -1;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             background-size: cover;
             background-position: center;
-            animation: backgroundMove 30s ease-in-out infinite;
+            animation: bgMove 30s infinite;
         }
-        
-        #background::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: rgba(0,0,0,.45);
-        }
-        
-        @keyframes backgroundMove {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(-2%, 1%) scale(1.05); }
-            50% { transform: translate(2%, -1%) scale(1.1); }
-            75% { transform: translate(-1%, -2%) scale(1.05); }
-        }
-        
-        .topbar {
-            width: min(900px, 94%);
-            margin: 10px auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            padding: 8px 15px;
-            background: rgba(15,15,20,.5);
-            border-radius: 12px;
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255,255,255,.1);
-        }
-        
-        .logo {
-            font-size: 14px;
-            font-weight: 700;
-            letter-spacing: 2px;
-        }
-        
-        .topbar-right {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .languages {
-            display: flex;
-            gap: 4px;
-        }
-        
-        .languages button,
-        .edit-button {
-            border: 1px solid rgba(255,255,255,.12);
-            background: rgba(15,15,20,.75);
-            color: white;
-            padding: 6px 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 11px;
-            transition: all .2s ease;
-        }
-        
-        .languages button:hover,
-        .edit-button:hover {
-            border-color: var(--primary);
-            background: rgba(139,92,246,.2);
-        }
-        
-        .edit-button {
-            background: var(--primary);
-            border-color: var(--primary);
-            font-weight: 600;
-        }
-        
-        .container {
-            width: min(850px, 94%);
-            margin: 15px auto 30px;
-        }
-        
+        #background::after { content: ""; position: absolute; inset: 0; background: rgba(0,0,0,.5); }
+        @keyframes bgMove { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
         .profile-card {
+            width: min(500px, 100%);
+            border-radius: 20px;
             overflow: hidden;
+            background: rgba(18,18,23,.85);
+            backdrop-filter: blur(20px);
             border: 1px solid rgba(255,255,255,.1);
-            border-radius: var(--radius);
-            background: rgba(18, 18, 23, var(--card-opacity));
-            backdrop-filter: blur(var(--blur));
-            box-shadow: 0 20px 60px rgba(0,0,0,.5);
+            box-shadow: 0 30px 80px rgba(0,0,0,.6);
         }
-        
-        .banner {
-            height: 200px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            background-size: cover;
-            background-position: center;
-            animation: bannerMove 20s ease-in-out infinite;
-        }
-        
-        @keyframes bannerMove {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-        
-        .profile-content {
-            padding: 0 25px 30px;
-        }
-        
-        .avatar {
-            width: 100px;
-            height: 100px;
-            margin-top: -50px;
-            border-radius: 50%;
-            object-fit: cover;
-            background: #18181b;
-            border: 4px solid rgba(255,255,255,.15);
-            box-shadow: 0 10px 30px rgba(0,0,0,.6);
-            transition: transform .3s ease;
-        }
-        
-        .avatar:hover {
-            transform: scale(1.1) rotate(5deg);
-        }
-        
-        h1 {
-            margin-top: 10px;
-            font-size: 24px;
-        }
-        
-        .verified {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: var(--primary);
-            font-size: 12px;
-            vertical-align: middle;
-        }
-        
-        .username {
-            color: var(--muted);
-            margin-top: 4px;
-            font-size: 13px;
-        }
-        
-        .bio {
-            margin-top: 12px;
-            color: #e4e4e7;
-            line-height: 1.6;
-            white-space: pre-wrap;
-            font-size: 13px;
-        }
-        
-        .profile-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 700;
-            margin-top: 12px;
-        }
-        
-        .profile-badge.normal {
-            background: rgba(139,92,246,.15);
-            border: 1px solid var(--primary);
-            color: #c4b5fd;
-        }
-        
-        .profile-badge.secret {
-            background: rgba(239,68,68,.15);
-            border: 1px solid #ef4444;
-            color: #fca5a5;
-        }
-        
-        .stats {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            margin: 20px 0;
-        }
-        
-        .stat strong {
-            font-size: 18px;
-        }
-        
-        .stat span {
-            color: var(--muted);
-            font-size: 11px;
-        }
-        
-        .links {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        
-        .links a {
-            padding: 8px 12px;
-            border-radius: 10px;
-            color: white;
-            text-decoration: none;
-            background: rgba(255,255,255,.07);
-            border: 1px solid rgba(255,255,255,.1);
-            font-size: 12px;
-        }
-        
-        .links a:hover {
-            border-color: var(--primary);
-        }
-        
-        .section {
-            margin-top: 30px;
-        }
-        
-        .section-title {
-            margin-bottom: 15px;
-            font-size: 18px;
-            font-weight: 700;
-        }
-        
-        .music-player {
-            padding: 20px;
-            border-radius: 16px;
-            border: 1px solid rgba(255,255,255,.1);
-            background: rgba(255,255,255,.06);
-        }
-        
-        .music-main {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .music-cover {
-            width: 60px;
-            height: 60px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-        }
-        
-        .music-title {
-            font-size: 15px;
-            font-weight: 700;
-        }
-        
-        .music-artist {
-            color: var(--muted);
-            font-size: 12px;
-        }
-        
-        .progress-container {
-            margin-top: 15px;
-        }
-        
-        #progress {
-            width: 100%;
-            accent-color: var(--primary);
-            height: 5px;
-        }
-        
-        .time {
-            display: flex;
-            justify-content: space-between;
-            color: var(--muted);
-            font-size: 10px;
-        }
-        
-        .music-controls {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 12px;
-        }
-        
-        .music-controls button {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            border: 1px solid rgba(255,255,255,.1);
-            background: rgba(255,255,255,.07);
-            color: white;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        
-        .music-controls .play {
-            width: 45px;
-            height: 45px;
-            background: var(--primary);
-            border: none;
-            font-size: 18px;
-        }
-        
-        .volume {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            justify-content: center;
-            margin-top: 10px;
-        }
-        
-        #volume {
-            width: 100px;
-            accent-color: var(--primary);
-        }
-        
-        .playlist {
-            display: grid;
-            gap: 6px;
-            margin-top: 15px;
-        }
-        
-        .playlist-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px;
-            border-radius: 10px;
-            background: rgba(255,255,255,.04);
-            cursor: pointer;
-        }
-        
-        .playlist-item.active {
-            background: rgba(139,92,246,.15);
-            border-color: var(--primary);
-        }
-        
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 10px;
-        }
-        
-        .gallery img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 10px;
-        }
-        
-        .files {
-            display: grid;
-            gap: 8px;
-        }
-        
-        .file {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 12px;
-            border-radius: 8px;
-            background: rgba(255,255,255,.06);
-        }
-        
-        .file a {
-            color: #c4b5fd;
-        }
-        
-        .overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 15px;
-            background: rgba(0,0,0,.85);
-            backdrop-filter: blur(15px);
-            overflow-y: auto;
-        }
-        
-        .hidden {
-            display: none !important;
-        }
-        
-        .modal {
-            width: min(400px, 100%);
-            max-height: 90vh;
-            overflow-y: auto;
-            padding: 25px;
-            border-radius: 16px;
-            background: #18181b;
-            box-shadow: 0 25px 70px rgba(0,0,0,.8);
-        }
-        
-        .editor {
-            width: min(700px, 100%);
-        }
-        
-        .modal h2 {
-            margin-bottom: 15px;
-            font-size: 18px;
-        }
-        
-        .modal h3 {
-            margin-top: 20px;
-            margin-bottom: 10px;
-            font-size: 14px;
-            color: var(--primary);
-            border-bottom: 1px solid rgba(255,255,255,.1);
-            padding-bottom: 5px;
-        }
-        
-        .modal label {
-            display: block;
-            color: #d4d4d8;
-            font-size: 12px;
-            margin-top: 8px;
-            font-weight: 600;
-        }
-        
-        .modal input,
-        .modal textarea {
-            width: 100%;
-            padding: 8px 10px;
-            margin: 4px 0 8px;
-            border: 1px solid rgba(255,255,255,.15);
-            border-radius: 8px;
-            background: #09090b;
-            color: white;
-            font-size: 13px;
-        }
-        
-        .modal button {
-            padding: 8px 12px;
-            border-radius: 8px;
-            border: 1px solid rgba(255,255,255,.1);
-            background: rgba(255,255,255,.07);
-            color: white;
-            cursor: pointer;
-            font-size: 12px;
-        }
-        
-        .primary-button {
-            background: var(--primary) !important;
-        }
-        
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-        
-        .actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 20px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(255,255,255,.1);
-        }
-        
-        .error {
-            color: #f87171;
-            font-size: 12px;
-        }
-        
-        .success {
-            color: #4ade80;
-            font-size: 12px;
-        }
-        
-        @media(max-width: 600px) {
-            .topbar { width: 92%; padding: 6px 10px; }
-            .container { width: 94%; }
-            .profile-content { padding: 0 15px 20px; }
-            .banner { height: 120px; }
-            .avatar { width: 70px; height: 70px; margin-top: -35px; }
-            .grid { grid-template-columns: 1fr; }
-            .roll-title { font-size: 32px; }
-            .roll-percentage { font-size: 48px; }
-        }
+        .banner { height: 150px; background: linear-gradient(135deg, var(--primary), var(--secondary)); background-size: cover; background-position: center; }
+        .content { padding: 0 25px 30px; text-align: center; }
+        .avatar { width: 100px; height: 100px; margin-top: -50px; border-radius: 50%; border: 4px solid rgba(255,255,255,.2); object-fit: cover; background: #18181b; }
+        h1 { margin-top: 10px; font-size: 24px; }
+        .username { color: var(--muted); font-size: 14px; margin-top: 4px; }
+        .bio { margin-top: 15px; color: #e4e4e7; font-size: 14px; line-height: 1.6; }
+        .badge { display: inline-block; margin-top: 15px; padding: 6px 15px; border-radius: 20px; font-size: 12px; font-weight: bold; background: rgba(139,92,246,.2); border: 1px solid var(--primary); color: #c4b5fd; }
+        .badge.secret { background: rgba(239,68,68,.2); border-color: #ef4444; color: #fca5a5; }
+        .links { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+        .links a { padding: 8px 15px; border-radius: 10px; background: rgba(255,255,255,.08); color: white; text-decoration: none; font-size: 13px; border: 1px solid rgba(255,255,255,.1); transition: .2s; }
+        .links a:hover { border-color: var(--primary); background: rgba(139,92,246,.2); }
+        .loading { text-align: center; font-size: 18px; color: var(--muted); padding: 50px; }
+        .edit-btn { position: fixed; top: 20px; right: 20px; padding: 10px 20px; border-radius: 10px; background: var(--primary); color: white; border: none; cursor: pointer; font-size: 14px; font-weight: bold; z-index: 100; }
+        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,.9); display: flex; align-items: center; justify-content: center; padding: 20px; z-index: 1000; overflow-y: auto; }
+        .hidden { display: none !important; }
+        .editor { width: min(500px, 100%); background: #18181b; border-radius: 15px; padding: 25px; max-height: 90vh; overflow-y: auto; }
+        .editor h2 { margin-bottom: 20px; font-size: 20px; }
+        .editor label { display: block; font-size: 12px; font-weight: bold; margin-top: 12px; color: #d4d4d8; }
+        .editor input, .editor textarea { width: 100%; padding: 10px; margin-top: 4px; border-radius: 8px; border: 1px solid rgba(255,255,255,.15); background: #09090b; color: white; font-size: 14px; }
+        .editor textarea { min-height: 80px; resize: vertical; }
+        .editor button { padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; font-size: 14px; font-weight: bold; margin-top: 15px; background: var(--primary); color: white; }
+        .editor .cancel-btn { background: rgba(255,255,255,.1); margin-left: 10px; }
+        .success-msg { color: #4ade80; margin-top: 10px; font-size: 13px; }
+        .error-msg { color: #f87171; margin-top: 10px; font-size: 13px; }
     </style>
 </head>
 <body>
-    <div id="entryScreen">
-        <div class="roll-container">
-            <div class="roll-title">PROFILE</div>
-            <div class="roll-subtitle">ROLANDO PERFIL...</div>
-            <div class="roll-percentage" id="rollPercentage">0%</div>
-            <div class="roll-bar">
-                <div class="roll-bar-fill" id="rollBar" style="width: 0%;"></div>
+    <div id="background"></div>
+    <button class="edit-btn" onclick="openLogin()">✏️ Editar</button>
+    
+    <div class="profile-card" id="profileCard">
+        <div class="loading" id="loading">Carregando perfil...</div>
+        <div id="profileContent" class="hidden">
+            <div class="banner" id="banner"></div>
+            <div class="content">
+                <img id="avatar" class="avatar" alt="Avatar">
+                <h1><span id="name"></span> ✓</h1>
+                <div class="username" id="username"></div>
+                <p class="bio" id="bio"></p>
+                <div class="badge" id="badge">✨ Perfil Normal</div>
+                <div class="links" id="links"></div>
             </div>
-            <div class="roll-result" id="rollResult"></div>
         </div>
     </div>
     
-    <div id="background"></div>
-    
-    <header class="topbar">
-        <div id="siteLogo" class="logo">PROFILE</div>
-        <div class="topbar-right">
-            <div class="languages">
-                <button onclick="setLanguage('pt-BR')">🇧🇷 PT</button>
-                <button onclick="setLanguage('en-US')">🇺🇸 EN</button>
-            </div>
-            <button class="edit-button" onclick="openEditor()">✏️ Editar Perfil</button>
-        </div>
-    </header>
-    
-    <main class="container">
-        <article class="profile-card">
-            <div id="banner" class="banner"></div>
-            <div class="profile-content">
-                <img id="avatar" class="avatar" alt="Avatar">
-                <h1><span id="name">Carregando...</span> <span class="verified">✓</span></h1>
-                <div id="username" class="username">@carregando</div>
-                <p id="bio" class="bio">Carregando perfil...</p>
-                <div class="profile-badge normal" id="profileBadge">✨ Perfil Normal</div>
-                
-                <div class="stats">
-                    <div class="stat"><strong id="views">0</strong><span>Visualizações</span></div>
-                    <div class="stat"><strong id="posts">0</strong><span>Posts</span></div>
-                    <div class="stat"><strong id="followers">0</strong><span>Seguidores</span></div>
-                </div>
-                
-                <div id="links" class="links"></div>
-                
-                <section class="section">
-                    <h2 class="section-title">🎵 Música</h2>
-                    <div class="music-player">
-                        <div class="music-main">
-                            <div id="musicCover" class="music-cover">🎵</div>
-                            <div class="music-info">
-                                <div id="musicTitle" class="music-title">Nenhuma música</div>
-                                <div id="musicArtist" class="music-artist">Adicione músicas pelo editor</div>
-                            </div>
-                        </div>
-                        <div class="progress-container">
-                            <input id="progress" type="range" min="0" max="100" value="0" step="0.1">
-                            <div class="time"><span id="currentTime">0:00</span><span id="duration">0:00</span></div>
-                        </div>
-                        <div class="music-controls">
-                            <button onclick="previousSong()">⏮</button>
-                            <button id="playButton" class="play" onclick="toggleMusic()">▶</button>
-                            <button onclick="nextSong()">⏭</button>
-                        </div>
-                        <div class="volume"><span>🔊</span><input id="volume" type="range" min="0" max="1" step="0.01" value="0.8"></div>
-                        <div id="playlist" class="playlist"></div>
-                    </div>
-                </section>
-                
-                <section class="section">
-                    <h2 class="section-title">🖼️ Galeria</h2>
-                    <div id="gallery" class="gallery"></div>
-                </section>
-                
-                <section class="section">
-                    <h2 class="section-title">📎 Arquivos</h2>
-                    <div id="files" class="files"></div>
-                </section>
-            </div>
-        </article>
-    </main>
-    
     <div id="loginModal" class="overlay hidden">
-        <form class="modal" onsubmit="login(event)">
-            <h2>🔐 Login</h2>
-            <label>E-mail</label>
-            <input id="loginEmail" type="email" required>
+        <div class="editor">
+            <h2>🔐 Senha de Edição</h2>
             <label>Senha</label>
-            <input id="loginPassword" type="password" required>
-            <div id="loginError" class="error"></div>
-            <button class="primary-button" type="submit" style="width:100%;margin-top:15px;">Entrar</button>
-            <button type="button" onclick="closeLogin()" style="width:100%;margin-top:8px;">Cancelar</button>
-        </form>
+            <input id="editPassword" type="password" placeholder="Digite a senha">
+            <div class="error-msg" id="loginError"></div>
+            <div>
+                <button onclick="checkPassword()">Entrar</button>
+                <button class="cancel-btn" onclick="closeLogin()">Cancelar</button>
+            </div>
+        </div>
     </div>
     
     <div id="editorModal" class="overlay hidden">
-        <div class="modal editor">
-            <div class="editor-header">
-                <h2>🎨 Editor Completo</h2>
-                <button onclick="closeEditor()">×</button>
-            </div>
+        <div class="editor">
+            <h2>✏️ Editar Perfil</h2>
             
-            <h3>🎲 Sistema de Rolagem</h3>
+            <label>Nome</label>
+            <input id="editName" placeholder="Seu nome">
+            
+            <label>Username</label>
+            <input id="editUsername" placeholder="@usuario">
+            
+            <label>Biografia</label>
+            <textarea id="editBio" placeholder="Sua bio"></textarea>
+            
+            <label>Avatar (upload)</label>
+            <input id="avatarInput" type="file" accept="image/*">
+            
+            <label>Banner (upload)</label>
+            <input id="bannerInput" type="file" accept="image/*">
+            
+            <label>Fundo (upload)</label>
+            <input id="backgroundInput" type="file" accept="image/*">
+            
+            <label>Cor Principal</label>
+            <input id="editPrimary" type="color" value="#8b5cf6">
+            
+            <label>Cor Secundária</label>
+            <input id="editSecondary" type="color" value="#6366f1">
+            
+            <label>Discord</label>
+            <input id="editDiscord" placeholder="https://discord.gg/...">
+            
+            <label>YouTube</label>
+            <input id="editYoutube" placeholder="https://youtube.com/...">
+            
+            <label>GitHub</label>
+            <input id="editGithub" placeholder="https://github.com/...">
+            
             <label>Chance do Perfil Secreto (%)</label>
             <input id="editSecretChance" type="number" min="0" max="100" value="30">
-            <label>Duração da Rolagem (segundos)</label>
-            <input id="editRollDuration" type="number" min="1" max="10" value="3">
             
-            <h3>👤 Perfil Normal</h3>
-            <label>Nome</label>
-            <input id="editNameNormal" placeholder="Seu nome">
-            <label>Username</label>
-            <input id="editUsernameNormal" placeholder="@usuario">
-            <label>Biografia</label>
-            <textarea id="editBioNormal" placeholder="Sua bio"></textarea>
+            <label>Nome Secreto</label>
+            <input id="editSecretName" placeholder="Nome secreto">
             
-            <h3>🔒 Perfil Secreto</h3>
-            <label>Nome</label>
-            <input id="editNameSecret" placeholder="Nome secreto">
-            <label>Username</label>
-            <input id="editUsernameSecret" placeholder="@secreto">
-            <label>Biografia</label>
-            <textarea id="editBioSecret" placeholder="Bio secreta"></textarea>
+            <label>Bio Secreta</label>
+            <textarea id="editSecretBio" placeholder="Bio secreta"></textarea>
             
-            <h3>✨ Aparência</h3>
-            <div class="grid">
-                <div><label>Cor Principal</label><input id="editPrimary" type="color" value="#8b5cf6"></div>
-                <div><label>Cor Secundária</label><input id="editSecondary" type="color" value="#6366f1"></div>
+            <div>
+                <button onclick="saveProfile()">💾 Salvar</button>
+                <button class="cancel-btn" onclick="closeEditor()">Cancelar</button>
             </div>
-            
-            <h3>🖼️ Avatares e Fundos</h3>
-            <label>Avatar Normal</label>
-            <input id="avatarNormalInput" type="file" accept="image/*">
-            <label>Avatar Secreto</label>
-            <input id="avatarSecretInput" type="file" accept="image/*">
-            <label>Banner Normal</label>
-            <input id="bannerNormalInput" type="file" accept="image/*">
-            <label>Banner Secreto</label>
-            <input id="bannerSecretInput" type="file" accept="image/*">
-            <label>Fundo Normal</label>
-            <input id="backgroundNormalInput" type="file" accept="image/*">
-            <label>Fundo Secreto</label>
-            <input id="backgroundSecretInput" type="file" accept="image/*">
-            
-            <h3>🔗 Links Sociais</h3>
-            <label>Discord</label>
-            <input id="discordLink" placeholder="https://discord.gg/...">
-            <label>YouTube</label>
-            <input id="youtubeLink" placeholder="https://youtube.com/...">
-            <label>GitHub</label>
-            <input id="githubLink" placeholder="https://github.com/...">
-            
-            <h3>🎵 Músicas</h3>
-            <label>Playlist Normal</label>
-            <input id="musicNormalInput" type="file" multiple accept="audio/*">
-            <div id="musicNormalEditorList"></div>
-            <label>Playlist Secreta</label>
-            <input id="musicSecretInput" type="file" multiple accept="audio/*">
-            <div id="musicSecretEditorList"></div>
-            
-            <h3>🖼️ Galeria</h3>
-            <input id="galleryInput" type="file" multiple accept="image/*">
-            
-            <h3>📎 Arquivos</h3>
-            <input id="filesInput" type="file" multiple>
-            
-            <div class="actions">
-                <button type="button" class="primary-button" onclick="saveProfile()">💾 Salvar e Publicar</button>
-                <button type="button" onclick="resetProfile()">🔄 Restaurar</button>
-                <button type="button" onclick="logout()">🚪 Sair</button>
-                <button type="button" onclick="closeEditor()">Fechar</button>
-            </div>
-            <div id="saveMessage" class="success"></div>
+            <div class="success-msg" id="saveMsg"></div>
         </div>
     </div>
     
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-        import { getDatabase, ref, get, set } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
-        
-        const firebaseConfig = {
-            apiKey: "AIzaSyB35ktkxiS_MPTrSflfHhBe5snYAV0iV6Q",
-            authDomain: "myprofile-7db79.firebaseapp.com",
-            databaseURL: "https://myprofile-7db79-default-rtdb.firebaseio.com",
-            projectId: "myprofile-7db79",
-            storageBucket: "myprofile-7db79.firebasestorage.app",
-            messagingSenderId: "947862565874",
-            appId: "1:947862565874:web:3116335ff6f1822f0df16b",
-            measurementId: "G-KC2ZXS400D"
-        };
-        
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const database = getDatabase(app);
-        
-        window.firebaseUser = null;
-        
-        window.firebaseLogin = async function(email, password) {
-            return await signInWithEmailAndPassword(auth, email, password);
-        };
-        
-        window.firebaseLogout = async function() {
-            await signOut(auth);
-        };
-        
-        window.saveFirebaseProfile = async function(userId, data) {
-            await set(ref(database, "profiles/" + userId), data);
-        };
-        
-        window.loadFirebaseProfile = async function(userId) {
-            const snapshot = await get(ref(database, "profiles/" + userId));
-            if (snapshot.exists()) return snapshot.val();
-            return null;
-        };
-        
-        window.loadPublicProfile = async function() {
-            try {
-                const snapshot = await get(ref(database, "profiles/public"));
-                if (snapshot.exists()) {
-                    console.log("✅ Perfil público encontrado!");
-                    return snapshot.val();
-                }
-                console.log("❌ Nenhum perfil público encontrado");
-            } catch(error) {
-                console.error("Erro ao carregar perfil público:", error);
-            }
-            return null;
-        };
-        
-        onAuthStateChanged(auth, user => {
-            window.firebaseUser = user;
-            if (window.reloadProfile) window.reloadProfile();
-        });
-    </script>
-    
     <script>
-        const DB_NAME = 'ProfileStorageDB';
-        const DB_VERSION = 1;
-        const MUSIC_STORE = 'songs';
-        const IMAGE_STORE = 'images';
+        const EDIT_PASSWORD = "minhasenha123";
+        let profileData = null;
         
-        function openDB() {
-            return new Promise((resolve, reject) => {
-                const request = indexedDB.open(DB_NAME, DB_VERSION);
-                request.onerror = () => reject(request.error);
-                request.onsuccess = () => resolve(request.result);
-                request.onupgradeneeded = (event) => {
-                    const db = event.target.result;
-                    if (!db.objectStoreNames.contains(MUSIC_STORE)) db.createObjectStore(MUSIC_STORE, { keyPath: 'id', autoIncrement: true });
-                    if (!db.objectStoreNames.contains(IMAGE_STORE)) db.createObjectStore(IMAGE_STORE, { keyPath: 'id', autoIncrement: true });
-                };
-            });
-        }
-        
-        async function saveToDB(storeName, data) {
-            const db = await openDB();
-            return new Promise((resolve, reject) => {
-                const transaction = db.transaction([storeName], 'readwrite');
-                const store = transaction.objectStore(storeName);
-                const request = store.add(data);
-                request.onsuccess = () => resolve(request.result);
-                request.onerror = () => reject(request.error);
-                transaction.oncomplete = () => db.close();
-            });
-        }
-        
-        async function getAllFromDB(storeName) {
-            const db = await openDB();
-            return new Promise((resolve, reject) => {
-                const transaction = db.transaction([storeName], 'readonly');
-                const store = transaction.objectStore(storeName);
-                const request = store.getAll();
-                request.onsuccess = () => resolve(request.result);
-                request.onerror = () => reject(request.error);
-                transaction.oncomplete = () => db.close();
-            });
-        }
-        
-        async function deleteFromDB(storeName, id) {
-            const db = await openDB();
-            return new Promise((resolve, reject) => {
-                const transaction = db.transaction([storeName], 'readwrite');
-                const store = transaction.objectStore(storeName);
-                const request = store.delete(id);
-                request.onsuccess = () => resolve();
-                request.onerror = () => reject(request.error);
-                transaction.oncomplete = () => db.close();
-            });
-        }
-        
-        const defaultProfile = {
-            title: "Meu Perfil",
-            primary: "#8b5cf6",
-            secondary: "#6366f1",
-            opacity: .78,
-            blur: 18,
-            radius: 20,
-            posts: 0,
-            followers: 0,
-            views: 0,
-            links: [],
-            gallery: [],
-            files: [],
-            secretChance: 30,
-            rollDuration: 3,
-            normal: {
-                name: "Meu Nome",
-                username: "@usuario",
-                bio: "Bem-vindo ao meu perfil! 👋",
-                avatar: "",
-                banner: "",
-                background: ""
-            },
-            secret: {
-                name: "???",
-                username: "@secreto",
-                bio: "Você encontrou o perfil secreto! 🔥",
-                avatar: "",
-                banner: "",
-                background: ""
-            }
-        };
-        
-        function normalizeProfile(data) {
-            const result = { ...defaultProfile, ...(data || {}) };
-            result.links = Array.isArray(result.links) ? result.links : [];
-            result.gallery = Array.isArray(result.gallery) ? result.gallery : [];
-            result.files = Array.isArray(result.files) ? result.files : [];
-            result.normal = { ...defaultProfile.normal, ...(result.normal || {}) };
-            result.secret = { ...defaultProfile.secret, ...(result.secret || {}) };
-            return result;
-        }
-        
-        let profile = normalizeProfile(JSON.parse(localStorage.getItem("myProfile") || "{}"));
-        let playlistNormal = [];
-        let playlistSecret = [];
-        let currentPlaylist = [];
-        
-        async function loadDataFromDB() {
-            try {
-                const allSongs = await getAllFromDB(MUSIC_STORE);
-                playlistNormal = allSongs.filter(s => s.type === 'normal').slice(0, 4);
-                playlistSecret = allSongs.filter(s => s.type === 'secret').slice(0, 4);
-            } catch(e) {
-                playlistNormal = [];
-                playlistSecret = [];
-            }
-        }
-        
-        async function saveImageFile(file) {
-            if (!file) return "";
-            if (file.size < 50 * 1024) return await fileToDataURL(file);
-            const imageData = { name: file.name, type: file.type, blob: file };
-            const id = await saveToDB(IMAGE_STORE, imageData);
-            return `idb://${id}`;
-        }
-        
-        async function loadImageData(imageRef) {
-            if (!imageRef) return null;
-            if (imageRef.startsWith('idb://')) {
-                const id = Number(imageRef.replace('idb://', ''));
-                const images = await getAllFromDB(IMAGE_STORE);
-                const img = images.find(i => i.id === id);
-                if (img && img.blob) return URL.createObjectURL(img.blob);
-                return null;
-            }
-            return imageRef;
-        }
-        
-        const audio = new Audio();
-        audio.volume = .8;
-        let currentSong = 0;
-        let audioStarted = false;
-        
-        function loadSong(index, autoplay = false) {
-            if (!currentPlaylist.length) {
-                document.getElementById("musicTitle").textContent = "Nenhuma música";
-                document.getElementById("musicArtist").textContent = "Adicione músicas";
-                document.getElementById("playlist").innerHTML = "";
-                updatePlayButton();
-                return;
-            }
-            if (index < 0) index = currentPlaylist.length - 1;
-            if (index >= currentPlaylist.length) index = 0;
-            currentSong = index;
-            const song = currentPlaylist[currentSong];
-            audio.pause();
-            audio.currentTime = 0;
-            if (song.blob) audio.src = URL.createObjectURL(song.blob);
-            document.getElementById("musicTitle").textContent = song.title;
-            document.getElementById("musicArtist").textContent = song.artist;
-            renderPlaylist();
-            if (autoplay && audioStarted) audio.play().catch(() => {});
-        }
-        
-        function toggleMusic() {
-            if (!currentPlaylist.length) return;
-            if (audio.paused) {
-                if (!audio.src) loadSong(currentSong);
-                audioStarted = true;
-                audio.play().catch(() => {});
-            } else {
-                audio.pause();
-            }
-        }
-        
-        function updatePlayButton() {
-            document.getElementById("playButton").textContent = audio.paused ? "▶" : "⏸";
-        }
-        
-        function nextSong() { if (currentPlaylist.length) loadSong(currentSong + 1, true); }
-        function previousSong() { if (currentPlaylist.length) loadSong(currentSong - 1, true); }
-        
-        function renderPlaylist() {
-            const container = document.getElementById("playlist");
-            container.innerHTML = "";
-            currentPlaylist.forEach((song, index) => {
-                const item = document.createElement("div");
-                item.className = "playlist-item" + (index === currentSong ? " active" : "");
-                item.innerHTML = `<strong>${index + 1}. ${song.title}</strong><br><span style="color:#a1a1aa;font-size:11px;">${song.artist}</span>`;
-                item.onclick = () => loadSong(index, true);
-                container.appendChild(item);
-            });
-        }
-        
-        audio.addEventListener("loadedmetadata", () => {
-            document.getElementById("duration").textContent = formatTime(audio.duration);
-        });
-        audio.addEventListener("timeupdate", () => {
-            if (!Number.isFinite(audio.duration)) return;
-            document.getElementById("progress").value = (audio.currentTime / audio.duration) * 100;
-            document.getElementById("currentTime").textContent = formatTime(audio.currentTime);
-        });
-        audio.addEventListener("ended", () => nextSong());
-        audio.addEventListener("play", updatePlayButton);
-        audio.addEventListener("pause", updatePlayButton);
-        
-        document.getElementById("progress").addEventListener("input", e => {
-            if (!Number.isFinite(audio.duration)) return;
-            audio.currentTime = (Number(e.target.value) / 100) * audio.duration;
-        });
-        document.getElementById("volume").addEventListener("input", e => {
-            audio.volume = Number(e.target.value);
-        });
-        
-        function formatTime(seconds) {
-            if (!Number.isFinite(seconds)) return "0:00";
-            const m = Math.floor(seconds / 60);
-            const s = Math.floor(seconds % 60).toString().padStart(2, "0");
-            return `${m}:${s}`;
-        }
-        
-        let rollInterval;
-        function startRollSequence() {
-            let pct = 0;
-            rollInterval = setInterval(() => {
-                pct += Math.random() * 20;
-                if (pct >= 100) {
-                    pct = 100;
-                    clearInterval(rollInterval);
-                    const isSecret = Math.random() * 100 < profile.secretChance;
-                    setTimeout(() => showRollResult(isSecret), 500);
+        function loadProfile() {
+            const saved = localStorage.getItem("myProfileData");
+            if (saved) {
+                try {
+                    profileData = JSON.parse(saved);
+                    applyProfile(profileData);
+                } catch(e) {
+                    document.getElementById("loading").textContent = "Erro ao carregar perfil.";
                 }
-                document.getElementById("rollPercentage").textContent = Math.floor(pct) + "%";
-                document.getElementById("rollBar").style.width = pct + "%";
-            }, 100);
-        }
-        
-        function showRollResult(isSecret) {
-            const result = document.getElementById("rollResult");
-            if (isSecret) {
-                result.textContent = "🔒 Perfil Secreto!";
-                result.className = "roll-result secret show";
             } else {
-                result.textContent = "✨ Perfil Normal";
-                result.className = "roll-result normal show";
+                document.getElementById("loading").textContent = "Nenhum perfil salvo.";
             }
-            setTimeout(() => {
-                document.getElementById("entryScreen").classList.add("hidden");
-                applyProfileType(isSecret);
-                startAudioPlayback();
-            }, 2000);
         }
         
-        document.getElementById("entryScreen").addEventListener("click", () => {
-            clearInterval(rollInterval);
-            const isSecret = Math.random() * 100 < profile.secretChance;
-            showRollResult(isSecret);
+        function applyProfile(data) {
+            const isSecret = Math.random() * 100 < (data.secretChance || 0);
+            const profile = isSecret && data.secretName ? {
+                name: data.secretName,
+                username: data.username || "",
+                bio: data.secretBio || "",
+                avatar: data.avatar || ""
+            } : {
+                name: data.name || "Sem nome",
+                username: data.username || "",
+                bio: data.bio || "",
+                avatar: data.avatar || ""
+            };
+            
+            document.getElementById("name").textContent = profile.name;
+            document.getElementById("username").textContent = profile.username;
+            document.getElementById("bio").textContent = profile.bio;
+            
+            if (profile.avatar) {
+                document.getElementById("avatar").src = profile.avatar;
+            } else {
+                document.getElementById("avatar").src = "https://placehold.co/300x300/18181b/ffffff?text=PERFIL";
+            }
+            
+            if (data.banner) {
+                document.getElementById("banner").style.backgroundImage = `url("${data.banner}")`;
+                document.getElementById("banner").style.backgroundSize = "cover";
+            }
+            
+            if (data.background) {
+                document.getElementById("background").style.backgroundImage = `url("${data.background}")`;
+                document.getElementById("background").style.backgroundSize = "cover";
+            }
+            
+            if (data.primary) document.documentElement.style.setProperty("--primary", data.primary);
+            if (data.secondary) document.documentElement.style.setProperty("--secondary", data.secondary);
+            
+            const badge = document.getElementById("badge");
+            if (isSecret && data.secretName) {
+                badge.textContent = "🔒 Perfil Secreto";
+                badge.className = "badge secret";
+            } else {
+                badge.textContent = "✨ Perfil Normal";
+                badge.className = "badge";
+            }
+            
+            const linksContainer = document.getElementById("links");
+            linksContainer.innerHTML = "";
+            if (data.discord) {
+                const a = document.createElement("a");
+                a.href = data.discord; a.target = "_blank"; a.textContent = "Discord";
+                linksContainer.appendChild(a);
+            }
+            if (data.youtube) {
+                const a = document.createElement("a");
+                a.href = data.youtube; a.target = "_blank"; a.textContent = "YouTube";
+                linksContainer.appendChild(a);
+            }
+            if (data.github) {
+                const a = document.createElement("a");
+                a.href = data.github; a.target = "_blank"; a.textContent = "GitHub";
+                linksContainer.appendChild(a);
+            }
+            
+            document.getElementById("loading").classList.add("hidden");
+            document.getElementById("profileContent").classList.remove("hidden");
+        }
+        
+        function openLogin() {
+            document.getElementById("loginModal").classList.remove("hidden");
+            document.getElementById("loginError").textContent = "";
+            document.getElementById("editPassword").value = "";
+        }
+        
+        function closeLogin() {
+            document.getElementById("loginModal").classList.add("hidden");
+        }
+        
+        function checkPassword() {
+            const password = document.getElementById("editPassword").value;
+            if (password === EDIT_PASSWORD) {
+                closeLogin();
+                openEditor();
+            } else {
+                document.getElementById("loginError").textContent = "Senha incorreta!";
+            }
+        }
+        
+        document.getElementById("editPassword").addEventListener("keydown", function(e) {
+            if (e.key === "Enter") checkPassword();
         });
         
-        async function applyProfileType(isSecret) {
-            const currentProfile = isSecret ? profile.secret : profile.normal;
-            currentPlaylist = isSecret ? playlistSecret : playlistNormal;
-            
-            document.getElementById("name").textContent = currentProfile.name;
-            document.getElementById("username").textContent = currentProfile.username;
-            document.getElementById("bio").textContent = currentProfile.bio;
-            
-            const avatarUrl = await loadImageData(currentProfile.avatar);
-            document.getElementById("avatar").src = avatarUrl || "https://placehold.co/300x300/18181b/ffffff?text=PROFILE";
-            
-            const bannerUrl = await loadImageData(currentProfile.banner);
-            document.getElementById("banner").style.backgroundImage = bannerUrl ? `url("${bannerUrl}")` : `linear-gradient(135deg, ${profile.primary}, ${profile.secondary})`;
-            
-            const bgUrl = await loadImageData(currentProfile.background);
-            document.getElementById("background").style.backgroundImage = bgUrl ? `url("${bgUrl}")` : `linear-gradient(135deg, ${profile.primary}, ${profile.secondary})`;
-            
-            const badge = document.getElementById("profileBadge");
-            if (isSecret) {
-                badge.innerHTML = "🔒 Perfil Secreto";
-                badge.className = "profile-badge secret";
-            } else {
-                badge.innerHTML = "✨ Perfil Normal";
-                badge.className = "profile-badge normal";
-            }
-            
-            currentSong = 0;
-            renderPlaylist();
-            loadSong(0, false);
+        function openEditor() {
+            const data = profileData || {};
+            document.getElementById("editName").value = data.name || "";
+            document.getElementById("editUsername").value = data.username || "";
+            document.getElementById("editBio").value = data.bio || "";
+            document.getElementById("editPrimary").value = data.primary || "#8b5cf6";
+            document.getElementById("editSecondary").value = data.secondary || "#6366f1";
+            document.getElementById("editDiscord").value = data.discord || "";
+            document.getElementById("editYoutube").value = data.youtube || "";
+            document.getElementById("editGithub").value = data.github || "";
+            document.getElementById("editSecretChance").value = data.secretChance || 30;
+            document.getElementById("editSecretName").value = data.secretName || "";
+            document.getElementById("editSecretBio").value = data.secretBio || "";
+            document.getElementById("editorModal").classList.remove("hidden");
         }
         
-        function startAudioPlayback() {
-            if (currentPlaylist.length > 0 && !audioStarted) {
-                audioStarted = true;
-                loadSong(0, true);
-            }
-        }
-        
-        async function renderProfile() {
-            document.getElementById("posts").textContent = profile.posts;
-            document.getElementById("followers").textContent = profile.followers;
-            document.getElementById("views").textContent = profile.views;
-            
-            renderLinks();
-            await renderGallery();
-            renderFiles();
-        }
-        
-        function renderLinks() {
-            const container = document.getElementById("links");
-            container.innerHTML = "";
-            profile.links.forEach(link => {
-                if (!link || !link.url) return;
-                const a = document.createElement("a");
-                a.href = link.url;
-                a.target = "_blank";
-                a.textContent = link.label || link.url;
-                container.appendChild(a);
-            });
-        }
-        
-        async function renderGallery() {
-            const container = document.getElementById("gallery");
-            container.innerHTML = "";
-            for (const imageRef of profile.gallery) {
-                const imageUrl = await loadImageData(imageRef);
-                if (!imageUrl) continue;
-                const img = document.createElement("img");
-                img.src = imageUrl;
-                img.loading = "lazy";
-                container.appendChild(img);
-            }
-        }
-        
-        function renderFiles() {
-            const container = document.getElementById("files");
-            container.innerHTML = "";
-            profile.files.forEach(file => {
-                if (!file || !file.data) return;
-                const div = document.createElement("div");
-                div.className = "file";
-                div.innerHTML = `<span>📎 ${file.name || "Arquivo"}</span><a href="${file.data}" download>Abrir</a>`;
-                container.appendChild(div);
-            });
+        function closeEditor() {
+            document.getElementById("editorModal").classList.add("hidden");
         }
         
         function fileToDataURL(file) {
@@ -1197,250 +288,46 @@
             });
         }
         
-        window.reloadProfile = async function() {
-            // 1. Tenta carregar perfil público do Firebase
-            if (window.loadPublicProfile) {
-                try {
-                    const publicProfile = await window.loadPublicProfile();
-                    if (publicProfile && publicProfile.normal) {
-                        profile = normalizeProfile(publicProfile);
-                        saveLocal();
-                        console.log("✅ Perfil público carregado!");
-                        await renderProfile();
-                        return;
-                    }
-                } catch(e) {
-                    console.error("Erro ao carregar perfil público:", e);
-                }
-            }
-            
-            // 2. Tenta carregar do usuário logado
-            if (window.firebaseUser && window.loadFirebaseProfile) {
-                try {
-                    const userProfile = await window.loadFirebaseProfile(window.firebaseUser.uid);
-                    if (userProfile && userProfile.normal) {
-                        profile = normalizeProfile(userProfile);
-                        saveLocal();
-                        console.log("✅ Perfil do usuário carregado!");
-                        await renderProfile();
-                        return;
-                    }
-                } catch(e) {}
-            }
-            
-            // 3. Usa LocalStorage
-            const saved = localStorage.getItem("myProfile");
-            if (saved) {
-                try {
-                    profile = normalizeProfile(JSON.parse(saved));
-                    console.log("✅ Perfil local carregado!");
-                    await renderProfile();
-                } catch(e) {}
-            }
-        };
-        
-        async function login(event) {
-            event.preventDefault();
-            const email = document.getElementById("loginEmail").value.trim();
-            const password = document.getElementById("loginPassword").value;
-            const error = document.getElementById("loginError");
-            error.textContent = "";
-            try {
-                await window.firebaseLogin(email, password);
-                document.getElementById("loginModal").classList.add("hidden");
-                openEditor();
-            } catch(e) {
-                error.textContent = "E-mail ou senha incorretos.";
-            }
-        }
-        
-        function openLogin() { document.getElementById("loginModal").classList.remove("hidden"); }
-        function closeLogin() { document.getElementById("loginModal").classList.add("hidden"); }
-        
-        function openEditor() {
-            if (!window.firebaseUser) { openLogin(); return; }
-            document.getElementById("editorModal").classList.remove("hidden");
-            loadEditor();
-        }
-        
-        function closeEditor() { document.getElementById("editorModal").classList.add("hidden"); }
-        
-        function loadEditor() {
-            document.getElementById("editSecretChance").value = profile.secretChance;
-            document.getElementById("editRollDuration").value = profile.rollDuration;
-            document.getElementById("editNameNormal").value = profile.normal.name;
-            document.getElementById("editUsernameNormal").value = profile.normal.username;
-            document.getElementById("editBioNormal").value = profile.normal.bio;
-            document.getElementById("editNameSecret").value = profile.secret.name;
-            document.getElementById("editUsernameSecret").value = profile.secret.username;
-            document.getElementById("editBioSecret").value = profile.secret.bio;
-            document.getElementById("editPrimary").value = profile.primary;
-            document.getElementById("editSecondary").value = profile.secondary;
-            
-            const discord = profile.links.find(l => l.label === "Discord");
-            const youtube = profile.links.find(l => l.label === "YouTube");
-            const github = profile.links.find(l => l.label === "GitHub");
-            document.getElementById("discordLink").value = discord?.url || "";
-            document.getElementById("youtubeLink").value = youtube?.url || "";
-            document.getElementById("githubLink").value = github?.url || "";
-            
-            renderMusicEditors();
-        }
-        
-        function renderMusicEditors() {
-            renderMusicEditorList('normal');
-            renderMusicEditorList('secret');
-        }
-        
-        function renderMusicEditorList(type) {
-            const container = document.getElementById(`music${type === 'normal' ? 'Normal' : 'Secret'}EditorList`);
-            container.innerHTML = "";
-            const playlist = type === 'normal' ? playlistNormal : playlistSecret;
-            if (!playlist.length) {
-                container.innerHTML = '<p style="color:#71717a;font-size:12px;">Nenhuma música</p>';
-                return;
-            }
-            playlist.forEach((song, index) => {
-                const item = document.createElement("div");
-                item.className = "music-editor-item";
-                item.innerHTML = `
-                    <input value="${song.title}" data-title>
-                    <input value="${song.artist}" data-artist>
-                    <button data-remove>🗑️</button>
-                `;
-                item.querySelector("[data-title]").addEventListener("input", e => { playlist[index].title = e.target.value; });
-                item.querySelector("[data-artist]").addEventListener("input", e => { playlist[index].artist = e.target.value; });
-                item.querySelector("[data-remove]").addEventListener("click", async () => {
-                    if (playlist[index].id) await deleteFromDB(MUSIC_STORE, playlist[index].id);
-                    playlist.splice(index, 1);
-                    renderMusicEditors();
-                    if (currentPlaylist === playlist) { renderPlaylist(); loadSong(0, false); }
-                });
-                container.appendChild(item);
-            });
-        }
-        
-        document.getElementById("musicNormalInput").addEventListener("change", e => handleMusicUpload(e, 'normal'));
-        document.getElementById("musicSecretInput").addEventListener("change", e => handleMusicUpload(e, 'secret'));
-        
-        async function handleMusicUpload(event, type) {
-            const files = Array.from(event.target.files);
-            if (!files.length) return;
-            const playlist = type === 'normal' ? playlistNormal : playlistSecret;
-            const remaining = 4 - playlist.length;
-            if (remaining <= 0) { alert("Playlist cheia! (máx 4)"); event.target.value = ""; return; }
-            const selected = files.slice(0, remaining);
-            for (const file of selected) {
-                if (file.size > 50 * 1024 * 1024) { alert(`Arquivo muito grande: ${file.name}`); continue; }
-                const songData = { title: file.name.replace(/\.[^/.]+$/, ""), artist: "Artista", blob: file, type: type };
-                const id = await saveToDB(MUSIC_STORE, songData);
-                songData.id = id;
-                playlist.push(songData);
-            }
-            renderMusicEditors();
-            if (currentPlaylist === playlist) { renderPlaylist(); loadSong(0, false); }
-            event.target.value = "";
-        }
-        
         async function saveProfile() {
-            if (!window.firebaseUser) { openLogin(); return; }
+            const data = {
+                name: document.getElementById("editName").value,
+                username: document.getElementById("editUsername").value,
+                bio: document.getElementById("editBio").value,
+                primary: document.getElementById("editPrimary").value,
+                secondary: document.getElementById("editSecondary").value,
+                discord: document.getElementById("editDiscord").value,
+                youtube: document.getElementById("editYoutube").value,
+                github: document.getElementById("editGithub").value,
+                secretChance: Number(document.getElementById("editSecretChance").value),
+                secretName: document.getElementById("editSecretName").value,
+                secretBio: document.getElementById("editSecretBio").value
+            };
             
-            profile.secretChance = Number(document.getElementById("editSecretChance").value) || 0;
-            profile.rollDuration = Number(document.getElementById("editRollDuration").value) || 3;
-            profile.normal.name = document.getElementById("editNameNormal").value;
-            profile.normal.username = document.getElementById("editUsernameNormal").value;
-            profile.normal.bio = document.getElementById("editBioNormal").value;
-            profile.secret.name = document.getElementById("editNameSecret").value;
-            profile.secret.username = document.getElementById("editUsernameSecret").value;
-            profile.secret.bio = document.getElementById("editBioSecret").value;
-            profile.primary = document.getElementById("editPrimary").value;
-            profile.secondary = document.getElementById("editSecondary").value;
+            const avatarFile = document.getElementById("avatarInput").files[0];
+            if (avatarFile) data.avatar = await fileToDataURL(avatarFile);
+            else data.avatar = profileData?.avatar || "";
             
-            const newLinks = [];
-            const discord = document.getElementById("discordLink").value.trim();
-            const youtube = document.getElementById("youtubeLink").value.trim();
-            const github = document.getElementById("githubLink").value.trim();
-            if (discord) newLinks.push({ label: "Discord", url: discord });
-            if (youtube) newLinks.push({ label: "YouTube", url: youtube });
-            if (github) newLinks.push({ label: "GitHub", url: github });
-            profile.links = newLinks;
+            const bannerFile = document.getElementById("bannerInput").files[0];
+            if (bannerFile) data.banner = await fileToDataURL(bannerFile);
+            else data.banner = profileData?.banner || "";
             
-            const avatarNormal = await saveImageFile(document.getElementById("avatarNormalInput").files[0]);
-            if (avatarNormal) profile.normal.avatar = avatarNormal;
-            const avatarSecret = await saveImageFile(document.getElementById("avatarSecretInput").files[0]);
-            if (avatarSecret) profile.secret.avatar = avatarSecret;
-            const bannerNormal = await saveImageFile(document.getElementById("bannerNormalInput").files[0]);
-            if (bannerNormal) profile.normal.banner = bannerNormal;
-            const bannerSecret = await saveImageFile(document.getElementById("bannerSecretInput").files[0]);
-            if (bannerSecret) profile.secret.banner = bannerSecret;
-            const bgNormal = await saveImageFile(document.getElementById("backgroundNormalInput").files[0]);
-            if (bgNormal) profile.normal.background = bgNormal;
-            const bgSecret = await saveImageFile(document.getElementById("backgroundSecretInput").files[0]);
-            if (bgSecret) profile.secret.background = bgSecret;
+            const bgFile = document.getElementById("backgroundInput").files[0];
+            if (bgFile) data.background = await fileToDataURL(bgFile);
+            else data.background = profileData?.background || "";
             
-            const galleryFiles = document.getElementById("galleryInput").files;
-            for (const file of galleryFiles) {
-                const imageRef = await saveImageFile(file);
-                if (imageRef) profile.gallery.push(imageRef);
-            }
-            
-            const files = document.getElementById("filesInput").files;
-            for (const file of files) {
-                profile.files.push({ name: file.name, data: await fileToDataURL(file) });
-            }
-            
-            saveLocal();
+            profileData = data;
             
             try {
-                await window.saveFirebaseProfile(window.firebaseUser.uid, profile);
-                await window.saveFirebaseProfile("public", profile);
-                document.getElementById("saveMessage").textContent = "✅ Perfil salvo e publicado!";
-                console.log("✅ Perfil publicado no Firebase!");
+                localStorage.setItem("myProfileData", JSON.stringify(data));
+                document.getElementById("saveMsg").textContent = "✅ Salvo!";
+                applyProfile(data);
+                setTimeout(() => { document.getElementById("saveMsg").textContent = ""; }, 2000);
             } catch(e) {
-                document.getElementById("saveMessage").textContent = "❌ Erro ao publicar. Verifique as regras do Firebase.";
-                console.error("Erro:", e);
+                document.getElementById("saveMsg").textContent = "❌ Erro: imagem muito grande!";
             }
-            
-            await renderProfile();
-            setTimeout(() => { document.getElementById("saveMessage").textContent = ""; }, 3000);
         }
         
-        function saveLocal() {
-            try { localStorage.setItem("myProfile", JSON.stringify(profile)); } catch(e) {}
-        }
-        
-        async function resetProfile() {
-            if (!confirm("Restaurar perfil padrão?")) return;
-            profile = JSON.parse(JSON.stringify(defaultProfile));
-            saveLocal();
-            if (window.firebaseUser) {
-                try {
-                    await window.saveFirebaseProfile(window.firebaseUser.uid, profile);
-                    await window.saveFirebaseProfile("public", profile);
-                } catch(e) {}
-            }
-            await renderProfile();
-            loadEditor();
-        }
-        
-        async function logout() {
-            try { await window.firebaseLogout(); closeEditor(); } catch(e) {}
-        }
-        
-        document.addEventListener("keydown", e => {
-            if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "e") {
-                e.preventDefault();
-                if (window.firebaseUser) openEditor(); else openLogin();
-            }
-        });
-        
-        async function init() {
-            await loadDataFromDB();
-            await window.reloadProfile();
-            startRollSequence();
-        }
-        
-        init();
+        loadProfile();
     </script>
 </body>
 </html>
