@@ -1014,7 +1014,7 @@
     <div id="entryScreen">
         <div class="roll-container">
             <div class="roll-title">PROFILE</div>
-            <div class="roll-subtitle">ROLANDO PERFIL...</div>
+            <div class="roll-subtitle" data-i18n="rolling">ROLANDO PERFIL...</div>
             <div class="roll-percentage" id="rollPercentage">0%</div>
             <div class="roll-bar">
                 <div class="roll-bar-fill" id="rollBar" style="width: 0%;"></div>
@@ -1032,7 +1032,7 @@
                 <button onclick="setLanguage('pt-BR')">🇧🇷 PT</button>
                 <button onclick="setLanguage('en-US')">🇺🇸 EN</button>
             </div>
-            <button class="edit-button" onclick="openEditor()">
+            <button class="edit-button" onclick="openEditor()" data-i18n="edit_profile">
                 ✏️ Editar Perfil
             </button>
         </div>
@@ -1055,22 +1055,22 @@
                 
                 <!-- BADGE DO PERFIL -->
                 <div class="profile-badge normal" id="profileBadge">
-                    ✨ Perfil Normal
+                    ✨ <span data-i18n="normal_profile">Perfil Normal</span>
                 </div>
                 
                 <!-- ESTATÍSTICAS -->
                 <div class="stats">
                     <div class="stat">
                         <strong id="views">0</strong>
-                        <span>Visualizações</span>
+                        <span data-i18n="views">Visualizações</span>
                     </div>
                     <div class="stat">
                         <strong id="posts">0</strong>
-                        <span>Posts</span>
+                        <span data-i18n="posts">Posts</span>
                     </div>
                     <div class="stat">
                         <strong id="followers">0</strong>
-                        <span>Seguidores</span>
+                        <span data-i18n="followers">Seguidores</span>
                     </div>
                 </div>
                 
@@ -1079,13 +1079,13 @@
                 
                 <!-- PLAYER -->
                 <section class="section">
-                    <h2 class="section-title">🎵 Música</h2>
+                    <h2 class="section-title" data-i18n="music">🎵 Música</h2>
                     <div class="music-player">
                         <div class="music-main">
                             <div id="musicCover" class="music-cover">🎵</div>
                             <div class="music-info">
-                                <div id="musicTitle" class="music-title">Nenhuma música</div>
-                                <div id="musicArtist" class="music-artist">Adicione músicas pelo editor</div>
+                                <div id="musicTitle" class="music-title" data-i18n="no_music">Nenhuma música</div>
+                                <div id="musicArtist" class="music-artist" data-i18n="add_music">Adicione músicas pelo editor</div>
                             </div>
                         </div>
                         
@@ -1104,8 +1104,8 @@
                         </div>
                         
                         <div class="music-options">
-                            <button id="shuffleButton" onclick="toggleShuffle()">🔀 Shuffle</button>
-                            <button id="loopButton" onclick="toggleLoop()">🔁 Loop</button>
+                            <button id="shuffleButton" onclick="toggleShuffle()">🔀 <span data-i18n="shuffle">Shuffle</span></button>
+                            <button id="loopButton" onclick="toggleLoop()">🔁 <span data-i18n="loop">Loop</span></button>
                         </div>
                         
                         <div class="volume">
@@ -1119,13 +1119,13 @@
                 
                 <!-- GALERIA -->
                 <section class="section">
-                    <h2 class="section-title">🖼️ Galeria</h2>
+                    <h2 class="section-title" data-i18n="gallery">🖼️ Galeria</h2>
                     <div id="gallery" class="gallery"></div>
                 </section>
                 
                 <!-- ARQUIVOS -->
                 <section class="section">
-                    <h2 class="section-title">📎 Arquivos</h2>
+                    <h2 class="section-title" data-i18n="files">📎 Arquivos</h2>
                     <div id="files" class="files"></div>
                 </section>
             </div>
@@ -1135,19 +1135,19 @@
     <!-- LOGIN -->
     <div id="loginModal" class="overlay hidden">
         <form class="modal" onsubmit="login(event)">
-            <h2>🔐 Login</h2>
-            <p style="font-size:13px;margin-bottom:20px;">
+            <h2 data-i18n="login_title">🔐 Login</h2>
+            <p style="font-size:13px;margin-bottom:20px;" data-i18n="login_subtitle">
                 Entre com seu e-mail e senha para editar o perfil.
             </p>
-            <label>E-mail</label>
+            <label data-i18n="email">E-mail</label>
             <input id="loginEmail" type="email" placeholder="seu@email.com" autocomplete="email" required>
-            <label>Senha</label>
+            <label data-i18n="password">Senha</label>
             <input id="loginPassword" type="password" placeholder="Sua senha" autocomplete="current-password" required>
             <div id="loginError" class="error"></div>
-            <button class="primary-button" type="submit" style="width:100%;margin-top:15px;">
+            <button class="primary-button" type="submit" style="width:100%;margin-top:15px;" data-i18n="login_button">
                 Entrar
             </button>
-            <button type="button" onclick="closeLogin()" style="width:100%;margin-top:8px;">
+            <button type="button" onclick="closeLogin()" style="width:100%;margin-top:8px;" data-i18n="cancel">
                 Cancelar
             </button>
         </form>
@@ -1157,57 +1157,57 @@
     <div id="editorModal" class="overlay hidden">
         <div class="modal editor">
             <div class="editor-header">
-                <h2>🎨 Editor Completo</h2>
+                <h2 data-i18n="editor_title">🎨 Editor Completo</h2>
                 <button class="close-button" onclick="closeEditor()">×</button>
             </div>
             
             <!-- ROLAGEM -->
-            <h3>🎲 Sistema de Rolagem</h3>
-            <label>Chance do Perfil Secreto (%)</label>
+            <h3 data-i18n="roll_system">🎲 Sistema de Rolagem</h3>
+            <label data-i18n="secret_chance">Chance do Perfil Secreto (%)</label>
             <input id="editSecretChance" type="number" min="0" max="100" placeholder="30">
-            <label>Duração da Rolagem (segundos)</label>
+            <label data-i18n="roll_duration">Duração da Rolagem (segundos)</label>
             <input id="editRollDuration" type="number" min="1" max="10" placeholder="3">
             
             <!-- PERFIL NORMAL -->
-            <h3>👤 Perfil Normal</h3>
-            <label>Nome</label>
+            <h3 data-i18n="normal_profile_section">👤 Perfil Normal</h3>
+            <label data-i18n="name">Nome</label>
             <input id="editNameNormal">
-            <label>Username</label>
+            <label data-i18n="username">Username</label>
             <input id="editUsernameNormal">
-            <label>Biografia</label>
+            <label data-i18n="bio">Biografia</label>
             <textarea id="editBioNormal"></textarea>
             
             <!-- PERFIL SECRETO -->
-            <h3>🔒 Perfil Secreto</h3>
-            <label>Nome</label>
+            <h3 data-i18n="secret_profile_section">🔒 Perfil Secreto</h3>
+            <label data-i18n="name">Nome</label>
             <input id="editNameSecret">
-            <label>Username</label>
+            <label data-i18n="username">Username</label>
             <input id="editUsernameSecret">
-            <label>Biografia</label>
+            <label data-i18n="bio">Biografia</label>
             <textarea id="editBioSecret"></textarea>
             
             <!-- APARÊNCIA -->
-            <h3>✨ Aparência</h3>
+            <h3 data-i18n="appearance">✨ Aparência</h3>
             <div class="grid">
                 <div>
-                    <label>Cor Principal</label>
+                    <label data-i18n="primary_color">Cor Principal</label>
                     <input id="editPrimary" type="color">
                 </div>
                 <div>
-                    <label>Cor Secundária</label>
+                    <label data-i18n="secondary_color">Cor Secundária</label>
                     <input id="editSecondary" type="color">
                 </div>
             </div>
             
             <!-- AVATARES -->
-            <h3>🖼️ Avatares</h3>
-            <label>Avatar Normal</label>
+            <h3 data-i18n="avatars">🖼️ Avatares</h3>
+            <label data-i18n="normal_avatar">Avatar Normal</label>
             <input id="avatarNormalInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
-            <label>Avatar Secreto</label>
+            <label data-i18n="secret_avatar">Avatar Secreto</label>
             <input id="avatarSecretInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
             
             <!-- LINKS -->
-            <h3>🔗 Links Sociais</h3>
+            <h3 data-i18n="social_links">🔗 Links Sociais</h3>
             <label>Discord</label>
             <input id="discordLink" placeholder="https://discord.gg/...">
             <label>YouTube</label>
@@ -1216,32 +1216,32 @@
             <input id="githubLink" placeholder="https://github.com/...">
             
             <!-- MÚSICAS -->
-            <h3>🎵 Músicas</h3>
-            <p style="color:#a1a1aa;font-size:12px;margin-bottom:10px;">
+            <h3 data-i18n="music_section">🎵 Músicas</h3>
+            <p style="color:#a1a1aa;font-size:12px;margin-bottom:10px;" data-i18n="music_limit">
                 Máximo 4 músicas por playlist. Até 50MB por arquivo.
             </p>
-            <label>Playlist Normal</label>
+            <label data-i18n="normal_playlist">Playlist Normal</label>
             <input id="musicNormalInput" type="file" multiple accept="audio/*">
             <div id="musicNormalEditorList" style="margin-top:10px;"></div>
-            <label>Playlist Secreta</label>
+            <label data-i18n="secret_playlist">Playlist Secreta</label>
             <input id="musicSecretInput" type="file" multiple accept="audio/*">
             <div id="musicSecretEditorList" style="margin-top:10px;"></div>
             
             <!-- GALERIA -->
-            <h3>🖼️ Galeria</h3>
+            <h3 data-i18n="gallery_section">🖼️ Galeria</h3>
             <input id="galleryInput" type="file" multiple accept="image/png,image/jpeg,image/webp,image/gif">
             <div id="galleryEditorList" style="margin-top:10px;"></div>
             
             <!-- ARQUIVOS -->
-            <h3>📎 Arquivos</h3>
+            <h3 data-i18n="files_section">📎 Arquivos</h3>
             <input id="filesInput" type="file" multiple>
             
             <!-- AÇÕES -->
             <div class="actions">
-                <button type="button" class="primary-button" onclick="saveProfile()">💾 Salvar Tudo</button>
-                <button type="button" onclick="resetProfile()">🔄 Restaurar</button>
-                <button type="button" onclick="logout()">🚪 Sair</button>
-                <button type="button" onclick="closeEditor()">Fechar</button>
+                <button type="button" class="primary-button" onclick="saveProfile()" data-i18n="save_all">💾 Salvar Tudo</button>
+                <button type="button" onclick="resetProfile()" data-i18n="restore">🔄 Restaurar</button>
+                <button type="button" onclick="logout()" data-i18n="logout">🚪 Sair</button>
+                <button type="button" onclick="closeEditor()" data-i18n="close">Fechar</button>
             </div>
             
             <div id="saveMessage" class="success"></div>
@@ -1294,7 +1294,6 @@
         onAuthStateChanged(auth, async user => {
             window.firebaseUser = user;
             if (user) {
-                console.log("Usuário conectado:", user.email);
                 try {
                     const remoteProfile = await window.loadFirebaseProfile(user.uid);
                     if (remoteProfile) {
@@ -1311,6 +1310,126 @@
     
     <!-- SISTEMA -->
     <script>
+        // =====================================================
+        // TRADUÇÕES
+        // =====================================================
+        const translations = {
+            'pt-BR': {
+                rolling: 'ROLANDO PERFIL...',
+                edit_profile: '✏️ Editar Perfil',
+                normal_profile: 'Perfil Normal',
+                secret_profile: 'Perfil Secreto',
+                views: 'Visualizações',
+                posts: 'Posts',
+                followers: 'Seguidores',
+                music: '🎵 Música',
+                no_music: 'Nenhuma música',
+                add_music: 'Adicione músicas pelo editor',
+                shuffle: 'Shuffle',
+                loop: 'Loop',
+                gallery: '🖼️ Galeria',
+                files: '📎 Arquivos',
+                login_title: '🔐 Login',
+                login_subtitle: 'Entre com seu e-mail e senha para editar o perfil.',
+                email: 'E-mail',
+                password: 'Senha',
+                login_button: 'Entrar',
+                cancel: 'Cancelar',
+                editor_title: '🎨 Editor Completo',
+                roll_system: '🎲 Sistema de Rolagem',
+                secret_chance: 'Chance do Perfil Secreto (%)',
+                roll_duration: 'Duração da Rolagem (segundos)',
+                normal_profile_section: '👤 Perfil Normal',
+                secret_profile_section: '🔒 Perfil Secreto',
+                name: 'Nome',
+                username: 'Username',
+                bio: 'Biografia',
+                appearance: '✨ Aparência',
+                primary_color: 'Cor Principal',
+                secondary_color: 'Cor Secundária',
+                avatars: '🖼️ Avatares',
+                normal_avatar: 'Avatar Normal',
+                secret_avatar: 'Avatar Secreto',
+                social_links: '🔗 Links Sociais',
+                music_section: '🎵 Músicas',
+                music_limit: 'Máximo 4 músicas por playlist. Até 50MB por arquivo.',
+                normal_playlist: 'Playlist Normal',
+                secret_playlist: 'Playlist Secreta',
+                gallery_section: '🖼️ Galeria',
+                files_section: '📎 Arquivos',
+                save_all: '💾 Salvar Tudo',
+                restore: '🔄 Restaurar',
+                logout: '🚪 Sair',
+                close: 'Fechar'
+            },
+            'en-US': {
+                rolling: 'ROLLING PROFILE...',
+                edit_profile: '✏️ Edit Profile',
+                normal_profile: 'Normal Profile',
+                secret_profile: 'Secret Profile',
+                views: 'Views',
+                posts: 'Posts',
+                followers: 'Followers',
+                music: '🎵 Music',
+                no_music: 'No music',
+                add_music: 'Add music in editor',
+                shuffle: 'Shuffle',
+                loop: 'Loop',
+                gallery: '🖼️ Gallery',
+                files: '📎 Files',
+                login_title: '🔐 Login',
+                login_subtitle: 'Enter your email and password to edit the profile.',
+                email: 'Email',
+                password: 'Password',
+                login_button: 'Login',
+                cancel: 'Cancel',
+                editor_title: '🎨 Full Editor',
+                roll_system: '🎲 Roll System',
+                secret_chance: 'Secret Profile Chance (%)',
+                roll_duration: 'Roll Duration (seconds)',
+                normal_profile_section: '👤 Normal Profile',
+                secret_profile_section: '🔒 Secret Profile',
+                name: 'Name',
+                username: 'Username',
+                bio: 'Bio',
+                appearance: '✨ Appearance',
+                primary_color: 'Primary Color',
+                secondary_color: 'Secondary Color',
+                avatars: '🖼️ Avatars',
+                normal_avatar: 'Normal Avatar',
+                secret_avatar: 'Secret Avatar',
+                social_links: '🔗 Social Links',
+                music_section: '🎵 Music',
+                music_limit: 'Max 4 songs per playlist. Up to 50MB per file.',
+                normal_playlist: 'Normal Playlist',
+                secret_playlist: 'Secret Playlist',
+                gallery_section: '🖼️ Gallery',
+                files_section: '📎 Files',
+                save_all: '💾 Save All',
+                restore: '🔄 Restore',
+                logout: '🚪 Logout',
+                close: 'Close'
+            }
+        };
+        
+        let currentLanguage = localStorage.getItem('profileLanguage') || 'pt-BR';
+        
+        function setLanguage(language) {
+            currentLanguage = language;
+            localStorage.setItem('profileLanguage', language);
+            document.documentElement.lang = language;
+            applyTranslations();
+        }
+        
+        function applyTranslations() {
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[currentLanguage] && translations[currentLanguage][key]) {
+                    element.textContent = translations[currentLanguage][key];
+                }
+            });
+        }
+        
         // =====================================================
         // INDEXEDDB PARA ARMAZENAMENTO DE MÚSICAS
         // =====================================================
@@ -1457,7 +1576,6 @@
                 const allSongs = await getAllSongsFromDB();
                 playlistNormal = allSongs.filter(song => song.type === 'normal').slice(0, 4);
                 playlistSecret = allSongs.filter(song => song.type === 'secret').slice(0, 4);
-                console.log(`${playlistNormal.length} música(s) normal, ${playlistSecret.length} música(s) secreta`);
             } catch(error) {
                 console.error("Erro ao carregar músicas do IndexedDB:", error);
                 playlistNormal = [];
@@ -1481,8 +1599,8 @@
             if (!currentPlaylist.length) {
                 audio.pause();
                 audio.removeAttribute("src");
-                document.getElementById("musicTitle").textContent = "Nenhuma música";
-                document.getElementById("musicArtist").textContent = "Adicione músicas pelo editor";
+                document.getElementById("musicTitle").textContent = translations[currentLanguage].no_music;
+                document.getElementById("musicArtist").textContent = translations[currentLanguage].add_music;
                 document.getElementById("playlist").innerHTML = "";
                 updatePlayButton();
                 return;
@@ -1533,7 +1651,7 @@
         
         function toggleMusic() {
             if (!currentPlaylist.length) {
-                alert("Adicione uma música primeiro.");
+                alert(translations[currentLanguage].no_music);
                 return;
             }
             
@@ -1656,9 +1774,6 @@
             currentRollPercentage = 0;
             resultElement.classList.remove("show");
             
-            const rollDurationMs = profile.rollDuration * 1000;
-            const updateInterval = 100;
-            
             rollInterval = setInterval(() => {
                 currentRollPercentage += Math.random() * 20;
                 
@@ -1666,7 +1781,6 @@
                     currentRollPercentage = 100;
                     clearInterval(rollInterval);
                     
-                    // Determinar resultado
                     const isSecret = Math.random() * 100 < profile.secretChance;
                     
                     setTimeout(() => {
@@ -1676,17 +1790,17 @@
                 
                 percentageElement.textContent = Math.floor(currentRollPercentage) + "%";
                 barElement.style.width = currentRollPercentage + "%";
-            }, updateInterval);
+            }, 100);
         }
         
         function showRollResult(isSecret) {
             const resultElement = document.getElementById("rollResult");
             
             if (isSecret) {
-                resultElement.textContent = "🔒 PERFIL SECRETO!";
+                resultElement.textContent = translations[currentLanguage].secret_profile;
                 resultElement.className = "roll-result secret show";
             } else {
-                resultElement.textContent = "✨ PERFIL NORMAL";
+                resultElement.textContent = translations[currentLanguage].normal_profile;
                 resultElement.className = "roll-result normal show";
             }
             
@@ -1711,12 +1825,10 @@
             const currentProfile = isSecret ? profile.secret : profile.normal;
             currentPlaylist = isSecret ? playlistSecret : playlistNormal;
             
-            // Aplicar perfil
             document.getElementById("name").textContent = currentProfile.name;
             document.getElementById("username").textContent = currentProfile.username;
             document.getElementById("bio").textContent = currentProfile.bio;
             
-            // Avatar
             const avatar = document.getElementById("avatar");
             if (currentProfile.avatar) {
                 avatar.src = currentProfile.avatar;
@@ -1724,17 +1836,15 @@
                 avatar.src = "https://placehold.co/300x300/18181b/ffffff?text=PROFILE";
             }
             
-            // Badge
             const badge = document.getElementById("profileBadge");
             if (isSecret) {
-                badge.textContent = "🔒 Perfil Secreto";
+                badge.innerHTML = `🔒 ${translations[currentLanguage].secret_profile}`;
                 badge.className = "profile-badge secret";
             } else {
-                badge.textContent = "✨ Perfil Normal";
+                badge.innerHTML = `✨ ${translations[currentLanguage].normal_profile}`;
                 badge.className = "profile-badge normal";
             }
             
-            // Playlist
             currentSong = 0;
             renderPlaylist();
             loadSong(0, false);
@@ -2262,11 +2372,6 @@
                 .replace(/>/g, "&gt;");
         }
         
-        function setLanguage(language) {
-            localStorage.setItem("profileLanguage", language);
-            document.documentElement.lang = language;
-        }
-        
         document.addEventListener("keydown", event => {
             if (event.ctrlKey && event.shiftKey && event.key.toLowerCase() === "e") {
                 event.preventDefault();
@@ -2283,6 +2388,7 @@
         // =====================================================
         async function init() {
             await loadMusicFromDB();
+            applyTranslations();
             renderProfile();
             startRollSequence();
         }
