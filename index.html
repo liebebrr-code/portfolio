@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meu Perfil</title>
     <style>
-        /* =====================================================
-           RESET & VARIÁVEIS
-        ===================================================== */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -39,9 +36,6 @@
             line-height: 1.5;
         }
         
-        /* =====================================================
-           TELA DE ENTRADA (ROLAGEM)
-        ===================================================== */
         #entryScreen {
             position: fixed;
             inset: 0;
@@ -70,16 +64,13 @@
             font-weight: 900;
             letter-spacing: 8px;
             animation: rollPulse 2s infinite;
-            text-shadow: 
-                2px 0 #ff00ff,
-                -2px 0 #00ffff;
+            text-shadow: 2px 0 #ff00ff, -2px 0 #00ffff;
         }
         
         .roll-subtitle {
             font-size: 14px;
             color: #888;
             margin-top: 20px;
-            animation: rollSubtitle 2s infinite;
         }
         
         .roll-percentage {
@@ -90,7 +81,6 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: rollPercentage 0.1s infinite;
         }
         
         .roll-bar {
@@ -105,7 +95,6 @@
         .roll-bar-fill {
             height: 100%;
             background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border-radius: 2px;
             transition: width 0.1s ease;
         }
         
@@ -121,7 +110,6 @@
         
         .roll-result.show {
             opacity: 1;
-            animation: resultReveal 0.5s ease;
         }
         
         .roll-result.normal {
@@ -134,7 +122,6 @@
             background: rgba(239,68,68,.2);
             border: 2px solid #ef4444;
             color: #fca5a5;
-            animation: secretGlitch 0.1s infinite;
         }
         
         @keyframes rollPulse {
@@ -142,42 +129,14 @@
             50% { transform: scale(1.05); }
         }
         
-        @keyframes rollSubtitle {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-        
-        @keyframes rollPercentage {
-            0% { transform: translate(0) rotate(0deg); }
-            25% { transform: translate(2px, -2px) rotate(1deg); }
-            50% { transform: translate(-2px, 2px) rotate(-1deg); }
-            75% { transform: translate(1px, 1px) rotate(0.5deg); }
-            100% { transform: translate(0) rotate(0deg); }
-        }
-        
-        @keyframes resultReveal {
-            from { transform: scale(0.5); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-        
-        @keyframes secretGlitch {
-            0%, 100% { transform: translate(0); }
-            25% { transform: translate(-3px, 2px); }
-            50% { transform: translate(3px, -2px); }
-            75% { transform: translate(-2px, -3px); }
-        }
-        
-        /* =====================================================
-           FUNDO
-        ===================================================== */
         #background {
             position: fixed;
-            inset: 0;
+            inset: -50px;
             z-index: -10;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             background-size: cover;
             background-position: center;
-            transition: background-image 0.5s ease;
+            animation: backgroundMove 30s ease-in-out infinite;
         }
         
         #background::after {
@@ -187,9 +146,13 @@
             background: rgba(0,0,0,.45);
         }
         
-        /* =====================================================
-           TOPO
-        ===================================================== */
+        @keyframes backgroundMove {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(-2%, 1%) scale(1.05); }
+            50% { transform: translate(2%, -1%) scale(1.1); }
+            75% { transform: translate(-1%, -2%) scale(1.05); }
+        }
+        
         .topbar {
             width: min(900px, 94%);
             margin: 10px auto;
@@ -229,7 +192,6 @@
             padding: 6px 10px;
             border-radius: 8px;
             cursor: pointer;
-            backdrop-filter: blur(10px);
             font-size: 11px;
             transition: all .2s ease;
         }
@@ -238,7 +200,6 @@
         .edit-button:hover {
             border-color: var(--primary);
             background: rgba(139,92,246,.2);
-            transform: translateY(-1px);
         }
         
         .edit-button {
@@ -247,33 +208,31 @@
             font-weight: 600;
         }
         
-        /* =====================================================
-           CONTAINER
-        ===================================================== */
         .container {
             width: min(850px, 94%);
             margin: 15px auto 30px;
         }
         
-        /* =====================================================
-           CARD
-        ===================================================== */
         .profile-card {
             overflow: hidden;
             border: 1px solid rgba(255,255,255,.1);
             border-radius: var(--radius);
             background: rgba(18, 18, 23, var(--card-opacity));
             backdrop-filter: blur(var(--blur));
-            -webkit-backdrop-filter: blur(var(--blur));
             box-shadow: 0 20px 60px rgba(0,0,0,.5);
         }
         
         .banner {
-            height: 140px;
+            height: 200px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             background-size: cover;
             background-position: center;
-            transition: background-image 0.5s ease;
+            animation: bannerMove 20s ease-in-out infinite;
+        }
+        
+        @keyframes bannerMove {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
         
         .profile-content {
@@ -281,25 +240,24 @@
         }
         
         .avatar {
-            width: 90px;
-            height: 90px;
-            margin-top: -45px;
+            width: 100px;
+            height: 100px;
+            margin-top: -50px;
             border-radius: 50%;
             object-fit: cover;
             background: #18181b;
             border: 4px solid rgba(255,255,255,.15);
             box-shadow: 0 10px 30px rgba(0,0,0,.6);
-            transition: transform .2s ease;
+            transition: transform .3s ease;
         }
         
         .avatar:hover {
-            transform: scale(1.05);
+            transform: scale(1.1) rotate(5deg);
         }
         
         h1 {
             margin-top: 10px;
             font-size: 24px;
-            word-break: break-word;
         }
         
         .verified {
@@ -322,17 +280,12 @@
         
         .bio {
             margin-top: 12px;
-            max-width: 600px;
             color: #e4e4e7;
             line-height: 1.6;
             white-space: pre-wrap;
-            overflow-wrap: anywhere;
             font-size: 13px;
         }
         
-        /* =====================================================
-           BADGE DE PERFIL
-        ===================================================== */
         .profile-badge {
             display: inline-flex;
             align-items: center;
@@ -354,22 +307,13 @@
             background: rgba(239,68,68,.15);
             border: 1px solid #ef4444;
             color: #fca5a5;
-            animation: secretGlitch 0.1s infinite;
         }
         
-        /* =====================================================
-           ESTATISTICAS
-        ===================================================== */
         .stats {
             display: flex;
             flex-wrap: wrap;
             gap: 30px;
             margin: 20px 0;
-        }
-        
-        .stat {
-            display: flex;
-            flex-direction: column;
         }
         
         .stat strong {
@@ -379,12 +323,8 @@
         .stat span {
             color: var(--muted);
             font-size: 11px;
-            margin-top: 2px;
         }
         
-        /* =====================================================
-           LINKS
-        ===================================================== */
         .links {
             display: flex;
             flex-wrap: wrap;
@@ -398,19 +338,13 @@
             text-decoration: none;
             background: rgba(255,255,255,.07);
             border: 1px solid rgba(255,255,255,.1);
-            transition: .2s ease;
             font-size: 12px;
         }
         
         .links a:hover {
-            transform: translateY(-2px);
             border-color: var(--primary);
-            background: rgba(139,92,246,.2);
         }
         
-        /* =====================================================
-           SEÇÕES
-        ===================================================== */
         .section {
             margin-top: 30px;
         }
@@ -421,17 +355,11 @@
             font-weight: 700;
         }
         
-        /* =====================================================
-           PLAYER
-        ===================================================== */
         .music-player {
-            margin-top: 10px;
             padding: 20px;
             border-radius: 16px;
             border: 1px solid rgba(255,255,255,.1);
             background: rgba(255,255,255,.06);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 30px rgba(0,0,0,.3);
         }
         
         .music-main {
@@ -443,37 +371,22 @@
         .music-cover {
             width: 60px;
             height: 60px;
-            flex-shrink: 0;
             border-radius: 12px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            background-size: cover;
-            background-position: center;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 24px;
         }
         
-        .music-info {
-            min-width: 0;
-            flex: 1;
-        }
-        
         .music-title {
             font-size: 15px;
             font-weight: 700;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
         
         .music-artist {
             color: var(--muted);
-            margin-top: 3px;
             font-size: 12px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
         
         .progress-container {
@@ -482,7 +395,6 @@
         
         #progress {
             width: 100%;
-            cursor: pointer;
             accent-color: var(--primary);
             height: 5px;
         }
@@ -492,13 +404,11 @@
             justify-content: space-between;
             color: var(--muted);
             font-size: 10px;
-            margin-top: 4px;
         }
         
         .music-controls {
             display: flex;
             justify-content: center;
-            align-items: center;
             gap: 10px;
             margin-top: 12px;
         }
@@ -512,15 +422,6 @@
             color: white;
             cursor: pointer;
             font-size: 14px;
-            transition: .2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .music-controls button:hover {
-            transform: scale(1.1);
-            border-color: var(--primary);
         }
         
         .music-controls .play {
@@ -531,46 +432,19 @@
             font-size: 18px;
         }
         
-        .music-options {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 10px;
-            color: var(--muted);
-            font-size: 11px;
-        }
-        
-        .music-options button {
-            border: none;
-            background: transparent;
-            color: var(--muted);
-            cursor: pointer;
-            font-size: 11px;
-        }
-        
-        .music-options button.active {
-            color: var(--primary);
-        }
-        
         .volume {
             display: flex;
             align-items: center;
             gap: 8px;
             justify-content: center;
             margin-top: 10px;
-            font-size: 11px;
         }
         
         #volume {
             width: 100px;
             accent-color: var(--primary);
-            height: 4px;
         }
         
-        /* =====================================================
-           PLAYLIST
-        ===================================================== */
         .playlist {
             display: grid;
             gap: 6px;
@@ -584,14 +458,7 @@
             padding: 10px;
             border-radius: 10px;
             background: rgba(255,255,255,.04);
-            border: 1px solid rgba(255,255,255,.06);
             cursor: pointer;
-            transition: .2s ease;
-        }
-        
-        .playlist-item:hover {
-            background: rgba(255,255,255,.08);
-            border-color: var(--primary);
         }
         
         .playlist-item.active {
@@ -599,54 +466,10 @@
             border-color: var(--primary);
         }
         
-        .playlist-number {
-            width: 25px;
-            height: 25px;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255,255,255,.07);
-            color: var(--muted);
-            font-size: 10px;
-        }
-        
-        .playlist-name {
-            min-width: 0;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .playlist-name strong {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-size: 12px;
-        }
-        
-        .playlist-name span {
-            color: var(--muted);
-            font-size: 10px;
-            margin-top: 2px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-        /* =====================================================
-           GALERIA
-        ===================================================== */
         .gallery {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 10px;
-        }
-        
-        .gallery-item {
-            position: relative;
-            border-radius: 10px;
-            overflow: hidden;
-            cursor: pointer;
         }
         
         .gallery img {
@@ -654,41 +477,8 @@
             height: 150px;
             object-fit: cover;
             border-radius: 10px;
-            transition: transform .2s ease;
-            display: block;
         }
         
-        .gallery img:hover {
-            transform: scale(1.03);
-        }
-        
-        .gallery-delete-btn {
-            position: absolute;
-            top: 6px;
-            right: 6px;
-            background: rgba(0,0,0,.7);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            padding: 4px 8px;
-            cursor: pointer;
-            font-size: 11px;
-            opacity: 0;
-            transition: opacity .2s ease;
-            z-index: 2;
-        }
-        
-        .gallery-item:hover .gallery-delete-btn {
-            opacity: 1;
-        }
-        
-        .gallery-delete-btn:hover {
-            background: #ef4444;
-        }
-        
-        /* =====================================================
-           ARQUIVOS
-        ===================================================== */
         .files {
             display: grid;
             gap: 8px;
@@ -696,31 +486,16 @@
         
         .file {
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            gap: 12px;
             padding: 10px 12px;
             border-radius: 8px;
             background: rgba(255,255,255,.06);
-            overflow: hidden;
-        }
-        
-        .file span {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            font-size: 12px;
         }
         
         .file a {
             color: #c4b5fd;
-            flex-shrink: 0;
-            font-size: 12px;
         }
         
-        /* =====================================================
-           MODAIS
-        ===================================================== */
         .overlay {
             position: fixed;
             inset: 0;
@@ -744,7 +519,6 @@
             overflow-y: auto;
             padding: 25px;
             border-radius: 16px;
-            border: 1px solid rgba(255,255,255,.1);
             background: #18181b;
             box-shadow: 0 25px 70px rgba(0,0,0,.8);
         }
@@ -776,8 +550,7 @@
         }
         
         .modal input,
-        .modal textarea,
-        .modal select {
+        .modal textarea {
             width: 100%;
             padding: 8px 10px;
             margin: 4px 0 8px;
@@ -785,38 +558,7 @@
             border-radius: 8px;
             background: #09090b;
             color: white;
-            outline: none;
             font-size: 13px;
-        }
-        
-        .modal input[type="color"] {
-            height: 35px;
-            padding: 3px;
-            cursor: pointer;
-        }
-        
-        .modal input[type="range"] {
-            cursor: pointer;
-            height: 5px;
-            padding: 0;
-        }
-        
-        .modal textarea {
-            min-height: 80px;
-            resize: vertical;
-        }
-        
-        .modal input:focus,
-        .modal textarea:focus,
-        .modal select:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 2px rgba(139,92,246,.2);
-        }
-        
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
         }
         
         .modal button {
@@ -827,32 +569,16 @@
             color: white;
             cursor: pointer;
             font-size: 12px;
-            transition: all .2s ease;
-        }
-        
-        .modal button:hover {
-            border-color: var(--primary);
-            background: rgba(139,92,246,.2);
-            transform: translateY(-1px);
         }
         
         .primary-button {
             background: var(--primary) !important;
-            border-color: transparent !important;
         }
         
-        .editor-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 10px;
-            margin-bottom: 10px;
-        }
-        
-        .close-button {
-            font-size: 20px;
-            padding: 6px 10px !important;
-            background: rgba(239,68,68,.2) !important;
         }
         
         .actions {
@@ -865,58 +591,23 @@
         }
         
         .error {
-            min-height: 18px;
-            margin: 5px 0;
             color: #f87171;
             font-size: 12px;
         }
         
         .success {
             color: #4ade80;
-            margin-top: 10px;
             font-size: 12px;
         }
         
-        /* =====================================================
-           MUSIC EDITOR
-        ===================================================== */
-        .music-editor-item {
-            display: grid;
-            grid-template-columns: 1fr 1fr auto;
-            gap: 8px;
-            padding: 10px;
-            margin-bottom: 8px;
-            border: 1px solid rgba(255,255,255,.08);
-            border-radius: 10px;
-            background: rgba(255,255,255,.04);
-        }
-        
-        .music-editor-item input {
-            margin: 0;
-            font-size: 12px;
-            padding: 6px 8px;
-        }
-        
-        .music-editor-item button {
-            background: rgba(239,68,68,.15);
-            color: #fca5a5;
-            font-size: 11px;
-            padding: 6px 10px;
-        }
-        
-        /* =====================================================
-           CELULAR
-        ===================================================== */
         @media(max-width: 600px) {
             .topbar {
                 width: 92%;
-                margin: 6px auto;
                 padding: 6px 10px;
             }
             
             .container {
                 width: 94%;
-                margin: 10px auto 20px;
             }
             
             .profile-content {
@@ -924,93 +615,30 @@
             }
             
             .banner {
-                height: 100px;
+                height: 120px;
             }
             
             .avatar {
                 width: 70px;
                 height: 70px;
                 margin-top: -35px;
-                border-width: 3px;
-            }
-            
-            h1 {
-                font-size: 20px;
-            }
-            
-            .stats {
-                gap: 20px;
-                margin: 15px 0;
-            }
-            
-            .stat strong {
-                font-size: 16px;
-            }
-            
-            .music-player {
-                padding: 15px;
-            }
-            
-            .music-cover {
-                width: 50px;
-                height: 50px;
-                font-size: 20px;
-            }
-            
-            .music-controls button {
-                width: 30px;
-                height: 30px;
-                font-size: 12px;
-            }
-            
-            .music-controls .play {
-                width: 40px;
-                height: 40px;
-                font-size: 16px;
-            }
-            
-            .gallery {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .gallery img {
-                height: 120px;
             }
             
             .grid {
                 grid-template-columns: 1fr;
             }
             
-            .modal {
-                padding: 15px;
-                border-radius: 12px;
-            }
-            
-            .music-editor-item {
-                grid-template-columns: 1fr;
-            }
-            
-            .music-editor-item button {
-                width: 100%;
-            }
-            
             .roll-title {
                 font-size: 32px;
-                letter-spacing: 4px;
             }
             
             .roll-percentage {
                 font-size: 48px;
             }
-            
-            .roll-bar {
-                width: 200px;
-            }
         }
     </style>
 </head>
 <body>
-    <!-- TELA DE ENTRADA (ROLAGEM) -->
     <div id="entryScreen">
         <div class="roll-container">
             <div class="roll-title">PROFILE</div>
@@ -1032,9 +660,7 @@
                 <button onclick="setLanguage('pt-BR')">🇧🇷 PT</button>
                 <button onclick="setLanguage('en-US')">🇺🇸 EN</button>
             </div>
-            <button class="edit-button" onclick="openEditor()" data-i18n="edit_profile">
-                ✏️ Editar Perfil
-            </button>
+            <button class="edit-button" onclick="openEditor()" data-i18n="edit_profile">✏️ Editar Perfil</button>
         </div>
     </header>
     
@@ -1043,41 +669,19 @@
             <div id="banner" class="banner"></div>
             <div class="profile-content">
                 <img id="avatar" class="avatar" alt="Avatar">
+                <h1><span id="name">Carregando...</span> <span class="verified">✓</span></h1>
+                <div id="username" class="username">@carregando</div>
+                <p id="bio" class="bio">Carregando perfil...</p>
+                <div class="profile-badge normal" id="profileBadge">✨ <span data-i18n="normal_profile">Perfil Normal</span></div>
                 
-                <h1>
-                    <span id="name">Meu Nome</span>
-                    <span class="verified">✓</span>
-                </h1>
-                
-                <div id="username" class="username">@usuario</div>
-                
-                <p id="bio" class="bio">Bem-vindo ao meu perfil! 👋</p>
-                
-                <!-- BADGE DO PERFIL -->
-                <div class="profile-badge normal" id="profileBadge">
-                    ✨ <span data-i18n="normal_profile">Perfil Normal</span>
-                </div>
-                
-                <!-- ESTATÍSTICAS -->
                 <div class="stats">
-                    <div class="stat">
-                        <strong id="views">0</strong>
-                        <span data-i18n="views">Visualizações</span>
-                    </div>
-                    <div class="stat">
-                        <strong id="posts">0</strong>
-                        <span data-i18n="posts">Posts</span>
-                    </div>
-                    <div class="stat">
-                        <strong id="followers">0</strong>
-                        <span data-i18n="followers">Seguidores</span>
-                    </div>
+                    <div class="stat"><strong id="views">0</strong><span data-i18n="views">Visualizações</span></div>
+                    <div class="stat"><strong id="posts">0</strong><span data-i18n="posts">Posts</span></div>
+                    <div class="stat"><strong id="followers">0</strong><span data-i18n="followers">Seguidores</span></div>
                 </div>
                 
-                <!-- LINKS -->
                 <div id="links" class="links"></div>
                 
-                <!-- PLAYER -->
                 <section class="section">
                     <h2 class="section-title" data-i18n="music">🎵 Música</h2>
                     <div class="music-player">
@@ -1088,42 +692,25 @@
                                 <div id="musicArtist" class="music-artist" data-i18n="add_music">Adicione músicas pelo editor</div>
                             </div>
                         </div>
-                        
                         <div class="progress-container">
                             <input id="progress" type="range" min="0" max="100" value="0" step="0.1">
-                            <div class="time">
-                                <span id="currentTime">0:00</span>
-                                <span id="duration">0:00</span>
-                            </div>
+                            <div class="time"><span id="currentTime">0:00</span><span id="duration">0:00</span></div>
                         </div>
-                        
                         <div class="music-controls">
-                            <button onclick="previousSong()" title="Anterior">⏮</button>
+                            <button onclick="previousSong()">⏮</button>
                             <button id="playButton" class="play" onclick="toggleMusic()">▶</button>
-                            <button onclick="nextSong()" title="Próxima">⏭</button>
+                            <button onclick="nextSong()">⏭</button>
                         </div>
-                        
-                        <div class="music-options">
-                            <button id="shuffleButton" onclick="toggleShuffle()">🔀 <span data-i18n="shuffle">Shuffle</span></button>
-                            <button id="loopButton" onclick="toggleLoop()">🔁 <span data-i18n="loop">Loop</span></button>
-                        </div>
-                        
-                        <div class="volume">
-                            <span>🔊</span>
-                            <input id="volume" type="range" min="0" max="1" step="0.01" value="0.8">
-                        </div>
-                        
+                        <div class="volume"><span>🔊</span><input id="volume" type="range" min="0" max="1" step="0.01" value="0.8"></div>
                         <div id="playlist" class="playlist"></div>
                     </div>
                 </section>
                 
-                <!-- GALERIA -->
                 <section class="section">
                     <h2 class="section-title" data-i18n="gallery">🖼️ Galeria</h2>
                     <div id="gallery" class="gallery"></div>
                 </section>
                 
-                <!-- ARQUIVOS -->
                 <section class="section">
                     <h2 class="section-title" data-i18n="files">📎 Arquivos</h2>
                     <div id="files" class="files"></div>
@@ -1132,43 +719,32 @@
         </article>
     </main>
     
-    <!-- LOGIN -->
     <div id="loginModal" class="overlay hidden">
         <form class="modal" onsubmit="login(event)">
             <h2 data-i18n="login_title">🔐 Login</h2>
-            <p style="font-size:13px;margin-bottom:20px;" data-i18n="login_subtitle">
-                Entre com seu e-mail e senha para editar o perfil.
-            </p>
             <label data-i18n="email">E-mail</label>
-            <input id="loginEmail" type="email" placeholder="seu@email.com" autocomplete="email" required>
+            <input id="loginEmail" type="email" required>
             <label data-i18n="password">Senha</label>
-            <input id="loginPassword" type="password" placeholder="Sua senha" autocomplete="current-password" required>
+            <input id="loginPassword" type="password" required>
             <div id="loginError" class="error"></div>
-            <button class="primary-button" type="submit" style="width:100%;margin-top:15px;" data-i18n="login_button">
-                Entrar
-            </button>
-            <button type="button" onclick="closeLogin()" style="width:100%;margin-top:8px;" data-i18n="cancel">
-                Cancelar
-            </button>
+            <button class="primary-button" type="submit" style="width:100%;margin-top:15px;" data-i18n="login_button">Entrar</button>
+            <button type="button" onclick="closeLogin()" style="width:100%;margin-top:8px;" data-i18n="cancel">Cancelar</button>
         </form>
     </div>
     
-    <!-- EDITOR -->
     <div id="editorModal" class="overlay hidden">
         <div class="modal editor">
             <div class="editor-header">
                 <h2 data-i18n="editor_title">🎨 Editor Completo</h2>
-                <button class="close-button" onclick="closeEditor()">×</button>
+                <button onclick="closeEditor()">×</button>
             </div>
             
-            <!-- ROLAGEM -->
             <h3 data-i18n="roll_system">🎲 Sistema de Rolagem</h3>
             <label data-i18n="secret_chance">Chance do Perfil Secreto (%)</label>
-            <input id="editSecretChance" type="number" min="0" max="100" placeholder="30">
+            <input id="editSecretChance" type="number" min="0" max="100">
             <label data-i18n="roll_duration">Duração da Rolagem (segundos)</label>
-            <input id="editRollDuration" type="number" min="1" max="10" placeholder="3">
+            <input id="editRollDuration" type="number" min="1" max="10">
             
-            <!-- PERFIL NORMAL -->
             <h3 data-i18n="normal_profile_section">👤 Perfil Normal</h3>
             <label data-i18n="name">Nome</label>
             <input id="editNameNormal">
@@ -1177,7 +753,6 @@
             <label data-i18n="bio">Biografia</label>
             <textarea id="editBioNormal"></textarea>
             
-            <!-- PERFIL SECRETO -->
             <h3 data-i18n="secret_profile_section">🔒 Perfil Secreto</h3>
             <label data-i18n="name">Nome</label>
             <input id="editNameSecret">
@@ -1186,69 +761,59 @@
             <label data-i18n="bio">Biografia</label>
             <textarea id="editBioSecret"></textarea>
             
-            <!-- APARÊNCIA -->
             <h3 data-i18n="appearance">✨ Aparência</h3>
             <div class="grid">
-                <div>
-                    <label data-i18n="primary_color">Cor Principal</label>
-                    <input id="editPrimary" type="color">
-                </div>
-                <div>
-                    <label data-i18n="secondary_color">Cor Secundária</label>
-                    <input id="editSecondary" type="color">
-                </div>
+                <div><label data-i18n="primary_color">Cor Principal</label><input id="editPrimary" type="color"></div>
+                <div><label data-i18n="secondary_color">Cor Secundária</label><input id="editSecondary" type="color"></div>
             </div>
             
-            <!-- AVATARES -->
-            <h3 data-i18n="avatars">🖼️ Avatares</h3>
+            <h3 data-i18n="avatars_backgrounds">🖼️ Avatares e Fundos</h3>
             <label data-i18n="normal_avatar">Avatar Normal</label>
-            <input id="avatarNormalInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
+            <input id="avatarNormalInput" type="file" accept="image/*">
             <label data-i18n="secret_avatar">Avatar Secreto</label>
-            <input id="avatarSecretInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
+            <input id="avatarSecretInput" type="file" accept="image/*">
+            <label data-i18n="normal_banner">Banner Normal</label>
+            <input id="bannerNormalInput" type="file" accept="image/*">
+            <label data-i18n="secret_banner">Banner Secreto</label>
+            <input id="bannerSecretInput" type="file" accept="image/*">
+            <label data-i18n="normal_background">Fundo Normal</label>
+            <input id="backgroundNormalInput" type="file" accept="image/*">
+            <label data-i18n="secret_background">Fundo Secreto</label>
+            <input id="backgroundSecretInput" type="file" accept="image/*">
             
-            <!-- LINKS -->
             <h3 data-i18n="social_links">🔗 Links Sociais</h3>
             <label>Discord</label>
-            <input id="discordLink" placeholder="https://discord.gg/...">
+            <input id="discordLink">
             <label>YouTube</label>
-            <input id="youtubeLink" placeholder="https://youtube.com/...">
+            <input id="youtubeLink">
             <label>GitHub</label>
-            <input id="githubLink" placeholder="https://github.com/...">
+            <input id="githubLink">
             
-            <!-- MÚSICAS -->
             <h3 data-i18n="music_section">🎵 Músicas</h3>
-            <p style="color:#a1a1aa;font-size:12px;margin-bottom:10px;" data-i18n="music_limit">
-                Máximo 4 músicas por playlist. Até 50MB por arquivo.
-            </p>
             <label data-i18n="normal_playlist">Playlist Normal</label>
             <input id="musicNormalInput" type="file" multiple accept="audio/*">
-            <div id="musicNormalEditorList" style="margin-top:10px;"></div>
+            <div id="musicNormalEditorList"></div>
             <label data-i18n="secret_playlist">Playlist Secreta</label>
             <input id="musicSecretInput" type="file" multiple accept="audio/*">
-            <div id="musicSecretEditorList" style="margin-top:10px;"></div>
+            <div id="musicSecretEditorList"></div>
             
-            <!-- GALERIA -->
             <h3 data-i18n="gallery_section">🖼️ Galeria</h3>
-            <input id="galleryInput" type="file" multiple accept="image/png,image/jpeg,image/webp,image/gif">
-            <div id="galleryEditorList" style="margin-top:10px;"></div>
+            <input id="galleryInput" type="file" multiple accept="image/*">
+            <div id="galleryEditorList"></div>
             
-            <!-- ARQUIVOS -->
             <h3 data-i18n="files_section">📎 Arquivos</h3>
             <input id="filesInput" type="file" multiple>
             
-            <!-- AÇÕES -->
             <div class="actions">
                 <button type="button" class="primary-button" onclick="saveProfile()" data-i18n="save_all">💾 Salvar Tudo</button>
                 <button type="button" onclick="resetProfile()" data-i18n="restore">🔄 Restaurar</button>
                 <button type="button" onclick="logout()" data-i18n="logout">🚪 Sair</button>
                 <button type="button" onclick="closeEditor()" data-i18n="close">Fechar</button>
             </div>
-            
             <div id="saveMessage" class="success"></div>
         </div>
     </div>
     
-    <!-- FIREBASE -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
@@ -1285,130 +850,51 @@
         
         window.loadFirebaseProfile = async function(userId) {
             const snapshot = await get(ref(database, "profiles/" + userId));
-            if (snapshot.exists()) {
-                return snapshot.val();
-            }
+            if (snapshot.exists()) return snapshot.val();
+            return null;
+        };
+        
+        window.loadPublicProfile = async function() {
+            const snapshot = await get(ref(database, "profiles/public"));
+            if (snapshot.exists()) return snapshot.val();
             return null;
         };
         
         onAuthStateChanged(auth, async user => {
             window.firebaseUser = user;
-            if (user) {
-                try {
-                    const remoteProfile = await window.loadFirebaseProfile(user.uid);
-                    if (remoteProfile) {
-                        profile = normalizeProfile(remoteProfile);
-                        saveLocal();
-                        renderProfile();
-                    }
-                } catch(error) {
-                    console.error("Erro ao carregar perfil:", error);
-                }
-            }
+            if (window.reloadProfile) await window.reloadProfile();
         });
     </script>
     
-    <!-- SISTEMA -->
     <script>
-        // =====================================================
-        // TRADUÇÕES
-        // =====================================================
         const translations = {
             'pt-BR': {
-                rolling: 'ROLANDO PERFIL...',
-                edit_profile: '✏️ Editar Perfil',
-                normal_profile: 'Perfil Normal',
-                secret_profile: 'Perfil Secreto',
-                views: 'Visualizações',
-                posts: 'Posts',
-                followers: 'Seguidores',
-                music: '🎵 Música',
-                no_music: 'Nenhuma música',
-                add_music: 'Adicione músicas pelo editor',
-                shuffle: 'Shuffle',
-                loop: 'Loop',
-                gallery: '🖼️ Galeria',
-                files: '📎 Arquivos',
-                login_title: '🔐 Login',
-                login_subtitle: 'Entre com seu e-mail e senha para editar o perfil.',
-                email: 'E-mail',
-                password: 'Senha',
-                login_button: 'Entrar',
-                cancel: 'Cancelar',
-                editor_title: '🎨 Editor Completo',
-                roll_system: '🎲 Sistema de Rolagem',
-                secret_chance: 'Chance do Perfil Secreto (%)',
-                roll_duration: 'Duração da Rolagem (segundos)',
-                normal_profile_section: '👤 Perfil Normal',
-                secret_profile_section: '🔒 Perfil Secreto',
-                name: 'Nome',
-                username: 'Username',
-                bio: 'Biografia',
-                appearance: '✨ Aparência',
-                primary_color: 'Cor Principal',
-                secondary_color: 'Cor Secundária',
-                avatars: '🖼️ Avatares',
-                normal_avatar: 'Avatar Normal',
-                secret_avatar: 'Avatar Secreto',
-                social_links: '🔗 Links Sociais',
-                music_section: '🎵 Músicas',
-                music_limit: 'Máximo 4 músicas por playlist. Até 50MB por arquivo.',
-                normal_playlist: 'Playlist Normal',
-                secret_playlist: 'Playlist Secreta',
-                gallery_section: '🖼️ Galeria',
-                files_section: '📎 Arquivos',
-                save_all: '💾 Salvar Tudo',
-                restore: '🔄 Restaurar',
-                logout: '🚪 Sair',
-                close: 'Fechar'
+                rolling: 'ROLANDO PERFIL...', edit_profile: '✏️ Editar Perfil', normal_profile: 'Perfil Normal', secret_profile: 'Perfil Secreto',
+                views: 'Visualizações', posts: 'Posts', followers: 'Seguidores', music: '🎵 Música', no_music: 'Nenhuma música',
+                add_music: 'Adicione músicas pelo editor', gallery: '🖼️ Galeria', files: '📎 Arquivos', login_title: '🔐 Login',
+                email: 'E-mail', password: 'Senha', login_button: 'Entrar', cancel: 'Cancelar', editor_title: '🎨 Editor Completo',
+                roll_system: '🎲 Sistema de Rolagem', secret_chance: 'Chance do Perfil Secreto (%)', roll_duration: 'Duração da Rolagem (segundos)',
+                normal_profile_section: '👤 Perfil Normal', secret_profile_section: '🔒 Perfil Secreto', name: 'Nome', username: 'Username',
+                bio: 'Biografia', appearance: '✨ Aparência', primary_color: 'Cor Principal', secondary_color: 'Cor Secundária',
+                avatars_backgrounds: '🖼️ Avatares e Fundos', normal_avatar: 'Avatar Normal', secret_avatar: 'Avatar Secreto',
+                normal_banner: 'Banner Normal', secret_banner: 'Banner Secreto', normal_background: 'Fundo Normal', secret_background: 'Fundo Secreto',
+                social_links: '🔗 Links Sociais', music_section: '🎵 Músicas', normal_playlist: 'Playlist Normal', secret_playlist: 'Playlist Secreta',
+                gallery_section: '🖼️ Galeria', files_section: '📎 Arquivos', save_all: '💾 Salvar Tudo', restore: '🔄 Restaurar',
+                logout: '🚪 Sair', close: 'Fechar'
             },
             'en-US': {
-                rolling: 'ROLLING PROFILE...',
-                edit_profile: '✏️ Edit Profile',
-                normal_profile: 'Normal Profile',
-                secret_profile: 'Secret Profile',
-                views: 'Views',
-                posts: 'Posts',
-                followers: 'Followers',
-                music: '🎵 Music',
-                no_music: 'No music',
-                add_music: 'Add music in editor',
-                shuffle: 'Shuffle',
-                loop: 'Loop',
-                gallery: '🖼️ Gallery',
-                files: '📎 Files',
-                login_title: '🔐 Login',
-                login_subtitle: 'Enter your email and password to edit the profile.',
-                email: 'Email',
-                password: 'Password',
-                login_button: 'Login',
-                cancel: 'Cancel',
-                editor_title: '🎨 Full Editor',
-                roll_system: '🎲 Roll System',
-                secret_chance: 'Secret Profile Chance (%)',
-                roll_duration: 'Roll Duration (seconds)',
-                normal_profile_section: '👤 Normal Profile',
-                secret_profile_section: '🔒 Secret Profile',
-                name: 'Name',
-                username: 'Username',
-                bio: 'Bio',
-                appearance: '✨ Appearance',
-                primary_color: 'Primary Color',
-                secondary_color: 'Secondary Color',
-                avatars: '🖼️ Avatars',
-                normal_avatar: 'Normal Avatar',
-                secret_avatar: 'Secret Avatar',
-                social_links: '🔗 Social Links',
-                music_section: '🎵 Music',
-                music_limit: 'Max 4 songs per playlist. Up to 50MB per file.',
-                normal_playlist: 'Normal Playlist',
-                secret_playlist: 'Secret Playlist',
-                gallery_section: '🖼️ Gallery',
-                files_section: '📎 Files',
-                save_all: '💾 Save All',
-                restore: '🔄 Restore',
-                logout: '🚪 Logout',
-                close: 'Close'
+                rolling: 'ROLLING PROFILE...', edit_profile: '✏️ Edit Profile', normal_profile: 'Normal Profile', secret_profile: 'Secret Profile',
+                views: 'Views', posts: 'Posts', followers: 'Followers', music: '🎵 Music', no_music: 'No music',
+                add_music: 'Add music in editor', gallery: '🖼️ Gallery', files: '📎 Files', login_title: '🔐 Login',
+                email: 'Email', password: 'Password', login_button: 'Login', cancel: 'Cancel', editor_title: '🎨 Full Editor',
+                roll_system: '🎲 Roll System', secret_chance: 'Secret Profile Chance (%)', roll_duration: 'Roll Duration (seconds)',
+                normal_profile_section: '👤 Normal Profile', secret_profile_section: '🔒 Secret Profile', name: 'Name', username: 'Username',
+                bio: 'Bio', appearance: '✨ Appearance', primary_color: 'Primary Color', secondary_color: 'Secondary Color',
+                avatars_backgrounds: '🖼️ Avatars and Backgrounds', normal_avatar: 'Normal Avatar', secret_avatar: 'Secret Avatar',
+                normal_banner: 'Normal Banner', secret_banner: 'Secret Banner', normal_background: 'Normal Background', secret_background: 'Secret Background',
+                social_links: '🔗 Social Links', music_section: '🎵 Music', normal_playlist: 'Normal Playlist', secret_playlist: 'Secret Playlist',
+                gallery_section: '🖼️ Gallery', files_section: '📎 Files', save_all: '💾 Save All', restore: '🔄 Restore',
+                logout: '🚪 Logout', close: 'Close'
             }
         };
         
@@ -1430,104 +916,65 @@
             });
         }
         
-        // =====================================================
-        // INDEXEDDB PARA ARMAZENAMENTO DE MÚSICAS
-        // =====================================================
-        const DB_NAME = 'ProfileMusicDB';
+        const DB_NAME = 'ProfileStorageDB';
         const DB_VERSION = 1;
-        const STORE_NAME = 'songs';
+        const MUSIC_STORE = 'songs';
+        const IMAGE_STORE = 'images';
         
-        function openMusicDB() {
+        function openDB() {
             return new Promise((resolve, reject) => {
                 const request = indexedDB.open(DB_NAME, DB_VERSION);
-                
                 request.onerror = () => reject(request.error);
                 request.onsuccess = () => resolve(request.result);
-                
                 request.onupgradeneeded = (event) => {
                     const db = event.target.result;
-                    if (!db.objectStoreNames.contains(STORE_NAME)) {
-                        db.createObjectStore(STORE_NAME, { keyPath: 'id', autoIncrement: true });
-                    }
+                    if (!db.objectStoreNames.contains(MUSIC_STORE)) db.createObjectStore(MUSIC_STORE, { keyPath: 'id', autoIncrement: true });
+                    if (!db.objectStoreNames.contains(IMAGE_STORE)) db.createObjectStore(IMAGE_STORE, { keyPath: 'id', autoIncrement: true });
                 };
             });
         }
         
-        async function saveSongToDB(song) {
-            const db = await openMusicDB();
+        async function saveToDB(storeName, data) {
+            const db = await openDB();
             return new Promise((resolve, reject) => {
-                const transaction = db.transaction([STORE_NAME], 'readwrite');
-                const store = transaction.objectStore(STORE_NAME);
-                const request = store.add(song);
-                
+                const transaction = db.transaction([storeName], 'readwrite');
+                const store = transaction.objectStore(storeName);
+                const request = store.add(data);
                 request.onsuccess = () => resolve(request.result);
                 request.onerror = () => reject(request.error);
-                
                 transaction.oncomplete = () => db.close();
             });
         }
         
-        async function getAllSongsFromDB() {
-            const db = await openMusicDB();
+        async function getAllFromDB(storeName) {
+            const db = await openDB();
             return new Promise((resolve, reject) => {
-                const transaction = db.transaction([STORE_NAME], 'readonly');
-                const store = transaction.objectStore(STORE_NAME);
+                const transaction = db.transaction([storeName], 'readonly');
+                const store = transaction.objectStore(storeName);
                 const request = store.getAll();
-                
                 request.onsuccess = () => resolve(request.result);
                 request.onerror = () => reject(request.error);
-                
                 transaction.oncomplete = () => db.close();
             });
         }
         
-        async function deleteSongFromDB(id) {
-            const db = await openMusicDB();
+        async function deleteFromDB(storeName, id) {
+            const db = await openDB();
             return new Promise((resolve, reject) => {
-                const transaction = db.transaction([STORE_NAME], 'readwrite');
-                const store = transaction.objectStore(STORE_NAME);
+                const transaction = db.transaction([storeName], 'readwrite');
+                const store = transaction.objectStore(storeName);
                 const request = store.delete(id);
-                
                 request.onsuccess = () => resolve();
                 request.onerror = () => reject(request.error);
-                
                 transaction.oncomplete = () => db.close();
             });
         }
         
-        // =====================================================
-        // PERFIL PADRÃO
-        // =====================================================
         const defaultProfile = {
-            title: "Meu Perfil",
-            primary: "#8b5cf6",
-            secondary: "#6366f1",
-            backgrounds: [],
-            backgroundTime: 5000,
-            opacity: .78,
-            blur: 18,
-            radius: 20,
-            particles: true,
-            posts: 0,
-            followers: 0,
-            views: 0,
-            links: [],
-            gallery: [],
-            files: [],
-            secretChance: 30,
-            rollDuration: 3,
-            normal: {
-                name: "Meu Nome",
-                username: "@usuario",
-                bio: "Bem-vindo ao meu perfil! 👋",
-                avatar: ""
-            },
-            secret: {
-                name: "???",
-                username: "@secreto",
-                bio: "Você encontrou o perfil secreto! 🔥",
-                avatar: ""
-            }
+            title: "Meu Perfil", primary: "#8b5cf6", secondary: "#6366f1", opacity: .78, blur: 18, radius: 20,
+            posts: 0, followers: 0, views: 0, links: [], gallery: [], files: [], secretChance: 30, rollDuration: 3,
+            normal: { name: "Meu Nome", username: "@usuario", bio: "Bem-vindo ao meu perfil! 👋", avatar: "", banner: "", background: "" },
+            secret: { name: "???", username: "@secreto", bio: "Você encontrou o perfil secreto! 🔥", avatar: "", banner: "", background: "" }
         };
         
         function normalizeProfile(data) {
@@ -1535,130 +982,86 @@
             result.links = Array.isArray(result.links) ? result.links : [];
             result.gallery = Array.isArray(result.gallery) ? result.gallery : [];
             result.files = Array.isArray(result.files) ? result.files : [];
-            result.backgrounds = Array.isArray(result.backgrounds) ? result.backgrounds : [];
-            result.backgroundTime = Number(result.backgroundTime) || 5000;
-            result.opacity = Number(result.opacity);
-            if (!Number.isFinite(result.opacity)) result.opacity = .78;
-            result.blur = Number(result.blur);
-            if (!Number.isFinite(result.blur)) result.blur = 18;
-            result.radius = Number(result.radius);
-            if (!Number.isFinite(result.radius)) result.radius = 20;
-            result.posts = Number(result.posts) || 0;
-            result.followers = Number(result.followers) || 0;
-            result.views = Number(result.views) || 0;
-            result.particles = Boolean(result.particles);
-            result.secretChance = Number(result.secretChance) || 0;
-            result.rollDuration = Number(result.rollDuration) || 3;
             result.normal = { ...defaultProfile.normal, ...(result.normal || {}) };
             result.secret = { ...defaultProfile.secret, ...(result.secret || {}) };
             return result;
         }
         
-        let savedProfile = null;
-        try {
-            savedProfile = JSON.parse(localStorage.getItem("myProfile"));
-        } catch(error) {
-            console.warn("Perfil local inválido.", error);
-        }
-        
-        let profile = normalizeProfile(savedProfile);
+        let profile = normalizeProfile(JSON.parse(localStorage.getItem("myProfile") || "{}"));
         let playlistNormal = [];
         let playlistSecret = [];
         let currentPlaylist = [];
         const MAX_AUDIO_SIZE_MB = 50;
         const MAX_AUDIO_SIZE_BYTES = MAX_AUDIO_SIZE_MB * 1024 * 1024;
         
-        // =====================================================
-        // CARREGAR MÚSICAS DO INDEXEDDB
-        // =====================================================
-        async function loadMusicFromDB() {
+        async function loadDataFromDB() {
             try {
-                const allSongs = await getAllSongsFromDB();
+                const allSongs = await getAllFromDB(MUSIC_STORE);
                 playlistNormal = allSongs.filter(song => song.type === 'normal').slice(0, 4);
                 playlistSecret = allSongs.filter(song => song.type === 'secret').slice(0, 4);
             } catch(error) {
-                console.error("Erro ao carregar músicas do IndexedDB:", error);
                 playlistNormal = [];
                 playlistSecret = [];
             }
         }
         
-        // =====================================================
-        // ÁUDIO
-        // =====================================================
-        const audio = new Audio();
-        audio.preload = "metadata";
-        audio.volume = .8;
+        async function saveImageFile(file) {
+            if (!file) return "";
+            if (file.size < 50 * 1024) return await fileToDataURL(file);
+            const imageData = { name: file.name, type: file.type, blob: file };
+            const id = await saveToDB(IMAGE_STORE, imageData);
+            return `idb://${id}`;
+        }
         
+        async function loadImageData(imageRef) {
+            if (!imageRef) return null;
+            if (imageRef.startsWith('idb://')) {
+                const id = Number(imageRef.replace('idb://', ''));
+                const images = await getAllFromDB(IMAGE_STORE);
+                const imageData = images.find(img => img.id === id);
+                if (imageData && imageData.blob) return URL.createObjectURL(imageData.blob);
+                return null;
+            }
+            return imageRef;
+        }
+        
+        const audio = new Audio();
+        audio.volume = .8;
         let currentSong = 0;
-        let shuffle = false;
-        let loop = false;
         let audioStarted = false;
         
         function loadSong(index, autoplay = false) {
             if (!currentPlaylist.length) {
-                audio.pause();
-                audio.removeAttribute("src");
                 document.getElementById("musicTitle").textContent = translations[currentLanguage].no_music;
                 document.getElementById("musicArtist").textContent = translations[currentLanguage].add_music;
                 document.getElementById("playlist").innerHTML = "";
                 updatePlayButton();
                 return;
             }
-            
             if (index < 0) index = currentPlaylist.length - 1;
             if (index >= currentPlaylist.length) index = 0;
-            
             currentSong = index;
             const song = currentPlaylist[currentSong];
-            
             audio.pause();
             audio.currentTime = 0;
-            
             if (song.blob) {
-                if (audio.src && audio.src.startsWith('blob:')) {
-                    URL.revokeObjectURL(audio.src);
-                }
                 audio.src = URL.createObjectURL(song.blob);
-            } else if (song.data) {
-                audio.src = song.data;
             }
-            
             document.getElementById("musicTitle").textContent = song.title;
             document.getElementById("musicArtist").textContent = song.artist;
-            
-            const cover = document.getElementById("musicCover");
-            if (song.cover) {
-                cover.style.backgroundImage = `url("${song.cover}")`;
-                cover.textContent = "";
-            } else {
-                cover.style.backgroundImage = "";
-                cover.textContent = "🎵";
-            }
-            
             document.getElementById("progress").value = 0;
             document.getElementById("currentTime").textContent = "0:00";
             document.getElementById("duration").textContent = "0:00";
-            
             renderPlaylist();
-            
-            if (autoplay && audioStarted) {
-                audio.play().catch(error => {
-                    console.warn("Não foi possível reproduzir:", error);
-                });
-            }
+            if (autoplay && audioStarted) audio.play().catch(() => {});
         }
         
         function toggleMusic() {
-            if (!currentPlaylist.length) {
-                alert(translations[currentLanguage].no_music);
-                return;
-            }
-            
+            if (!currentPlaylist.length) return;
             if (audio.paused) {
                 if (!audio.src) loadSong(currentSong);
                 audioStarted = true;
-                audio.play().catch(error => console.error(error));
+                audio.play().catch(() => {});
             } else {
                 audio.pause();
             }
@@ -1668,53 +1071,16 @@
             document.getElementById("playButton").textContent = audio.paused ? "▶" : "⏸";
         }
         
-        function nextSong() {
-            if (!currentPlaylist.length) return;
-            
-            if (shuffle && currentPlaylist.length > 1) {
-                let next;
-                do {
-                    next = Math.floor(Math.random() * currentPlaylist.length);
-                } while (next === currentSong);
-                loadSong(next, true);
-                return;
-            }
-            
-            loadSong(currentSong + 1, true);
-        }
-        
-        function previousSong() {
-            if (!currentPlaylist.length) return;
-            loadSong(currentSong - 1, true);
-        }
-        
-        function toggleShuffle() {
-            shuffle = !shuffle;
-            document.getElementById("shuffleButton").classList.toggle("active", shuffle);
-        }
-        
-        function toggleLoop() {
-            loop = !loop;
-            document.getElementById("loopButton").classList.toggle("active", loop);
-        }
+        function nextSong() { if (currentPlaylist.length) loadSong(currentSong + 1, true); }
+        function previousSong() { if (currentPlaylist.length) loadSong(currentSong - 1, true); }
         
         function renderPlaylist() {
             const container = document.getElementById("playlist");
             container.innerHTML = "";
-            
             currentPlaylist.forEach((song, index) => {
                 const item = document.createElement("div");
-                item.className = "playlist-item";
-                if (index === currentSong) item.classList.add("active");
-                
-                item.innerHTML = `
-                    <div class="playlist-number">${index + 1}</div>
-                    <div class="playlist-name">
-                        <strong>${escapeHTML(song.title)}</strong>
-                        <span>${escapeHTML(song.artist)}</span>
-                    </div>
-                `;
-                
+                item.className = "playlist-item" + (index === currentSong ? " active" : "");
+                item.innerHTML = `<div class="playlist-number">${index + 1}</div><div class="playlist-name"><strong>${song.title}</strong><span>${song.artist}</span></div>`;
                 item.onclick = () => loadSong(index, true);
                 container.appendChild(item);
             });
@@ -1723,31 +1089,19 @@
         audio.addEventListener("loadedmetadata", () => {
             document.getElementById("duration").textContent = formatTime(audio.duration);
         });
-        
         audio.addEventListener("timeupdate", () => {
             if (!Number.isFinite(audio.duration)) return;
             document.getElementById("progress").value = (audio.currentTime / audio.duration) * 100;
             document.getElementById("currentTime").textContent = formatTime(audio.currentTime);
         });
-        
-        audio.addEventListener("ended", () => {
-            if (loop) {
-                audio.currentTime = 0;
-                audio.play();
-                return;
-            }
-            nextSong();
-        });
-        
+        audio.addEventListener("ended", () => nextSong());
         audio.addEventListener("play", updatePlayButton);
         audio.addEventListener("pause", updatePlayButton);
-        audio.addEventListener("error", () => console.error("Erro ao carregar a música."));
         
         document.getElementById("progress").addEventListener("input", event => {
             if (!Number.isFinite(audio.duration)) return;
             audio.currentTime = (Number(event.target.value) / 100) * audio.duration;
         });
-        
         document.getElementById("volume").addEventListener("input", event => {
             audio.volume = Number(event.target.value);
         });
@@ -1759,43 +1113,24 @@
             return `${minutes}:${remaining}`;
         }
         
-        // =====================================================
-        // TELA DE ROLAGEM
-        // =====================================================
         let rollInterval;
-        let currentRollPercentage = 0;
-        
         function startRollSequence() {
-            const entryScreen = document.getElementById("entryScreen");
-            const percentageElement = document.getElementById("rollPercentage");
-            const barElement = document.getElementById("rollBar");
-            const resultElement = document.getElementById("rollResult");
-            
-            currentRollPercentage = 0;
-            resultElement.classList.remove("show");
-            
+            let currentRollPercentage = 0;
             rollInterval = setInterval(() => {
                 currentRollPercentage += Math.random() * 20;
-                
                 if (currentRollPercentage >= 100) {
                     currentRollPercentage = 100;
                     clearInterval(rollInterval);
-                    
                     const isSecret = Math.random() * 100 < profile.secretChance;
-                    
-                    setTimeout(() => {
-                        showRollResult(isSecret);
-                    }, 500);
+                    setTimeout(() => showRollResult(isSecret), 500);
                 }
-                
-                percentageElement.textContent = Math.floor(currentRollPercentage) + "%";
-                barElement.style.width = currentRollPercentage + "%";
+                document.getElementById("rollPercentage").textContent = Math.floor(currentRollPercentage) + "%";
+                document.getElementById("rollBar").style.width = currentRollPercentage + "%";
             }, 100);
         }
         
         function showRollResult(isSecret) {
             const resultElement = document.getElementById("rollResult");
-            
             if (isSecret) {
                 resultElement.textContent = translations[currentLanguage].secret_profile;
                 resultElement.className = "roll-result secret show";
@@ -1803,7 +1138,6 @@
                 resultElement.textContent = translations[currentLanguage].normal_profile;
                 resultElement.className = "roll-result normal show";
             }
-            
             setTimeout(() => {
                 document.getElementById("entryScreen").classList.add("hidden");
                 applyProfileType(isSecret);
@@ -1813,15 +1147,11 @@
         
         document.getElementById("entryScreen").addEventListener("click", () => {
             clearInterval(rollInterval);
-            currentRollPercentage = 100;
-            document.getElementById("rollPercentage").textContent = "100%";
-            document.getElementById("rollBar").style.width = "100%";
-            
             const isSecret = Math.random() * 100 < profile.secretChance;
             showRollResult(isSecret);
         });
         
-        function applyProfileType(isSecret) {
+        async function applyProfileType(isSecret) {
             const currentProfile = isSecret ? profile.secret : profile.normal;
             currentPlaylist = isSecret ? playlistSecret : playlistNormal;
             
@@ -1829,12 +1159,14 @@
             document.getElementById("username").textContent = currentProfile.username;
             document.getElementById("bio").textContent = currentProfile.bio;
             
-            const avatar = document.getElementById("avatar");
-            if (currentProfile.avatar) {
-                avatar.src = currentProfile.avatar;
-            } else {
-                avatar.src = "https://placehold.co/300x300/18181b/ffffff?text=PROFILE";
-            }
+            const avatarUrl = await loadImageData(currentProfile.avatar);
+            document.getElementById("avatar").src = avatarUrl || "https://placehold.co/300x300/18181b/ffffff?text=PROFILE";
+            
+            const bannerUrl = await loadImageData(currentProfile.banner);
+            document.getElementById("banner").style.backgroundImage = bannerUrl ? `url("${bannerUrl}")` : `linear-gradient(135deg, ${profile.primary}, ${profile.secondary})`;
+            
+            const bgUrl = await loadImageData(currentProfile.background);
+            document.getElementById("background").style.backgroundImage = bgUrl ? `url("${bgUrl}")` : `linear-gradient(135deg, ${profile.primary}, ${profile.secondary})`;
             
             const badge = document.getElementById("profileBadge");
             if (isSecret) {
@@ -1857,176 +1189,56 @@
             }
         }
         
-        // =====================================================
-        // FUNDO
-        // =====================================================
-        let backgroundInterval;
-        
-        function applyBackground() {
-            clearInterval(backgroundInterval);
-            const background = document.getElementById("background");
-            const banner = document.getElementById("banner");
-            const backgrounds = profile.backgrounds;
-            
-            if (backgrounds.length) {
-                let index = 0;
-                
-                function change() {
-                    const image = backgrounds[index];
-                    background.style.backgroundImage = `url("${image}")`;
-                    banner.style.backgroundImage = `url("${image}")`;
-                    index = (index + 1) % backgrounds.length;
-                }
-                
-                change();
-                
-                if (backgrounds.length > 1) {
-                    backgroundInterval = setInterval(change, profile.backgroundTime);
-                }
-            } else {
-                const gradient = `linear-gradient(135deg, ${profile.primary}, ${profile.secondary})`;
-                background.style.backgroundImage = gradient;
-                banner.style.backgroundImage = gradient;
-            }
-        }
-        
-        function renderProfile() {
+        async function renderProfile() {
             document.title = profile.title || "Meu Perfil";
             document.getElementById("siteLogo").textContent = profile.title || "PROFILE";
-            
             document.documentElement.style.setProperty("--primary", profile.primary);
             document.documentElement.style.setProperty("--secondary", profile.secondary);
             document.documentElement.style.setProperty("--card-opacity", profile.opacity);
             document.documentElement.style.setProperty("--blur", profile.blur + "px");
             document.documentElement.style.setProperty("--radius", profile.radius + "px");
-            
             document.getElementById("posts").textContent = profile.posts;
             document.getElementById("followers").textContent = profile.followers;
             document.getElementById("views").textContent = profile.views;
-            
             renderLinks();
-            renderGallery();
+            await renderGallery();
             renderFiles();
-            applyBackground();
         }
         
         function renderLinks() {
             const container = document.getElementById("links");
             container.innerHTML = "";
-            
             profile.links.forEach(link => {
                 if (!link || !link.url) return;
-                
                 const a = document.createElement("a");
                 a.href = link.url;
                 a.target = "_blank";
-                a.rel = "noopener noreferrer";
                 a.textContent = link.label || link.url;
                 container.appendChild(a);
             });
         }
         
-        function renderGallery() {
+        async function renderGallery() {
             const container = document.getElementById("gallery");
             container.innerHTML = "";
-            
-            profile.gallery.forEach((image, index) => {
-                if (!image) return;
-                
-                const galleryItem = document.createElement("div");
-                galleryItem.className = "gallery-item";
-                
+            for (const imageRef of profile.gallery) {
+                const imageUrl = await loadImageData(imageRef);
+                if (!imageUrl) continue;
                 const img = document.createElement("img");
-                img.src = image;
+                img.src = imageUrl;
                 img.loading = "lazy";
-                
-                const deleteBtn = document.createElement("button");
-                deleteBtn.className = "gallery-delete-btn";
-                deleteBtn.textContent = "✕";
-                deleteBtn.title = "Excluir imagem";
-                deleteBtn.onclick = (e) => {
-                    e.stopPropagation();
-                    deleteGalleryImage(index);
-                };
-                
-                galleryItem.appendChild(img);
-                galleryItem.appendChild(deleteBtn);
-                container.appendChild(galleryItem);
-            });
-            
-            renderGalleryEditor();
-        }
-        
-        function deleteGalleryImage(index) {
-            if (!confirm("Excluir esta imagem da galeria?")) return;
-            
-            profile.gallery.splice(index, 1);
-            saveLocal();
-            
-            if (window.firebaseUser) {
-                window.saveFirebaseProfile(window.firebaseUser.uid, profile).catch(error => {
-                    console.error("Erro ao salvar no Firebase:", error);
-                });
+                container.appendChild(img);
             }
-            
-            renderGallery();
-        }
-        
-        function renderGalleryEditor() {
-            const container = document.getElementById("galleryEditorList");
-            if (!container) return;
-            
-            container.innerHTML = "";
-            
-            if (!profile.gallery.length) {
-                container.innerHTML = '<p style="color:#71717a;font-size:12px;">Nenhuma imagem na galeria.</p>';
-                return;
-            }
-            
-            profile.gallery.forEach((image, index) => {
-                const item = document.createElement("div");
-                item.style.cssText = "display:flex;align-items:center;gap:10px;margin-bottom:8px;padding:8px;background:rgba(255,255,255,.04);border-radius:8px;";
-                
-                const img = document.createElement("img");
-                img.src = image;
-                img.style.cssText = "width:50px;height:50px;object-fit:cover;border-radius:6px;";
-                
-                const text = document.createElement("span");
-                text.textContent = `Imagem ${index + 1}`;
-                text.style.cssText = "flex:1;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;";
-                
-                const deleteBtn = document.createElement("button");
-                deleteBtn.textContent = "🗑️";
-                deleteBtn.style.cssText = "background:rgba(239,68,68,.15);color:#fca5a5;padding:5px 10px;border-radius:6px;font-size:11px;";
-                deleteBtn.onclick = () => deleteGalleryImage(index);
-                
-                item.appendChild(img);
-                item.appendChild(text);
-                item.appendChild(deleteBtn);
-                container.appendChild(item);
-            });
         }
         
         function renderFiles() {
             const container = document.getElementById("files");
             container.innerHTML = "";
-            
             profile.files.forEach(file => {
                 if (!file || !file.data) return;
-                
                 const div = document.createElement("div");
                 div.className = "file";
-                
-                const name = document.createElement("span");
-                name.textContent = "📎 " + (file.name || "Arquivo");
-                
-                const link = document.createElement("a");
-                link.href = file.data;
-                link.download = file.name || "arquivo";
-                link.textContent = "Abrir";
-                
-                div.appendChild(name);
-                div.appendChild(link);
+                div.innerHTML = `<span>📎 ${file.name || "Arquivo"}</span><a href="${file.data}" download>${translations[currentLanguage].open || "Abrir"}</a>`;
                 container.appendChild(div);
             });
         }
@@ -2040,76 +1252,80 @@
             });
         }
         
-        // =====================================================
-        // LOGIN
-        // =====================================================
+        window.reloadProfile = async function() {
+            if (window.loadPublicProfile) {
+                try {
+                    const publicProfile = await window.loadPublicProfile();
+                    if (publicProfile) {
+                        profile = normalizeProfile(publicProfile);
+                        saveLocal();
+                        await renderProfile();
+                        return;
+                    }
+                } catch(error) {}
+            }
+            if (window.firebaseUser && window.loadFirebaseProfile) {
+                try {
+                    const userProfile = await window.loadFirebaseProfile(window.firebaseUser.uid);
+                    if (userProfile) {
+                        profile = normalizeProfile(userProfile);
+                        saveLocal();
+                        await renderProfile();
+                        return;
+                    }
+                } catch(error) {}
+            }
+            const savedProfile = localStorage.getItem("myProfile");
+            if (savedProfile) {
+                profile = normalizeProfile(JSON.parse(savedProfile));
+                await renderProfile();
+            }
+        };
+        
         async function login(event) {
             event.preventDefault();
             const email = document.getElementById("loginEmail").value.trim();
             const password = document.getElementById("loginPassword").value;
             const error = document.getElementById("loginError");
             error.textContent = "";
-            
             try {
                 await window.firebaseLogin(email, password);
                 document.getElementById("loginModal").classList.add("hidden");
                 openEditor();
             } catch(errorObject) {
-                console.error(errorObject);
                 error.textContent = "E-mail ou senha incorretos.";
             }
         }
         
-        function openLogin() {
-            document.getElementById("loginModal").classList.remove("hidden");
-        }
-        
-        function closeLogin() {
-            document.getElementById("loginModal").classList.add("hidden");
-        }
+        function openLogin() { document.getElementById("loginModal").classList.remove("hidden"); }
+        function closeLogin() { document.getElementById("loginModal").classList.add("hidden"); }
         
         function openEditor() {
-            if (!window.firebaseUser) {
-                openLogin();
-                return;
-            }
-            
+            if (!window.firebaseUser) { openLogin(); return; }
             document.getElementById("editorModal").classList.remove("hidden");
             loadEditor();
         }
         
-        function closeEditor() {
-            document.getElementById("editorModal").classList.add("hidden");
-        }
+        function closeEditor() { document.getElementById("editorModal").classList.add("hidden"); }
         
         function loadEditor() {
             document.getElementById("editSecretChance").value = profile.secretChance;
             document.getElementById("editRollDuration").value = profile.rollDuration;
-            
             document.getElementById("editNameNormal").value = profile.normal.name;
             document.getElementById("editUsernameNormal").value = profile.normal.username;
             document.getElementById("editBioNormal").value = profile.normal.bio;
-            
             document.getElementById("editNameSecret").value = profile.secret.name;
             document.getElementById("editUsernameSecret").value = profile.secret.username;
             document.getElementById("editBioSecret").value = profile.secret.bio;
-            
             document.getElementById("editPrimary").value = profile.primary;
             document.getElementById("editSecondary").value = profile.secondary;
-            
-            loadExistingLinks();
-            renderMusicEditors();
-            renderGalleryEditor();
-        }
-        
-        function loadExistingLinks() {
             const discord = profile.links.find(link => link.label === "Discord");
             const youtube = profile.links.find(link => link.label === "YouTube");
             const github = profile.links.find(link => link.label === "GitHub");
-            
             document.getElementById("discordLink").value = discord?.url || "";
             document.getElementById("youtubeLink").value = youtube?.url || "";
             document.getElementById("githubLink").value = github?.url || "";
+            renderMusicEditors();
         }
         
         function renderMusicEditors() {
@@ -2120,276 +1336,142 @@
         function renderMusicEditorList(type) {
             const container = document.getElementById(`music${type === 'normal' ? 'Normal' : 'Secret'}EditorList`);
             container.innerHTML = "";
-            
             const playlist = type === 'normal' ? playlistNormal : playlistSecret;
-            
             if (!playlist.length) {
                 container.innerHTML = '<p style="color:#71717a;font-size:12px;">Nenhuma música adicionada.</p>';
                 return;
             }
-            
             playlist.forEach((song, index) => {
                 const item = document.createElement("div");
                 item.className = "music-editor-item";
-                
-                item.innerHTML = `
-                    <input value="${escapeAttribute(song.title)}" placeholder="Título" data-title>
-                    <input value="${escapeAttribute(song.artist)}" placeholder="Artista" data-artist>
-                    <button type="button" data-remove>🗑️ Remover</button>
-                `;
-                
-                item.querySelector("[data-title]").addEventListener("input", async event => {
-                    playlist[index].title = event.target.value;
-                    await updateSongInDB(playlist[index]);
-                });
-                
-                item.querySelector("[data-artist]").addEventListener("input", async event => {
-                    playlist[index].artist = event.target.value;
-                    await updateSongInDB(playlist[index]);
-                });
-                
+                item.innerHTML = `<input value="${song.title}" data-title><input value="${song.artist}" data-artist><button data-remove>🗑️</button>`;
+                item.querySelector("[data-title]").addEventListener("input", e => { playlist[index].title = e.target.value; });
+                item.querySelector("[data-artist]").addEventListener("input", e => { playlist[index].artist = e.target.value; });
                 item.querySelector("[data-remove]").addEventListener("click", async () => {
-                    if (playlist[index].id) {
-                        await deleteSongFromDB(playlist[index].id);
-                    }
+                    if (playlist[index].id) await deleteFromDB(MUSIC_STORE, playlist[index].id);
                     playlist.splice(index, 1);
                     renderMusicEditors();
-                    if (currentPlaylist === playlist) {
-                        renderPlaylist();
-                        loadSong(0, false);
-                    }
+                    if (currentPlaylist === playlist) { renderPlaylist(); loadSong(0, false); }
                 });
-                
                 container.appendChild(item);
             });
         }
         
-        async function updateSongInDB(song) {
-            if (song.id) {
-                try {
-                    const db = await openMusicDB();
-                    await new Promise((resolve, reject) => {
-                        const transaction = db.transaction([STORE_NAME], 'readwrite');
-                        const store = transaction.objectStore(STORE_NAME);
-                        store.put(song);
-                        transaction.oncomplete = () => {
-                            db.close();
-                            resolve();
-                        };
-                        transaction.onerror = () => {
-                            db.close();
-                            reject(transaction.error);
-                        };
-                    });
-                } catch(error) {
-                    console.error("Erro ao atualizar música no IndexedDB:", error);
-                }
-            }
-        }
-        
-        document.getElementById("musicNormalInput").addEventListener("change", async event => {
-            await handleMusicUpload(event, 'normal');
-        });
-        
-        document.getElementById("musicSecretInput").addEventListener("change", async event => {
-            await handleMusicUpload(event, 'secret');
-        });
+        document.getElementById("musicNormalInput").addEventListener("change", e => handleMusicUpload(e, 'normal'));
+        document.getElementById("musicSecretInput").addEventListener("change", e => handleMusicUpload(e, 'secret'));
         
         async function handleMusicUpload(event, type) {
             const files = Array.from(event.target.files);
             if (!files.length) return;
-            
             const playlist = type === 'normal' ? playlistNormal : playlistSecret;
             const remaining = 4 - playlist.length;
-            
-            if (remaining <= 0) {
-                alert("A playlist já possui 4 músicas.");
-                event.target.value = "";
-                return;
-            }
-            
+            if (remaining <= 0) { alert("Playlist cheia!"); event.target.value = ""; return; }
             const selected = files.slice(0, remaining);
-            
-            if (files.length > remaining) {
-                alert(`Só ${remaining} música(s) foram adicionada(s). O limite é 4.`);
-            }
-            
             for (const file of selected) {
-                if (file.size > MAX_AUDIO_SIZE_BYTES) {
-                    alert(`O arquivo "${file.name}" excede o limite de ${MAX_AUDIO_SIZE_MB}MB.`);
-                    continue;
-                }
-                
-                const songData = {
-                    title: file.name.replace(/\.[^/.]+$/, ""),
-                    artist: "Artista desconhecido",
-                    blob: file,
-                    cover: "",
-                    type: type
-                };
-                
-                try {
-                    const id = await saveSongToDB(songData);
-                    songData.id = id;
-                    playlist.push(songData);
-                } catch(error) {
-                    console.error("Erro ao salvar música no IndexedDB:", error);
-                    alert("Não foi possível salvar a música.");
-                }
+                if (file.size > MAX_AUDIO_SIZE_BYTES) { alert(`Arquivo muito grande: ${file.name}`); continue; }
+                const songData = { title: file.name.replace(/\.[^/.]+$/, ""), artist: "Artista desconhecido", blob: file, type: type };
+                const id = await saveToDB(MUSIC_STORE, songData);
+                songData.id = id;
+                playlist.push(songData);
             }
-            
             renderMusicEditors();
-            
-            if (currentPlaylist === playlist) {
-                renderPlaylist();
-                loadSong(0, false);
-            }
-            
+            if (currentPlaylist === playlist) { renderPlaylist(); loadSong(0, false); }
             event.target.value = "";
         }
         
         async function saveProfile() {
-            if (!window.firebaseUser) {
-                openLogin();
-                return;
-            }
+            if (!window.firebaseUser) { openLogin(); return; }
             
             profile.secretChance = Number(document.getElementById("editSecretChance").value) || 0;
             profile.rollDuration = Number(document.getElementById("editRollDuration").value) || 3;
-            
             profile.normal.name = document.getElementById("editNameNormal").value;
             profile.normal.username = document.getElementById("editUsernameNormal").value;
             profile.normal.bio = document.getElementById("editBioNormal").value;
-            
             profile.secret.name = document.getElementById("editNameSecret").value;
             profile.secret.username = document.getElementById("editUsernameSecret").value;
             profile.secret.bio = document.getElementById("editBioSecret").value;
-            
             profile.primary = document.getElementById("editPrimary").value;
             profile.secondary = document.getElementById("editSecondary").value;
             
             const newLinks = [];
-            
             const discord = document.getElementById("discordLink").value.trim();
             const youtube = document.getElementById("youtubeLink").value.trim();
             const github = document.getElementById("githubLink").value.trim();
-            
             if (discord) newLinks.push({ label: "Discord", url: discord });
             if (youtube) newLinks.push({ label: "YouTube", url: youtube });
             if (github) newLinks.push({ label: "GitHub", url: github });
-            
             profile.links = newLinks;
             
-            const avatarNormalFile = document.getElementById("avatarNormalInput").files[0];
-            if (avatarNormalFile) {
-                profile.normal.avatar = await fileToDataURL(avatarNormalFile);
-            }
-            
-            const avatarSecretFile = document.getElementById("avatarSecretInput").files[0];
-            if (avatarSecretFile) {
-                profile.secret.avatar = await fileToDataURL(avatarSecretFile);
-            }
+            const avatarNormal = await saveImageFile(document.getElementById("avatarNormalInput").files[0]);
+            if (avatarNormal) profile.normal.avatar = avatarNormal;
+            const avatarSecret = await saveImageFile(document.getElementById("avatarSecretInput").files[0]);
+            if (avatarSecret) profile.secret.avatar = avatarSecret;
+            const bannerNormal = await saveImageFile(document.getElementById("bannerNormalInput").files[0]);
+            if (bannerNormal) profile.normal.banner = bannerNormal;
+            const bannerSecret = await saveImageFile(document.getElementById("bannerSecretInput").files[0]);
+            if (bannerSecret) profile.secret.banner = bannerSecret;
+            const bgNormal = await saveImageFile(document.getElementById("backgroundNormalInput").files[0]);
+            if (bgNormal) profile.normal.background = bgNormal;
+            const bgSecret = await saveImageFile(document.getElementById("backgroundSecretInput").files[0]);
+            if (bgSecret) profile.secret.background = bgSecret;
             
             const galleryFiles = document.getElementById("galleryInput").files;
             for (const file of galleryFiles) {
-                profile.gallery.push(await fileToDataURL(file));
+                const imageRef = await saveImageFile(file);
+                if (imageRef) profile.gallery.push(imageRef);
             }
             
             const files = document.getElementById("filesInput").files;
             for (const file of files) {
-                profile.files.push({
-                    name: file.name,
-                    data: await fileToDataURL(file)
-                });
+                profile.files.push({ name: file.name, data: await fileToDataURL(file) });
             }
             
             saveLocal();
             
             try {
                 await window.saveFirebaseProfile(window.firebaseUser.uid, profile);
+                await window.saveFirebaseProfile("public", profile);
+                document.getElementById("saveMessage").textContent = "✓ Perfil salvo e publicado!";
             } catch(error) {
-                console.error("Erro no Firebase:", error);
-                alert("O perfil foi salvo localmente, mas não foi possível salvar no Firebase.");
-                renderProfile();
-                return;
+                document.getElementById("saveMessage").textContent = "Erro ao salvar no Firebase.";
             }
             
-            renderProfile();
-            
-            document.getElementById("saveMessage").textContent = "✓ Tudo salvo com sucesso!";
-            setTimeout(() => {
-                document.getElementById("saveMessage").textContent = "";
-            }, 2500);
+            await renderProfile();
+            setTimeout(() => { document.getElementById("saveMessage").textContent = ""; }, 2500);
         }
         
         function saveLocal() {
             try {
                 localStorage.setItem("myProfile", JSON.stringify(profile));
-            } catch(error) {
-                console.error("Erro ao salvar LocalStorage:", error);
-                alert("O LocalStorage está cheio. Algumas imagens/arquivos podem ser grandes demais.");
-            }
+            } catch(error) {}
         }
         
         async function resetProfile() {
-            if (!confirm("Restaurar o perfil para o padrão?")) return;
-            
+            if (!confirm("Restaurar perfil padrão?")) return;
             profile = JSON.parse(JSON.stringify(defaultProfile));
             saveLocal();
-            
             if (window.firebaseUser) {
-                try {
-                    await window.saveFirebaseProfile(window.firebaseUser.uid, profile);
-                } catch(error) {
-                    console.error(error);
-                }
+                try { await window.saveFirebaseProfile(window.firebaseUser.uid, profile); await window.saveFirebaseProfile("public", profile); } catch(error) {}
             }
-            
-            renderProfile();
+            await renderProfile();
             loadEditor();
         }
         
         async function logout() {
-            try {
-                await window.firebaseLogout();
-                closeEditor();
-            } catch(error) {
-                console.error(error);
-            }
-        }
-        
-        function escapeHTML(text) {
-            const div = document.createElement("div");
-            div.textContent = text ?? "";
-            return div.innerHTML;
-        }
-        
-        function escapeAttribute(text) {
-            return String(text ?? "")
-                .replace(/&/g, "&amp;")
-                .replace(/"/g, "&quot;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;");
+            try { await window.firebaseLogout(); closeEditor(); } catch(error) {}
         }
         
         document.addEventListener("keydown", event => {
             if (event.ctrlKey && event.shiftKey && event.key.toLowerCase() === "e") {
                 event.preventDefault();
-                if (window.firebaseUser) {
-                    openEditor();
-                } else {
-                    openLogin();
-                }
+                if (window.firebaseUser) openEditor(); else openLogin();
             }
         });
         
-        // =====================================================
-        // INICIALIZAÇÃO
-        // =====================================================
         async function init() {
-            await loadMusicFromDB();
+            await loadDataFromDB();
             applyTranslations();
-            renderProfile();
+            await window.reloadProfile();
             startRollSequence();
         }
         
