@@ -23,7 +23,6 @@
             --card-opacity: .78;
             --blur: 18px;
             --radius: 20px;
-            --spacing: 16px;
         }
         
         html {
@@ -41,7 +40,7 @@
         }
         
         /* =====================================================
-           TELA DE ENTRADA (GLITCH)
+           TELA DE ENTRADA (ROLAGEM)
         ===================================================== */
         #entryScreen {
             position: fixed;
@@ -61,30 +60,29 @@
             pointer-events: none;
         }
         
-        .glitch-container {
+        .roll-container {
             text-align: center;
-            animation: glitchPulse 2s infinite;
+            position: relative;
         }
         
-        .glitch-title {
+        .roll-title {
             font-size: 48px;
             font-weight: 900;
             letter-spacing: 8px;
-            position: relative;
-            animation: glitchText 3s infinite;
+            animation: rollPulse 2s infinite;
             text-shadow: 
                 2px 0 #ff00ff,
                 -2px 0 #00ffff;
         }
         
-        .glitch-subtitle {
+        .roll-subtitle {
             font-size: 14px;
             color: #888;
             margin-top: 20px;
-            animation: glitchSubtitle 2s infinite;
+            animation: rollSubtitle 2s infinite;
         }
         
-        .glitch-percentage {
+        .roll-percentage {
             font-size: 72px;
             font-weight: 900;
             margin-top: 30px;
@@ -92,10 +90,10 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: glitchPercentage 1.5s infinite;
+            animation: rollPercentage 0.1s infinite;
         }
         
-        .glitch-bar {
+        .roll-bar {
             width: 300px;
             height: 4px;
             background: #222;
@@ -104,54 +102,69 @@
             overflow: hidden;
         }
         
-        .glitch-bar-fill {
+        .roll-bar-fill {
             height: 100%;
             background: linear-gradient(90deg, var(--primary), var(--secondary));
             border-radius: 2px;
-            transition: width 0.3s ease;
-            animation: barGlitch 2s infinite;
+            transition: width 0.1s ease;
         }
         
-        /* Glitch para perfil secreto */
-        .secret-glitch {
+        .roll-result {
+            font-size: 24px;
+            font-weight: 700;
+            margin-top: 30px;
+            padding: 15px 30px;
+            border-radius: 12px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .roll-result.show {
+            opacity: 1;
+            animation: resultReveal 0.5s ease;
+        }
+        
+        .roll-result.normal {
+            background: rgba(139,92,246,.2);
+            border: 2px solid var(--primary);
+            color: #c4b5fd;
+        }
+        
+        .roll-result.secret {
+            background: rgba(239,68,68,.2);
+            border: 2px solid #ef4444;
+            color: #fca5a5;
             animation: secretGlitch 0.1s infinite;
         }
         
-        @keyframes secretGlitch {
-            0%, 100% { transform: translate(0); opacity: 1; }
-            25% { transform: translate(-5px, 3px); opacity: 0.3; }
-            50% { transform: translate(5px, -3px); opacity: 0.6; }
-            75% { transform: translate(-3px, -5px); opacity: 0.4; }
+        @keyframes rollPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
         
-        @keyframes glitchText {
-            0%, 100% { transform: translate(0); }
-            20% { transform: translate(-2px, 2px); }
-            40% { transform: translate(2px, -2px); }
-            60% { transform: translate(-1px, -1px); }
-            80% { transform: translate(1px, 1px); }
-        }
-        
-        @keyframes glitchSubtitle {
+        @keyframes rollSubtitle {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.5; }
         }
         
-        @keyframes glitchPercentage {
-            0%, 100% { transform: translate(0) scale(1); }
-            25% { transform: translate(2px, -2px) scale(1.05); }
-            50% { transform: translate(-2px, 2px) scale(0.95); }
-            75% { transform: translate(1px, 1px) scale(1.02); }
+        @keyframes rollPercentage {
+            0% { transform: translate(0) rotate(0deg); }
+            25% { transform: translate(2px, -2px) rotate(1deg); }
+            50% { transform: translate(-2px, 2px) rotate(-1deg); }
+            75% { transform: translate(1px, 1px) rotate(0.5deg); }
+            100% { transform: translate(0) rotate(0deg); }
         }
         
-        @keyframes glitchPulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; }
+        @keyframes resultReveal {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
         }
         
-        @keyframes barGlitch {
-            0%, 100% { transform: translateX(0); }
-            50% { transform: translateX(10px); }
+        @keyframes secretGlitch {
+            0%, 100% { transform: translate(0); }
+            25% { transform: translate(-3px, 2px); }
+            50% { transform: translate(3px, -2px); }
+            75% { transform: translate(-2px, -3px); }
         }
         
         /* =====================================================
@@ -232,11 +245,6 @@
             background: var(--primary);
             border-color: var(--primary);
             font-weight: 600;
-        }
-        
-        .edit-button:hover {
-            background: var(--secondary);
-            border-color: var(--secondary);
         }
         
         /* =====================================================
@@ -323,206 +331,30 @@
         }
         
         /* =====================================================
-           BADGE DE PORCENTAGEM
+           BADGE DE PERFIL
         ===================================================== */
-        .percentage-badge {
+        .profile-badge {
             display: inline-flex;
             align-items: center;
             gap: 6px;
             padding: 6px 12px;
             border-radius: 8px;
-            background: rgba(139,92,246,.15);
-            border: 1px solid var(--primary);
             font-size: 12px;
             font-weight: 700;
             margin-top: 12px;
-            animation: percentagePulse 2s infinite;
         }
         
-        @keyframes percentagePulse {
-            0%, 100% { box-shadow: 0 0 10px rgba(139,92,246,.3); }
-            50% { box-shadow: 0 0 20px rgba(139,92,246,.6); }
+        .profile-badge.normal {
+            background: rgba(139,92,246,.15);
+            border: 1px solid var(--primary);
+            color: #c4b5fd;
         }
         
-        /* =====================================================
-           SEÇÃO SECRETA
-        ===================================================== */
-        .secret-section {
-            display: none;
-            margin-top: 15px;
-            padding: 15px;
-            border-radius: 12px;
-            background: rgba(0,0,0,.3);
-            border: 1px dashed rgba(139,92,246,.3);
-        }
-        
-        .secret-section.visible {
-            display: block;
-            animation: secretReveal 0.5s ease;
-        }
-        
-        @keyframes secretReveal {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* =====================================================
-           MODAIS
-        ===================================================== */
-        .overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 15px;
-            background: rgba(0,0,0,.85);
-            backdrop-filter: blur(15px);
-            overflow-y: auto;
-        }
-        
-        .hidden {
-            display: none !important;
-        }
-        
-        .modal {
-            width: min(400px, 100%);
-            max-height: 90vh;
-            overflow-y: auto;
-            padding: 25px;
-            border-radius: 16px;
-            border: 1px solid rgba(255,255,255,.1);
-            background: #18181b;
-            box-shadow: 0 25px 70px rgba(0,0,0,.8);
-        }
-        
-        .editor {
-            width: min(700px, 100%);
-        }
-        
-        .modal h2 {
-            margin-bottom: 15px;
-            font-size: 18px;
-        }
-        
-        .modal h3 {
-            margin-top: 20px;
-            margin-bottom: 10px;
-            font-size: 14px;
-            color: var(--primary);
-            border-bottom: 1px solid rgba(255,255,255,.1);
-            padding-bottom: 5px;
-        }
-        
-        .modal label {
-            display: block;
-            color: #d4d4d8;
-            font-size: 12px;
-            margin-top: 8px;
-            font-weight: 600;
-        }
-        
-        .modal input,
-        .modal textarea,
-        .modal select {
-            width: 100%;
-            padding: 8px 10px;
-            margin: 4px 0 8px;
-            border: 1px solid rgba(255,255,255,.15);
-            border-radius: 8px;
-            background: #09090b;
-            color: white;
-            outline: none;
-            font-size: 13px;
-        }
-        
-        .modal input[type="color"] {
-            height: 35px;
-            padding: 3px;
-            cursor: pointer;
-        }
-        
-        .modal input[type="range"] {
-            cursor: pointer;
-            height: 5px;
-            padding: 0;
-        }
-        
-        .modal textarea {
-            min-height: 80px;
-            resize: vertical;
-        }
-        
-        .modal input:focus,
-        .modal textarea:focus,
-        .modal select:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 2px rgba(139,92,246,.2);
-        }
-        
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-        
-        .modal button {
-            padding: 8px 12px;
-            border-radius: 8px;
-            border: 1px solid rgba(255,255,255,.1);
-            background: rgba(255,255,255,.07);
-            color: white;
-            cursor: pointer;
-            font-size: 12px;
-            transition: all .2s ease;
-        }
-        
-        .modal button:hover {
-            border-color: var(--primary);
-            background: rgba(139,92,246,.2);
-            transform: translateY(-1px);
-        }
-        
-        .primary-button {
-            background: var(--primary) !important;
-            border-color: transparent !important;
-        }
-        
-        .editor-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-        
-        .close-button {
-            font-size: 20px;
-            padding: 6px 10px !important;
-            background: rgba(239,68,68,.2) !important;
-        }
-        
-        .actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 20px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(255,255,255,.1);
-        }
-        
-        .error {
-            min-height: 18px;
-            margin: 5px 0;
-            color: #f87171;
-            font-size: 12px;
-        }
-        
-        .success {
-            color: #4ade80;
-            margin-top: 10px;
-            font-size: 12px;
+        .profile-badge.secret {
+            background: rgba(239,68,68,.15);
+            border: 1px solid #ef4444;
+            color: #fca5a5;
+            animation: secretGlitch 0.1s infinite;
         }
         
         /* =====================================================
@@ -887,6 +719,165 @@
         }
         
         /* =====================================================
+           MODAIS
+        ===================================================== */
+        .overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            background: rgba(0,0,0,.85);
+            backdrop-filter: blur(15px);
+            overflow-y: auto;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .modal {
+            width: min(400px, 100%);
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 25px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,.1);
+            background: #18181b;
+            box-shadow: 0 25px 70px rgba(0,0,0,.8);
+        }
+        
+        .editor {
+            width: min(700px, 100%);
+        }
+        
+        .modal h2 {
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .modal h3 {
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: var(--primary);
+            border-bottom: 1px solid rgba(255,255,255,.1);
+            padding-bottom: 5px;
+        }
+        
+        .modal label {
+            display: block;
+            color: #d4d4d8;
+            font-size: 12px;
+            margin-top: 8px;
+            font-weight: 600;
+        }
+        
+        .modal input,
+        .modal textarea,
+        .modal select {
+            width: 100%;
+            padding: 8px 10px;
+            margin: 4px 0 8px;
+            border: 1px solid rgba(255,255,255,.15);
+            border-radius: 8px;
+            background: #09090b;
+            color: white;
+            outline: none;
+            font-size: 13px;
+        }
+        
+        .modal input[type="color"] {
+            height: 35px;
+            padding: 3px;
+            cursor: pointer;
+        }
+        
+        .modal input[type="range"] {
+            cursor: pointer;
+            height: 5px;
+            padding: 0;
+        }
+        
+        .modal textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        
+        .modal input:focus,
+        .modal textarea:focus,
+        .modal select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(139,92,246,.2);
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        
+        .modal button {
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,.1);
+            background: rgba(255,255,255,.07);
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all .2s ease;
+        }
+        
+        .modal button:hover {
+            border-color: var(--primary);
+            background: rgba(139,92,246,.2);
+            transform: translateY(-1px);
+        }
+        
+        .primary-button {
+            background: var(--primary) !important;
+            border-color: transparent !important;
+        }
+        
+        .editor-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .close-button {
+            font-size: 20px;
+            padding: 6px 10px !important;
+            background: rgba(239,68,68,.2) !important;
+        }
+        
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,.1);
+        }
+        
+        .error {
+            min-height: 18px;
+            margin: 5px 0;
+            color: #f87171;
+            font-size: 12px;
+        }
+        
+        .success {
+            color: #4ade80;
+            margin-top: 10px;
+            font-size: 12px;
+        }
+        
+        /* =====================================================
            MUSIC EDITOR
         ===================================================== */
         .music-editor-item {
@@ -1003,31 +994,32 @@
                 width: 100%;
             }
             
-            .glitch-title {
+            .roll-title {
                 font-size: 32px;
                 letter-spacing: 4px;
             }
             
-            .glitch-percentage {
+            .roll-percentage {
                 font-size: 48px;
             }
             
-            .glitch-bar {
+            .roll-bar {
                 width: 200px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- TELA DE ENTRADA COM GLITCH -->
+    <!-- TELA DE ENTRADA (ROLAGEM) -->
     <div id="entryScreen">
-        <div class="glitch-container">
-            <div class="glitch-title" id="entryTitle">PROFILE</div>
-            <div class="glitch-subtitle" id="entrySubtitle">CLIQUE PARA INICIAR</div>
-            <div class="glitch-percentage" id="entryPercentage">0%</div>
-            <div class="glitch-bar">
-                <div class="glitch-bar-fill" id="entryBar" style="width: 0%;"></div>
+        <div class="roll-container">
+            <div class="roll-title">PROFILE</div>
+            <div class="roll-subtitle">ROLANDO PERFIL...</div>
+            <div class="roll-percentage" id="rollPercentage">0%</div>
+            <div class="roll-bar">
+                <div class="roll-bar-fill" id="rollBar" style="width: 0%;"></div>
             </div>
+            <div class="roll-result" id="rollResult"></div>
         </div>
     </div>
     
@@ -1061,17 +1053,9 @@
                 
                 <p id="bio" class="bio">Bem-vindo ao meu perfil! 👋</p>
                 
-                <!-- PORCENTAGEM -->
-                <div class="percentage-badge" id="profilePercentage">
-                    🎯 50% Completo
-                </div>
-                
-                <!-- SEÇÃO SECRETA (aparece com porcentagem baixa) -->
-                <div class="secret-section" id="secretSection">
-                    <h3 style="color: var(--primary); margin-bottom: 10px;">🔒 Perfil Secreto</h3>
-                    <p id="secretContent" style="color: #d4d4d8; font-size: 12px;">
-                        Este conteúdo é secreto e só aparece quando a porcentagem está abaixo de 30%.
-                    </p>
+                <!-- BADGE DO PERFIL -->
+                <div class="profile-badge normal" id="profileBadge">
+                    ✨ Perfil Normal
                 </div>
                 
                 <!-- ESTATÍSTICAS -->
@@ -1177,35 +1161,30 @@
                 <button class="close-button" onclick="closeEditor()">×</button>
             </div>
             
-            <!-- PERFIL PRINCIPAL -->
-            <h3>👤 Perfil Principal</h3>
-            <label>Título do Site</label>
-            <input id="editTitle" placeholder="Meu Perfil">
-            <label>Nome</label>
-            <input id="editName">
-            <label>Username</label>
-            <input id="editUsername">
-            <label>Biografia</label>
-            <textarea id="editBio"></textarea>
+            <!-- ROLAGEM -->
+            <h3>🎲 Sistema de Rolagem</h3>
+            <label>Chance do Perfil Secreto (%)</label>
+            <input id="editSecretChance" type="number" min="0" max="100" placeholder="30">
+            <label>Duração da Rolagem (segundos)</label>
+            <input id="editRollDuration" type="number" min="1" max="10" placeholder="3">
             
-            <!-- PORCENTAGEM -->
-            <h3>🎯 Porcentagem de Carregamento</h3>
-            <div class="grid">
-                <div>
-                    <label>Porcentagem (0-100%)</label>
-                    <input id="editPercentage" type="number" min="0" max="100" placeholder="50">
-                </div>
-                <div>
-                    <label>Texto da Porcentagem</label>
-                    <input id="editPercentageText" placeholder="Completo, Carregando...">
-                </div>
-            </div>
-            <label>
-                <input id="editSecretProfile" type="checkbox" checked>
-                Ativar Perfil Secreto (aparece com % baixa)
-            </label>
-            <label>Conteúdo do Perfil Secreto</label>
-            <textarea id="editSecretContent" placeholder="Este conteúdo aparece quando a porcentagem está abaixo de 30%"></textarea>
+            <!-- PERFIL NORMAL -->
+            <h3>👤 Perfil Normal</h3>
+            <label>Nome</label>
+            <input id="editNameNormal">
+            <label>Username</label>
+            <input id="editUsernameNormal">
+            <label>Biografia</label>
+            <textarea id="editBioNormal"></textarea>
+            
+            <!-- PERFIL SECRETO -->
+            <h3>🔒 Perfil Secreto</h3>
+            <label>Nome</label>
+            <input id="editNameSecret">
+            <label>Username</label>
+            <input id="editUsernameSecret">
+            <label>Biografia</label>
+            <textarea id="editBioSecret"></textarea>
             
             <!-- APARÊNCIA -->
             <h3>✨ Aparência</h3>
@@ -1219,39 +1198,13 @@
                     <input id="editSecondary" type="color">
                 </div>
             </div>
-            <label>Transparência</label>
-            <input id="cardOpacity" type="range" min=".2" max="1" step=".05">
-            <label>Blur</label>
-            <input id="cardBlur" type="range" min="0" max="40">
-            <label>Arredondamento</label>
-            <input id="cardRadius" type="range" min="0" max="50">
             
-            <!-- AVATAR E FUNDOS -->
-            <h3>🖼️ Avatar e Fundos</h3>
-            <label>Avatar</label>
-            <input id="avatarInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
-            <label>Fundos (múltiplos)</label>
-            <input id="backgroundInput" type="file" multiple accept="image/png,image/jpeg,image/webp,image/gif">
-            <label>Tempo de Troca</label>
-            <select id="backgroundTime">
-                <option value="3000">3 segundos</option>
-                <option value="5000">5 segundos</option>
-                <option value="8000">8 segundos</option>
-                <option value="15000">15 segundos</option>
-            </select>
-            
-            <!-- ESTATÍSTICAS -->
-            <h3>📊 Estatísticas</h3>
-            <div class="grid">
-                <div>
-                    <label>Posts</label>
-                    <input id="editPosts" type="number" min="0">
-                </div>
-                <div>
-                    <label>Seguidores</label>
-                    <input id="editFollowers" type="number" min="0">
-                </div>
-            </div>
+            <!-- AVATARES -->
+            <h3>🖼️ Avatares</h3>
+            <label>Avatar Normal</label>
+            <input id="avatarNormalInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
+            <label>Avatar Secreto</label>
+            <input id="avatarSecretInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
             
             <!-- LINKS -->
             <h3>🔗 Links Sociais</h3>
@@ -1265,10 +1218,14 @@
             <!-- MÚSICAS -->
             <h3>🎵 Músicas</h3>
             <p style="color:#a1a1aa;font-size:12px;margin-bottom:10px;">
-                Máximo 4 músicas. Até 50MB por arquivo (armazenado no IndexedDB).
+                Máximo 4 músicas por playlist. Até 50MB por arquivo.
             </p>
-            <input id="musicInput" type="file" multiple accept="audio/*">
-            <div id="musicEditorList" style="margin-top:10px;"></div>
+            <label>Playlist Normal</label>
+            <input id="musicNormalInput" type="file" multiple accept="audio/*">
+            <div id="musicNormalEditorList" style="margin-top:10px;"></div>
+            <label>Playlist Secreta</label>
+            <input id="musicSecretInput" type="file" multiple accept="audio/*">
+            <div id="musicSecretEditorList" style="margin-top:10px;"></div>
             
             <!-- GALERIA -->
             <h3>🖼️ Galeria</h3>
@@ -1424,10 +1381,6 @@
         // =====================================================
         const defaultProfile = {
             title: "Meu Perfil",
-            name: "Meu Nome",
-            username: "@usuario",
-            bio: "Bem-vindo ao meu perfil! 👋",
-            avatar: "",
             primary: "#8b5cf6",
             secondary: "#6366f1",
             backgrounds: [],
@@ -1442,10 +1395,20 @@
             links: [],
             gallery: [],
             files: [],
-            percentage: 50,
-            percentageText: "Completo",
-            secretProfile: true,
-            secretContent: "Este conteúdo é secreto e só aparece quando a porcentagem está abaixo de 30%."
+            secretChance: 30,
+            rollDuration: 3,
+            normal: {
+                name: "Meu Nome",
+                username: "@usuario",
+                bio: "Bem-vindo ao meu perfil! 👋",
+                avatar: ""
+            },
+            secret: {
+                name: "???",
+                username: "@secreto",
+                bio: "Você encontrou o perfil secreto! 🔥",
+                avatar: ""
+            }
         };
         
         function normalizeProfile(data) {
@@ -1465,10 +1428,10 @@
             result.followers = Number(result.followers) || 0;
             result.views = Number(result.views) || 0;
             result.particles = Boolean(result.particles);
-            result.percentage = Number(result.percentage) || 50;
-            result.percentageText = result.percentageText || "Completo";
-            result.secretProfile = Boolean(result.secretProfile);
-            result.secretContent = result.secretContent || "";
+            result.secretChance = Number(result.secretChance) || 0;
+            result.rollDuration = Number(result.rollDuration) || 3;
+            result.normal = { ...defaultProfile.normal, ...(result.normal || {}) };
+            result.secret = { ...defaultProfile.secret, ...(result.secret || {}) };
             return result;
         }
         
@@ -1480,7 +1443,9 @@
         }
         
         let profile = normalizeProfile(savedProfile);
-        let playlist = [];
+        let playlistNormal = [];
+        let playlistSecret = [];
+        let currentPlaylist = [];
         const MAX_AUDIO_SIZE_MB = 50;
         const MAX_AUDIO_SIZE_BYTES = MAX_AUDIO_SIZE_MB * 1024 * 1024;
         
@@ -1489,12 +1454,14 @@
         // =====================================================
         async function loadMusicFromDB() {
             try {
-                playlist = await getAllSongsFromDB();
-                playlist = playlist.slice(0, 4);
-                console.log(`${playlist.length} música(s) carregada(s) do IndexedDB`);
+                const allSongs = await getAllSongsFromDB();
+                playlistNormal = allSongs.filter(song => song.type === 'normal').slice(0, 4);
+                playlistSecret = allSongs.filter(song => song.type === 'secret').slice(0, 4);
+                console.log(`${playlistNormal.length} música(s) normal, ${playlistSecret.length} música(s) secreta`);
             } catch(error) {
                 console.error("Erro ao carregar músicas do IndexedDB:", error);
-                playlist = [];
+                playlistNormal = [];
+                playlistSecret = [];
             }
         }
         
@@ -1511,7 +1478,7 @@
         let audioStarted = false;
         
         function loadSong(index, autoplay = false) {
-            if (!playlist.length) {
+            if (!currentPlaylist.length) {
                 audio.pause();
                 audio.removeAttribute("src");
                 document.getElementById("musicTitle").textContent = "Nenhuma música";
@@ -1521,11 +1488,11 @@
                 return;
             }
             
-            if (index < 0) index = playlist.length - 1;
-            if (index >= playlist.length) index = 0;
+            if (index < 0) index = currentPlaylist.length - 1;
+            if (index >= currentPlaylist.length) index = 0;
             
             currentSong = index;
-            const song = playlist[currentSong];
+            const song = currentPlaylist[currentSong];
             
             audio.pause();
             audio.currentTime = 0;
@@ -1565,7 +1532,7 @@
         }
         
         function toggleMusic() {
-            if (!playlist.length) {
+            if (!currentPlaylist.length) {
                 alert("Adicione uma música primeiro.");
                 return;
             }
@@ -1584,12 +1551,12 @@
         }
         
         function nextSong() {
-            if (!playlist.length) return;
+            if (!currentPlaylist.length) return;
             
-            if (shuffle && playlist.length > 1) {
+            if (shuffle && currentPlaylist.length > 1) {
                 let next;
                 do {
-                    next = Math.floor(Math.random() * playlist.length);
+                    next = Math.floor(Math.random() * currentPlaylist.length);
                 } while (next === currentSong);
                 loadSong(next, true);
                 return;
@@ -1599,7 +1566,7 @@
         }
         
         function previousSong() {
-            if (!playlist.length) return;
+            if (!currentPlaylist.length) return;
             loadSong(currentSong - 1, true);
         }
         
@@ -1617,7 +1584,7 @@
             const container = document.getElementById("playlist");
             container.innerHTML = "";
             
-            playlist.forEach((song, index) => {
+            currentPlaylist.forEach((song, index) => {
                 const item = document.createElement("div");
                 item.className = "playlist-item";
                 if (index === currentSong) item.classList.add("active");
@@ -1675,63 +1642,110 @@
         }
         
         // =====================================================
-        // TELA DE ENTRADA
+        // TELA DE ROLAGEM
         // =====================================================
-        let entryInterval;
-        let currentEntryPercentage = 0;
+        let rollInterval;
+        let currentRollPercentage = 0;
         
-        function startEntrySequence() {
+        function startRollSequence() {
             const entryScreen = document.getElementById("entryScreen");
-            const percentageElement = document.getElementById("entryPercentage");
-            const barElement = document.getElementById("entryBar");
-            const titleElement = document.getElementById("entryTitle");
-            const subtitleElement = document.getElementById("entrySubtitle");
+            const percentageElement = document.getElementById("rollPercentage");
+            const barElement = document.getElementById("rollBar");
+            const resultElement = document.getElementById("rollResult");
             
-            currentEntryPercentage = 0;
+            currentRollPercentage = 0;
+            resultElement.classList.remove("show");
             
-            // Verificar se deve mostrar perfil secreto
-            if (profile.secretProfile && profile.percentage < 30) {
-                titleElement.textContent = "SECRET";
-                subtitleElement.textContent = "PERFIL RESTRITO";
-                titleElement.classList.add("secret-glitch");
-            }
+            const rollDurationMs = profile.rollDuration * 1000;
+            const updateInterval = 100;
             
-            entryInterval = setInterval(() => {
-                currentEntryPercentage += Math.random() * 15;
+            rollInterval = setInterval(() => {
+                currentRollPercentage += Math.random() * 20;
                 
-                if (currentEntryPercentage >= 100) {
-                    currentEntryPercentage = 100;
-                    clearInterval(entryInterval);
+                if (currentRollPercentage >= 100) {
+                    currentRollPercentage = 100;
+                    clearInterval(rollInterval);
+                    
+                    // Determinar resultado
+                    const isSecret = Math.random() * 100 < profile.secretChance;
                     
                     setTimeout(() => {
-                        entryScreen.classList.add("hidden");
-                        startAudioPlayback();
+                        showRollResult(isSecret);
                     }, 500);
                 }
                 
-                percentageElement.textContent = Math.floor(currentEntryPercentage) + "%";
-                barElement.style.width = currentEntryPercentage + "%";
-            }, 200);
+                percentageElement.textContent = Math.floor(currentRollPercentage) + "%";
+                barElement.style.width = currentRollPercentage + "%";
+            }, updateInterval);
+        }
+        
+        function showRollResult(isSecret) {
+            const resultElement = document.getElementById("rollResult");
+            
+            if (isSecret) {
+                resultElement.textContent = "🔒 PERFIL SECRETO!";
+                resultElement.className = "roll-result secret show";
+            } else {
+                resultElement.textContent = "✨ PERFIL NORMAL";
+                resultElement.className = "roll-result normal show";
+            }
+            
+            setTimeout(() => {
+                document.getElementById("entryScreen").classList.add("hidden");
+                applyProfileType(isSecret);
+                startAudioPlayback();
+            }, 2000);
+        }
+        
+        document.getElementById("entryScreen").addEventListener("click", () => {
+            clearInterval(rollInterval);
+            currentRollPercentage = 100;
+            document.getElementById("rollPercentage").textContent = "100%";
+            document.getElementById("rollBar").style.width = "100%";
+            
+            const isSecret = Math.random() * 100 < profile.secretChance;
+            showRollResult(isSecret);
+        });
+        
+        function applyProfileType(isSecret) {
+            const currentProfile = isSecret ? profile.secret : profile.normal;
+            currentPlaylist = isSecret ? playlistSecret : playlistNormal;
+            
+            // Aplicar perfil
+            document.getElementById("name").textContent = currentProfile.name;
+            document.getElementById("username").textContent = currentProfile.username;
+            document.getElementById("bio").textContent = currentProfile.bio;
+            
+            // Avatar
+            const avatar = document.getElementById("avatar");
+            if (currentProfile.avatar) {
+                avatar.src = currentProfile.avatar;
+            } else {
+                avatar.src = "https://placehold.co/300x300/18181b/ffffff?text=PROFILE";
+            }
+            
+            // Badge
+            const badge = document.getElementById("profileBadge");
+            if (isSecret) {
+                badge.textContent = "🔒 Perfil Secreto";
+                badge.className = "profile-badge secret";
+            } else {
+                badge.textContent = "✨ Perfil Normal";
+                badge.className = "profile-badge normal";
+            }
+            
+            // Playlist
+            currentSong = 0;
+            renderPlaylist();
+            loadSong(0, false);
         }
         
         function startAudioPlayback() {
-            if (playlist.length > 0 && !audioStarted) {
+            if (currentPlaylist.length > 0 && !audioStarted) {
                 audioStarted = true;
                 loadSong(0, true);
             }
         }
-        
-        document.getElementById("entryScreen").addEventListener("click", () => {
-            clearInterval(entryInterval);
-            currentEntryPercentage = 100;
-            document.getElementById("entryPercentage").textContent = "100%";
-            document.getElementById("entryBar").style.width = "100%";
-            
-            setTimeout(() => {
-                document.getElementById("entryScreen").classList.add("hidden");
-                startAudioPlayback();
-            }, 300);
-        });
         
         // =====================================================
         // FUNDO
@@ -1776,39 +1790,14 @@
             document.documentElement.style.setProperty("--blur", profile.blur + "px");
             document.documentElement.style.setProperty("--radius", profile.radius + "px");
             
-            document.getElementById("name").textContent = profile.name;
-            document.getElementById("username").textContent = profile.username;
-            document.getElementById("bio").textContent = profile.bio;
-            
             document.getElementById("posts").textContent = profile.posts;
             document.getElementById("followers").textContent = profile.followers;
             document.getElementById("views").textContent = profile.views;
-            
-            // Renderizar porcentagem
-            document.getElementById("profilePercentage").textContent = 
-                `🎯 ${profile.percentage}% ${profile.percentageText}`;
-            
-            // Mostrar/ocultar perfil secreto
-            const secretSection = document.getElementById("secretSection");
-            if (profile.secretProfile && profile.percentage < 30) {
-                secretSection.classList.add("visible");
-                document.getElementById("secretContent").textContent = profile.secretContent;
-            } else {
-                secretSection.classList.remove("visible");
-            }
-            
-            const avatar = document.getElementById("avatar");
-            if (profile.avatar) {
-                avatar.src = profile.avatar;
-            } else {
-                avatar.src = "https://placehold.co/300x300/18181b/ffffff?text=PROFILE";
-            }
             
             renderLinks();
             renderGallery();
             renderFiles();
             applyBackground();
-            renderPlaylist();
         }
         
         function renderLinks() {
@@ -1984,25 +1973,22 @@
         }
         
         function loadEditor() {
-            document.getElementById("editTitle").value = profile.title;
-            document.getElementById("editName").value = profile.name;
-            document.getElementById("editUsername").value = profile.username;
-            document.getElementById("editBio").value = profile.bio;
-            document.getElementById("editPercentage").value = profile.percentage;
-            document.getElementById("editPercentageText").value = profile.percentageText;
-            document.getElementById("editSecretProfile").checked = profile.secretProfile;
-            document.getElementById("editSecretContent").value = profile.secretContent;
+            document.getElementById("editSecretChance").value = profile.secretChance;
+            document.getElementById("editRollDuration").value = profile.rollDuration;
+            
+            document.getElementById("editNameNormal").value = profile.normal.name;
+            document.getElementById("editUsernameNormal").value = profile.normal.username;
+            document.getElementById("editBioNormal").value = profile.normal.bio;
+            
+            document.getElementById("editNameSecret").value = profile.secret.name;
+            document.getElementById("editUsernameSecret").value = profile.secret.username;
+            document.getElementById("editBioSecret").value = profile.secret.bio;
+            
             document.getElementById("editPrimary").value = profile.primary;
             document.getElementById("editSecondary").value = profile.secondary;
-            document.getElementById("backgroundTime").value = profile.backgroundTime;
-            document.getElementById("cardOpacity").value = profile.opacity;
-            document.getElementById("cardBlur").value = profile.blur;
-            document.getElementById("cardRadius").value = profile.radius;
-            document.getElementById("editPosts").value = profile.posts;
-            document.getElementById("editFollowers").value = profile.followers;
             
             loadExistingLinks();
-            renderMusicEditor();
+            renderMusicEditors();
             renderGalleryEditor();
         }
         
@@ -2016,9 +2002,16 @@
             document.getElementById("githubLink").value = github?.url || "";
         }
         
-        function renderMusicEditor() {
-            const container = document.getElementById("musicEditorList");
+        function renderMusicEditors() {
+            renderMusicEditorList('normal');
+            renderMusicEditorList('secret');
+        }
+        
+        function renderMusicEditorList(type) {
+            const container = document.getElementById(`music${type === 'normal' ? 'Normal' : 'Secret'}EditorList`);
             container.innerHTML = "";
+            
+            const playlist = type === 'normal' ? playlistNormal : playlistSecret;
             
             if (!playlist.length) {
                 container.innerHTML = '<p style="color:#71717a;font-size:12px;">Nenhuma música adicionada.</p>';
@@ -2050,11 +2043,11 @@
                         await deleteSongFromDB(playlist[index].id);
                     }
                     playlist.splice(index, 1);
-                    if (currentSong >= playlist.length) {
-                        currentSong = Math.max(0, playlist.length - 1);
+                    renderMusicEditors();
+                    if (currentPlaylist === playlist) {
+                        renderPlaylist();
+                        loadSong(0, false);
                     }
-                    renderMusicEditor();
-                    loadSong(currentSong, false);
                 });
                 
                 container.appendChild(item);
@@ -2084,11 +2077,21 @@
             }
         }
         
-        document.getElementById("musicInput").addEventListener("change", async event => {
+        document.getElementById("musicNormalInput").addEventListener("change", async event => {
+            await handleMusicUpload(event, 'normal');
+        });
+        
+        document.getElementById("musicSecretInput").addEventListener("change", async event => {
+            await handleMusicUpload(event, 'secret');
+        });
+        
+        async function handleMusicUpload(event, type) {
             const files = Array.from(event.target.files);
             if (!files.length) return;
             
+            const playlist = type === 'normal' ? playlistNormal : playlistSecret;
             const remaining = 4 - playlist.length;
+            
             if (remaining <= 0) {
                 alert("A playlist já possui 4 músicas.");
                 event.target.value = "";
@@ -2111,7 +2114,8 @@
                     title: file.name.replace(/\.[^/.]+$/, ""),
                     artist: "Artista desconhecido",
                     blob: file,
-                    cover: ""
+                    cover: "",
+                    type: type
                 };
                 
                 try {
@@ -2124,19 +2128,15 @@
                 }
             }
             
-            if (playlist.length > 4) {
-                playlist = playlist.slice(0, 4);
-            }
+            renderMusicEditors();
             
-            renderMusicEditor();
-            renderPlaylist();
-            
-            if (playlist.length === 1) {
+            if (currentPlaylist === playlist) {
+                renderPlaylist();
                 loadSong(0, false);
             }
             
             event.target.value = "";
-        });
+        }
         
         async function saveProfile() {
             if (!window.firebaseUser) {
@@ -2144,22 +2144,19 @@
                 return;
             }
             
-            profile.title = document.getElementById("editTitle").value.trim() || "Meu Perfil";
-            profile.name = document.getElementById("editName").value;
-            profile.username = document.getElementById("editUsername").value;
-            profile.bio = document.getElementById("editBio").value;
-            profile.percentage = Number(document.getElementById("editPercentage").value) || 0;
-            profile.percentageText = document.getElementById("editPercentageText").value || "Completo";
-            profile.secretProfile = document.getElementById("editSecretProfile").checked;
-            profile.secretContent = document.getElementById("editSecretContent").value;
+            profile.secretChance = Number(document.getElementById("editSecretChance").value) || 0;
+            profile.rollDuration = Number(document.getElementById("editRollDuration").value) || 3;
+            
+            profile.normal.name = document.getElementById("editNameNormal").value;
+            profile.normal.username = document.getElementById("editUsernameNormal").value;
+            profile.normal.bio = document.getElementById("editBioNormal").value;
+            
+            profile.secret.name = document.getElementById("editNameSecret").value;
+            profile.secret.username = document.getElementById("editUsernameSecret").value;
+            profile.secret.bio = document.getElementById("editBioSecret").value;
+            
             profile.primary = document.getElementById("editPrimary").value;
             profile.secondary = document.getElementById("editSecondary").value;
-            profile.backgroundTime = Number(document.getElementById("backgroundTime").value);
-            profile.opacity = Number(document.getElementById("cardOpacity").value);
-            profile.blur = Number(document.getElementById("cardBlur").value);
-            profile.radius = Number(document.getElementById("cardRadius").value);
-            profile.posts = Number(document.getElementById("editPosts").value) || 0;
-            profile.followers = Number(document.getElementById("editFollowers").value) || 0;
             
             const newLinks = [];
             
@@ -2173,14 +2170,14 @@
             
             profile.links = newLinks;
             
-            const avatarFile = document.getElementById("avatarInput").files[0];
-            if (avatarFile) {
-                profile.avatar = await fileToDataURL(avatarFile);
+            const avatarNormalFile = document.getElementById("avatarNormalInput").files[0];
+            if (avatarNormalFile) {
+                profile.normal.avatar = await fileToDataURL(avatarNormalFile);
             }
             
-            const backgroundFiles = document.getElementById("backgroundInput").files;
-            for (const file of backgroundFiles) {
-                profile.backgrounds.push(await fileToDataURL(file));
+            const avatarSecretFile = document.getElementById("avatarSecretInput").files[0];
+            if (avatarSecretFile) {
+                profile.secret.avatar = await fileToDataURL(avatarSecretFile);
             }
             
             const galleryFiles = document.getElementById("galleryInput").files;
@@ -2287,8 +2284,7 @@
         async function init() {
             await loadMusicFromDB();
             renderProfile();
-            loadSong(0, false);
-            startEntrySequence();
+            startRollSequence();
         }
         
         init();
