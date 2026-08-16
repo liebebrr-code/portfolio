@@ -41,6 +41,108 @@
         }
         
         /* =====================================================
+           TELA DE ENTRADA (GLITCH)
+        ===================================================== */
+        #entryScreen {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: opacity 0.5s ease;
+        }
+        
+        #entryScreen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .glitch-container {
+            text-align: center;
+            animation: glitchPulse 2s infinite;
+        }
+        
+        .glitch-title {
+            font-size: 48px;
+            font-weight: 900;
+            letter-spacing: 8px;
+            position: relative;
+            animation: glitchText 3s infinite;
+            text-shadow: 
+                2px 0 #ff00ff,
+                -2px 0 #00ffff;
+        }
+        
+        .glitch-subtitle {
+            font-size: 14px;
+            color: #888;
+            margin-top: 20px;
+            animation: glitchSubtitle 2s infinite;
+        }
+        
+        .glitch-percentage {
+            font-size: 72px;
+            font-weight: 900;
+            margin-top: 30px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: glitchPercentage 1.5s infinite;
+        }
+        
+        .glitch-bar {
+            width: 300px;
+            height: 4px;
+            background: #222;
+            border-radius: 2px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+        
+        .glitch-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+            transition: width 0.3s ease;
+            animation: barGlitch 2s infinite;
+        }
+        
+        @keyframes glitchText {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(2px, -2px); }
+            60% { transform: translate(-1px, -1px); }
+            80% { transform: translate(1px, 1px); }
+        }
+        
+        @keyframes glitchSubtitle {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        @keyframes glitchPercentage {
+            0%, 100% { transform: translate(0) scale(1); }
+            25% { transform: translate(2px, -2px) scale(1.05); }
+            50% { transform: translate(-2px, 2px) scale(0.95); }
+            75% { transform: translate(1px, 1px) scale(1.02); }
+        }
+        
+        @keyframes glitchPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        
+        @keyframes barGlitch {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(10px); }
+        }
+        
+        /* =====================================================
            FUNDO
         ===================================================== */
         #background {
@@ -233,6 +335,26 @@
             white-space: pre-wrap;
             overflow-wrap: anywhere;
             font-size: 13px;
+        }
+        
+        /* =====================================================
+           PORCENTAGEM DE CARREGAMENTO
+        ===================================================== */
+        .loading-percentage {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            background: rgba(139,92,246,.2);
+            border: 1px solid var(--primary);
+            font-size: 12px;
+            font-weight: 700;
+            margin-top: 10px;
+            animation: percentagePulse 2s infinite;
+        }
+        
+        @keyframes percentagePulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
         
         /* =====================================================
@@ -868,6 +990,19 @@
             .music-editor-item button {
                 width: 100%;
             }
+            
+            .glitch-title {
+                font-size: 32px;
+                letter-spacing: 4px;
+            }
+            
+            .glitch-percentage {
+                font-size: 48px;
+            }
+            
+            .glitch-bar {
+                width: 200px;
+            }
         }
         
         @media(max-width:380px) {
@@ -886,6 +1021,18 @@
     </style>
 </head>
 <body>
+    <!-- TELA DE ENTRADA COM GLITCH -->
+    <div id="entryScreen">
+        <div class="glitch-container">
+            <div class="glitch-title">PROFILE</div>
+            <div class="glitch-subtitle">CLIQUE PARA INICIAR</div>
+            <div class="glitch-percentage" id="entryPercentage">0%</div>
+            <div class="glitch-bar">
+                <div class="glitch-bar-fill" id="entryBar" style="width: 0%;"></div>
+            </div>
+        </div>
+    </div>
+    
     <div id="background"></div>
     <div id="particles"></div>
     
@@ -916,6 +1063,11 @@
                 <div id="username" class="username">@usuario</div>
                 
                 <p id="bio" class="bio">Bem-vindo ao meu perfil! 👋</p>
+                
+                <!-- PORCENTAGEM -->
+                <div class="loading-percentage" id="profilePercentage">
+                    🎯 50%
+                </div>
                 
                 <!-- ESTATÍSTICAS -->
                 <div class="stats">
@@ -1030,6 +1182,13 @@
             <input id="editUsername">
             <label>Biografia</label>
             <textarea id="editBio"></textarea>
+            
+            <!-- PORCENTAGEM -->
+            <h3>🎯 Porcentagem</h3>
+            <label>Porcentagem de carregamento (0-100%)</label>
+            <input id="editPercentage" type="number" min="0" max="100" placeholder="50">
+            <label>Texto da porcentagem</label>
+            <input id="editPercentageText" placeholder="Completo, Carregando, etc.">
             
             <!-- CORES -->
             <div class="grid">
@@ -1244,20 +1403,6 @@
             });
         }
         
-        async function clearSongsDB() {
-            const db = await openMusicDB();
-            return new Promise((resolve, reject) => {
-                const transaction = db.transaction([STORE_NAME], 'readwrite');
-                const store = transaction.objectStore(STORE_NAME);
-                const request = store.clear();
-                
-                request.onsuccess = () => resolve();
-                request.onerror = () => reject(request.error);
-                
-                transaction.oncomplete = () => db.close();
-            });
-        }
-        
         // =====================================================
         // PERFIL PADRÃO
         // =====================================================
@@ -1280,7 +1425,9 @@
             views: 0,
             links: [],
             gallery: [],
-            files: []
+            files: [],
+            percentage: 50,
+            percentageText: "Completo"
         };
         
         function normalizeProfile(data) {
@@ -1300,6 +1447,8 @@
             result.followers = Number(result.followers) || 0;
             result.views = Number(result.views) || 0;
             result.particles = Boolean(result.particles);
+            result.percentage = Number(result.percentage) || 50;
+            result.percentageText = result.percentageText || "Completo";
             return result;
         }
         
@@ -1339,6 +1488,7 @@
         let currentSong = 0;
         let shuffle = false;
         let loop = false;
+        let audioStarted = false;
         
         function loadSong(index, autoplay = false) {
             if (!playlist.length) {
@@ -1387,7 +1537,7 @@
             
             renderPlaylist();
             
-            if (autoplay) {
+            if (autoplay && audioStarted) {
                 audio.play().catch(error => {
                     console.warn("Não foi possível reproduzir:", error);
                 });
@@ -1402,6 +1552,7 @@
             
             if (audio.paused) {
                 if (!audio.src) loadSong(currentSong);
+                audioStarted = true;
                 audio.play().catch(error => console.error(error));
             } else {
                 audio.pause();
@@ -1504,6 +1655,56 @@
         }
         
         // =====================================================
+        // TELA DE ENTRADA
+        // =====================================================
+        let entryInterval;
+        let currentEntryPercentage = 0;
+        
+        function startEntrySequence() {
+            const entryScreen = document.getElementById("entryScreen");
+            const percentageElement = document.getElementById("entryPercentage");
+            const barElement = document.getElementById("entryBar");
+            
+            currentEntryPercentage = 0;
+            
+            entryInterval = setInterval(() => {
+                currentEntryPercentage += Math.random() * 15;
+                
+                if (currentEntryPercentage >= 100) {
+                    currentEntryPercentage = 100;
+                    clearInterval(entryInterval);
+                    
+                    setTimeout(() => {
+                        entryScreen.classList.add("hidden");
+                        startAudioPlayback();
+                    }, 500);
+                }
+                
+                percentageElement.textContent = Math.floor(currentEntryPercentage) + "%";
+                barElement.style.width = currentEntryPercentage + "%";
+            }, 200);
+        }
+        
+        function startAudioPlayback() {
+            if (playlist.length > 0 && !audioStarted) {
+                audioStarted = true;
+                loadSong(0, true);
+            }
+        }
+        
+        document.getElementById("entryScreen").addEventListener("click", () => {
+            clearInterval(entryInterval);
+            currentEntryPercentage = 100;
+            document.getElementById("entryPercentage").textContent = "100%";
+            document.getElementById("entryBar").style.width = "100%";
+            
+            setTimeout(() => {
+                document.getElementById("entryScreen").classList.add("hidden");
+                startAudioPlayback();
+            }, 300);
+        });
+        
+        // =====================================================
         // FUNDO
         // =====================================================
         let backgroundInterval;
@@ -1569,6 +1770,10 @@
             document.getElementById("posts").textContent = profile.posts;
             document.getElementById("followers").textContent = profile.followers;
             document.getElementById("views").textContent = profile.views;
+            
+            // Renderizar porcentagem
+            document.getElementById("profilePercentage").textContent = 
+                `🎯 ${profile.percentage}% ${profile.percentageText}`;
             
             const avatar = document.getElementById("avatar");
             if (profile.avatar) {
@@ -1762,6 +1967,8 @@
             document.getElementById("editName").value = profile.name;
             document.getElementById("editUsername").value = profile.username;
             document.getElementById("editBio").value = profile.bio;
+            document.getElementById("editPercentage").value = profile.percentage;
+            document.getElementById("editPercentageText").value = profile.percentageText;
             document.getElementById("editPrimary").value = profile.primary;
             document.getElementById("editSecondary").value = profile.secondary;
             document.getElementById("backgroundTime").value = profile.backgroundTime;
@@ -1919,6 +2126,8 @@
             profile.name = document.getElementById("editName").value;
             profile.username = document.getElementById("editUsername").value;
             profile.bio = document.getElementById("editBio").value;
+            profile.percentage = Number(document.getElementById("editPercentage").value) || 0;
+            profile.percentageText = document.getElementById("editPercentageText").value || "Completo";
             profile.primary = document.getElementById("editPrimary").value;
             profile.secondary = document.getElementById("editSecondary").value;
             profile.backgroundTime = Number(document.getElementById("backgroundTime").value);
@@ -2056,6 +2265,7 @@
             await loadMusicFromDB();
             renderProfile();
             loadSong(0, false);
+            startEntrySequence();
         }
         
         init();
