@@ -6,9 +6,6 @@
 <title>Perfil.me - Criador Ultra</title>
 
 <style>
-/* =========================================================
-   RESET & VARIÁVEIS
-========================================================= */
 * {
     margin: 0;
     padding: 0;
@@ -35,7 +32,6 @@ body {
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
-    overflow-x: hidden;
 }
 
 button, input, textarea, select {
@@ -44,25 +40,13 @@ button, input, textarea, select {
 
 button {
     user-select: none;
+    cursor: pointer;
 }
 
-/* =========================================================
-   ANIMAÇÕES
-========================================================= */
 @keyframes gradient {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-}
-
-@keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: .5; }
 }
 
 @keyframes slideUp {
@@ -70,13 +54,6 @@ button {
     to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
-
-/* =========================================================
-   BACKGROUND
-========================================================= */
 .bg-animated {
     position: fixed;
     inset: 0;
@@ -86,16 +63,6 @@ button {
     animation: gradient 15s ease infinite;
 }
 
-.bg-animated::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at 50% 50%, rgba(139, 92, 246, .08), transparent 70%);
-}
-
-/* =========================================================
-   TOPBAR
-========================================================= */
 .topbar {
     position: sticky;
     top: 0;
@@ -136,9 +103,6 @@ button {
     flex-wrap: wrap;
 }
 
-/* =========================================================
-   BOTÕES
-========================================================= */
 .btn {
     padding: 8px 18px;
     border-radius: 10px;
@@ -149,7 +113,6 @@ button {
     font-size: 13px;
     transition: all .3s ease;
     text-decoration: none;
-    font-family: var(--font);
 }
 
 .btn:hover {
@@ -190,9 +153,6 @@ button {
     background: rgba(239, 68, 68, .3);
 }
 
-/* =========================================================
-   USER BAR
-========================================================= */
 #userArea {
     display: flex;
     align-items: center;
@@ -208,9 +168,6 @@ button {
     white-space: nowrap;
 }
 
-/* =========================================================
-   HERO
-========================================================= */
 .hero {
     text-align: center;
     padding: 60px 20px 40px;
@@ -240,9 +197,6 @@ button {
     font-size: 16px;
 }
 
-/* =========================================================
-   SEARCH
-========================================================= */
 .search-section {
     max-width: 700px;
     margin: 0 auto 40px;
@@ -266,7 +220,6 @@ button {
     color: white;
     font-size: 15px;
     outline: none;
-    font-family: var(--font);
 }
 
 .search-box input::placeholder {
@@ -278,9 +231,6 @@ button {
     padding: 12px 28px;
 }
 
-/* =========================================================
-   PROFILES GRID
-========================================================= */
 .profiles-grid {
     max-width: 1200px;
     margin: 0 auto;
@@ -307,23 +257,10 @@ button {
     overflow: hidden;
 }
 
-.profile-card-mini::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(139, 92, 246, .05), rgba(6, 182, 212, .05));
-    opacity: 0;
-    transition: opacity .4s ease;
-}
-
 .profile-card-mini:hover {
     transform: translateY(-8px) scale(1.02);
     border-color: var(--primary);
     box-shadow: 0 20px 60px rgba(139, 92, 246, .15);
-}
-
-.profile-card-mini:hover::before {
-    opacity: 1;
 }
 
 .profile-card-mini .avatar-mini {
@@ -366,20 +303,6 @@ button {
     margin-top: 10px;
 }
 
-.profile-card-mini .link-icon {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    color: var(--muted);
-    font-size: 14px;
-    opacity: 0;
-    transition: opacity .3s ease;
-}
-
-.profile-card-mini:hover .link-icon {
-    opacity: 1;
-}
-
 .profile-card-mini .tags {
     display: flex;
     flex-wrap: wrap;
@@ -413,9 +336,6 @@ button {
     font-size: 22px;
 }
 
-/* =========================================================
-   MODAL
-========================================================= */
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -518,7 +438,6 @@ button {
     font-size: 14px;
     outline: none;
     transition: border-color .3s ease;
-    font-family: var(--font);
     color-scheme: dark;
 }
 
@@ -531,11 +450,6 @@ button {
 
 .modal select option {
     background: #181820;
-    color: #ffffff;
-}
-
-.modal select option:checked {
-    background: #6d28d9;
     color: #ffffff;
 }
 
@@ -564,7 +478,6 @@ button {
     color: white;
     cursor: pointer;
     font-size: 12px;
-    font-family: var(--font);
 }
 
 .modal input[type="color"] {
@@ -646,9 +559,6 @@ button {
     color: var(--muted);
 }
 
-/* =========================================================
-   AUTH MODAL
-========================================================= */
 .auth-modal {
     max-width: 440px;
 }
@@ -699,9 +609,6 @@ button {
     display: none;
 }
 
-/* =========================================================
-   PROFILE VIEWER
-========================================================= */
 .profile-viewer {
     max-width: 760px;
     padding: 0;
@@ -711,7 +618,6 @@ button {
 .viewer-banner {
     width: 100%;
     height: 220px;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
     background-size: cover;
     background-position: center;
     position: relative;
@@ -887,9 +793,6 @@ button {
     color: #86efac;
 }
 
-/* =========================================================
-   TOAST
-========================================================= */
 .toast {
     position: fixed;
     bottom: 30px;
@@ -915,35 +818,22 @@ button {
     transform: translateX(-50%) translateY(0);
 }
 
-.toast.success {
-    border-color: #4ade80;
-}
-
-.toast.error {
-    border-color: #f87171;
-}
-
-/* =========================================================
-   REMOVE BUTTON
-========================================================= */
-.remove-file-btn {
-    background: rgba(239,68,68,.2);
-    border: none;
+/* Melhorias para edição */
+.remove-item-btn {
+    background: rgba(239, 68, 68, .2);
+    border: 1px solid #ef4444;
     color: #fca5a5;
-    padding: 2px 8px;
-    border-radius: 4px;
-    cursor: pointer;
+    border-radius: 6px;
+    padding: 4px 8px;
     font-size: 11px;
-    margin-left: 6px;
+    cursor: pointer;
+    margin-left: 8px;
 }
 
-.remove-file-btn:hover {
-    background: rgba(239,68,68,.3);
+.remove-item-btn:hover {
+    background: rgba(239, 68, 68, .3);
 }
 
-/* =========================================================
-   MOBILE
-========================================================= */
 @media (max-width: 640px) {
     .hero h1 {
         font-size: 32px;
@@ -1017,7 +907,6 @@ button {
 
 <div class="bg-animated"></div>
 
-<!-- TOPBAR -->
 <header class="topbar">
     <div class="topbar-inner">
         <div class="logo">Perfil<span>.me</span></div>
@@ -1031,14 +920,12 @@ button {
     </div>
 </header>
 
-<!-- HERO -->
 <section class="hero">
     <h1>Perfil Ultra<br>500% melhor</h1>
     <p>Crie seu perfil personalizado com dezenas de opções de aparência, música, links, galeria e efeitos.</p>
     <button class="btn btn-primary" onclick="openCreator()">🚀 Criar Meu Perfil</button>
 </section>
 
-<!-- SEARCH -->
 <div class="search-section">
     <div class="search-box">
         <input type="text" id="searchInput" placeholder="🔍 Buscar perfis..." oninput="filterProfiles()">
@@ -1046,29 +933,22 @@ button {
     </div>
 </div>
 
-<!-- PROFILES -->
 <div id="profilesGrid" class="profiles-grid"></div>
 
-<!-- AUTH MODAL -->
 <div id="authModal" class="modal-overlay">
     <div class="modal auth-modal">
         <button class="close-modal" onclick="closeAuth()">✕</button>
         <div class="auth-logo">Perfil.me</div>
         <p class="sub" style="text-align:center">Entre para criar e editar seus perfis.</p>
-        
         <div class="auth-tabs">
             <button class="auth-tab active" id="loginTab" onclick="switchAuth('login')">Entrar</button>
             <button class="auth-tab" id="registerTab" onclick="switchAuth('register')">Criar conta</button>
         </div>
-        
         <label>E-mail</label>
         <input id="authEmail" type="email" placeholder="seu@email.com" autocomplete="email">
-        
         <label>Senha</label>
         <input id="authPassword" type="password" placeholder="Sua senha" autocomplete="current-password">
-        
         <div id="authError" class="auth-error"></div>
-        
         <div class="actions">
             <button id="authSubmit" class="btn btn-primary" onclick="submitAuth()">🔐 Entrar</button>
             <button class="btn btn-outline" onclick="closeAuth()">Cancelar</button>
@@ -1076,7 +956,6 @@ button {
     </div>
 </div>
 
-<!-- PROFILE VIEWER -->
 <div id="profileViewerModal" class="modal-overlay">
     <div class="modal profile-viewer">
         <button class="close-modal" onclick="closeProfileViewer()">✕</button>
@@ -1084,33 +963,25 @@ button {
     </div>
 </div>
 
-<!-- CREATOR -->
 <div id="creatorModal" class="modal-overlay">
     <div class="modal">
         <button class="close-modal" onclick="closeCreator()">✕</button>
         <h2 id="modalTitle">✨ Criar Perfil Ultra</h2>
         <p class="sub" id="modalSub">Mais de 50 opções de personalização.</p>
 
-        <!-- BASIC INFO -->
         <div class="section-title">👤 Informações Básicas</div>
-        
         <label>Nome <span class="hint">(obrigatório)</span></label>
         <input id="editName" placeholder="Seu nome">
-        
         <label>@username <span class="hint">(link único, obrigatório)</span></label>
         <input id="editUsername" placeholder="usuario" style="text-transform:lowercase">
         <p style="color:var(--muted);font-size:11px;margin-top:-4px;">perfil.me/?u=<span id="usernamePreview">usuario</span></p>
-        
         <label>Biografia <span class="hint">(máx 500 caracteres)</span></label>
         <textarea id="editBio" placeholder="Fale sobre você..." maxlength="500"></textarea>
         <p style="color:var(--muted);font-size:11px;text-align:right;"><span id="bioCount">0</span>/500</p>
-        
         <label>Localização</label>
         <input id="editLocation" placeholder="Cidade, País">
-        
         <label>Data de Nascimento</label>
         <input id="editBirthday" type="date">
-        
         <label>Gênero</label>
         <select id="editGender">
             <option value="">Prefiro não dizer</option>
@@ -1120,9 +991,7 @@ button {
             <option value="Outro">Outro</option>
         </select>
 
-        <!-- APPEARANCE -->
         <div class="section-title">🎨 Aparência</div>
-        
         <div class="row">
             <div>
                 <label>Cor Principal</label>
@@ -1133,7 +1002,6 @@ button {
                 <input id="editSecondary" type="color" value="#06b6d4">
             </div>
         </div>
-        
         <div class="row">
             <div>
                 <label>Cor do Texto</label>
@@ -1144,7 +1012,6 @@ button {
                 <input id="editBgColor" type="color" value="#0a0a0f">
             </div>
         </div>
-        
         <div class="row">
             <div>
                 <label>Opacidade do Card <span class="hint">(0-1)</span></label>
@@ -1157,7 +1024,6 @@ button {
                 <span id="blurValue">18px</span>
             </div>
         </div>
-        
         <div class="row">
             <div>
                 <label>Arredondamento <span class="hint">(px)</span></label>
@@ -1171,9 +1037,7 @@ button {
             </div>
         </div>
 
-        <!-- TYPOGRAPHY -->
         <div class="section-title">🔤 Tipografia</div>
-        
         <div class="row">
             <div>
                 <label>Fonte</label>
@@ -1192,7 +1056,6 @@ button {
                 <input id="editFontSize" type="number" min="10" max="24" value="14">
             </div>
         </div>
-        
         <div class="checkbox-group">
             <label><input type="checkbox" id="editBold"> Negrito</label>
             <label><input type="checkbox" id="editItalic"> Itálico</label>
@@ -1200,21 +1063,15 @@ button {
             <label><input type="checkbox" id="editGlow"> Efeito Glow</label>
         </div>
 
-        <!-- IMAGES -->
         <div class="section-title">🖼️ Imagens</div>
-        
         <label>Avatar</label>
         <input id="editAvatar" type="file" accept="image/*">
-        
         <label>Banner</label>
         <input id="editBanner" type="file" accept="image/*">
-        
         <label>Ícone de Verificado</label>
         <input id="editVerified" type="file" accept="image/*">
-        
         <label>Fundo Personalizado</label>
         <input id="editBgImage" type="file" accept="image/*">
-        
         <div class="row">
             <div>
                 <label>Posição do Fundo</label>
@@ -1236,13 +1093,10 @@ button {
             </div>
         </div>
 
-        <!-- MUSIC -->
         <div class="section-title">🎵 Música</div>
-        
         <label>Música (até 4)</label>
         <input id="editMusic" type="file" multiple accept="audio/*">
         <div id="musicList" style="margin-top:8px;font-size:13px;color:var(--muted);"></div>
-        
         <div class="row">
             <div>
                 <label>Autoplay</label>
@@ -1257,56 +1111,39 @@ button {
             </div>
         </div>
 
-        <!-- SOCIAL LINKS -->
         <div class="section-title">🔗 Links Sociais</div>
-        
         <label>Discord</label>
         <input id="editDiscord" placeholder="https://discord.gg/...">
-        
         <label>YouTube</label>
         <input id="editYoutube" placeholder="https://youtube.com/...">
-        
         <label>GitHub</label>
         <input id="editGithub" placeholder="https://github.com/...">
-        
         <label>Twitter/X</label>
         <input id="editTwitter" placeholder="https://twitter.com/...">
-        
         <label>Instagram</label>
         <input id="editInstagram" placeholder="https://instagram.com/...">
-        
         <label>TikTok</label>
         <input id="editTiktok" placeholder="https://tiktok.com/@...">
-        
         <label>LinkedIn</label>
         <input id="editLinkedin" placeholder="https://linkedin.com/in/...">
-        
         <label>Twitch</label>
         <input id="editTwitch" placeholder="https://twitch.tv/...">
-        
         <label>Spotify</label>
         <input id="editSpotify" placeholder="https://open.spotify.com/...">
-        
         <label>Website</label>
         <input id="editWebsite" placeholder="https://meusite.com">
 
-        <!-- GALLERY -->
         <div class="section-title">🖼️ Galeria</div>
-        
         <label>Imagens da Galeria</label>
         <input id="editGallery" type="file" multiple accept="image/*">
         <div id="galleryPreview" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;"></div>
 
-        <!-- FILES -->
         <div class="section-title">📎 Arquivos</div>
-        
         <label>Arquivos para Download</label>
         <input id="editFiles" type="file" multiple>
         <div id="filesPreview" style="margin-top:8px;font-size:13px;color:var(--muted);"></div>
 
-        <!-- EFFECTS -->
         <div class="section-title">✨ Efeitos Especiais</div>
-        
         <div class="checkbox-group">
             <label><input type="checkbox" id="editParticles"> Partículas</label>
             <label><input type="checkbox" id="editGlitch"> Glitch</label>
@@ -1317,29 +1154,24 @@ button {
             <label><input type="checkbox" id="editShadow"> Sombra Profunda</label>
         </div>
 
-        <!-- ACTIONS -->
         <div class="actions">
             <button class="btn btn-primary" onclick="saveProfile()" style="flex:2">💾 Salvar Perfil</button>
             <button class="btn btn-outline" onclick="closeCreator()">Cancelar</button>
         </div>
-        
         <div id="saveStatus"></div>
     </div>
 </div>
 
-<!-- TOAST -->
 <div id="toast" class="toast">
     <span id="toastIcon">✅</span>
     <span id="toastMessage">Perfil criado!</span>
 </div>
 
-<!-- FIREBASE -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 import { getDatabase, ref, push, set, get, remove, runTransaction, update } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
-// FIREBASE CONFIG
 const firebaseConfig = {
     apiKey: "AIzaSyB35ktkxiS_MPTrSflfHhBe5snYAV0iV6Q",
     authDomain: "myprofile-7db79.firebaseapp.com",
@@ -1351,13 +1183,12 @@ const firebaseConfig = {
     measurementId: "G-KC2ZXS400D"
 };
 
-// INIT FIREBASE
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const auth = getAuth(app);
 const profilesRef = ref(db, "profiles");
 
-// GLOBAL STATE
+// Estado global
 window.profiles = [];
 window.currentUser = null;
 window._profilesData = [];
@@ -1365,16 +1196,16 @@ window._editingId = null;
 window._editingData = null;
 window._viewingProfileId = null;
 window._viewingProfile = null;
-window._removedFiles = { gallery: [], files: [], music: [] };
+window._pendingDeletions = { gallery: [], files: [], music: [] };
 
-// AUTH STATE
+// Auth State
 onAuthStateChanged(auth, user => {
     window.currentUser = user || null;
     updateAuthUI();
     loadProfiles();
 });
 
-// AUTH UI
+// Auth UI
 function updateAuthUI() {
     const area = document.getElementById("userArea");
     if (!area) return;
@@ -1392,7 +1223,7 @@ function updateAuthUI() {
     }
 }
 
-// AUTH MODAL
+// Auth Modal
 window.authMode = "login";
 
 window.openAuth = function(mode = "login") {
@@ -1411,7 +1242,7 @@ window.switchAuth = function(mode) {
     const loginTab = document.getElementById("loginTab");
     const registerTab = document.getElementById("registerTab");
     const submit = document.getElementById("authSubmit");
-    
+
     loginTab.classList.toggle("active", mode === "login");
     registerTab.classList.toggle("active", mode === "register");
     submit.textContent = mode === "login" ? "🔐 Entrar" : "✨ Criar conta";
@@ -1448,7 +1279,6 @@ window.submitAuth = async function() {
     } catch (errorObj) {
         console.error(errorObj);
         let message = "Não foi possível realizar a operação.";
-        
         switch (errorObj.code) {
             case "auth/invalid-email":
                 message = "E-mail inválido.";
@@ -1472,7 +1302,6 @@ window.submitAuth = async function() {
             default:
                 message = errorObj.message || message;
         }
-
         error.textContent = message;
         error.style.display = "block";
     }
@@ -1487,7 +1316,7 @@ window.logout = async function() {
     }
 };
 
-// CREATOR
+// Creator
 window.openCreator = function(data = null) {
     if (!window.currentUser) {
         showToast("🔐", "Faça login para criar ou editar um perfil.");
@@ -1499,221 +1328,217 @@ window.openCreator = function(data = null) {
     modal.classList.add("active");
 
     const isEditing = !!data;
+
     document.getElementById("modalTitle").textContent = isEditing ? "✏️ Editar Perfil Ultra" : "✨ Criar Perfil Ultra";
     document.getElementById("modalSub").textContent = isEditing ? "Atualize todas as opções do seu perfil." : "Mais de 50 opções de personalização.";
 
-    clearFormFields();
+    // Reset pending deletions
+    window._pendingDeletions = { gallery: [], files: [], music: [] };
 
-    if (data) {
-        fillFormWithData(data);
-    } else {
-        setDefaultValues();
+    const fields = {
+        editName: "name",
+        editUsername: "username",
+        editBio: "bio",
+        editLocation: "location",
+        editBirthday: "birthday",
+        editGender: "gender",
+        editPrimary: "primary",
+        editSecondary: "secondary",
+        editTextColor: "textColor",
+        editBgColor: "bgColor",
+        editOpacity: "opacity",
+        editBlur: "blur",
+        editRadius: "radius",
+        editPadding: "padding",
+        editFont: "font",
+        editFontSize: "fontSize",
+        editBold: "bold",
+        editItalic: "italic",
+        editUppercase: "uppercase",
+        editGlow: "glow",
+        editParticles: "particles",
+        editGlitch: "glitch",
+        editNeon: "neon",
+        editRainbow: "rainbow",
+        editFloating: "floating",
+        editPulse: "pulse",
+        editShadow: "shadow",
+        editAutoplay: "autoplay",
+        editVolume: "volume",
+        editDiscord: "discord",
+        editYoutube: "youtube",
+        editGithub: "github",
+        editTwitter: "twitter",
+        editInstagram: "instagram",
+        editTiktok: "tiktok",
+        editLinkedin: "linkedin",
+        editTwitch: "twitch",
+        editSpotify: "spotify",
+        editWebsite: "website",
+        editBgPosition: "bgPosition",
+        editBgSize: "bgSize"
+    };
+
+    for (const [id, key] of Object.entries(fields)) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+
+        if (el.type === "checkbox") {
+            el.checked = data?.[key] ?? false;
+        } else if (el.type === "color") {
+            const defaults = {
+                editPrimary: "#8b5cf6",
+                editSecondary: "#06b6d4",
+                editTextColor: "#ffffff",
+                editBgColor: "#0a0a0f"
+            };
+            el.value = data?.[key] || defaults[id] || "#ffffff";
+        } else {
+            el.value = data?.[key] ?? el.value ?? "";
+        }
     }
 
+    // Defaults for new profiles
+    if (!data) {
+        document.getElementById("editPrimary").value = "#8b5cf6";
+        document.getElementById("editSecondary").value = "#06b6d4";
+        document.getElementById("editTextColor").value = "#ffffff";
+        document.getElementById("editBgColor").value = "#0a0a0f";
+        document.getElementById("editOpacity").value = "0.85";
+        document.getElementById("editBlur").value = "18";
+        document.getElementById("editRadius").value = "20";
+        document.getElementById("editPadding").value = "24";
+        document.getElementById("editFontSize").value = "14";
+        document.getElementById("editVolume").value = "80";
+        document.getElementById("editAutoplay").value = "false";
+    }
+
+    // Clear file inputs
+    ["editAvatar", "editBanner", "editVerified", "editBgImage", "editGallery", "editFiles", "editMusic"].forEach(id => {
+        document.getElementById(id).value = "";
+    });
+
+    // Set editing state
     window._editingId = data?.id || null;
     window._editingData = data || null;
-    window._removedFiles = { gallery: [], files: [], music: [] };
 
-    updateRangeLabels();
-    document.getElementById("saveStatus").textContent = "";
-    document.querySelector("#creatorModal .modal").scrollTop = 0;
-};
+    // Bio counter
+    document.getElementById("bioCount").textContent = data?.bio?.length || 0;
 
-function clearFormFields() {
-    const fields = [
-        'editName', 'editUsername', 'editBio', 'editLocation', 'editBirthday',
-        'editGender', 'editPrimary', 'editSecondary', 'editTextColor', 'editBgColor',
-        'editOpacity', 'editBlur', 'editRadius', 'editPadding', 'editFont',
-        'editFontSize', 'editDiscord', 'editYoutube', 'editGithub', 'editTwitter',
-        'editInstagram', 'editTiktok', 'editLinkedin', 'editTwitch', 'editSpotify',
-        'editWebsite', 'editBgPosition', 'editBgSize', 'editVolume', 'editAutoplay'
-    ];
-    
-    fields.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.value = '';
-    });
+    // Username preview
+    document.getElementById("usernamePreview").textContent = data?.username || "usuario";
 
-    const checkboxes = [
-        'editBold', 'editItalic', 'editUppercase', 'editGlow', 'editParticles',
-        'editGlitch', 'editNeon', 'editRainbow', 'editFloating', 'editPulse', 'editShadow'
-    ];
-    
-    checkboxes.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.checked = false;
-    });
+    // Music list with delete buttons
+    updateMusicList(data);
 
-    const fileInputs = ['editAvatar', 'editBanner', 'editVerified', 'editBgImage', 'editGallery', 'editFiles', 'editMusic'];
-    fileInputs.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.value = '';
-    });
+    // Gallery preview with delete buttons
+    updateGalleryPreview(data);
 
-    document.getElementById('bioCount').textContent = '0';
-    document.getElementById('usernamePreview').textContent = 'usuario';
-    document.getElementById('musicList').innerHTML = '<span>Nenhuma música adicionada</span>';
-    document.getElementById('galleryPreview').innerHTML = '<span style="color:var(--muted);font-size:13px;">Nenhuma imagem</span>';
-    document.getElementById('filesPreview').innerHTML = '<span style="color:var(--muted);font-size:13px;">Nenhum arquivo</span>';
-}
-
-function fillFormWithData(data) {
-    const fieldMap = {
-        editName: data.name || '',
-        editUsername: data.username || '',
-        editBio: data.bio || '',
-        editLocation: data.location || '',
-        editBirthday: data.birthday || '',
-        editGender: data.gender || '',
-        editPrimary: data.primary || '#8b5cf6',
-        editSecondary: data.secondary || '#06b6d4',
-        editTextColor: data.textColor || '#ffffff',
-        editBgColor: data.bgColor || '#0a0a0f',
-        editOpacity: data.opacity || 0.85,
-        editBlur: data.blur || 18,
-        editRadius: data.radius || 20,
-        editPadding: data.padding || 24,
-        editFont: data.font || "'Segoe UI', system-ui, sans-serif",
-        editFontSize: data.fontSize || 14,
-        editVolume: data.volume || 80,
-        editAutoplay: data.autoplay ? 'true' : 'false',
-        editBgPosition: data.bgPosition || 'center',
-        editBgSize: data.bgSize || 'cover'
-    };
-
-    Object.entries(fieldMap).forEach(([id, value]) => {
-        const el = document.getElementById(id);
-        if (el) el.value = value;
-    });
-
-    const checkboxMap = {
-        editBold: data.bold || false,
-        editItalic: data.italic || false,
-        editUppercase: data.uppercase || false,
-        editGlow: data.glow || false,
-        editParticles: data.particles || false,
-        editGlitch: data.glitch || false,
-        editNeon: data.neon || false,
-        editRainbow: data.rainbow || false,
-        editFloating: data.floating || false,
-        editPulse: data.pulse || false,
-        editShadow: data.shadow || false
-    };
-
-    Object.entries(checkboxMap).forEach(([id, checked]) => {
-        const el = document.getElementById(id);
-        if (el) el.checked = checked;
-    });
+    // Files list with delete buttons
+    updateFilesList(data);
 
     // Links
     const linkMap = {};
-    if (data.links && Array.isArray(data.links)) {
+    if (data?.links && Array.isArray(data.links)) {
         data.links.forEach(link => {
             linkMap[link.label] = link.url;
         });
     }
 
     const linkFields = {
-        editDiscord: 'Discord',
-        editYoutube: 'YouTube',
-        editGithub: 'GitHub',
-        editTwitter: 'Twitter',
-        editInstagram: 'Instagram',
-        editTiktok: 'TikTok',
-        editLinkedin: 'LinkedIn',
-        editTwitch: 'Twitch',
-        editSpotify: 'Spotify',
-        editWebsite: 'Website'
+        editDiscord: "Discord",
+        editYoutube: "YouTube",
+        editGithub: "GitHub",
+        editTwitter: "Twitter",
+        editInstagram: "Instagram",
+        editTiktok: "TikTok",
+        editLinkedin: "LinkedIn",
+        editTwitch: "Twitch",
+        editSpotify: "Spotify",
+        editWebsite: "Website"
     };
 
-    Object.entries(linkFields).forEach(([id, label]) => {
-        const el = document.getElementById(id);
-        if (el) el.value = linkMap[label] || '';
-    });
-
-    // Bio count
-    document.getElementById('bioCount').textContent = data.bio?.length || 0;
-
-    // Username preview
-    document.getElementById('usernamePreview').textContent = data.username || 'usuario';
-
-    // Music list
-    if (data.music && Array.isArray(data.music) && data.music.length) {
-        document.getElementById('musicList').innerHTML = data.music.map((m, i) => `
-            <span style="display:inline-flex;align-items:center;background:rgba(255,255,255,.06);padding:4px 8px;border-radius:8px;margin:2px;">
-                🎵 ${escapeHTML(m.title || 'Música ' + (i + 1))}
-                <button class="remove-file-btn" onclick="removeMusic(${i})" title="Remover">✕</button>
-            </span>
-        `).join('');
+    for (const [id, label] of Object.entries(linkFields)) {
+        document.getElementById(id).value = linkMap[label] || "";
     }
 
-    // Gallery preview
-    if (data.gallery && Array.isArray(data.gallery) && data.gallery.length) {
-        document.getElementById('galleryPreview').innerHTML = data.gallery.map((img, i) => `
+    updateRangeLabels();
+    document.getElementById("saveStatus").textContent = "";
+    document.querySelector("#creatorModal .modal").scrollTop = 0;
+};
+
+function updateMusicList(data) {
+    const musicList = document.getElementById("musicList");
+    if (data?.music && Array.isArray(data.music) && data.music.length) {
+        musicList.innerHTML = data.music.map((m, i) => `
+            <span style="display:inline-block;background:rgba(255,255,255,.06);padding:4px 12px;border-radius:8px;margin:2px;">
+                🎵 ${escapeHTML(m.title || "Música " + (i + 1))}
+                <button class="remove-item-btn" onclick="removeMusicItem(${i})">✕</button>
+            </span>
+        `).join("");
+    } else {
+        musicList.innerHTML = `<span>Nenhuma música adicionada</span>`;
+    }
+}
+
+function updateGalleryPreview(data) {
+    const galleryPreview = document.getElementById("galleryPreview");
+    if (data?.gallery && Array.isArray(data.gallery) && data.gallery.length) {
+        galleryPreview.innerHTML = data.gallery.map((img, i) => `
             <div style="position:relative;display:inline-block;">
                 <img src="${escapeHTML(img)}" style="width:60px;height:60px;object-fit:cover;border-radius:8px;">
-                <button class="remove-file-btn" onclick="removeGalleryImage(${i})" style="position:absolute;top:2px;right:2px;" title="Remover">✕</button>
+                <button class="remove-item-btn" style="position:absolute;top:-8px;right:-8px;" onclick="removeGalleryItem(${i})">✕</button>
             </div>
-        `).join('');
+        `).join("");
+    } else {
+        galleryPreview.innerHTML = `<span style="color:var(--muted);font-size:13px;">Nenhuma imagem</span>`;
     }
+}
 
-    // Files preview
-    if (data.files && Array.isArray(data.files) && data.files.length) {
-        document.getElementById('filesPreview').innerHTML = data.files.map((f, i) => `
-            <span style="display:inline-flex;align-items:center;background:rgba(255,255,255,.06);padding:4px 8px;border-radius:8px;margin:2px;">
-                📎 ${escapeHTML(f.name || 'Arquivo ' + (i + 1))}
-                <button class="remove-file-btn" onclick="removeFile(${i})" title="Remover">✕</button>
+function updateFilesList(data) {
+    const filesPreview = document.getElementById("filesPreview");
+    if (data?.files && Array.isArray(data.files) && data.files.length) {
+        filesPreview.innerHTML = data.files.map((f, i) => `
+            <span style="display:inline-block;background:rgba(255,255,255,.06);padding:4px 12px;border-radius:8px;margin:2px;">
+                📎 ${escapeHTML(f.name)}
+                <button class="remove-item-btn" onclick="removeFileItem(${i})">✕</button>
             </span>
-        `).join('');
+        `).join("");
+    } else {
+        filesPreview.innerHTML = `<span style="color:var(--muted);font-size:13px;">Nenhum arquivo</span>`;
     }
 }
 
-function setDefaultValues() {
-    document.getElementById('editPrimary').value = '#8b5cf6';
-    document.getElementById('editSecondary').value = '#06b6d4';
-    document.getElementById('editTextColor').value = '#ffffff';
-    document.getElementById('editBgColor').value = '#0a0a0f';
-    document.getElementById('editOpacity').value = '0.85';
-    document.getElementById('editBlur').value = '18';
-    document.getElementById('editRadius').value = '20';
-    document.getElementById('editPadding').value = '24';
-    document.getElementById('editFontSize').value = '14';
-    document.getElementById('editVolume').value = '80';
-    document.getElementById('editAutoplay').value = 'false';
-    document.getElementById('editBgPosition').value = 'center';
-    document.getElementById('editBgSize').value = 'cover';
-}
-
-// Remove functions
-window.removeMusic = function(index) {
+// Remove item functions
+window.removeMusicItem = function(index) {
     if (!window._editingData?.music) return;
     window._editingData.music.splice(index, 1);
-    window._removedFiles.music.push(index);
-    fillFormWithData(window._editingData);
+    window._pendingDeletions.music.push(index);
+    updateMusicList(window._editingData);
 };
 
-window.removeGalleryImage = function(index) {
+window.removeGalleryItem = function(index) {
     if (!window._editingData?.gallery) return;
     window._editingData.gallery.splice(index, 1);
-    window._removedFiles.gallery.push(index);
-    fillFormWithData(window._editingData);
+    window._pendingDeletions.gallery.push(index);
+    updateGalleryPreview(window._editingData);
 };
 
-window.removeFile = function(index) {
+window.removeFileItem = function(index) {
     if (!window._editingData?.files) return;
     window._editingData.files.splice(index, 1);
-    window._removedFiles.files.push(index);
-    fillFormWithData(window._editingData);
+    window._pendingDeletions.files.push(index);
+    updateFilesList(window._editingData);
 };
 
 window.closeCreator = function() {
     document.getElementById("creatorModal").classList.remove("active");
     window._editingId = null;
     window._editingData = null;
-    window._removedFiles = { gallery: [], files: [], music: [] };
+    window._pendingDeletions = { gallery: [], files: [], music: [] };
 };
 
-// SAVE PROFILE
+// Save Profile
 window.saveProfile = async function() {
     if (!window.currentUser) {
         showToast("🔐", "Faça login primeiro.");
@@ -1742,8 +1567,8 @@ window.saveProfile = async function() {
     status.textContent = "⏳ Salvando...";
 
     try {
+        // Check username availability
         const snapshot = await get(profilesRef);
-        
         if (snapshot.exists()) {
             const data = snapshot.val();
             for (const key in data) {
@@ -1759,7 +1584,7 @@ window.saveProfile = async function() {
         const getCheck = id => document.getElementById(id)?.checked || false;
         const getNum = id => Number(document.getElementById(id)?.value) || 0;
 
-        // Links
+        // Build links
         const links = [];
         const linkFields = [
             { id: "editDiscord", label: "Discord" },
@@ -1793,95 +1618,63 @@ window.saveProfile = async function() {
             reader.readAsDataURL(file);
         });
 
-        // Images
+        // Process images
         const avatarFile = document.getElementById("editAvatar").files[0];
         const bannerFile = document.getElementById("editBanner").files[0];
         const verifiedFile = document.getElementById("editVerified").files[0];
         const bgFile = document.getElementById("editBgImage").files[0];
-        
         const old = window._editingData || {};
-        
-        const avatar = avatarFile ? await toDataURL(avatarFile) : (old.avatar || "");
-        const banner = bannerFile ? await toDataURL(bannerFile) : (old.banner || "");
-        const verified = verifiedFile ? await toDataURL(verifiedFile) : (old.verified || "");
-        const bgImage = bgFile ? await toDataURL(bgFile) : (old.bgImage || "");
 
-        // Gallery
+        const avatar = avatarFile ? await toDataURL(avatarFile) : old.avatar || "";
+        const banner = bannerFile ? await toDataURL(bannerFile) : old.banner || "";
+        const verified = verifiedFile ? await toDataURL(verifiedFile) : old.verified || "";
+        const bgImage = bgFile ? await toDataURL(bgFile) : old.bgImage || "";
+
+        // Process gallery
         const galleryFiles = document.getElementById("editGallery").files;
-        const gallery = [];
-        
+        const newGallery = [];
         for (const file of galleryFiles) {
-            gallery.push(await toDataURL(file));
+            newGallery.push(await toDataURL(file));
         }
+        const finalGallery = [...(old.gallery || []), ...newGallery];
 
-        let finalGallery = [...(old.gallery || [])];
-        
-        if (window._removedFiles?.gallery?.length) {
-            window._removedFiles.gallery.sort((a, b) => b - a).forEach(index => {
-                finalGallery.splice(index, 1);
-            });
-        }
-        
-        finalGallery = [...finalGallery, ...gallery];
-
-        // Files
+        // Process files
         const fileInputs = document.getElementById("editFiles").files;
-        const files = [];
-        
+        const newFiles = [];
         for (const file of fileInputs) {
-            files.push({
+            newFiles.push({
                 name: file.name,
                 data: await toDataURL(file)
             });
         }
+        const finalFiles = [...(old.files || []), ...newFiles];
 
-        let finalFiles = [...(old.files || [])];
-        
-        if (window._removedFiles?.files?.length) {
-            window._removedFiles.files.sort((a, b) => b - a).forEach(index => {
-                finalFiles.splice(index, 1);
-            });
-        }
-        
-        finalFiles = [...finalFiles, ...files];
-
-        // Music
+        // Process music
         const musicFiles = document.getElementById("editMusic").files;
-        const music = [];
-        
+        const newMusic = [];
         for (const file of musicFiles) {
             if (file.size > 50 * 1024 * 1024) {
                 showToast("⚠️", `"${file.name}" excede 50MB.`);
                 continue;
             }
-            
-            music.push({
+            newMusic.push({
                 title: file.name.replace(/\.[^/.]+$/, ""),
                 artist: "Artista",
                 blob: await toDataURL(file)
             });
         }
+        const finalMusic = [...(old.music || []), ...newMusic];
 
-        let finalMusic = [...(old.music || [])];
-        
-        if (window._removedFiles?.music?.length) {
-            window._removedFiles.music.sort((a, b) => b - a).forEach(index => {
-                finalMusic.splice(index, 1);
-            });
-        }
-        
-        finalMusic = [...finalMusic, ...music];
-
-        // Stats
+        // Preserve stats
         const oldStats = old.stats || {
             views: Number(old.views) || 0,
             likes: 0,
             followers: Number(old.followers) || 0
         };
 
-        // Profile data
+        // Build profile data
         const profileData = {
-            ownerUid: old.ownerUid || window.currentUser.uid,
+            ownerId: old.ownerId || window.currentUser.uid,
             name,
             username,
             bio: getVal("editBio"),
@@ -1928,18 +1721,18 @@ window.saveProfile = async function() {
             updatedAt: Date.now()
         };
 
-        // Save
+        // Save to Firebase
         if (window._editingId) {
-            if (old.ownerUid && old.ownerUid !== window.currentUser.uid) {
+            // Check ownership
+            if (old.ownerId && old.ownerId !== window.currentUser.uid) {
                 showToast("❌", "Você não é o dono desse perfil.");
                 return;
             }
-
             await set(ref(db, `profiles/${window._editingId}`), profileData);
             showToast("✅", "Perfil atualizado!");
         } else {
             const newRef = push(profilesRef);
-            profileData.ownerUid = window.currentUser.uid;
+            profileData.ownerId = window.currentUser.uid;
             await set(newRef, profileData);
             showToast("🎉", "Perfil criado!");
         }
@@ -1953,7 +1746,7 @@ window.saveProfile = async function() {
     }
 };
 
-// DELETE PROFILE
+// Delete Profile
 window.deleteProfile = async function(id) {
     if (!window.currentUser) {
         showToast("🔐", "Faça login.");
@@ -1963,7 +1756,7 @@ window.deleteProfile = async function(id) {
     const profile = window._profilesData.find(p => p.id === id);
     if (!profile) return;
 
-    if (profile.ownerUid !== window.currentUser.uid) {
+    if (profile.ownerId !== window.currentUser.uid) {
         showToast("❌", "Você não é o dono desse perfil.");
         return;
     }
@@ -1983,7 +1776,7 @@ window.deleteProfile = async function(id) {
     }
 };
 
-// VISITOR ID
+// Visitor ID
 function getVisitorId() {
     let id = localStorage.getItem("perfilme_visitor_id");
     if (!id) {
@@ -1993,7 +1786,7 @@ function getVisitorId() {
     return id.replace(/[.#$\[\]/]/g, "_");
 }
 
-// STATS
+// Stats helpers
 function getStats(profile) {
     const stats = profile.stats || {};
     return {
@@ -2012,7 +1805,7 @@ function hasUserAction(profile, type) {
     return !!(profile?.[type]?.[visitorId]);
 }
 
-// ESCAPE HTML
+// Escape HTML
 function escapeHTML(value) {
     return String(value ?? "").replace(/[&<>"']/g, c => ({
         "&": "&amp;",
@@ -2023,12 +1816,12 @@ function escapeHTML(value) {
     }[c]));
 }
 
-// FORMAT NUMBER
+// Format number
 function formatNumber(number) {
     return Number(number || 0).toLocaleString("pt-BR");
 }
 
-// LINKS HTML
+// Links HTML
 function linkHTML(links) {
     if (!Array.isArray(links) || !links.length) {
         return `<span class="viewer-empty">Nenhum link adicionado.</span>`;
@@ -2040,7 +1833,7 @@ function linkHTML(links) {
     `).join("");
 }
 
-// GALLERY HTML
+// Gallery HTML
 function galleryHTML(gallery) {
     if (!Array.isArray(gallery) || !gallery.length) {
         return `<span class="viewer-empty">Nenhuma imagem na galeria.</span>`;
@@ -2050,7 +1843,7 @@ function galleryHTML(gallery) {
     `).join("");
 }
 
-// MUSIC HTML
+// Music HTML
 function musicHTML(music, autoplay, volume) {
     if (!Array.isArray(music) || !music.length) {
         return `<span class="viewer-empty">Nenhuma música adicionada.</span>`;
@@ -2060,29 +1853,28 @@ function musicHTML(music, autoplay, volume) {
         const vol = Math.max(0, Math.min(100, Number(volume ?? 80))) / 100;
         return `
             <div>
-                <div style="font-size:13px;margin-bottom:5px;">
-                    🎵 ${escapeHTML(m.title || "Música " + (i + 1))}
-                </div>
+                <div style="font-size:13px;margin-bottom:5px;">🎵 ${escapeHTML(m.title || "Música " + (i + 1))}</div>
                 <audio controls ${auto} src="${escapeHTML(m.blob || "")}" data-volume="${vol}"></audio>
             </div>
         `;
     }).join("");
 }
 
-// OPEN PROFILE
+// Open Profile
 window.openProfile = async function(id) {
     const profile = window._profilesData.find(p => p.id === id);
     if (!profile) return;
 
     window._viewingProfileId = id;
     window._viewingProfile = profile;
+
     document.getElementById("profileViewerModal").classList.add("active");
     renderProfileViewer(profile);
 
+    // Register view
     try {
         const statsRef = ref(db, `profiles/${id}/stats/views`);
         const result = await runTransaction(statsRef, current => Number(current || 0) + 1);
-        
         if (result.committed) {
             profile.stats = profile.stats || {};
             profile.stats.views = result.snapshot.val();
@@ -2094,20 +1886,20 @@ window.openProfile = async function(id) {
     }
 };
 
-// RENDER PROFILE
+// Render Profile Viewer
 function renderProfileViewer(profile) {
     const stats = getStats(profile);
     const likes = getMapCount(profile.likes) || stats.likes;
     const followers = getMapCount(profile.followers) || stats.followers;
     const liked = hasUserAction(profile, "likes");
     const following = hasUserAction(profile, "followers");
-    const isOwner = !!(window.currentUser && profile.ownerUid === window.currentUser.uid);
+    const isOwner = !!(window.currentUser && profile.ownerId === window.currentUser.uid);
 
     const bannerStyle = profile.banner
         ? `background-image: url("${escapeHTML(profile.banner)}");`
         : `background: linear-gradient(135deg, ${escapeHTML(profile.primary || "#8b5cf6")}, ${escapeHTML(profile.secondary || "#06b6d4")});`;
 
-    const avatar = profile.avatar || `https://placehold.co/200x200/14141e/ffffff?text=${encodeURIComponent((profile.name || "?").charAt(0))}`.replace(/\s/g, "");
+    const avatar = profile.avatar || `https://placehold.co/200x200/14141e/ffffff?text=${encodeURIComponent((profile.name || "?").charAt(0))}`;
 
     document.getElementById("profileViewerContent").innerHTML = `
         <div class="viewer-banner" style="${bannerStyle}"></div>
@@ -2115,16 +1907,14 @@ function renderProfileViewer(profile) {
             <div class="viewer-head">
                 <div>
                     <img class="viewer-avatar" src="${escapeHTML(avatar)}" alt="Avatar">
-                    <div class="viewer-name" style="color:${escapeHTML(profile.primary || "#fff")};">
-                        ${escapeHTML(profile.name)}
-                    </div>
+                    <div class="viewer-name" style="color:${escapeHTML(profile.primary || "#fff")};">${escapeHTML(profile.name)}</div>
                     <div class="viewer-username">@${escapeHTML(profile.username)}</div>
-                    ${isOwner ? '<div class="owner-badge">👑 Seu perfil</div>' : ''}
+                    ${isOwner ? '<div class="owner-badge">👑 Seu perfil</div>' : ""}
                 </div>
             </div>
 
-            ${profile.bio ? `<div class="viewer-bio">${escapeHTML(profile.bio)}</div>` : ''}
-            ${profile.location ? `<div class="viewer-location">📍 ${escapeHTML(profile.location)}</div>` : ''}
+            ${profile.bio ? `<div class="viewer-bio">${escapeHTML(profile.bio)}</div>` : ""}
+            ${profile.location ? `<div class="viewer-location">📍 ${escapeHTML(profile.location)}</div>` : ""}
 
             <div class="viewer-stats">
                 <div class="viewer-stat">
@@ -2152,12 +1942,8 @@ function renderProfileViewer(profile) {
                 </div>
             ` : `
                 <div class="viewer-actions">
-                    <button id="likeButton" class="btn ${liked ? 'active' : ''}" onclick="toggleLike()">
-                        ${liked ? '❤️ Curtido' : '🤍 Curtir'}
-                    </button>
-                    <button id="followButton" class="btn ${following ? 'active' : ''}" onclick="toggleFollow()">
-                        ${following ? '👤 Seguindo' : '➕ Seguir'}
-                    </button>
+                    <button id="likeButton" class="btn ${liked ? "active" : ""}" onclick="toggleLike()">${liked ? "❤️ Curtido" : "🤍 Curtir"}</button>
+                    <button id="followButton" class="btn ${following ? "active" : ""}" onclick="toggleFollow()">${following ? "👤 Seguindo" : "➕ Seguir"}</button>
                 </div>
             `}
 
@@ -2178,12 +1964,13 @@ function renderProfileViewer(profile) {
         </div>
     `;
 
+    // Apply volume
     document.querySelectorAll(".viewer-music audio").forEach(audio => {
         audio.volume = Number(audio.dataset.volume) || .8;
     });
 }
 
-// CLOSE VIEWER
+// Close Profile Viewer
 window.closeProfileViewer = function() {
     document.getElementById("profileViewerModal").classList.remove("active");
     document.getElementById("profileViewerContent").innerHTML = "";
@@ -2191,7 +1978,7 @@ window.closeProfileViewer = function() {
     window._viewingProfile = null;
 };
 
-// EDIT VIEWED PROFILE
+// Edit Viewed Profile
 window.editViewedProfile = function() {
     const profile = window._viewingProfile;
     if (!profile) return;
@@ -2201,7 +1988,7 @@ window.editViewedProfile = function() {
         return;
     }
 
-    if (profile.ownerUid !== window.currentUser.uid) {
+    if (profile.ownerId !== window.currentUser.uid) {
         showToast("❌", "Você não é o dono desse perfil.");
         return;
     }
@@ -2211,7 +1998,7 @@ window.editViewedProfile = function() {
     openCreator(profile);
 };
 
-// TOGGLE LIKE
+// Toggle Like
 window.toggleLike = async function() {
     if (!window.currentUser) {
         showToast("🔐", "Faça login para curtir.");
@@ -2227,14 +2014,12 @@ window.toggleLike = async function() {
 
     try {
         const result = await runTransaction(markerRef, current => current ? null : true);
-        
         if (!result.committed) return;
 
         const profile = window._profilesData.find(p => p.id === id);
         if (!profile) return;
 
         profile.likes = profile.likes || {};
-        
         if (result.snapshot.exists()) {
             profile.likes[visitorId] = true;
         } else {
@@ -2245,12 +2030,8 @@ window.toggleLike = async function() {
         profile.stats.likes = getMapCount(profile.likes);
         window._viewingProfile = profile;
         renderProfileViewer(profile);
-        
-        showToast(
-            result.snapshot.exists() ? "❤️" : "🤍",
-            result.snapshot.exists() ? "Curtida adicionada!" : "Curtida removida!"
-        );
-        
+
+        showToast(result.snapshot.exists() ? "❤️" : "🤍", result.snapshot.exists() ? "Curtida adicionada!" : "Curtida removida!");
         loadProfiles();
     } catch (error) {
         console.error(error);
@@ -2258,7 +2039,7 @@ window.toggleLike = async function() {
     }
 };
 
-// TOGGLE FOLLOW
+// Toggle Follow
 window.toggleFollow = async function() {
     if (!window.currentUser) {
         showToast("🔐", "Faça login para seguir.");
@@ -2274,14 +2055,12 @@ window.toggleFollow = async function() {
 
     try {
         const result = await runTransaction(markerRef, current => current ? null : true);
-        
         if (!result.committed) return;
 
         const profile = window._profilesData.find(p => p.id === id);
         if (!profile) return;
 
         profile.followers = profile.followers || {};
-        
         if (result.snapshot.exists()) {
             profile.followers[visitorId] = true;
         } else {
@@ -2292,12 +2071,8 @@ window.toggleFollow = async function() {
         profile.stats.followers = getMapCount(profile.followers);
         window._viewingProfile = profile;
         renderProfileViewer(profile);
-        
-        showToast(
-            result.snapshot.exists() ? "👤" : "👋",
-            result.snapshot.exists() ? "Você está seguindo!" : "Você deixou de seguir."
-        );
-        
+
+        showToast(result.snapshot.exists() ? "👤" : "👋", result.snapshot.exists() ? "Você está seguindo!" : "Você deixou de seguir.");
         loadProfiles();
     } catch (error) {
         console.error(error);
@@ -2305,37 +2080,35 @@ window.toggleFollow = async function() {
     }
 };
 
-// FILTER
+// Filter Profiles
 window.filterProfiles = function() {
     const term = document.getElementById("searchInput").value.toLowerCase();
     const items = document.querySelectorAll(".profile-card-link");
-    
     items.forEach(item => {
         const text = item.dataset.search || "";
         item.style.display = text.includes(term) ? "" : "none";
     });
 };
 
-// TOAST
+// Toast
 function showToast(icon, message) {
     const toast = document.getElementById("toast");
     document.getElementById("toastIcon").textContent = icon;
     document.getElementById("toastMessage").textContent = message;
     toast.className = "toast show";
-    
     clearTimeout(toast._timeout);
     toast._timeout = setTimeout(() => {
         toast.className = "toast";
     }, 3000);
 }
 
-// LOAD PROFILES
+// Load Profiles
 async function loadProfiles() {
     const container = document.getElementById("profilesGrid");
-    
+
     try {
         const snapshot = await get(profilesRef);
-        
+
         if (!snapshot.exists()) {
             window._profilesData = [];
             container.innerHTML = `
@@ -2352,20 +2125,16 @@ async function loadProfiles() {
         const data = snapshot.val();
         const profiles = Object.entries(data).map(([id, p]) => {
             const profile = { id, ...p };
-            
             profile.stats = profile.stats || {
                 views: Number(profile.views) || 0,
                 likes: 0,
                 followers: Number(profile.followers) || 0
             };
-            
             profile.likes = (profile.likes && typeof profile.likes === "object") ? profile.likes : {};
             profile.followers = (profile.followers && typeof profile.followers === "object") ? profile.followers : {};
-            
             profile.stats.views = Number(profile.stats.views || 0);
             profile.stats.likes = getMapCount(profile.likes);
             profile.stats.followers = getMapCount(profile.followers);
-            
             return profile;
         });
 
@@ -2376,34 +2145,27 @@ async function loadProfiles() {
             const safeName = escapeHTML(p.name || "Perfil");
             const safeUsername = escapeHTML(p.username || "");
             const avatar = p.avatar || `https://placehold.co/200x200/14141e/ffffff?text=${encodeURIComponent((p.name || "?").charAt(0))}`;
-            
+
             return `
-                <a href="?u=${encodeURIComponent(p.username || "")}" 
-                   class="profile-card-link" 
+                <a href="?u=${encodeURIComponent(p.username || "")}" class="profile-card-link" 
                    data-search="${escapeHTML(((p.name || "") + " " + (p.username || "")).toLowerCase())}"
                    onclick="openProfile('${escapeHTML(p.id)}'); history.replaceState(null, '', '?u=${encodeURIComponent(p.username || '')}'); return false;">
-                    
-                    <div class="profile-card-mini" style="${p.primary ? `border-color: ${escapeHTML(p.primary)}44;` : ''}">
+                    <div class="profile-card-mini" style="${p.primary ? `border-color: ${escapeHTML(p.primary)}44;` : ""}">
                         <img class="avatar-mini" src="${escapeHTML(avatar)}" alt="">
-                        <div class="name" style="${p.primary ? `color: ${escapeHTML(p.primary)};` : ''}">${safeName}</div>
+                        <div class="name" style="${p.primary ? `color: ${escapeHTML(p.primary)};` : ""}">${safeName}</div>
                         <div class="username">@${safeUsername}</div>
-                        
-                        ${p.bio ? `<div class="bio-mini">${escapeHTML(p.bio)}</div>` : ''}
-                        
+                        ${p.bio ? `<div class="bio-mini">${escapeHTML(p.bio)}</div>` : ""}
                         <div class="tags">
-                            ${p.location ? `<span class="tag">📍 ${escapeHTML(p.location)}</span>` : ''}
-                            ${p.music?.length ? `<span class="tag">🎵 ${p.music.length}</span>` : ''}
-                            ${p.gallery?.length ? `<span class="tag">🖼️ ${p.gallery.length}</span>` : ''}
+                            ${p.location ? `<span class="tag">📍 ${escapeHTML(p.location)}</span>` : ""}
+                            ${p.music?.length ? `<span class="tag">🎵 ${p.music.length}</span>` : ""}
+                            ${p.gallery?.length ? `<span class="tag">🖼️ ${p.gallery.length}</span>` : ""}
                         </div>
-                        
                         <div class="tags">
                             <span class="tag">👁️ ${formatNumber(p.stats.views)}</span>
                             <span class="tag">❤️ ${formatNumber(p.stats.likes)}</span>
                             <span class="tag">👤 ${formatNumber(p.stats.followers)}</span>
                         </div>
-                        
                         <div class="badge-mini">✨ perfil.me/?u=${safeUsername}</div>
-                        <div class="link-icon">🔗</div>
                     </div>
                 </a>
             `;
@@ -2412,7 +2174,6 @@ async function loadProfiles() {
         // Open profile from URL
         const params = new URLSearchParams(location.search);
         const username = params.get("u");
-        
         if (username) {
             const target = profiles.find(p => String(p.username).toLowerCase() === String(username).toLowerCase());
             if (target) {
@@ -2431,15 +2192,20 @@ async function loadProfiles() {
     }
 }
 
-// RANGE LABELS
+// Update Range Labels
 function updateRangeLabels() {
-    document.getElementById("opacityValue").textContent = document.getElementById("editOpacity").value;
-    document.getElementById("blurValue").textContent = document.getElementById("editBlur").value + "px";
-    document.getElementById("radiusValue").textContent = document.getElementById("editRadius").value + "px";
-    document.getElementById("paddingValue").textContent = document.getElementById("editPadding").value + "px";
+    const opacity = document.getElementById("editOpacity");
+    const blur = document.getElementById("editBlur");
+    const radius = document.getElementById("editRadius");
+    const padding = document.getElementById("editPadding");
+
+    document.getElementById("opacityValue").textContent = opacity.value;
+    document.getElementById("blurValue").textContent = blur.value + "px";
+    document.getElementById("radiusValue").textContent = radius.value + "px";
+    document.getElementById("paddingValue").textContent = padding.value + "px";
 }
 
-// EVENTS
+// Event Listeners
 document.getElementById("editUsername").addEventListener("input", function() {
     this.value = this.value.toLowerCase().replace(/[^a-z0-9_]/g, "");
     document.getElementById("usernamePreview").textContent = this.value || "usuario";
@@ -2454,7 +2220,7 @@ document.getElementById("editBlur").addEventListener("input", updateRangeLabels)
 document.getElementById("editRadius").addEventListener("input", updateRangeLabels);
 document.getElementById("editPadding").addEventListener("input", updateRangeLabels);
 
-// ESC KEY
+// ESC key
 document.addEventListener("keydown", e => {
     if (e.key === "Escape") {
         closeCreator();
@@ -2463,7 +2229,7 @@ document.addEventListener("keydown", e => {
     }
 });
 
-// CLICK OUTSIDE
+// Click outside to close
 document.getElementById("profileViewerModal").addEventListener("click", function(e) {
     if (e.target === this) closeProfileViewer();
 });
@@ -2476,15 +2242,11 @@ document.getElementById("authModal").addEventListener("click", function(e) {
     if (e.target === this) closeAuth();
 });
 
-// INITIAL
+// Initialize
 console.log("🚀 Perfil.me Ultra iniciado.");
 console.log("🔐 Firebase Authentication ativo.");
-console.log("✏️ Edição protegida por ownerUid.");
-
-// Garantir que as funções globais estejam disponíveis
-window.showToast = showToast;
-window.escapeHTML = escapeHTML;
-window.formatNumber = formatNumber;
+console.log("✏️ Edição protegida por ownerId.");
+console.log("✨ Sistema de remoção de itens adicionado.");
 </script>
 
 </body>
