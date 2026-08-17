@@ -578,12 +578,6 @@ button {
     gap: 12px;
 }
 
-.modal .row-3 {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 12px;
-}
-
 .section-title {
     font-size: 16px;
     font-weight: 700;
@@ -1021,8 +1015,7 @@ button {
         max-height: 94vh;
     }
 
-    .modal .row,
-    .modal .row-3 {
+    .modal .row {
         grid-template-columns: 1fr;
     }
 
@@ -1404,7 +1397,7 @@ const usersRef = ref(db, "users");
 const adminsRef = ref(db, "admins");
 
 // Default admin (configure aqui)
-const DEFAULT_ADMIN = "seu-email-de-admin@gmail.com";
+const DEFAULT_ADMIN = "admin@perfil.me";
 
 // Estado global
 window.profiles = [];
