@@ -21,6 +21,9 @@
     --muted: #a1a1aa;
     --radius: 20px;
     --font: 'Segoe UI', system-ui, sans-serif;
+    --danger: #ef4444;
+    --success: #10b981;
+    --warning: #f59e0b;
 }
 
 html {
@@ -32,6 +35,7 @@ body {
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
+    overflow-x: hidden;
 }
 
 button, input, textarea, select {
@@ -54,6 +58,15 @@ button {
     to { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
 .bg-animated {
     position: fixed;
     inset: 0;
@@ -67,7 +80,7 @@ button {
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(10, 10, 15, .85);
+    background: rgba(10, 10, 15, .95);
     backdrop-filter: blur(20px);
     border-bottom: 1px solid rgba(255, 255, 255, .05);
     padding: 12px 20px;
@@ -80,6 +93,7 @@ button {
     align-items: center;
     justify-content: space-between;
     gap: 15px;
+    flex-wrap: wrap;
 }
 
 .logo {
@@ -89,6 +103,7 @@ button {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    cursor: pointer;
 }
 
 .logo span {
@@ -104,7 +119,7 @@ button {
 }
 
 .btn {
-    padding: 8px 18px;
+    padding: 10px 20px;
     border-radius: 10px;
     border: 1px solid rgba(255, 255, 255, .1);
     background: rgba(255, 255, 255, .05);
@@ -113,12 +128,20 @@ button {
     font-size: 13px;
     transition: all .3s ease;
     text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
 }
 
 .btn:hover {
     background: rgba(139, 92, 246, .2);
     border-color: var(--primary);
     transform: translateY(-2px);
+}
+
+.btn:active {
+    transform: translateY(0);
 }
 
 .btn:disabled {
@@ -144,8 +167,8 @@ button {
 }
 
 .btn-danger {
-    background: rgba(239, 68, 68, .2);
-    border-color: #ef4444;
+    background: rgba(239, 68, 68, .15);
+    border-color: var(--danger);
     color: #fca5a5;
 }
 
@@ -153,19 +176,45 @@ button {
     background: rgba(239, 68, 68, .3);
 }
 
+.btn-success {
+    background: rgba(16, 185, 129, .15);
+    border-color: var(--success);
+    color: #6ee7b7;
+}
+
+.btn-success:hover {
+    background: rgba(16, 185, 129, .3);
+}
+
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 11px;
+}
+
 #userArea {
     display: flex;
     align-items: center;
     gap: 8px;
+    flex-wrap: wrap;
 }
 
 .user-email {
     color: var(--muted);
     font-size: 12px;
-    max-width: 180px;
+    max-width: 150px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+.admin-badge {
+    background: linear-gradient(135deg, #f59e0b, #ef4444);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 700;
+    color: white;
+    letter-spacing: .5px;
 }
 
 .hero {
@@ -173,6 +222,7 @@ button {
     padding: 60px 20px 40px;
     max-width: 700px;
     margin: 0 auto;
+    animation: fadeIn .5s ease;
 }
 
 .hero h1 {
@@ -244,6 +294,7 @@ button {
     text-decoration: none;
     color: inherit;
     animation: slideUp .5s ease;
+    cursor: pointer;
 }
 
 .profile-card-mini {
@@ -255,6 +306,7 @@ button {
     cursor: pointer;
     position: relative;
     overflow: hidden;
+    height: 100%;
 }
 
 .profile-card-mini:hover {
@@ -269,12 +321,14 @@ button {
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid rgba(255, 255, 255, .1);
+    background: #1a1a2e;
 }
 
 .profile-card-mini .name {
     font-size: 18px;
     font-weight: 700;
     margin-top: 12px;
+    word-break: break-word;
 }
 
 .profile-card-mini .username {
@@ -312,10 +366,24 @@ button {
 
 .profile-card-mini .tag {
     font-size: 9px;
-    padding: 2px 8px;
+    padding: 4px 8px;
     border-radius: 10px;
     background: rgba(255, 255, 255, .06);
     color: var(--muted);
+}
+
+.profile-card-mini .profile-actions {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    display: flex;
+    gap: 6px;
+    opacity: 0;
+    transition: opacity .3s ease;
+}
+
+.profile-card-mini:hover .profile-actions {
+    opacity: 1;
 }
 
 .empty-state {
@@ -348,7 +416,7 @@ button {
     backdrop-filter: blur(20px);
     opacity: 0;
     pointer-events: none;
-    transition: opacity .4s ease;
+    transition: opacity .3s ease;
 }
 
 .modal-overlay.active {
@@ -366,7 +434,7 @@ button {
     overflow-y: auto;
     border: 1px solid rgba(255, 255, 255, .06);
     transform: scale(.95);
-    transition: transform .4s cubic-bezier(.34, 1.56, .64, 1);
+    transition: transform .3s cubic-bezier(.34, 1.56, .64, 1);
     position: relative;
 }
 
@@ -375,7 +443,7 @@ button {
 }
 
 .modal::-webkit-scrollbar {
-    width: 4px;
+    width: 6px;
 }
 
 .modal::-webkit-scrollbar-track {
@@ -409,6 +477,18 @@ button {
     font-size: 28px;
     cursor: pointer;
     z-index: 10;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all .3s ease;
+}
+
+.close-modal:hover {
+    background: rgba(255,255,255,.1);
+    color: white;
 }
 
 .modal label {
@@ -526,6 +606,7 @@ button {
     padding: 12px;
     font-size: 14px;
     min-width: 100px;
+    justify-content: center;
 }
 
 .checkbox-group {
@@ -557,6 +638,7 @@ button {
     margin-top: 12px;
     font-size: 13px;
     color: var(--muted);
+    min-height: 20px;
 }
 
 .auth-modal {
@@ -591,6 +673,7 @@ button {
     color: var(--muted);
     cursor: pointer;
     font-weight: 600;
+    transition: all .3s ease;
 }
 
 .auth-tab.active {
@@ -644,7 +727,7 @@ button {
     margin-top: -60px;
     position: relative;
     z-index: 2;
-    background: #14141e;
+    background: #1a1a2e;
 }
 
 .viewer-head {
@@ -652,12 +735,14 @@ button {
     justify-content: space-between;
     gap: 20px;
     align-items: flex-end;
+    flex-wrap: wrap;
 }
 
 .viewer-name {
     font-size: 32px;
     font-weight: 800;
     margin-top: 8px;
+    word-break: break-word;
 }
 
 .viewer-username {
@@ -713,6 +798,7 @@ button {
 .viewer-actions .btn {
     flex: 1;
     min-width: 140px;
+    justify-content: center;
 }
 
 .viewer-actions .active {
@@ -744,6 +830,12 @@ button {
     padding: 8px 12px;
     border-radius: 10px;
     font-size: 13px;
+    transition: all .3s ease;
+}
+
+.viewer-links a:hover {
+    background: rgba(139, 92, 246, .2);
+    border-color: var(--primary);
 }
 
 .viewer-gallery {
@@ -757,12 +849,13 @@ button {
     aspect-ratio: 1;
     object-fit: cover;
     border-radius: 12px;
+    cursor: pointer;
 }
 
 .viewer-music {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 12px;
 }
 
 .viewer-music audio {
@@ -791,6 +884,7 @@ button {
     background: rgba(74,222,128,.1);
     border: 1px solid rgba(74,222,128,.25);
     color: #86efac;
+    margin-top: 8px;
 }
 
 .toast {
@@ -811,6 +905,7 @@ button {
     display: flex;
     align-items: center;
     gap: 12px;
+    max-width: 90vw;
 }
 
 .toast.show {
@@ -818,7 +913,14 @@ button {
     transform: translateX(-50%) translateY(0);
 }
 
-/* Melhorias para edição */
+.toast.success {
+    border-color: var(--success);
+}
+
+.toast.error {
+    border-color: var(--danger);
+}
+
 .remove-item-btn {
     background: rgba(239, 68, 68, .2);
     border: 1px solid #ef4444;
@@ -828,10 +930,85 @@ button {
     font-size: 11px;
     cursor: pointer;
     margin-left: 8px;
+    transition: all .3s ease;
 }
 
 .remove-item-btn:hover {
     background: rgba(239, 68, 68, .3);
+}
+
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255,255,255,.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+}
+
+/* Admin Panel */
+.admin-panel {
+    max-width: 900px;
+}
+
+.admin-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.admin-stat-card {
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+}
+
+.admin-stat-card h3 {
+    font-size: 28px;
+    margin-bottom: 5px;
+}
+
+.admin-stat-card p {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.admin-user-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.admin-user-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+    border-bottom: 1px solid rgba(255,255,255,.05);
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.admin-user-item:hover {
+    background: rgba(255,255,255,.02);
+}
+
+.admin-user-info {
+    flex: 1;
+    min-width: 200px;
+}
+
+.admin-user-email {
+    font-size: 13px;
+    color: #d4d4d8;
+}
+
+.admin-user-role {
+    font-size: 11px;
+    color: var(--muted);
 }
 
 @media (max-width: 640px) {
@@ -899,6 +1076,10 @@ button {
     .user-email {
         display: none;
     }
+    
+    .topbar-inner {
+        justify-content: center;
+    }
 }
 </style>
 </head>
@@ -909,7 +1090,7 @@ button {
 
 <header class="topbar">
     <div class="topbar-inner">
-        <div class="logo">Perfil<span>.me</span></div>
+        <div class="logo" onclick="location.reload()">Perfil<span>.me</span></div>
         <div class="nav-links">
             <div id="userArea">
                 <button class="btn btn-outline" onclick="openAuth()" id="loginButton">🔐 Entrar</button>
@@ -935,6 +1116,7 @@ button {
 
 <div id="profilesGrid" class="profiles-grid"></div>
 
+<!-- Auth Modal -->
 <div id="authModal" class="modal-overlay">
     <div class="modal auth-modal">
         <button class="close-modal" onclick="closeAuth()">✕</button>
@@ -956,6 +1138,7 @@ button {
     </div>
 </div>
 
+<!-- Profile Viewer Modal -->
 <div id="profileViewerModal" class="modal-overlay">
     <div class="modal profile-viewer">
         <button class="close-modal" onclick="closeProfileViewer()">✕</button>
@@ -963,6 +1146,7 @@ button {
     </div>
 </div>
 
+<!-- Creator Modal -->
 <div id="creatorModal" class="modal-overlay">
     <div class="modal">
         <button class="close-modal" onclick="closeCreator()">✕</button>
@@ -971,15 +1155,15 @@ button {
 
         <div class="section-title">👤 Informações Básicas</div>
         <label>Nome <span class="hint">(obrigatório)</span></label>
-        <input id="editName" placeholder="Seu nome">
+        <input id="editName" placeholder="Seu nome" maxlength="100">
         <label>@username <span class="hint">(link único, obrigatório)</span></label>
-        <input id="editUsername" placeholder="usuario" style="text-transform:lowercase">
+        <input id="editUsername" placeholder="usuario" style="text-transform:lowercase" maxlength="30">
         <p style="color:var(--muted);font-size:11px;margin-top:-4px;">perfil.me/?u=<span id="usernamePreview">usuario</span></p>
         <label>Biografia <span class="hint">(máx 500 caracteres)</span></label>
         <textarea id="editBio" placeholder="Fale sobre você..." maxlength="500"></textarea>
         <p style="color:var(--muted);font-size:11px;text-align:right;"><span id="bioCount">0</span>/500</p>
         <label>Localização</label>
-        <input id="editLocation" placeholder="Cidade, País">
+        <input id="editLocation" placeholder="Cidade, País" maxlength="100">
         <label>Data de Nascimento</label>
         <input id="editBirthday" type="date">
         <label>Gênero</label>
@@ -1162,6 +1346,35 @@ button {
     </div>
 </div>
 
+<!-- Admin Panel Modal -->
+<div id="adminModal" class="modal-overlay">
+    <div class="modal admin-panel">
+        <button class="close-modal" onclick="closeAdminPanel()">✕</button>
+        <h2>👑 Painel Administrativo</h2>
+        <p class="sub">Gerencie usuários e perfis do sistema.</p>
+        
+        <div class="admin-stats" id="adminStats">
+            <div class="admin-stat-card">
+                <h3 id="adminTotalUsers">0</h3>
+                <p>Total de Usuários</p>
+            </div>
+            <div class="admin-stat-card">
+                <h3 id="adminTotalProfiles">0</h3>
+                <p>Total de Perfis</p>
+            </div>
+            <div class="admin-stat-card">
+                <h3 id="adminTotalAdmins">0</h3>
+                <p>Administradores</p>
+            </div>
+        </div>
+        
+        <div class="section-title">👥 Gerenciar Usuários</div>
+        <div class="admin-user-list" id="adminUserList">
+            <div class="loading-spinner"></div>
+        </div>
+    </div>
+</div>
+
 <div id="toast" class="toast">
     <span id="toastIcon">✅</span>
     <span id="toastMessage">Perfil criado!</span>
@@ -1187,6 +1400,11 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const auth = getAuth(app);
 const profilesRef = ref(db, "profiles");
+const usersRef = ref(db, "users");
+const adminsRef = ref(db, "admins");
+
+// Default admin (configure aqui)
+const DEFAULT_ADMIN = "seu-email-de-admin@gmail.com";
 
 // Estado global
 window.profiles = [];
@@ -1196,24 +1414,68 @@ window._editingId = null;
 window._editingData = null;
 window._viewingProfileId = null;
 window._viewingProfile = null;
-window._pendingDeletions = { gallery: [], files: [], music: [] };
+window._isAdmin = false;
+window._adminCache = new Set();
 
 // Auth State
-onAuthStateChanged(auth, user => {
+onAuthStateChanged(auth, async user => {
     window.currentUser = user || null;
+    window._isAdmin = false;
+    
+    if (user) {
+        await checkAdminStatus(user.uid, user.email);
+    }
+    
     updateAuthUI();
     loadProfiles();
 });
 
-// Auth UI
+// Check admin status
+async function checkAdminStatus(uid, email) {
+    try {
+        // Check in admins node
+        const adminSnapshot = await get(ref(db, `admins/${uid}`));
+        if (adminSnapshot.exists() && adminSnapshot.val() === true) {
+            window._isAdmin = true;
+            window._adminCache.add(uid);
+            return;
+        }
+        
+        // Check by email
+        if (email === DEFAULT_ADMIN) {
+            await set(ref(db, `admins/${uid}`), true);
+            window._isAdmin = true;
+            window._adminCache.add(uid);
+            return;
+        }
+        
+        // Check in users node
+        const userSnapshot = await get(ref(db, `users/${uid}`));
+        if (userSnapshot.exists()) {
+            const userData = userSnapshot.val();
+            if (userData.isAdmin === true) {
+                window._isAdmin = true;
+                window._adminCache.add(uid);
+            }
+        }
+    } catch (error) {
+        console.error("Erro ao verificar admin:", error);
+    }
+}
+
+// Update Auth UI
 function updateAuthUI() {
     const area = document.getElementById("userArea");
     if (!area) return;
 
     if (window.currentUser) {
         const email = escapeHTML(window.currentUser.email || "");
+        const adminBadge = window._isAdmin ? '<span class="admin-badge">👑 ADMIN</span>' : '';
+        
         area.innerHTML = `
+            ${adminBadge}
             <span class="user-email">👤 ${email}</span>
+            ${window._isAdmin ? '<button class="btn btn-outline btn-sm" onclick="openAdminPanel()">⚙️ Admin</button>' : ''}
             <button class="btn btn-outline" onclick="logout()">🚪 Sair</button>
         `;
     } else {
@@ -1267,18 +1529,30 @@ window.submitAuth = async function() {
     }
 
     try {
+        let userCredential;
+        
         if (window.authMode === "login") {
-            await signInWithEmailAndPassword(auth, email, password);
+            userCredential = await signInWithEmailAndPassword(auth, email, password);
             showToast("✅", "Login realizado!");
         } else {
-            await createUserWithEmailAndPassword(auth, email, password);
+            userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            
+            // Register user in database
+            await set(ref(db, `users/${userCredential.user.uid}`), {
+                email: email,
+                createdAt: Date.now(),
+                isAdmin: email === DEFAULT_ADMIN
+            });
+            
             showToast("🎉", "Conta criada!");
         }
+        
         closeAuth();
         document.getElementById("authPassword").value = "";
     } catch (errorObj) {
         console.error(errorObj);
         let message = "Não foi possível realizar a operação.";
+        
         switch (errorObj.code) {
             case "auth/invalid-email":
                 message = "E-mail inválido.";
@@ -1302,6 +1576,7 @@ window.submitAuth = async function() {
             default:
                 message = errorObj.message || message;
         }
+        
         error.textContent = message;
         error.style.display = "block";
     }
@@ -1310,9 +1585,186 @@ window.submitAuth = async function() {
 window.logout = async function() {
     try {
         await signOut(auth);
+        window._isAdmin = false;
+        window._adminCache.clear();
         showToast("👋", "Você saiu da conta.");
     } catch (e) {
         console.error(e);
+    }
+};
+
+// Admin Panel
+window.openAdminPanel = async function() {
+    if (!window.currentUser || !window._isAdmin) {
+        showToast("🔒", "Acesso negado. Você não é administrador.");
+        return;
+    }
+    
+    document.getElementById("adminModal").classList.add("active");
+    await loadAdminData();
+};
+
+window.closeAdminPanel = function() {
+    document.getElementById("adminModal").classList.remove("active");
+};
+
+async function loadAdminData() {
+    try {
+        // Load stats
+        const usersSnapshot = await get(usersRef);
+        const profilesSnapshot = await get(profilesRef);
+        const adminsSnapshot = await get(adminsRef);
+        
+        const totalUsers = usersSnapshot.exists() ? Object.keys(usersSnapshot.val()).length : 0;
+        const totalProfiles = profilesSnapshot.exists() ? Object.keys(profilesSnapshot.val()).length : 0;
+        const totalAdmins = adminsSnapshot.exists() ? Object.keys(adminsSnapshot.val()).length : 0;
+        
+        document.getElementById("adminTotalUsers").textContent = totalUsers;
+        document.getElementById("adminTotalProfiles").textContent = totalProfiles;
+        document.getElementById("adminTotalAdmins").textContent = totalAdmins;
+        
+        // Load user list
+        const userList = document.getElementById("adminUserList");
+        
+        if (!usersSnapshot.exists()) {
+            userList.innerHTML = '<p style="color:var(--muted);text-align:center;padding:20px;">Nenhum usuário registrado.</p>';
+            return;
+        }
+        
+        const users = usersSnapshot.val();
+        let html = '';
+        
+        for (const [uid, userData] of Object.entries(users)) {
+            const isAdmin = await checkIfAdmin(uid);
+            const userProfiles = await getUserProfilesCount(uid);
+            
+            html += `
+                <div class="admin-user-item">
+                    <div class="admin-user-info">
+                        <div class="admin-user-email">${escapeHTML(userData.email || 'Sem email')}</div>
+                        <div class="admin-user-role">
+                            ${isAdmin ? '👑 Administrador' : '👤 Usuário'} 
+                            • ${userProfiles} perfil(is)
+                        </div>
+                    </div>
+                    <div style="display:flex;gap:6px;">
+                        ${!isAdmin ? `
+                            <button class="btn btn-success btn-sm" onclick="makeAdmin('${uid}')">Tornar Admin</button>
+                        ` : `
+                            <button class="btn btn-outline btn-sm" onclick="removeAdmin('${uid}')">Remover Admin</button>
+                        `}
+                        <button class="btn btn-danger btn-sm" onclick="deleteUser('${uid}')">Excluir</button>
+                    </div>
+                </div>
+            `;
+        }
+        
+        userList.innerHTML = html;
+    } catch (error) {
+        console.error("Erro ao carregar dados admin:", error);
+        showToast("❌", "Erro ao carregar painel admin.");
+    }
+}
+
+async function checkIfAdmin(uid) {
+    if (window._adminCache.has(uid)) return true;
+    
+    const adminSnapshot = await get(ref(db, `admins/${uid}`));
+    if (adminSnapshot.exists() && adminSnapshot.val() === true) {
+        window._adminCache.add(uid);
+        return true;
+    }
+    
+    return false;
+}
+
+async function getUserProfilesCount(uid) {
+    try {
+        const snapshot = await get(profilesRef);
+        if (!snapshot.exists()) return 0;
+        
+        const profiles = snapshot.val();
+        let count = 0;
+        
+        for (const [id, profile] of Object.entries(profiles)) {
+            if (profile.ownerId === uid) {
+                count++;
+            }
+        }
+        
+        return count;
+    } catch (error) {
+        console.error("Erro ao contar perfis:", error);
+        return 0;
+    }
+}
+
+window.makeAdmin = async function(uid) {
+    try {
+        await set(ref(db, `admins/${uid}`), true);
+        await update(ref(db, `users/${uid}`), { isAdmin: true });
+        window._adminCache.add(uid);
+        showToast("✅", "Usuário promovido a administrador!");
+        await loadAdminData();
+    } catch (error) {
+        console.error(error);
+        showToast("❌", "Erro ao promover usuário.");
+    }
+};
+
+window.removeAdmin = async function(uid) {
+    if (uid === window.currentUser.uid) {
+        showToast("⚠️", "Você não pode remover seu próprio status de admin.");
+        return;
+    }
+    
+    try {
+        await remove(ref(db, `admins/${uid}`));
+        await update(ref(db, `users/${uid}`), { isAdmin: false });
+        window._adminCache.delete(uid);
+        showToast("✅", "Status de admin removido.");
+        await loadAdminData();
+    } catch (error) {
+        console.error(error);
+        showToast("❌", "Erro ao remover admin.");
+    }
+};
+
+window.deleteUser = async function(uid) {
+    if (uid === window.currentUser.uid) {
+        showToast("⚠️", "Você não pode excluir sua própria conta.");
+        return;
+    }
+    
+    if (!confirm("Tem certeza que deseja excluir este usuário? Todos os perfis dele serão excluídos.")) {
+        return;
+    }
+    
+    try {
+        // Delete user from users node
+        await remove(ref(db, `users/${uid}`));
+        
+        // Delete from admins if exists
+        await remove(ref(db, `admins/${uid}`));
+        
+        // Delete all profiles owned by this user
+        const profilesSnapshot = await get(profilesRef);
+        if (profilesSnapshot.exists()) {
+            const profiles = profilesSnapshot.val();
+            for (const [id, profile] of Object.entries(profiles)) {
+                if (profile.ownerId === uid) {
+                    await remove(ref(db, `profiles/${id}`));
+                }
+            }
+        }
+        
+        window._adminCache.delete(uid);
+        showToast("🗑️", "Usuário e perfis excluídos.");
+        await loadAdminData();
+        await loadProfiles();
+    } catch (error) {
+        console.error(error);
+        showToast("❌", "Erro ao excluir usuário.");
     }
 };
 
@@ -1331,9 +1783,6 @@ window.openCreator = function(data = null) {
 
     document.getElementById("modalTitle").textContent = isEditing ? "✏️ Editar Perfil Ultra" : "✨ Criar Perfil Ultra";
     document.getElementById("modalSub").textContent = isEditing ? "Atualize todas as opções do seu perfil." : "Mais de 50 opções de personalização.";
-
-    // Reset pending deletions
-    window._pendingDeletions = { gallery: [], files: [], music: [] };
 
     const fields = {
         editName: "name",
@@ -1420,7 +1869,7 @@ window.openCreator = function(data = null) {
 
     // Set editing state
     window._editingId = data?.id || null;
-    window._editingData = data || null;
+    window._editingData = data ? { ...data } : null;
 
     // Bio counter
     document.getElementById("bioCount").textContent = data?.bio?.length || 0;
@@ -1428,13 +1877,9 @@ window.openCreator = function(data = null) {
     // Username preview
     document.getElementById("usernamePreview").textContent = data?.username || "usuario";
 
-    // Music list with delete buttons
+    // Update lists
     updateMusicList(data);
-
-    // Gallery preview with delete buttons
     updateGalleryPreview(data);
-
-    // Files list with delete buttons
     updateFilesList(data);
 
     // Links
@@ -1513,21 +1958,18 @@ function updateFilesList(data) {
 window.removeMusicItem = function(index) {
     if (!window._editingData?.music) return;
     window._editingData.music.splice(index, 1);
-    window._pendingDeletions.music.push(index);
     updateMusicList(window._editingData);
 };
 
 window.removeGalleryItem = function(index) {
     if (!window._editingData?.gallery) return;
     window._editingData.gallery.splice(index, 1);
-    window._pendingDeletions.gallery.push(index);
     updateGalleryPreview(window._editingData);
 };
 
 window.removeFileItem = function(index) {
     if (!window._editingData?.files) return;
     window._editingData.files.splice(index, 1);
-    window._pendingDeletions.files.push(index);
     updateFilesList(window._editingData);
 };
 
@@ -1535,7 +1977,6 @@ window.closeCreator = function() {
     document.getElementById("creatorModal").classList.remove("active");
     window._editingId = null;
     window._editingData = null;
-    window._pendingDeletions = { gallery: [], files: [], music: [] };
 };
 
 // Save Profile
@@ -1723,9 +2164,9 @@ window.saveProfile = async function() {
 
         // Save to Firebase
         if (window._editingId) {
-            // Check ownership
-            if (old.ownerId && old.ownerId !== window.currentUser.uid) {
-                showToast("❌", "Você não é o dono desse perfil.");
+            // Check ownership (admin can edit any profile)
+            if (old.ownerId !== window.currentUser.uid && !window._isAdmin) {
+                showToast("❌", "Você não tem permissão para editar este perfil.");
                 return;
             }
             await set(ref(db, `profiles/${window._editingId}`), profileData);
@@ -1756,8 +2197,9 @@ window.deleteProfile = async function(id) {
     const profile = window._profilesData.find(p => p.id === id);
     if (!profile) return;
 
-    if (profile.ownerId !== window.currentUser.uid) {
-        showToast("❌", "Você não é o dono desse perfil.");
+    // Admin can delete any profile
+    if (profile.ownerId !== window.currentUser.uid && !window._isAdmin) {
+        showToast("❌", "Você não tem permissão para excluir este perfil.");
         return;
     }
 
@@ -1839,7 +2281,7 @@ function galleryHTML(gallery) {
         return `<span class="viewer-empty">Nenhuma imagem na galeria.</span>`;
     }
     return gallery.map(img => `
-        <img src="${escapeHTML(img)}" alt="Imagem" loading="lazy">
+        <img src="${escapeHTML(img)}" alt="Imagem" loading="lazy" onclick="window.open('${escapeHTML(img)}', '_blank')">
     `).join("");
 }
 
@@ -1871,18 +2313,22 @@ window.openProfile = async function(id) {
     document.getElementById("profileViewerModal").classList.add("active");
     renderProfileViewer(profile);
 
-    // Register view
-    try {
-        const statsRef = ref(db, `profiles/${id}/stats/views`);
-        const result = await runTransaction(statsRef, current => Number(current || 0) + 1);
-        if (result.committed) {
-            profile.stats = profile.stats || {};
-            profile.stats.views = result.snapshot.val();
-            renderProfileViewer(profile);
-            loadProfiles();
+    // Register view (only once per session)
+    const viewedKey = `viewed_${id}`;
+    if (!sessionStorage.getItem(viewedKey)) {
+        try {
+            const statsRef = ref(db, `profiles/${id}/stats/views`);
+            const result = await runTransaction(statsRef, current => Number(current || 0) + 1);
+            if (result.committed) {
+                profile.stats = profile.stats || {};
+                profile.stats.views = result.snapshot.val();
+                renderProfileViewer(profile);
+                sessionStorage.setItem(viewedKey, 'true');
+                loadProfiles();
+            }
+        } catch (error) {
+            console.error("Erro ao registrar visualização:", error);
         }
-    } catch (error) {
-        console.error("Erro ao registrar visualização:", error);
     }
 };
 
@@ -1894,6 +2340,7 @@ function renderProfileViewer(profile) {
     const liked = hasUserAction(profile, "likes");
     const following = hasUserAction(profile, "followers");
     const isOwner = !!(window.currentUser && profile.ownerId === window.currentUser.uid);
+    const canEdit = isOwner || window._isAdmin;
 
     const bannerStyle = profile.banner
         ? `background-image: url("${escapeHTML(profile.banner)}");`
@@ -1918,15 +2365,15 @@ function renderProfileViewer(profile) {
 
             <div class="viewer-stats">
                 <div class="viewer-stat">
-                    <strong id="viewerViews">${formatNumber(stats.views)}</strong>
+                    <strong>${formatNumber(stats.views)}</strong>
                     <span>Visualizações</span>
                 </div>
                 <div class="viewer-stat">
-                    <strong id="viewerLikes">${formatNumber(likes)}</strong>
+                    <strong>${formatNumber(likes)}</strong>
                     <span>Curtidas</span>
                 </div>
                 <div class="viewer-stat">
-                    <strong id="viewerFollowers">${formatNumber(followers)}</strong>
+                    <strong>${formatNumber(followers)}</strong>
                     <span>Seguidores</span>
                 </div>
                 <div class="viewer-stat">
@@ -1935,15 +2382,16 @@ function renderProfileViewer(profile) {
                 </div>
             </div>
 
-            ${isOwner ? `
+            ${canEdit ? `
                 <div class="owner-tools">
                     <button class="btn btn-primary" onclick="editViewedProfile()">✏️ Editar perfil</button>
                     <button class="btn btn-danger" onclick="deleteProfile('${escapeHTML(profile.id)}')">🗑️ Excluir</button>
+                    ${window._isAdmin && !isOwner ? '<span style="color:var(--warning);font-size:11px;">⚡ Editando como admin</span>' : ''}
                 </div>
             ` : `
                 <div class="viewer-actions">
-                    <button id="likeButton" class="btn ${liked ? "active" : ""}" onclick="toggleLike()">${liked ? "❤️ Curtido" : "🤍 Curtir"}</button>
-                    <button id="followButton" class="btn ${following ? "active" : ""}" onclick="toggleFollow()">${following ? "👤 Seguindo" : "➕ Seguir"}</button>
+                    <button class="btn ${liked ? "active" : ""}" onclick="toggleLike()">${liked ? "❤️ Curtido" : "🤍 Curtir"}</button>
+                    <button class="btn ${following ? "active" : ""}" onclick="toggleFollow()">${following ? "👤 Seguindo" : "➕ Seguir"}</button>
                 </div>
             `}
 
@@ -1988,13 +2436,14 @@ window.editViewedProfile = function() {
         return;
     }
 
-    if (profile.ownerId !== window.currentUser.uid) {
-        showToast("❌", "Você não é o dono desse perfil.");
+    // Allow owner or admin
+    if (profile.ownerId !== window.currentUser.uid && !window._isAdmin) {
+        showToast("❌", "Você não tem permissão para editar este perfil.");
         return;
     }
 
     closeProfileViewer();
-    window._editingData = profile;
+    window._editingData = { ...profile };
     openCreator(profile);
 };
 
@@ -2145,12 +2594,20 @@ async function loadProfiles() {
             const safeName = escapeHTML(p.name || "Perfil");
             const safeUsername = escapeHTML(p.username || "");
             const avatar = p.avatar || `https://placehold.co/200x200/14141e/ffffff?text=${encodeURIComponent((p.name || "?").charAt(0))}`;
+            const isOwner = window.currentUser && p.ownerId === window.currentUser.uid;
+            const canManage = isOwner || window._isAdmin;
 
             return `
-                <a href="?u=${encodeURIComponent(p.username || "")}" class="profile-card-link" 
+                <div class="profile-card-link" 
                    data-search="${escapeHTML(((p.name || "") + " " + (p.username || "")).toLowerCase())}"
-                   onclick="openProfile('${escapeHTML(p.id)}'); history.replaceState(null, '', '?u=${encodeURIComponent(p.username || '')}'); return false;">
+                   onclick="openProfile('${escapeHTML(p.id)}')">
                     <div class="profile-card-mini" style="${p.primary ? `border-color: ${escapeHTML(p.primary)}44;` : ""}">
+                        ${canManage ? `
+                            <div class="profile-actions">
+                                <button class="btn btn-primary btn-sm" onclick="event.stopPropagation(); editProfile('${escapeHTML(p.id)}')">✏️</button>
+                                <button class="btn btn-danger btn-sm" onclick="event.stopPropagation(); deleteProfile('${escapeHTML(p.id)}')">🗑️</button>
+                            </div>
+                        ` : ''}
                         <img class="avatar-mini" src="${escapeHTML(avatar)}" alt="">
                         <div class="name" style="${p.primary ? `color: ${escapeHTML(p.primary)};` : ""}">${safeName}</div>
                         <div class="username">@${safeUsername}</div>
@@ -2167,7 +2624,7 @@ async function loadProfiles() {
                         </div>
                         <div class="badge-mini">✨ perfil.me/?u=${safeUsername}</div>
                     </div>
-                </a>
+                </div>
             `;
         }).join("");
 
@@ -2192,6 +2649,26 @@ async function loadProfiles() {
     }
 }
 
+// Edit profile from card
+window.editProfile = function(id) {
+    const profile = window._profilesData.find(p => p.id === id);
+    if (!profile) return;
+    
+    if (!window.currentUser) {
+        showToast("🔐", "Faça login.");
+        openAuth();
+        return;
+    }
+    
+    if (profile.ownerId !== window.currentUser.uid && !window._isAdmin) {
+        showToast("❌", "Você não tem permissão para editar este perfil.");
+        return;
+    }
+    
+    window._editingData = { ...profile };
+    openCreator(profile);
+};
+
 // Update Range Labels
 function updateRangeLabels() {
     const opacity = document.getElementById("editOpacity");
@@ -2199,26 +2676,26 @@ function updateRangeLabels() {
     const radius = document.getElementById("editRadius");
     const padding = document.getElementById("editPadding");
 
-    document.getElementById("opacityValue").textContent = opacity.value;
-    document.getElementById("blurValue").textContent = blur.value + "px";
-    document.getElementById("radiusValue").textContent = radius.value + "px";
-    document.getElementById("paddingValue").textContent = padding.value + "px";
+    if (opacity) document.getElementById("opacityValue").textContent = opacity.value;
+    if (blur) document.getElementById("blurValue").textContent = blur.value + "px";
+    if (radius) document.getElementById("radiusValue").textContent = radius.value + "px";
+    if (padding) document.getElementById("paddingValue").textContent = padding.value + "px";
 }
 
 // Event Listeners
-document.getElementById("editUsername").addEventListener("input", function() {
+document.getElementById("editUsername")?.addEventListener("input", function() {
     this.value = this.value.toLowerCase().replace(/[^a-z0-9_]/g, "");
     document.getElementById("usernamePreview").textContent = this.value || "usuario";
 });
 
-document.getElementById("editBio").addEventListener("input", function() {
+document.getElementById("editBio")?.addEventListener("input", function() {
     document.getElementById("bioCount").textContent = this.value.length;
 });
 
-document.getElementById("editOpacity").addEventListener("input", updateRangeLabels);
-document.getElementById("editBlur").addEventListener("input", updateRangeLabels);
-document.getElementById("editRadius").addEventListener("input", updateRangeLabels);
-document.getElementById("editPadding").addEventListener("input", updateRangeLabels);
+document.getElementById("editOpacity")?.addEventListener("input", updateRangeLabels);
+document.getElementById("editBlur")?.addEventListener("input", updateRangeLabels);
+document.getElementById("editRadius")?.addEventListener("input", updateRangeLabels);
+document.getElementById("editPadding")?.addEventListener("input", updateRangeLabels);
 
 // ESC key
 document.addEventListener("keydown", e => {
@@ -2226,27 +2703,33 @@ document.addEventListener("keydown", e => {
         closeCreator();
         closeProfileViewer();
         closeAuth();
+        closeAdminPanel();
     }
 });
 
 // Click outside to close
-document.getElementById("profileViewerModal").addEventListener("click", function(e) {
+document.getElementById("profileViewerModal")?.addEventListener("click", function(e) {
     if (e.target === this) closeProfileViewer();
 });
 
-document.getElementById("creatorModal").addEventListener("click", function(e) {
+document.getElementById("creatorModal")?.addEventListener("click", function(e) {
     if (e.target === this) closeCreator();
 });
 
-document.getElementById("authModal").addEventListener("click", function(e) {
+document.getElementById("authModal")?.addEventListener("click", function(e) {
     if (e.target === this) closeAuth();
+});
+
+document.getElementById("adminModal")?.addEventListener("click", function(e) {
+    if (e.target === this) closeAdminPanel();
 });
 
 // Initialize
 console.log("🚀 Perfil.me Ultra iniciado.");
 console.log("🔐 Firebase Authentication ativo.");
+console.log("👑 Sistema de admin ativo.");
 console.log("✏️ Edição protegida por ownerId.");
-console.log("✨ Sistema de remoção de itens adicionado.");
+console.log("🛡️ Admin pode gerenciar todos os perfis.");
 </script>
 
 </body>
