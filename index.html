@@ -4,815 +4,1729 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Perfil.me</title>
+<title>Perfil.me - Criador Ultra</title>
 
 <style>
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-:root{
-    --primary:#8b5cf6;
-    --secondary:#06b6d4;
-    --bg:#08080d;
-    --card:#14141d;
-    --card2:#1a1a25;
-    --text:#fff;
-    --muted:#a1a1aa;
-    --border:rgba(255,255,255,.08);
-    --radius:20px;
-    --font:'Segoe UI',system-ui,sans-serif;
+:root {
+    --primary: #8b5cf6;
+    --secondary: #06b6d4;
+    --bg: #0a0a0f;
+    --card: #14141e;
+    --text: #ffffff;
+    --muted: #a1a1aa;
+    --radius: 20px;
+    --font: 'Segoe UI', system-ui, sans-serif;
 }
 
-html{
-    scroll-behavior:smooth;
+html {
+    scroll-behavior: smooth;
 }
 
-body{
-    min-height:100vh;
-    background:var(--bg);
-    color:var(--text);
-    font-family:var(--font);
-    overflow-x:hidden;
+body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
 }
 
 button,
 input,
 textarea,
-select{
-    font-family:inherit;
+select {
+    font-family: inherit;
 }
 
-button{
-    cursor:pointer;
+button {
+    user-select: none;
 }
 
-.bg{
-    position:fixed;
-    inset:0;
-    z-index:-10;
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes float {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes pulse {
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: .5;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.bg-animated {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
     background:
-        radial-gradient(circle at 20% 10%,rgba(139,92,246,.12),transparent 30%),
-        radial-gradient(circle at 80% 80%,rgba(6,182,212,.08),transparent 30%),
-        #08080d;
+        linear-gradient(
+            -45deg,
+            #0a0a0f,
+            #1a1035,
+            #0f1a2e,
+            #0a0a0f
+        );
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
 }
 
-.bg::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    background-image:
-        linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
-    background-size:40px 40px;
-    mask-image:linear-gradient(to bottom,black,transparent);
+.bg-animated::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(
+            circle at 50% 50%,
+            rgba(139, 92, 246, .08),
+            transparent 70%
+        );
 }
 
 /* =========================================================
    TOPBAR
 ========================================================= */
 
-.topbar{
-    position:sticky;
-    top:0;
-    z-index:500;
-    padding:14px 20px;
-    background:rgba(8,8,13,.78);
-    border-bottom:1px solid rgba(255,255,255,.06);
-    backdrop-filter:blur(20px);
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10, 10, 15, .85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, .05);
+    padding: 12px 20px;
 }
 
-.topbar-inner{
-    max-width:1200px;
-    margin:auto;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:15px;
+.topbar-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
 }
 
-.logo{
-    font-size:22px;
-    font-weight:900;
-    letter-spacing:-1px;
-    background:linear-gradient(135deg,var(--primary),var(--secondary));
-    -webkit-background-clip:text;
-    background-clip:text;
-    color:transparent;
+.logo {
+    font-size: 22px;
+    font-weight: 800;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--secondary)
+        );
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
-.logo span{
-    color:var(--muted);
-    -webkit-text-fill-color:var(--muted);
-    font-weight:400;
+.logo span {
+    font-weight: 300;
+    -webkit-text-fill-color: var(--muted);
 }
 
-.nav{
-    display:flex;
-    gap:8px;
-    align-items:center;
-}
-
-.btn{
-    border:1px solid var(--border);
-    background:rgba(255,255,255,.05);
-    color:#fff;
-    padding:10px 17px;
-    border-radius:11px;
-    font-size:13px;
-    transition:.25s;
-}
-
-.btn:hover{
-    transform:translateY(-2px);
-    border-color:var(--primary);
-    background:rgba(139,92,246,.14);
-}
-
-.btn-primary{
-    border:0;
-    background:linear-gradient(135deg,var(--primary),#6d28d9);
-    font-weight:700;
-}
-
-.btn-danger{
-    border-color:#ef4444;
-    color:#fca5a5;
-    background:rgba(239,68,68,.1);
+.nav-links {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 /* =========================================================
-   HOME
+   BUTTONS
 ========================================================= */
 
-.home{
-    max-width:1100px;
-    margin:auto;
-    padding:90px 20px 70px;
-    text-align:center;
+.btn {
+    padding: 8px 18px;
+
+    border-radius: 10px;
+
+    border: 1px solid rgba(255, 255, 255, .1);
+
+    background: rgba(255, 255, 255, .05);
+
+    color: white;
+
+    cursor: pointer;
+
+    font-size: 13px;
+
+    transition:
+        all .3s ease;
+
+    text-decoration: none;
+
+    font-family: var(--font);
 }
 
-.home h1{
-    font-size:clamp(38px,7vw,72px);
-    line-height:1;
-    font-weight:900;
-    letter-spacing:-3px;
-    background:linear-gradient(135deg,#fff 20%,var(--primary),var(--secondary));
-    -webkit-background-clip:text;
-    background-clip:text;
-    color:transparent;
+.btn:hover {
+    background: rgba(139, 92, 246, .2);
+
+    border-color: var(--primary);
+
+    transform: translateY(-2px);
 }
 
-.home p{
-    max-width:650px;
-    margin:22px auto 0;
-    color:var(--muted);
-    font-size:17px;
-    line-height:1.7;
+.btn:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+    transform: none;
 }
 
-.home-actions{
-    display:flex;
-    justify-content:center;
-    gap:10px;
-    margin-top:30px;
-    flex-wrap:wrap;
+.btn-primary {
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            #7c3aed
+        );
+
+    border: none;
+
+    font-weight: 600;
 }
 
-.home-actions .btn{
-    padding:13px 24px;
+.btn-primary:hover {
+    background:
+        linear-gradient(
+            135deg,
+            #7c3aed,
+            var(--primary)
+        );
+
+    box-shadow:
+        0 0 30px
+        rgba(139, 92, 246, .3);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, .15);
+}
+
+.btn-danger {
+    background: rgba(239, 68, 68, .2);
+    border-color: #ef4444;
+    color: #fca5a5;
+}
+
+.btn-danger:hover {
+    background: rgba(239, 68, 68, .3);
+}
+
+/* =========================================================
+   USER BAR
+========================================================= */
+
+#userArea {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.user-email {
+    color: var(--muted);
+    font-size: 12px;
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+    text-align: center;
+
+    padding:
+        60px 20px 40px;
+
+    max-width: 700px;
+
+    margin: 0 auto;
+}
+
+.hero h1 {
+    font-size: 48px;
+
+    font-weight: 800;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff 30%,
+            var(--primary),
+            var(--secondary)
+        );
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero p {
+    color: var(--muted);
+
+    font-size: 18px;
+
+    margin-top: 16px;
+
+    line-height: 1.6;
+}
+
+.hero .btn {
+    margin-top: 24px;
+
+    padding:
+        14px 40px;
+
+    font-size: 16px;
 }
 
 /* =========================================================
    SEARCH
 ========================================================= */
 
-.search{
-    max-width:700px;
-    margin:0 auto 60px;
-    padding:0 20px;
+.search-section {
+    max-width: 700px;
+
+    margin:
+        0 auto 40px;
+
+    padding:
+        0 20px;
 }
 
-.search-box{
-    display:flex;
-    gap:8px;
-    padding:6px;
-    border:1px solid var(--border);
-    background:rgba(255,255,255,.04);
-    border-radius:15px;
-}
+.search-box {
+    display: flex;
 
-.search-box input{
-    flex:1;
-    border:0;
-    outline:0;
-    background:transparent;
-    color:#fff;
-    padding:13px 15px;
-    font-size:14px;
-}
+    gap: 10px;
 
-.search-box input::placeholder{
-    color:#71717a;
-}
-
-/* =========================================================
-   PROFILES GRID
-========================================================= */
-
-.grid{
-    max-width:1200px;
-    margin:auto;
-    padding:0 20px 80px;
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
-    gap:20px;
-}
-
-.profile-card{
-    position:relative;
-    padding:22px;
-    border-radius:20px;
-    border:1px solid var(--border);
-    background:linear-gradient(
-        145deg,
-        rgba(255,255,255,.055),
-        rgba(255,255,255,.02)
-    );
-    overflow:hidden;
-    cursor:pointer;
-    transition:.3s;
-}
-
-.profile-card:hover{
-    transform:translateY(-7px);
-    border-color:rgba(139,92,246,.5);
-    box-shadow:0 25px 70px rgba(0,0,0,.35);
-}
-
-.card-avatar{
-    width:65px;
-    height:65px;
-    border-radius:50%;
-    object-fit:cover;
-    border:2px solid rgba(255,255,255,.1);
-}
-
-.card-name{
-    font-size:19px;
-    font-weight:800;
-    margin-top:12px;
-}
-
-.card-username{
-    color:var(--muted);
-    font-size:13px;
-}
-
-.card-bio{
-    color:#a1a1aa;
-    font-size:13px;
-    margin-top:9px;
-    line-height:1.5;
-}
-
-.card-stats{
-    display:flex;
-    gap:7px;
-    margin-top:15px;
-    flex-wrap:wrap;
-}
-
-.card-stat{
-    padding:5px 9px;
-    border-radius:8px;
-    background:rgba(255,255,255,.05);
-    color:var(--muted);
-    font-size:10px;
-}
-
-.empty{
-    grid-column:1/-1;
-    text-align:center;
-    padding:80px 20px;
-    color:var(--muted);
-}
-
-/* =========================================================
-   PROFILE PAGE
-========================================================= */
-
-.profile-page{
-    display:none;
-    min-height:calc(100vh - 70px);
-    padding:35px 15px 80px;
-}
-
-.profile-container{
-    width:100%;
-    max-width:850px;
-    margin:auto;
-    border:1px solid var(--border);
-    background:rgba(14,14,22,.88);
-    border-radius:26px;
-    overflow:hidden;
-    box-shadow:0 30px 100px rgba(0,0,0,.45);
-}
-
-.profile-banner{
-    height:260px;
     background:
-        linear-gradient(135deg,var(--primary),var(--secondary));
-    background-position:center;
-    background-size:cover;
-    position:relative;
+        rgba(255, 255, 255, .05);
+
+    border:
+        1px solid rgba(255, 255, 255, .08);
+
+    border-radius: 16px;
+
+    padding: 6px;
 }
 
-.profile-banner::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:linear-gradient(
-        to bottom,
-        transparent 25%,
-        rgba(0,0,0,.6)
-    );
+.search-box input {
+    flex: 1;
+
+    padding:
+        14px 18px;
+
+    background: transparent;
+
+    border: none;
+
+    color: white;
+
+    font-size: 15px;
+
+    outline: none;
+
+    font-family: var(--font);
 }
 
-.profile-content{
-    padding:0 35px 35px;
+.search-box input::placeholder {
+    color: var(--muted);
 }
 
-.profile-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-end;
-    gap:20px;
+.search-box .btn {
+    border-radius: 12px;
+
+    padding:
+        12px 28px;
 }
 
-.profile-avatar{
-    width:125px;
-    height:125px;
-    border-radius:50%;
-    object-fit:cover;
-    border:5px solid #14141d;
-    margin-top:-62px;
-    position:relative;
-    z-index:2;
-    background:#14141d;
+/* =========================================================
+   PROFILES
+========================================================= */
+
+.profiles-grid {
+    max-width: 1200px;
+
+    margin: 0 auto;
+
+    padding:
+        0 20px 60px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fill,
+            minmax(300px, 1fr)
+        );
+
+    gap: 24px;
 }
 
-.profile-name{
-    margin-top:10px;
-    font-size:34px;
-    font-weight:900;
-    letter-spacing:-1px;
+.profile-card-link {
+    text-decoration: none;
+
+    color: inherit;
+
+    animation:
+        slideUp .5s ease;
 }
 
-.profile-username{
-    color:var(--muted);
-    margin-top:3px;
+.profile-card-mini {
+    background: var(--card);
+
+    border-radius: var(--radius);
+
+    padding: 24px;
+
+    border:
+        1px solid rgba(255, 255, 255, .06);
+
+    transition:
+        all .4s
+        cubic-bezier(.34, 1.56, .64, 1);
+
+    cursor: pointer;
+
+    position: relative;
+
+    overflow: hidden;
 }
 
-.profile-bio{
-    margin-top:18px;
-    color:#d4d4d8;
-    line-height:1.7;
-    white-space:pre-wrap;
+.profile-card-mini::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(139, 92, 246, .05),
+            rgba(6, 182, 212, .05)
+        );
+
+    opacity: 0;
+
+    transition:
+        opacity .4s ease;
 }
 
-.profile-location{
-    color:var(--muted);
-    font-size:13px;
-    margin-top:12px;
+.profile-card-mini:hover {
+    transform:
+        translateY(-8px)
+        scale(1.02);
+
+    border-color:
+        var(--primary);
+
+    box-shadow:
+        0 20px 60px
+        rgba(139, 92, 246, .15);
 }
 
-.profile-stats{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:10px;
-    margin-top:25px;
+.profile-card-mini:hover::before {
+    opacity: 1;
 }
 
-.stat{
-    padding:15px 8px;
-    text-align:center;
-    border:1px solid var(--border);
-    border-radius:14px;
-    background:rgba(255,255,255,.035);
+.profile-card-mini .avatar-mini {
+    width: 64px;
+    height: 64px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+    border:
+        2px solid
+        rgba(255, 255, 255, .1);
 }
 
-.stat strong{
-    display:block;
-    font-size:20px;
+.profile-card-mini .name {
+    font-size: 18px;
+
+    font-weight: 700;
+
+    margin-top: 12px;
 }
 
-.stat span{
-    color:var(--muted);
-    font-size:11px;
+.profile-card-mini .username {
+    color: var(--muted);
+
+    font-size: 13px;
 }
 
-.profile-actions{
-    display:flex;
-    gap:9px;
-    margin-top:20px;
-    flex-wrap:wrap;
+.profile-card-mini .bio-mini {
+    color: var(--muted);
+
+    font-size: 13px;
+
+    margin-top: 8px;
+
+    display: -webkit-box;
+
+    -webkit-line-clamp: 2;
+
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
 }
 
-.profile-actions .btn{
-    flex:1;
-    min-width:130px;
+.profile-card-mini .badge-mini {
+    display: inline-block;
+
+    padding:
+        4px 12px;
+
+    border-radius: 20px;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    background:
+        rgba(139, 92, 246, .15);
+
+    color:
+        var(--primary);
+
+    margin-top: 10px;
 }
 
-.active{
-    background:linear-gradient(135deg,var(--primary),#6d28d9)!important;
-    border-color:transparent!important;
+.profile-card-mini .link-icon {
+    position: absolute;
+
+    top: 16px;
+    right: 16px;
+
+    color: var(--muted);
+
+    font-size: 14px;
+
+    opacity: 0;
+
+    transition:
+        opacity .3s ease;
 }
 
-.section{
-    margin-top:32px;
+.profile-card-mini:hover .link-icon {
+    opacity: 1;
 }
 
-.section h3{
-    font-size:15px;
-    color:var(--primary);
-    margin-bottom:12px;
+.profile-card-mini .tags {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 4px;
+
+    margin-top: 8px;
 }
 
-.links{
-    display:flex;
-    gap:8px;
-    flex-wrap:wrap;
+.profile-card-mini .tag {
+    font-size: 9px;
+
+    padding:
+        2px 8px;
+
+    border-radius: 10px;
+
+    background:
+        rgba(255, 255, 255, .06);
+
+    color:
+        var(--muted);
 }
 
-.links a{
-    color:#fff;
-    text-decoration:none;
-    padding:9px 13px;
-    border-radius:10px;
-    border:1px solid var(--border);
-    background:rgba(255,255,255,.04);
-    font-size:12px;
+.empty-state {
+    text-align: center;
+
+    padding:
+        60px 20px;
+
+    color:
+        var(--muted);
+
+    grid-column:
+        1 / -1;
 }
 
-.gallery{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(130px,1fr));
-    gap:10px;
+.empty-state .emoji {
+    font-size: 64px;
+
+    display: block;
+
+    margin-bottom: 20px;
 }
 
-.gallery img{
-    width:100%;
-    aspect-ratio:1;
-    object-fit:cover;
-    border-radius:12px;
-}
+.empty-state h3 {
+    color: white;
 
-.music{
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-}
-
-.music-item{
-    padding:12px;
-    border:1px solid var(--border);
-    border-radius:12px;
-    background:rgba(255,255,255,.03);
-}
-
-.music-item audio{
-    width:100%;
-    margin-top:8px;
+    font-size: 22px;
 }
 
 /* =========================================================
    MODAL
 ========================================================= */
 
-.overlay{
-    position:fixed;
-    inset:0;
-    z-index:1000;
-    background:rgba(0,0,0,.78);
-    backdrop-filter:blur(18px);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:15px;
-    opacity:0;
-    pointer-events:none;
-    transition:.3s;
+.modal-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 1000;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    background:
+        rgba(0, 0, 0, .9);
+
+    backdrop-filter:
+        blur(20px);
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition:
+        opacity .4s ease;
 }
 
-.overlay.active{
-    opacity:1;
-    pointer-events:auto;
+.modal-overlay.active {
+    opacity: 1;
+
+    pointer-events: all;
 }
 
-.modal{
-    width:100%;
-    max-width:720px;
-    max-height:92vh;
-    overflow-y:auto;
-    background:#14141d;
-    border:1px solid var(--border);
-    border-radius:22px;
-    padding:28px;
-    position:relative;
+.modal {
+    background:
+        var(--card);
+
+    border-radius:
+        var(--radius);
+
+    padding:
+        32px;
+
+    max-width:
+        700px;
+
+    width: 100%;
+
+    max-height:
+        90vh;
+
+    overflow-y: auto;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, .06);
+
+    transform:
+        scale(.95);
+
+    transition:
+        transform .4s
+        cubic-bezier(.34, 1.56, .64, 1);
+
+    position: relative;
 }
 
-.modal::-webkit-scrollbar{
-    width:5px;
+.modal-overlay.active .modal {
+    transform:
+        scale(1);
 }
 
-.modal::-webkit-scrollbar-thumb{
-    background:var(--primary);
-    border-radius:10px;
+.modal::-webkit-scrollbar {
+    width: 4px;
 }
 
-.close{
-    position:absolute;
-    right:18px;
-    top:15px;
-    border:0;
-    background:transparent;
-    color:#a1a1aa;
-    font-size:25px;
+.modal::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.modal::-webkit-scrollbar-thumb {
+    background:
+        var(--primary);
+
+    border-radius: 10px;
+}
+
+.modal h2 {
+    font-size: 26px;
+
+    font-weight: 700;
+
+    margin-bottom: 4px;
+}
+
+.modal .sub {
+    color: var(--muted);
+
+    margin-bottom: 24px;
+
+    font-size: 14px;
+}
+
+.close-modal {
+    position: sticky;
+
+    float: right;
+
+    top: 0;
+
+    background: none;
+
+    border: none;
+
+    color: var(--muted);
+
+    font-size: 28px;
+
+    cursor: pointer;
+
+    z-index: 10;
+}
+
+.modal label {
+    display: block;
+
+    color: #d4d4d8;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    margin-top: 16px;
+
+    margin-bottom: 4px;
+}
+
+.modal label .hint {
+    color: var(--muted);
+
+    font-weight: 400;
+
+    font-size: 11px;
+}
+
+.modal input,
+.modal textarea,
+.modal select {
+    width: 100%;
+
+    padding:
+        12px 16px;
+
+    background:
+        #181820;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, .08);
+
+    border-radius:
+        10px;
+
+    color:
+        #fff;
+
+    font-size:
+        14px;
+
+    outline:
+        none;
+
+    transition:
+        border-color .3s ease;
+
+    font-family:
+        var(--font);
+
+    color-scheme:
+        dark;
+}
+
+/* CORREÇÃO DOS SELECTS */
+
+.modal select {
+    appearance: auto;
+
+    background-color:
+        #181820;
+
+    color:
+        #ffffff;
+
+    cursor:
+        pointer;
+}
+
+.modal select option {
+    background:
+        #181820;
+
+    color:
+        #ffffff;
+}
+
+.modal select option:checked {
+    background:
+        #6d28d9;
+
+    color:
+        #ffffff;
+}
+
+.modal input:focus,
+.modal textarea:focus,
+.modal select:focus {
+    border-color:
+        var(--primary);
+
+    box-shadow:
+        0 0 0 2px
+        rgba(139, 92, 246, .08);
+}
+
+.modal textarea {
+    min-height: 80px;
+
+    resize: vertical;
+}
+
+.modal input[type="file"] {
+    padding:
+        10px;
+
+    cursor:
+        pointer;
+}
+
+.modal input[type="file"]::file-selector-button {
+    padding:
+        6px 16px;
+
+    border-radius:
+        8px;
+
+    border:
+        none;
+
+    background:
+        rgba(139, 92, 246, .2);
+
+    color:
+        white;
+
+    cursor:
+        pointer;
+
+    font-size:
+        12px;
+
+    font-family:
+        var(--font);
+}
+
+.modal input[type="color"] {
+    height:
+        44px;
+
+    padding:
+        4px;
+
+    cursor:
+        pointer;
+}
+
+.modal input[type="range"] {
+    padding:
+        0;
+
+    height:
+        6px;
+
+    accent-color:
+        var(--primary);
+}
+
+.modal .row {
+    display:
+        grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:
+        12px;
+}
+
+.modal .row-3 {
+    display:
+        grid;
+
+    grid-template-columns:
+        1fr 1fr 1fr;
+
+    gap:
+        12px;
+}
+
+.section-title {
+    font-size:
+        16px;
+
+    font-weight:
+        700;
+
+    color:
+        var(--primary);
+
+    margin-top:
+        24px;
+
+    padding-bottom:
+        8px;
+
+    border-bottom:
+        1px solid
+        rgba(255, 255, 255, .06);
+}
+
+.actions {
+    display:
+        flex;
+
+    gap:
+        10px;
+
+    margin-top:
+        24px;
+
+    flex-wrap:
+        wrap;
+}
+
+.actions .btn {
+    flex:
+        1;
+
+    text-align:
+        center;
+
+    padding:
+        12px;
+
+    font-size:
+        14px;
+
+    min-width:
+        100px;
+}
+
+.checkbox-group {
+    display:
+        flex;
+
+    flex-wrap:
+        wrap;
+
+    gap:
+        10px;
+
+    margin-top:
+        6px;
+}
+
+.checkbox-group label {
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        6px;
+
+    font-weight:
+        400;
+
+    font-size:
+        13px;
+
+    cursor:
+        pointer;
+
+    margin:
+        0;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width:
+        18px;
+
+    height:
+        18px;
+
+    accent-color:
+        var(--primary);
+
+    cursor:
+        pointer;
+
+    margin:
+        0;
+}
+
+#saveStatus {
+    margin-top:
+        12px;
+
+    font-size:
+        13px;
+
+    color:
+        var(--muted);
 }
 
 /* =========================================================
-   FORMS
+   AUTH MODAL
 ========================================================= */
 
-.modal h2{
-    font-size:25px;
+.auth-modal {
+    max-width:
+        440px;
 }
 
-.sub{
-    color:var(--muted);
-    font-size:13px;
-    margin-top:5px;
+.auth-logo {
+    text-align:
+        center;
+
+    font-size:
+        32px;
+
+    font-weight:
+        800;
+
+    margin-bottom:
+        8px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--secondary)
+        );
+
+    -webkit-background-clip:
+        text;
+
+    -webkit-text-fill-color:
+        transparent;
 }
 
-.section-title{
-    color:var(--primary);
-    font-weight:800;
-    margin-top:25px;
-    padding-bottom:8px;
-    border-bottom:1px solid var(--border);
+.auth-tabs {
+    display:
+        flex;
+
+    gap:
+        6px;
+
+    padding:
+        5px;
+
+    background:
+        rgba(255,255,255,.04);
+
+    border-radius:
+        12px;
+
+    margin-bottom:
+        18px;
 }
 
-label{
-    display:block;
-    color:#d4d4d8;
-    font-size:12px;
-    font-weight:700;
-    margin-top:15px;
-    margin-bottom:6px;
+.auth-tab {
+    flex:
+        1;
+
+    padding:
+        10px;
+
+    border:
+        none;
+
+    border-radius:
+        8px;
+
+    background:
+        transparent;
+
+    color:
+        var(--muted);
+
+    cursor:
+        pointer;
+
+    font-weight:
+        600;
 }
 
-.hint{
-    color:#71717a;
-    font-weight:400;
+.auth-tab.active {
+    background:
+        rgba(139,92,246,.2);
+
+    color:
+        white;
 }
 
-input,
-textarea,
-select{
-    width:100%;
-    border:1px solid var(--border);
-    border-radius:10px;
-    outline:none;
-    background:#1b1b27;
-    color:#fff;
-    padding:12px 14px;
-    font-size:13px;
-}
+.auth-error {
+    margin-top:
+        12px;
 
-input:focus,
-textarea:focus,
-select:focus{
-    border-color:var(--primary);
-    box-shadow:0 0 0 2px rgba(139,92,246,.1);
-}
+    padding:
+        10px;
 
-textarea{
-    min-height:90px;
-    resize:vertical;
-}
+    border-radius:
+        10px;
 
-/*
-    CORREÇÃO DO SELECT:
-    O problema de ficar branco vem do estilo padrão
-    do navegador/sistema.
-*/
+    background:
+        rgba(239,68,68,.1);
 
-select{
-    color:#fff;
-    background-color:#1b1b27;
-    color-scheme:dark;
-    appearance:auto;
-}
+    border:
+        1px solid
+        rgba(239,68,68,.3);
 
-select option{
-    background:#181822;
-    color:#fff;
-}
+    color:
+        #fca5a5;
 
-select option:checked{
-    background:#6d28d9;
-    color:#fff;
-}
+    font-size:
+        13px;
 
-input[type="color"]{
-    height:44px;
-    padding:4px;
-    cursor:pointer;
-}
-
-input[type="range"]{
-    padding:0;
-    accent-color:var(--primary);
-}
-
-input[type="file"]{
-    cursor:pointer;
-}
-
-input[type="file"]::file-selector-button{
-    border:0;
-    border-radius:8px;
-    padding:7px 12px;
-    background:rgba(139,92,246,.2);
-    color:#fff;
-    margin-right:8px;
-    cursor:pointer;
-}
-
-.row{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
-}
-
-.checks{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-    margin-top:10px;
-}
-
-.check{
-    display:flex;
-    align-items:center;
-    gap:6px;
-    font-size:12px;
-    color:#d4d4d8;
-}
-
-.check input{
-    width:17px;
-    height:17px;
-    accent-color:var(--primary);
-}
-
-.actions{
-    display:flex;
-    gap:10px;
-    margin-top:25px;
-}
-
-.actions .btn{
-    flex:1;
+    display:
+        none;
 }
 
 /* =========================================================
-   LOGIN
+   PROFILE VIEWER
 ========================================================= */
 
-.login-box{
-    max-width:420px;
+.profile-viewer {
+    max-width:
+        760px;
+
+    padding:
+        0;
+
+    overflow:
+        hidden;
 }
 
-.login-tabs{
-    display:flex;
-    gap:5px;
-    margin:20px 0;
-    padding:4px;
-    background:rgba(255,255,255,.04);
-    border-radius:12px;
+.viewer-banner {
+    width:
+        100%;
+
+    height:
+        220px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--secondary)
+        );
+
+    background-size:
+        cover;
+
+    background-position:
+        center;
+
+    position:
+        relative;
 }
 
-.login-tabs button{
-    flex:1;
-    border:0;
-    background:transparent;
-    color:var(--muted);
-    padding:10px;
-    border-radius:8px;
+.viewer-banner::after {
+    content:
+        "";
+
+    position:
+        absolute;
+
+    inset:
+        0;
+
+    background:
+        linear-gradient(
+            to bottom,
+            transparent 35%,
+            rgba(0,0,0,.55)
+        );
 }
 
-.login-tabs button.active{
-    color:#fff;
+.viewer-content {
+    padding:
+        0 32px 32px;
+
+    position:
+        relative;
 }
 
-.login-error{
-    color:#f87171;
-    font-size:12px;
-    margin-top:12px;
+.viewer-avatar {
+    width:
+        120px;
+
+    height:
+        120px;
+
+    border-radius:
+        50%;
+
+    object-fit:
+        cover;
+
+    border:
+        5px solid
+        var(--card);
+
+    margin-top:
+        -60px;
+
+    position:
+        relative;
+
+    z-index:
+        2;
+
+    background:
+        #14141e;
+}
+
+.viewer-head {
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    gap:
+        20px;
+
+    align-items:
+        flex-end;
+}
+
+.viewer-name {
+    font-size:
+        32px;
+
+    font-weight:
+        800;
+
+    margin-top:
+        8px;
+}
+
+.viewer-username {
+    color:
+        var(--muted);
+
+    margin-top:
+        3px;
+}
+
+.viewer-bio {
+    color:
+        #d4d4d8;
+
+    line-height:
+        1.65;
+
+    margin-top:
+        18px;
+
+    white-space:
+        pre-wrap;
+}
+
+.viewer-location {
+    color:
+        var(--muted);
+
+    font-size:
+        13px;
+
+    margin-top:
+        12px;
+}
+
+.viewer-stats {
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:
+        10px;
+
+    margin-top:
+        24px;
+}
+
+.viewer-stat {
+    background:
+        rgba(255,255,255,.05);
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    border-radius:
+        14px;
+
+    padding:
+        14px 8px;
+
+    text-align:
+        center;
+}
+
+.viewer-stat strong {
+    display:
+        block;
+
+    font-size:
+        20px;
+}
+
+.viewer-stat span {
+    color:
+        var(--muted);
+
+    font-size:
+        11px;
+}
+
+.viewer-actions {
+    display:
+        flex;
+
+    gap:
+        10px;
+
+    flex-wrap:
+        wrap;
+
+    margin-top:
+        20px;
+}
+
+.viewer-actions .btn {
+    flex:
+        1;
+
+    min-width:
+        140px;
+}
+
+.viewer-actions .active {
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            #7c3aed
+        );
+
+    border-color:
+        transparent;
+}
+
+.viewer-section {
+    margin-top:
+        28px;
+}
+
+.viewer-section h3 {
+    font-size:
+        16px;
+
+    color:
+        var(--primary);
+
+    margin-bottom:
+        12px;
+}
+
+.viewer-links {
+    display:
+        flex;
+
+    flex-wrap:
+        wrap;
+
+    gap:
+        8px;
+}
+
+.viewer-links a {
+    text-decoration:
+        none;
+
+    color:
+        white;
+
+    background:
+        rgba(255,255,255,.06);
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+
+    padding:
+        8px 12px;
+
+    border-radius:
+        10px;
+
+    font-size:
+        13px;
+}
+
+.viewer-gallery {
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fill,
+            minmax(120px,1fr)
+        );
+
+    gap:
+        10px;
+}
+
+.viewer-gallery img {
+    width:
+        100%;
+
+    aspect-ratio:
+        1;
+
+    object-fit:
+        cover;
+
+    border-radius:
+        12px;
+}
+
+.viewer-music {
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    gap:
+        8px;
+}
+
+.viewer-music audio {
+    width:
+        100%;
+}
+
+.viewer-empty {
+    color:
+        var(--muted);
+
+    font-size:
+        13px;
+}
+
+.owner-tools {
+    display:
+        flex;
+
+    gap:
+        8px;
+
+    flex-wrap:
+        wrap;
+
+    margin-top:
+        14px;
+}
+
+.owner-badge {
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    gap:
+        5px;
+
+    font-size:
+        11px;
+
+    padding:
+        5px 10px;
+
+    border-radius:
+        20px;
+
+    background:
+        rgba(74,222,128,.1);
+
+    border:
+        1px solid
+        rgba(74,222,128,.25);
+
+    color:
+        #86efac;
 }
 
 /* =========================================================
    TOAST
 ========================================================= */
 
-.toast{
-    position:fixed;
-    bottom:25px;
-    left:50%;
-    transform:translate(-50%,100px);
-    opacity:0;
-    z-index:9999;
-    padding:13px 20px;
-    background:#181822;
-    border:1px solid var(--border);
-    border-radius:12px;
-    transition:.3s;
-    box-shadow:0 20px 60px rgba(0,0,0,.5);
+.toast {
+    position:
+        fixed;
+
+    bottom:
+        30px;
+
+    left:
+        50%;
+
+    transform:
+        translateX(-50%)
+        translateY(100px);
+
+    background:
+        var(--card);
+
+    padding:
+        14px 28px;
+
+    border-radius:
+        12px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+
+    box-shadow:
+        0 20px 60px
+        rgba(0,0,0,.5);
+
+    color:
+        white;
+
+    font-size:
+        14px;
+
+    opacity:
+        0;
+
+    transition:
+        all .5s
+        cubic-bezier(.34,1.56,.64,1);
+
+    z-index:
+        9999;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        12px;
 }
 
-.toast.show{
-    opacity:1;
-    transform:translate(-50%,0);
+.toast.show {
+    opacity:
+        1;
+
+    transform:
+        translateX(-50%)
+        translateY(0);
+}
+
+.toast.success {
+    border-color:
+        #4ade80;
+}
+
+.toast.error {
+    border-color:
+        #f87171;
 }
 
 /* =========================================================
    MOBILE
 ========================================================= */
 
-@media(max-width:650px){
+@media (max-width: 640px) {
 
-    .topbar{
-        padding:11px 12px;
+    .hero h1 {
+        font-size:
+            32px;
     }
 
-    .nav .btn{
-        padding:8px 11px;
+    .modal {
+        padding:
+            22px;
+
+        max-height:
+            94vh;
     }
 
-    .home{
-        padding-top:65px;
+    .modal .row,
+    .modal .row-3 {
+        grid-template-columns:
+            1fr;
     }
 
-    .home h1{
-        letter-spacing:-2px;
+    .search-box {
+        flex-direction:
+            column;
     }
 
-    .profile-banner{
-        height:170px;
+    .nav-links .btn span {
+        display:
+            none;
     }
 
-    .profile-content{
-        padding:0 18px 25px;
+    .profiles-grid {
+        grid-template-columns:
+            1fr;
     }
 
-    .profile-avatar{
-        width:95px;
-        height:95px;
-        margin-top:-48px;
+    .actions .btn {
+        flex:
+            1 1 100%;
     }
 
-    .profile-name{
-        font-size:26px;
+    .viewer-banner {
+        height:
+            150px;
     }
 
-    .profile-top{
-        align-items:flex-start;
-        flex-direction:column;
+    .viewer-content {
+        padding:
+            0 18px 24px;
     }
 
-    .profile-stats{
-        grid-template-columns:repeat(2,1fr);
+    .viewer-avatar {
+        width:
+            90px;
+
+        height:
+            90px;
+
+        margin-top:
+            -45px;
     }
 
-    .profile-actions .btn{
-        flex:1 1 100%;
+    .viewer-name {
+        font-size:
+            25px;
     }
 
-    .row{
-        grid-template-columns:1fr;
+    .viewer-head {
+        align-items:
+            flex-start;
+
+        flex-direction:
+            column;
     }
 
-    .modal{
-        padding:20px;
+    .viewer-stats {
+        grid-template-columns:
+            repeat(2,1fr);
     }
 
-    .grid{
-        grid-template-columns:1fr;
+    .viewer-actions .btn {
+        flex:
+            1 1 100%;
+    }
+
+    .user-email {
+        display:
+            none;
     }
 }
 
@@ -821,673 +1735,1076 @@ input[type="file"]::file-selector-button{
 
 <body>
 
-<div class="bg"></div>
+<div class="bg-animated"></div>
+
+<!-- =====================================================
+     TOP BAR
+===================================================== -->
 
 <header class="topbar">
+
     <div class="topbar-inner">
 
         <div class="logo">
             Perfil<span>.me</span>
         </div>
 
-        <div class="nav">
+        <div class="nav-links">
 
-            <button class="btn" onclick="goHome()">
+            <div id="userArea">
+
+                <button
+                    class="btn btn-outline"
+                    onclick="openAuth()"
+                    id="loginButton"
+                >
+                    🔐 Entrar
+                </button>
+
+            </div>
+
+            <button
+                class="btn btn-primary"
+                onclick="openCreator()"
+            >
+                ✨ Criar Perfil
+            </button>
+
+            <button
+                class="btn btn-outline"
+                onclick="document.querySelector('.hero').scrollIntoView({behavior:'smooth'})"
+            >
                 Início
             </button>
 
-            <button
-                id="loginButton"
-                class="btn btn-primary"
-                onclick="openLogin()">
-                Entrar
-            </button>
-
         </div>
 
     </div>
+
 </header>
 
-<!-- =========================================================
-     HOME
-========================================================= -->
+<!-- =====================================================
+     HERO
+===================================================== -->
 
-<main id="homePage">
+<section class="hero">
 
-    <section class="home">
+    <h1>
+        Perfil Ultra<br>
+        500% melhor
+    </h1>
 
-        <h1>
-            Seu perfil.<br>
-            Sua identidade.
-        </h1>
+    <p>
+        Crie seu perfil personalizado com dezenas
+        de opções de aparência, música, links,
+        galeria e efeitos.
+    </p>
 
-        <p>
-            Crie um perfil completamente personalizado,
-            coloque suas redes, músicas, imagens e transforme
-            seu username em uma página única.
-        </p>
-
-        <div class="home-actions">
-
-            <button
-                class="btn btn-primary"
-                onclick="requireLogin(openCreator)">
-                ✨ Criar meu perfil
-            </button>
-
-            <button
-                class="btn"
-                onclick="document.getElementById('search').focus()">
-                🔎 Explorar
-            </button>
-
-        </div>
-
-    </section>
-
-    <div class="search">
-
-        <div class="search-box">
-
-            <input
-                id="search"
-                placeholder="🔎 Procurar username ou nome..."
-                oninput="filterProfiles()">
-
-            <button
-                class="btn btn-primary"
-                onclick="filterProfiles()">
-                Buscar
-            </button>
-
-        </div>
-
-    </div>
-
-    <div id="profilesGrid" class="grid"></div>
-
-</main>
-
-<!-- =========================================================
-     PROFILE PAGE
-========================================================= -->
-
-<section id="profilePage" class="profile-page">
-
-    <div id="profileContainer" class="profile-container"></div>
+    <button
+        class="btn btn-primary"
+        onclick="openCreator()"
+    >
+        🚀 Criar Meu Perfil
+    </button>
 
 </section>
 
-<!-- =========================================================
-     LOGIN
-========================================================= -->
+<!-- =====================================================
+     SEARCH
+===================================================== -->
 
-<div id="loginModal" class="overlay">
+<div class="search-section">
 
-    <div class="modal login-box">
+    <div class="search-box">
 
-        <button class="close" onclick="closeLogin()">×</button>
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="🔍 Buscar perfis..."
+            oninput="filterProfiles()"
+        >
 
-        <h2>🔐 Entrar</h2>
+        <button
+            class="btn btn-primary"
+            onclick="openCreator()"
+        >
+            + Novo
+        </button>
 
-        <p class="sub">
-            Entre para criar e gerenciar seu perfil.
+    </div>
+
+</div>
+
+<!-- =====================================================
+     PROFILES
+===================================================== -->
+
+<div
+    id="profilesGrid"
+    class="profiles-grid"
+></div>
+
+<!-- =====================================================
+     AUTH MODAL
+===================================================== -->
+
+<div
+    id="authModal"
+    class="modal-overlay"
+>
+
+    <div class="modal auth-modal">
+
+        <button
+            class="close-modal"
+            onclick="closeAuth()"
+        >
+            ✕
+        </button>
+
+        <div class="auth-logo">
+            Perfil.me
+        </div>
+
+        <p
+            class="sub"
+            style="text-align:center"
+        >
+            Entre para criar e editar seus perfis.
         </p>
 
-        <div class="login-tabs">
+        <div class="auth-tabs">
 
             <button
-                id="tabLogin"
-                class="active"
-                onclick="setLoginMode('login')">
+                class="auth-tab active"
+                id="loginTab"
+                onclick="switchAuth('login')"
+            >
                 Entrar
             </button>
 
             <button
-                id="tabRegister"
-                onclick="setLoginMode('register')">
+                class="auth-tab"
+                id="registerTab"
+                onclick="switchAuth('register')"
+            >
                 Criar conta
             </button>
 
         </div>
 
-        <label>Email</label>
+        <label>
+            E-mail
+        </label>
 
         <input
             id="authEmail"
             type="email"
-            placeholder="seu@email.com">
+            placeholder="seu@email.com"
+            autocomplete="email"
+        >
 
-        <label>Senha</label>
+        <label>
+            Senha
+        </label>
 
         <input
             id="authPassword"
             type="password"
-            placeholder="••••••••">
+            placeholder="Sua senha"
+            autocomplete="current-password"
+        >
+
+        <div
+            id="authError"
+            class="auth-error"
+        ></div>
 
         <div class="actions">
 
             <button
                 id="authSubmit"
                 class="btn btn-primary"
-                onclick="submitAuth()">
-                Entrar
+                onclick="submitAuth()"
+            >
+                🔐 Entrar
+            </button>
+
+            <button
+                class="btn btn-outline"
+                onclick="closeAuth()"
+            >
+                Cancelar
             </button>
 
         </div>
-
-        <div id="authError" class="login-error"></div>
 
     </div>
 
 </div>
 
-<!-- =========================================================
+<!-- =====================================================
+     PROFILE VIEWER
+===================================================== -->
+
+<div
+    id="profileViewerModal"
+    class="modal-overlay"
+>
+
+    <div class="modal profile-viewer">
+
+        <button
+            class="close-modal"
+            onclick="closeProfileViewer()"
+        >
+            ✕
+        </button>
+
+        <div
+            id="profileViewerContent"
+        ></div>
+
+    </div>
+
+</div>
+
+<!-- =====================================================
      CREATOR
-========================================================= -->
+===================================================== -->
 
-<div id="creatorModal" class="overlay">
+<div
+    id="creatorModal"
+    class="modal-overlay"
+>
 
-<div class="modal">
+    <div class="modal">
 
-<button class="close" onclick="closeCreator()">×</button>
+        <button
+            class="close-modal"
+            onclick="closeCreator()"
+        >
+            ✕
+        </button>
 
-<h2 id="creatorTitle">✨ Criar Perfil</h2>
+        <h2 id="modalTitle">
+            ✨ Criar Perfil Ultra
+        </h2>
 
-<p class="sub">
-    Personalize seu perfil.
-</p>
+        <p
+            class="sub"
+            id="modalSub"
+        >
+            Mais de 50 opções de personalização.
+        </p>
 
-<div class="section-title">
-👤 Informações
+        <!-- =================================================
+             BASIC
+        ================================================== -->
+
+        <div class="section-title">
+            👤 Informações Básicas
+        </div>
+
+        <label>
+            Nome
+            <span class="hint">(obrigatório)</span>
+        </label>
+
+        <input
+            id="editName"
+            placeholder="Seu nome"
+        >
+
+        <label>
+            @username
+            <span class="hint">
+                (link único, obrigatório)
+            </span>
+        </label>
+
+        <input
+            id="editUsername"
+            placeholder="usuario"
+            style="text-transform:lowercase"
+        >
+
+        <p
+            style="
+                color:var(--muted);
+                font-size:11px;
+                margin-top:-4px;
+            "
+        >
+            perfil.me/?u=<span id="usernamePreview">usuario</span>
+        </p>
+
+        <label>
+            Biografia
+            <span class="hint">
+                (máx 500 caracteres)
+            </span>
+        </label>
+
+        <textarea
+            id="editBio"
+            placeholder="Fale sobre você..."
+            maxlength="500"
+        ></textarea>
+
+        <p
+            style="
+                color:var(--muted);
+                font-size:11px;
+                text-align:right;
+            "
+        >
+            <span id="bioCount">0</span>/500
+        </p>
+
+        <label>
+            Localização
+        </label>
+
+        <input
+            id="editLocation"
+            placeholder="Cidade, País"
+        >
+
+        <label>
+            Data de Nascimento
+        </label>
+
+        <input
+            id="editBirthday"
+            type="date"
+        >
+
+        <label>
+            Gênero
+        </label>
+
+        <select id="editGender">
+
+            <option value="">
+                Prefiro não dizer
+            </option>
+
+            <option value="Masculino">
+                Masculino
+            </option>
+
+            <option value="Feminino">
+                Feminino
+            </option>
+
+            <option value="Não-binário">
+                Não-binário
+            </option>
+
+            <option value="Outro">
+                Outro
+            </option>
+
+        </select>
+
+        <!-- =================================================
+             APPEARANCE
+        ================================================== -->
+
+        <div class="section-title">
+            🎨 Aparência
+        </div>
+
+        <div class="row">
+
+            <div>
+
+                <label>
+                    Cor Principal
+                </label>
+
+                <input
+                    id="editPrimary"
+                    type="color"
+                    value="#8b5cf6"
+                >
+
+            </div>
+
+            <div>
+
+                <label>
+                    Cor Secundária
+                </label>
+
+                <input
+                    id="editSecondary"
+                    type="color"
+                    value="#06b6d4"
+                >
+
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div>
+
+                <label>
+                    Cor do Texto
+                </label>
+
+                <input
+                    id="editTextColor"
+                    type="color"
+                    value="#ffffff"
+                >
+
+            </div>
+
+            <div>
+
+                <label>
+                    Cor do Fundo
+                </label>
+
+                <input
+                    id="editBgColor"
+                    type="color"
+                    value="#0a0a0f"
+                >
+
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div>
+
+                <label>
+                    Opacidade do Card
+                    <span class="hint">
+                        (0-1)
+                    </span>
+                </label>
+
+                <input
+                    id="editOpacity"
+                    type="range"
+                    min="0.3"
+                    max="1"
+                    step="0.01"
+                    value="0.85"
+                >
+
+                <span id="opacityValue">
+                    0.85
+                </span>
+
+            </div>
+
+            <div>
+
+                <label>
+                    Blur do Fundo
+                    <span class="hint">
+                        (px)
+                    </span>
+                </label>
+
+                <input
+                    id="editBlur"
+                    type="range"
+                    min="0"
+                    max="30"
+                    step="1"
+                    value="18"
+                >
+
+                <span id="blurValue">
+                    18px
+                </span>
+
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div>
+
+                <label>
+                    Arredondamento
+                    <span class="hint">
+                        (px)
+                    </span>
+                </label>
+
+                <input
+                    id="editRadius"
+                    type="range"
+                    min="0"
+                    max="40"
+                    step="2"
+                    value="20"
+                >
+
+                <span id="radiusValue">
+                    20px
+                </span>
+
+            </div>
+
+            <div>
+
+                <label>
+                    Espaçamento
+                    <span class="hint">
+                        (px)
+                    </span>
+                </label>
+
+                <input
+                    id="editPadding"
+                    type="range"
+                    min="0"
+                    max="40"
+                    step="2"
+                    value="24"
+                >
+
+                <span id="paddingValue">
+                    24px
+                </span>
+
+            </div>
+
+        </div>
+
+        <!-- =================================================
+             FONT
+        ================================================== -->
+
+        <div class="section-title">
+            🔤 Tipografia
+        </div>
+
+        <div class="row">
+
+            <div>
+
+                <label>
+                    Fonte
+                </label>
+
+                <select id="editFont">
+
+                    <option value="'Segoe UI', system-ui, sans-serif">
+                        Segoe UI
+                    </option>
+
+                    <option value="'Inter', system-ui, sans-serif">
+                        Inter
+                    </option>
+
+                    <option value="'Poppins', system-ui, sans-serif">
+                        Poppins
+                    </option>
+
+                    <option value="'Montserrat', system-ui, sans-serif">
+                        Montserrat
+                    </option>
+
+                    <option value="'Playfair Display', serif">
+                        Playfair Display
+                    </option>
+
+                    <option value="'Courier New', monospace">
+                        Courier New
+                    </option>
+
+                    <option value="'Comic Sans MS', cursive">
+                        Comic Sans
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div>
+
+                <label>
+                    Tamanho da Fonte
+                </label>
+
+                <input
+                    id="editFontSize"
+                    type="number"
+                    min="10"
+                    max="24"
+                    value="14"
+                >
+
+            </div>
+
+        </div>
+
+        <div class="checkbox-group">
+
+            <label>
+                <input
+                    type="checkbox"
+                    id="editBold"
+                >
+                Negrito
+            </label>
+
+            <label>
+                <input
+                    type="checkbox"
+                    id="editItalic"
+                >
+                Itálico
+            </label>
+
+            <label>
+                <input
+                    type="checkbox"
+                    id="editUppercase"
+                >
+                MAIÚSCULAS
+            </label>
+
+            <label>
+                <input
+                    type="checkbox"
+                    id="editGlow"
+                >
+                Efeito Glow
+            </label>
+
+        </div>
+
+        <!-- =================================================
+             IMAGES
+        ================================================== -->
+
+        <div class="section-title">
+            🖼️ Imagens
+        </div>
+
+        <label>
+            Avatar
+        </label>
+
+        <input
+            id="editAvatar"
+            type="file"
+            accept="image/*"
+        >
+
+        <label>
+            Banner
+        </label>
+
+        <input
+            id="editBanner"
+            type="file"
+            accept="image/*"
+        >
+
+        <label>
+            Ícone de Verificado
+        </label>
+
+        <input
+            id="editVerified"
+            type="file"
+            accept="image/*"
+        >
+
+        <label>
+            Fundo Personalizado
+        </label>
+
+        <input
+            id="editBgImage"
+            type="file"
+            accept="image/*"
+        >
+
+        <div class="row">
+
+            <div>
+
+                <label>
+                    Posição do Fundo
+                </label>
+
+                <select id="editBgPosition">
+
+                    <option value="center">
+                        Centralizado
+                    </option>
+
+                    <option value="top">
+                        Topo
+                    </option>
+
+                    <option value="bottom">
+                        Base
+                    </option>
+
+                    <option value="left">
+                        Esquerda
+                    </option>
+
+                    <option value="right">
+                        Direita
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div>
+
+                <label>
+                    Tamanho do Fundo
+                </label>
+
+                <select id="editBgSize">
+
+                    <option value="cover">
+                        Cover
+                    </option>
+
+                    <option value="contain">
+                        Contain
+                    </option>
+
+                    <option value="auto">
+                        Auto
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+        <!-- =================================================
+             MUSIC
+        ================================================== -->
+
+        <div class="section-title">
+            🎵 Música
+        </div>
+
+        <label>
+            Música (até 4)
+        </label>
+
+        <input
+            id="editMusic"
+            type="file"
+            multiple
+            accept="audio/*"
+        >
+
+        <div
+            id="musicList"
+            style="
+                margin-top:8px;
+                font-size:13px;
+                color:var(--muted);
+            "
+        ></div>
+
+        <div class="row">
+
+            <div>
+
+                <label>
+                    Autoplay
+                </label>
+
+                <select id="editAutoplay">
+
+                    <option value="false">
+                        Desligado
+                    </option>
+
+                    <option value="true">
+                        Ligado
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div>
+
+                <label>
+                    Volume
+                </label>
+
+                <input
+                    id="editVolume"
+                    type="number"
+                    min="0"
+                    max="100"
+                    value="80"
+                >
+
+            </div>
+
+        </div>
+
+        <!-- =================================================
+             SOCIAL LINKS
+        ================================================== -->
+
+        <div class="section-title">
+            🔗 Links Sociais
+        </div>
+
+        <label>Discord</label>
+        <input
+            id="editDiscord"
+            placeholder="https://discord.gg/..."
+        >
+
+        <label>YouTube</label>
+        <input
+            id="editYoutube"
+            placeholder="https://youtube.com/..."
+        >
+
+        <label>GitHub</label>
+        <input
+            id="editGithub"
+            placeholder="https://github.com/..."
+        >
+
+        <label>Twitter/X</label>
+        <input
+            id="editTwitter"
+            placeholder="https://twitter.com/..."
+        >
+
+        <label>Instagram</label>
+        <input
+            id="editInstagram"
+            placeholder="https://instagram.com/..."
+        >
+
+        <label>TikTok</label>
+        <input
+            id="editTiktok"
+            placeholder="https://tiktok.com/@..."
+        >
+
+        <label>LinkedIn</label>
+        <input
+            id="editLinkedin"
+            placeholder="https://linkedin.com/in/..."
+        >
+
+        <label>Twitch</label>
+        <input
+            id="editTwitch"
+            placeholder="https://twitch.tv/..."
+        >
+
+        <label>Spotify</label>
+        <input
+            id="editSpotify"
+            placeholder="https://open.spotify.com/..."
+        >
+
+        <label>Website</label>
+        <input
+            id="editWebsite"
+            placeholder="https://meusite.com"
+        >
+
+        <!-- =================================================
+             GALLERY
+        ================================================== -->
+
+        <div class="section-title">
+            🖼️ Galeria
+        </div>
+
+        <label>
+            Imagens da Galeria
+        </label>
+
+        <input
+            id="editGallery"
+            type="file"
+            multiple
+            accept="image/*"
+        >
+
+        <div
+            id="galleryPreview"
+            style="
+                display:flex;
+                flex-wrap:wrap;
+                gap:8px;
+                margin-top:8px;
+            "
+        ></div>
+
+        <!-- =================================================
+             FILES
+        ================================================== -->
+
+        <div class="section-title">
+            📎 Arquivos
+        </div>
+
+        <label>
+            Arquivos para Download
+        </label>
+
+        <input
+            id="editFiles"
+            type="file"
+            multiple
+        >
+
+        <div
+            id="filesPreview"
+            style="
+                margin-top:8px;
+                font-size:13px;
+                color:var(--muted);
+            "
+        ></div>
+
+        <!-- =================================================
+             EFFECTS
+        ================================================== -->
+
+        <div class="section-title">
+            ✨ Efeitos Especiais
+        </div>
+
+        <div class="checkbox-group">
+
+            <label>
+                <input
+                    type="checkbox"
+                    id="editParticles"
+                >
+                Partículas
+            </label>
+
+            <label>
+                <input
+                    type="checkbox"
+                    id="editGlitch"
+                >
+                Glitch
+            </label>
+
+            <label>
+                <input
+                    type="checkbox"
+                    id="editNeon"
+                >
+                Neon
+            </label>
+
+            <label>
+                <input
+                    type="checkbox"
+                    id="editRainbow"
+                >
+                Arco-Íris
+            </label>
+
+            <label>
+                <input
+                    type="checkbox"
+                    id="editFloating"
+                >
+                Flutuantes
+            </label>
+
+            <label>
+                <input
+                    type="checkbox"
+                    id="editPulse"
+                >
+                Pulsante
+            </label>
+
+            <label>
+                <input
+                    type="checkbox"
+                    id="editShadow"
+                >
+                Sombra Profunda
+            </label>
+
+        </div>
+
+        <!-- =================================================
+             ACTIONS
+        ================================================== -->
+
+        <div class="actions">
+
+            <button
+                class="btn btn-primary"
+                onclick="saveProfile()"
+                style="flex:2"
+            >
+                💾 Salvar Perfil
+            </button>
+
+            <button
+                class="btn btn-outline"
+                onclick="closeCreator()"
+            >
+                Cancelar
+            </button>
+
+        </div>
+
+        <div id="saveStatus"></div>
+
+    </div>
+
 </div>
 
-<label>Nome</label>
+<!-- =====================================================
+     TOAST
+===================================================== -->
 
-<input
-    id="editName"
-    placeholder="Seu nome">
+<div
+    id="toast"
+    class="toast"
+>
+    <span id="toastIcon">
+        ✅
+    </span>
 
-<label>Username</label>
-
-<input
-    id="editUsername"
-    placeholder="usuario"
-    maxlength="30">
-
-<div style="font-size:11px;color:#71717a;margin-top:5px;">
-    perfil.me/?u=<span id="usernamePreview">usuario</span>
+    <span id="toastMessage">
+        Perfil criado!
+    </span>
 </div>
 
-<label>Biografia</label>
-
-<textarea
-    id="editBio"
-    maxlength="500"
-    placeholder="Fale sobre você..."></textarea>
-
-<div style="text-align:right;color:#71717a;font-size:11px;">
-    <span id="bioCount">0</span>/500
-</div>
-
-<label>Localização</label>
-
-<input
-    id="editLocation"
-    placeholder="São Paulo, Brasil">
-
-<label>Data de nascimento</label>
-
-<input
-    id="editBirthday"
-    type="date">
-
-<label>Gênero</label>
-
-<select id="editGender">
-
-    <option value="">
-        Prefiro não dizer
-    </option>
-
-    <option value="Masculino">
-        Masculino
-    </option>
-
-    <option value="Feminino">
-        Feminino
-    </option>
-
-    <option value="Não-binário">
-        Não-binário
-    </option>
-
-    <option value="Outro">
-        Outro
-    </option>
-
-</select>
-
-<!-- APARÊNCIA -->
-
-<div class="section-title">
-🎨 Aparência
-</div>
-
-<div class="row">
-
-<div>
-
-<label>Cor principal</label>
-
-<input
-    id="editPrimary"
-    type="color"
-    value="#8b5cf6">
-
-</div>
-
-<div>
-
-<label>Cor secundária</label>
-
-<input
-    id="editSecondary"
-    type="color"
-    value="#06b6d4">
-
-</div>
-
-</div>
-
-<div class="row">
-
-<div>
-
-<label>Cor do texto</label>
-
-<input
-    id="editTextColor"
-    type="color"
-    value="#ffffff">
-
-</div>
-
-<div>
-
-<label>Cor do fundo</label>
-
-<input
-    id="editBgColor"
-    type="color"
-    value="#08080d">
-
-</div>
-
-</div>
-
-<div class="row">
-
-<div>
-
-<label>Arredondamento</label>
-
-<input
-    id="editRadius"
-    type="range"
-    min="0"
-    max="40"
-    value="20">
-
-<span id="radiusValue">
-20px
-</span>
-
-</div>
-
-<div>
-
-<label>Blur</label>
-
-<input
-    id="editBlur"
-    type="range"
-    min="0"
-    max="30"
-    value="18">
-
-<span id="blurValue">
-18px
-</span>
-
-</div>
-
-</div>
-
-<!-- TIPOGRAFIA -->
-
-<div class="section-title">
-🔤 Tipografia
-</div>
-
-<div class="row">
-
-<div>
-
-<label>Fonte</label>
-
-<select id="editFont">
-
-<option value="'Segoe UI',system-ui,sans-serif">
-Segoe UI
-</option>
-
-<option value="Arial,sans-serif">
-Arial
-</option>
-
-<option value="'Trebuchet MS',sans-serif">
-Trebuchet MS
-</option>
-
-<option value="Verdana,sans-serif">
-Verdana
-</option>
-
-<option value="'Courier New',monospace">
-Courier New
-</option>
-
-<option value="Georgia,serif">
-Georgia
-</option>
-
-<option value="'Comic Sans MS',cursive">
-Comic Sans
-</option>
-
-</select>
-
-</div>
-
-<div>
-
-<label>Tamanho</label>
-
-<input
-    id="editFontSize"
-    type="number"
-    min="10"
-    max="24"
-    value="14">
-
-</div>
-
-</div>
-
-<div class="checks">
-
-<label class="check">
-<input id="editBold" type="checkbox">
-Negrito
-</label>
-
-<label class="check">
-<input id="editItalic" type="checkbox">
-Itálico
-</label>
-
-<label class="check">
-<input id="editUppercase" type="checkbox">
-Maiúsculas
-</label>
-
-<label class="check">
-<input id="editGlow" type="checkbox">
-Glow
-</label>
-
-</div>
-
-<!-- IMAGENS -->
-
-<div class="section-title">
-🖼️ Imagens
-</div>
-
-<label>Avatar</label>
-
-<input
-    id="editAvatar"
-    type="file"
-    accept="image/*">
-
-<label>Banner</label>
-
-<input
-    id="editBanner"
-    type="file"
-    accept="image/*">
-
-<label>Fundo</label>
-
-<input
-    id="editBgImage"
-    type="file"
-    accept="image/*">
-
-<div class="row">
-
-<div>
-
-<label>Posição</label>
-
-<select id="editBgPosition">
-
-<option value="center">
-Centralizado
-</option>
-
-<option value="top">
-Topo
-</option>
-
-<option value="bottom">
-Base
-</option>
-
-<option value="left">
-Esquerda
-</option>
-
-<option value="right">
-Direita
-</option>
-
-</select>
-
-</div>
-
-<div>
-
-<label>Tamanho</label>
-
-<select id="editBgSize">
-
-<option value="cover">
-Cover
-</option>
-
-<option value="contain">
-Contain
-</option>
-
-<option value="auto">
-Auto
-</option>
-
-</select>
-
-</div>
-
-</div>
-
-<!-- MÚSICA -->
-
-<div class="section-title">
-🎵 Música
-</div>
-
-<label>Músicas</label>
-
-<input
-    id="editMusic"
-    type="file"
-    multiple
-    accept="audio/*">
-
-<label>Autoplay</label>
-
-<select id="editAutoplay">
-
-<option value="false">
-Desligado
-</option>
-
-<option value="true">
-Ligado
-</option>
-
-</select>
-
-<label>Volume</label>
-
-<input
-    id="editVolume"
-    type="number"
-    min="0"
-    max="100"
-    value="80">
-
-<div id="musicPreview"></div>
-
-<!-- LINKS -->
-
-<div class="section-title">
-🔗 Redes sociais
-</div>
-
-<label>Discord</label>
-<input id="editDiscord" placeholder="https://discord.gg/...">
-
-<label>YouTube</label>
-<input id="editYoutube" placeholder="https://youtube.com/...">
-
-<label>GitHub</label>
-<input id="editGithub" placeholder="https://github.com/...">
-
-<label>Instagram</label>
-<input id="editInstagram" placeholder="https://instagram.com/...">
-
-<label>TikTok</label>
-<input id="editTiktok" placeholder="https://tiktok.com/@...">
-
-<label>Twitter/X</label>
-<input id="editTwitter" placeholder="https://x.com/...">
-
-<label>Twitch</label>
-<input id="editTwitch" placeholder="https://twitch.tv/...">
-
-<label>Spotify</label>
-<input id="editSpotify" placeholder="https://open.spotify.com/...">
-
-<label>Website</label>
-<input id="editWebsite" placeholder="https://seusite.com">
-
-<!-- GALERIA -->
-
-<div class="section-title">
-🖼️ Galeria
-</div>
-
-<label>Imagens</label>
-
-<input
-    id="editGallery"
-    type="file"
-    multiple
-    accept="image/*">
-
-<div id="galleryPreview"></div>
-
-<!-- EFEITOS -->
-
-<div class="section-title">
-✨ Efeitos
-</div>
-
-<div class="checks">
-
-<label class="check">
-<input id="editParticles" type="checkbox">
-Partículas
-</label>
-
-<label class="check">
-<input id="editGlitch" type="checkbox">
-Glitch
-</label>
-
-<label class="check">
-<input id="editNeon" type="checkbox">
-Neon
-</label>
-
-<label class="check">
-<input id="editRainbow" type="checkbox">
-Rainbow
-</label>
-
-<label class="check">
-<input id="editFloating" type="checkbox">
-Floating
-</label>
-
-<label class="check">
-<input id="editPulse" type="checkbox">
-Pulse
-</label>
-
-</div>
-
-<div class="actions">
-
-<button
-    class="btn btn-primary"
-    onclick="saveProfile()">
-    💾 Salvar
-</button>
-
-<button
-    class="btn"
-    onclick="closeCreator()">
-    Cancelar
-</button>
-
-</div>
-
-<div id="saveStatus"
-style="color:#a1a1aa;font-size:12px;margin-top:10px;">
-</div>
-
-</div>
-</div>
-
-<!-- TOAST -->
-
-<div id="toast" class="toast">
-    <span id="toastText"></span>
-</div>
+<!-- =====================================================
+     FIREBASE
+===================================================== -->
 
 <script type="module">
 
@@ -1498,199 +2815,263 @@ import {
 import {
     getDatabase,
     ref,
-    get,
-    set,
     push,
+    set,
+    get,
     remove,
     runTransaction
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 
 import {
     getAuth,
+    onAuthStateChanged,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
-    signOut,
-    onAuthStateChanged
+    signOut
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
+
 /* =========================================================
-   FIREBASE
+   FIREBASE CONFIG
 ========================================================= */
 
 const firebaseConfig = {
 
     apiKey:
-    "AIzaSyB35ktkxiS_MPTrSflfHhBe5snYAV0iV6Q",
+        "AIzaSyB35ktkxiS_MPTrSflfHhBe5snYAV0iV6Q",
 
     authDomain:
-    "myprofile-7db79.firebaseapp.com",
+        "myprofile-7db79.firebaseapp.com",
 
     databaseURL:
-    "https://myprofile-7db79-default-rtdb.firebaseio.com",
+        "https://myprofile-7db79-default-rtdb.firebaseio.com",
 
     projectId:
-    "myprofile-7db79",
+        "myprofile-7db79",
 
     storageBucket:
-    "myprofile-7db79.firebasestorage.app",
+        "myprofile-7db79.firebasestorage.app",
 
     messagingSenderId:
-    "947862565874",
+        "947862565874",
 
     appId:
-    "1:947862565874:web:3116335ff6f1822f0df16b",
+        "1:947862565874:web:3116335ff6f1822f0df16b8",
 
     measurementId:
-    "G-KC2ZXS400D"
+        "G-KC2ZXS400D"
 };
 
-const app = initializeApp(firebaseConfig);
-
-const db = getDatabase(app);
-const auth = getAuth(app);
-
-const profilesRef = ref(db,"profiles");
-
-let currentUser = null;
-let profiles = [];
-let editingProfile = null;
-let loginMode = "login";
-let viewingProfile = null;
 
 /* =========================================================
-   AUTH
+   INIT
 ========================================================= */
 
-onAuthStateChanged(auth,user=>{
+const app =
+    initializeApp(firebaseConfig);
 
-    currentUser = user;
+const db =
+    getDatabase(app);
 
-    updateLoginButton();
+const auth =
+    getAuth(app);
+
+const profilesRef =
+    ref(db, "profiles");
+
+
+window.profiles = [];
+
+window.currentUser = null;
+
+window._profilesData = [];
+
+window._editingId = null;
+
+window._editingData = null;
+
+window._viewingProfileId = null;
+
+window._viewingProfile = null;
+
+
+/* =========================================================
+   AUTH STATE
+========================================================= */
+
+onAuthStateChanged(auth, user => {
+
+    window.currentUser = user || null;
+
+    updateAuthUI();
+
+    loadProfiles();
 
 });
 
-function updateLoginButton(){
 
-    const btn =
-        document.getElementById("loginButton");
+/* =========================================================
+   AUTH UI
+========================================================= */
 
-    if(!btn) return;
+function updateAuthUI() {
 
-    if(currentUser){
+    const area =
+        document.getElementById("userArea");
 
-        btn.textContent = "👤 Minha conta";
+    if (!area) return;
 
-        btn.onclick = ()=>{
 
-            const profile =
-                profiles.find(
-                    p=>p.uid === currentUser.uid
-                );
+    if (window.currentUser) {
 
-            if(profile){
+        const email =
+            escapeHTML(
+                window.currentUser.email || ""
+            );
 
-                openProfile(profile.username);
+        area.innerHTML = `
 
-            }else{
+            <span class="user-email">
+                👤 ${email}
+            </span>
 
-                openCreator();
+            <button
+                class="btn btn-outline"
+                onclick="logout()"
+            >
+                🚪 Sair
+            </button>
 
-            }
+        `;
 
-        };
+    } else {
 
-    }else{
+        area.innerHTML = `
 
-        btn.textContent = "Entrar";
+            <button
+                class="btn btn-outline"
+                onclick="openAuth()"
+                id="loginButton"
+            >
+                🔐 Entrar
+            </button>
 
-        btn.onclick = openLogin;
+        `;
 
     }
 
 }
 
+
 /* =========================================================
-   LOGIN
+   AUTH MODAL
 ========================================================= */
 
-window.openLogin = function(){
+window.authMode = "login";
+
+
+window.openAuth = function(mode = "login") {
+
+    window.authMode = mode;
 
     document
-        .getElementById("loginModal")
+        .getElementById("authModal")
         .classList.add("active");
 
+    switchAuth(mode);
+
 };
 
-window.closeLogin = function(){
+
+window.closeAuth = function() {
 
     document
-        .getElementById("loginModal")
+        .getElementById("authModal")
         .classList.remove("active");
 
-    document.getElementById("authError").textContent="";
+    document.getElementById("authError").style.display =
+        "none";
 
 };
 
-window.setLoginMode = function(mode){
 
-    loginMode = mode;
+window.switchAuth = function(mode) {
 
-    const login =
-        document.getElementById("tabLogin");
+    window.authMode = mode;
 
-    const register =
-        document.getElementById("tabRegister");
+    const loginTab =
+        document.getElementById("loginTab");
+
+    const registerTab =
+        document.getElementById("registerTab");
 
     const submit =
         document.getElementById("authSubmit");
 
-    login.classList.toggle(
+    loginTab.classList.toggle(
         "active",
-        mode==="login"
+        mode === "login"
     );
 
-    register.classList.toggle(
+    registerTab.classList.toggle(
         "active",
-        mode==="register"
+        mode === "register"
     );
 
     submit.textContent =
-        mode==="login"
-        ? "Entrar"
-        : "Criar conta";
+        mode === "login"
+            ? "🔐 Entrar"
+            : "✨ Criar conta";
+
+    document
+        .getElementById("authError")
+        .style.display = "none";
 
 };
 
-window.submitAuth = async function(){
+
+window.submitAuth = async function() {
 
     const email =
         document
-        .getElementById("authEmail")
-        .value
-        .trim();
+            .getElementById("authEmail")
+            .value
+            .trim();
 
     const password =
         document
-        .getElementById("authPassword")
-        .value;
+            .getElementById("authPassword")
+            .value;
 
     const error =
         document.getElementById("authError");
 
-    error.textContent="";
-
-    if(!email || !password){
+    if (!email) {
 
         error.textContent =
-            "Preencha email e senha.";
+            "Digite seu e-mail.";
+
+        error.style.display =
+            "block";
 
         return;
-
     }
 
-    try{
+    if (password.length < 6) {
 
-        if(loginMode==="login"){
+        error.textContent =
+            "A senha precisa ter pelo menos 6 caracteres.";
+
+        error.style.display =
+            "block";
+
+        return;
+    }
+
+
+    try {
+
+        if (window.authMode === "login") {
 
             await signInWithEmailAndPassword(
                 auth,
@@ -1698,9 +3079,12 @@ window.submitAuth = async function(){
                 password
             );
 
-            showToast("✅ Login realizado!");
+            showToast(
+                "✅",
+                "Login realizado!"
+            );
 
-        }else{
+        } else {
 
             await createUserWithEmailAndPassword(
                 auth,
@@ -1708,108 +3092,1452 @@ window.submitAuth = async function(){
                 password
             );
 
-            showToast("🎉 Conta criada!");
+            showToast(
+                "🎉",
+                "Conta criada!"
+            );
 
         }
 
-        closeLogin();
+        closeAuth();
 
-    }catch(e){
+        document.getElementById(
+            "authPassword"
+        ).value = "";
+
+    } catch (errorObj) {
+
+        console.error(errorObj);
 
         let message =
-            "Erro de autenticação.";
+            "Não foi possível realizar a operação.";
 
-        if(e.code==="auth/invalid-credential"){
-            message="Email ou senha incorretos.";
+        switch (errorObj.code) {
+
+            case "auth/invalid-email":
+                message =
+                    "E-mail inválido.";
+                break;
+
+            case "auth/user-not-found":
+                message =
+                    "Usuário não encontrado.";
+                break;
+
+            case "auth/wrong-password":
+            case "auth/invalid-credential":
+                message =
+                    "E-mail ou senha incorretos.";
+                break;
+
+            case "auth/email-already-in-use":
+                message =
+                    "Esse e-mail já está cadastrado.";
+                break;
+
+            case "auth/weak-password":
+                message =
+                    "A senha é muito fraca.";
+                break;
+
+            case "auth/too-many-requests":
+                message =
+                    "Muitas tentativas. Aguarde um pouco.";
+                break;
+
+            default:
+                message =
+                    errorObj.message || message;
+
         }
 
-        if(e.code==="auth/email-already-in-use"){
-            message="Este email já está cadastrado.";
-        }
+        error.textContent =
+            message;
 
-        if(e.code==="auth/weak-password"){
-            message="A senha precisa ter pelo menos 6 caracteres.";
-        }
-
-        if(e.code==="auth/invalid-email"){
-            message="Email inválido.";
-        }
-
-        error.textContent=message;
+        error.style.display =
+            "block";
 
     }
 
 };
 
-window.logout = async function(){
 
-    await signOut(auth);
+window.logout = async function() {
 
-    showToast("👋 Você saiu da conta.");
+    try {
 
-    goHome();
+        await signOut(auth);
+
+        showToast(
+            "👋",
+            "Você saiu da conta."
+        );
+
+    } catch (e) {
+
+        console.error(e);
+
+    }
 
 };
 
+
 /* =========================================================
-   HELPERS
+   CREATOR
 ========================================================= */
 
-function escapeHTML(value){
+window.openCreator = function(data = null) {
 
-    return String(value ?? "")
-        .replace(/[&<>"']/g,c=>({
+    if (!window.currentUser) {
 
-            "&":"&amp;",
-            "<":"&lt;",
-            ">":"&gt;",
-            '"':"&quot;",
-            "'":"&#039;"
+        showToast(
+            "🔐",
+            "Faça login para criar ou editar um perfil."
+        );
 
-        }[c]));
+        openAuth("login");
 
-}
+        return;
 
-function formatNumber(n){
+    }
 
-    return Number(n||0)
-        .toLocaleString("pt-BR");
 
-}
+    const modal =
+        document.getElementById(
+            "creatorModal"
+        );
 
-function showToast(message){
+    modal.classList.add("active");
 
-    const toast =
-        document.getElementById("toast");
+
+    const isEditing =
+        !!data;
+
 
     document.getElementById(
-        "toastText"
-    ).textContent=message;
+        "modalTitle"
+    ).textContent =
+        isEditing
+            ? "✏️ Editar Perfil Ultra"
+            : "✨ Criar Perfil Ultra";
 
-    toast.classList.add("show");
 
-    clearTimeout(toast.timer);
+    document.getElementById(
+        "modalSub"
+    ).textContent =
+        isEditing
+            ? "Atualize todas as opções do seu perfil."
+            : "Mais de 50 opções de personalização.";
 
-    toast.timer=setTimeout(
-        ()=>toast.classList.remove("show"),
-        3000
-    );
 
-}
+    const fields = {
 
-function getVisitorId(){
+        editName: "name",
+
+        editUsername: "username",
+
+        editBio: "bio",
+
+        editLocation: "location",
+
+        editBirthday: "birthday",
+
+        editGender: "gender",
+
+        editPrimary: "primary",
+
+        editSecondary: "secondary",
+
+        editTextColor: "textColor",
+
+        editBgColor: "bgColor",
+
+        editOpacity: "opacity",
+
+        editBlur: "blur",
+
+        editRadius: "radius",
+
+        editPadding: "padding",
+
+        editFont: "font",
+
+        editFontSize: "fontSize",
+
+        editBold: "bold",
+
+        editItalic: "italic",
+
+        editUppercase: "uppercase",
+
+        editGlow: "glow",
+
+        editParticles: "particles",
+
+        editGlitch: "glitch",
+
+        editNeon: "neon",
+
+        editRainbow: "rainbow",
+
+        editFloating: "floating",
+
+        editPulse: "pulse",
+
+        editShadow: "shadow",
+
+        editAutoplay: "autoplay",
+
+        editVolume: "volume",
+
+        editDiscord: "discord",
+
+        editYoutube: "youtube",
+
+        editGithub: "github",
+
+        editTwitter: "twitter",
+
+        editInstagram: "instagram",
+
+        editTiktok: "tiktok",
+
+        editLinkedin: "linkedin",
+
+        editTwitch: "twitch",
+
+        editSpotify: "spotify",
+
+        editWebsite: "website",
+
+        editBgPosition: "bgPosition",
+
+        editBgSize: "bgSize"
+
+    };
+
+
+    for (
+        const [id, key]
+        of Object.entries(fields)
+    ) {
+
+        const el =
+            document.getElementById(id);
+
+        if (!el) continue;
+
+
+        if (el.type === "checkbox") {
+
+            el.checked =
+                data?.[key] ?? false;
+
+        } else if (
+            el.type === "color"
+        ) {
+
+            const defaults = {
+
+                editPrimary:
+                    "#8b5cf6",
+
+                editSecondary:
+                    "#06b6d4",
+
+                editTextColor:
+                    "#ffffff",
+
+                editBgColor:
+                    "#0a0a0f"
+
+            };
+
+            el.value =
+                data?.[key] ||
+                defaults[id] ||
+                "#ffffff";
+
+        } else {
+
+            el.value =
+                data?.[key] ??
+                el.value ??
+                "";
+
+        }
+
+    }
+
+
+    /* DEFAULTS */
+
+    if (!data) {
+
+        document.getElementById(
+            "editPrimary"
+        ).value = "#8b5cf6";
+
+        document.getElementById(
+            "editSecondary"
+        ).value = "#06b6d4";
+
+        document.getElementById(
+            "editTextColor"
+        ).value = "#ffffff";
+
+        document.getElementById(
+            "editBgColor"
+        ).value = "#0a0a0f";
+
+        document.getElementById(
+            "editOpacity"
+        ).value = "0.85";
+
+        document.getElementById(
+            "editBlur"
+        ).value = "18";
+
+        document.getElementById(
+            "editRadius"
+        ).value = "20";
+
+        document.getElementById(
+            "editPadding"
+        ).value = "24";
+
+        document.getElementById(
+            "editFontSize"
+        ).value = "14";
+
+        document.getElementById(
+            "editVolume"
+        ).value = "80";
+
+        document.getElementById(
+            "editAutoplay"
+        ).value = "false";
+
+    }
+
+
+    /* FILE INPUTS */
+
+    document.getElementById(
+        "editAvatar"
+    ).value = "";
+
+    document.getElementById(
+        "editBanner"
+    ).value = "";
+
+    document.getElementById(
+        "editVerified"
+    ).value = "";
+
+    document.getElementById(
+        "editBgImage"
+    ).value = "";
+
+    document.getElementById(
+        "editGallery"
+    ).value = "";
+
+    document.getElementById(
+        "editFiles"
+    ).value = "";
+
+    document.getElementById(
+        "editMusic"
+    ).value = "";
+
+
+    /* ID */
+
+    window._editingId =
+        data?.id || null;
+
+    window._editingData =
+        data || null;
+
+
+    /* BIO */
+
+    document.getElementById(
+        "bioCount"
+    ).textContent =
+        data?.bio?.length || 0;
+
+
+    /* USERNAME */
+
+    document.getElementById(
+        "usernamePreview"
+    ).textContent =
+        data?.username ||
+        "usuario";
+
+
+    /* MUSIC */
+
+    const musicList =
+        document.getElementById(
+            "musicList"
+        );
+
+    if (
+        data?.music &&
+        Array.isArray(data.music) &&
+        data.music.length
+    ) {
+
+        musicList.innerHTML =
+            data.music
+                .map(
+                    (m, i) => `
+                    <span
+                        style="
+                            display:inline-block;
+                            background:rgba(255,255,255,.06);
+                            padding:4px 12px;
+                            border-radius:8px;
+                            margin:2px;
+                        "
+                    >
+                        🎵
+                        ${escapeHTML(
+                            m.title ||
+                            "Música " + (i + 1)
+                        )}
+                    </span>
+                    `
+                )
+                .join("");
+
+    } else {
+
+        musicList.innerHTML =
+            `<span>
+                Nenhuma música adicionada
+            </span>`;
+
+    }
+
+
+    /* GALLERY */
+
+    const galleryPreview =
+        document.getElementById(
+            "galleryPreview"
+        );
+
+    if (
+        data?.gallery &&
+        Array.isArray(data.gallery) &&
+        data.gallery.length
+    ) {
+
+        galleryPreview.innerHTML =
+            data.gallery
+                .map(
+                    img => `
+                        <img
+                            src="${escapeHTML(img)}"
+                            style="
+                                width:60px;
+                                height:60px;
+                                object-fit:cover;
+                                border-radius:8px;
+                            "
+                        >
+                    `
+                )
+                .join("");
+
+    } else {
+
+        galleryPreview.innerHTML =
+            `<span
+                style="
+                    color:var(--muted);
+                    font-size:13px;
+                "
+            >
+                Nenhuma imagem
+            </span>`;
+
+    }
+
+
+    /* FILES */
+
+    const filesPreview =
+        document.getElementById(
+            "filesPreview"
+        );
+
+    if (
+        data?.files &&
+        Array.isArray(data.files) &&
+        data.files.length
+    ) {
+
+        filesPreview.innerHTML =
+            data.files
+                .map(
+                    f => `
+                    <span
+                        style="
+                            display:inline-block;
+                            background:rgba(255,255,255,.06);
+                            padding:4px 12px;
+                            border-radius:8px;
+                            margin:2px;
+                        "
+                    >
+                        📎
+                        ${escapeHTML(f.name)}
+                    </span>
+                    `
+                )
+                .join("");
+
+    } else {
+
+        filesPreview.innerHTML =
+            `<span
+                style="
+                    color:var(--muted);
+                    font-size:13px;
+                "
+            >
+                Nenhum arquivo
+            </span>`;
+
+    }
+
+
+    /* LINKS */
+
+    const linkMap = {};
+
+    if (
+        data?.links &&
+        Array.isArray(data.links)
+    ) {
+
+        data.links.forEach(
+            link => {
+                linkMap[link.label] =
+                    link.url;
+            }
+        );
+
+    }
+
+
+    const linkFields = {
+
+        editDiscord:
+            "Discord",
+
+        editYoutube:
+            "YouTube",
+
+        editGithub:
+            "GitHub",
+
+        editTwitter:
+            "Twitter",
+
+        editInstagram:
+            "Instagram",
+
+        editTiktok:
+            "TikTok",
+
+        editLinkedin:
+            "LinkedIn",
+
+        editTwitch:
+            "Twitch",
+
+        editSpotify:
+            "Spotify",
+
+        editWebsite:
+            "Website"
+
+    };
+
+
+    for (
+        const [id, label]
+        of Object.entries(linkFields)
+    ) {
+
+        document.getElementById(id).value =
+            linkMap[label] || "";
+
+    }
+
+
+    updateRangeLabels();
+
+    document.getElementById(
+        "saveStatus"
+    ).textContent = "";
+
+    document.querySelector(
+        "#creatorModal .modal"
+    ).scrollTop = 0;
+
+};
+
+
+window.closeCreator = function() {
+
+    document
+        .getElementById("creatorModal")
+        .classList.remove("active");
+
+    window._editingId = null;
+
+    window._editingData = null;
+
+};
+
+
+/* =========================================================
+   SAVE PROFILE
+========================================================= */
+
+window.saveProfile = async function() {
+
+    if (!window.currentUser) {
+
+        showToast(
+            "🔐",
+            "Faça login primeiro."
+        );
+
+        return;
+
+    }
+
+
+    const name =
+        document
+            .getElementById("editName")
+            .value
+            .trim();
+
+
+    const username =
+        document
+            .getElementById("editUsername")
+            .value
+            .trim()
+            .toLowerCase();
+
+
+    if (!name) {
+
+        showToast(
+            "❌",
+            "Digite seu nome."
+        );
+
+        return;
+
+    }
+
+
+    if (!username) {
+
+        showToast(
+            "❌",
+            "Digite um username."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        !/^[a-z0-9_]+$/.test(username)
+    ) {
+
+        showToast(
+            "❌",
+            "Username só pode ter letras minúsculas, números e _."
+        );
+
+        return;
+
+    }
+
+
+    const status =
+        document.getElementById(
+            "saveStatus"
+        );
+
+    status.textContent =
+        "⏳ Salvando...";
+
+
+    try {
+
+        /* =========================================
+           CHECK USERNAME
+        ========================================= */
+
+        const snapshot =
+            await get(profilesRef);
+
+
+        if (snapshot.exists()) {
+
+            const data =
+                snapshot.val();
+
+
+            for (
+                const key in data
+            ) {
+
+                if (
+                    data[key].username === username &&
+                    key !== window._editingId
+                ) {
+
+                    status.textContent = "";
+
+                    showToast(
+                        "❌",
+                        "Username já está em uso."
+                    );
+
+                    return;
+
+                }
+
+            }
+
+        }
+
+
+        /* =========================================
+           HELPERS
+        ========================================= */
+
+        const getVal = id =>
+            document
+                .getElementById(id)
+                ?.value || "";
+
+
+        const getCheck = id =>
+            document
+                .getElementById(id)
+                ?.checked || false;
+
+
+        const getNum = id =>
+            Number(
+                document
+                    .getElementById(id)
+                    ?.value
+            ) || 0;
+
+
+        /* =========================================
+           LINKS
+        ========================================= */
+
+        const links = [];
+
+        const linkFields = [
+
+            {
+                id: "editDiscord",
+                label: "Discord"
+            },
+
+            {
+                id: "editYoutube",
+                label: "YouTube"
+            },
+
+            {
+                id: "editGithub",
+                label: "GitHub"
+            },
+
+            {
+                id: "editTwitter",
+                label: "Twitter"
+            },
+
+            {
+                id: "editInstagram",
+                label: "Instagram"
+            },
+
+            {
+                id: "editTiktok",
+                label: "TikTok"
+            },
+
+            {
+                id: "editLinkedin",
+                label: "LinkedIn"
+            },
+
+            {
+                id: "editTwitch",
+                label: "Twitch"
+            },
+
+            {
+                id: "editSpotify",
+                label: "Spotify"
+            },
+
+            {
+                id: "editWebsite",
+                label: "Website"
+            }
+
+        ];
+
+
+        linkFields.forEach(
+            ({id, label}) => {
+
+                const url =
+                    document
+                        .getElementById(id)
+                        ?.value
+                        .trim();
+
+                if (url) {
+
+                    links.push({
+                        label,
+                        url
+                    });
+
+                }
+
+            }
+        );
+
+
+        /* =========================================
+           FILE -> DATA URL
+        ========================================= */
+
+        const toDataURL =
+            file =>
+                new Promise(
+                    resolve => {
+
+                        if (!file) {
+
+                            resolve("");
+
+                            return;
+
+                        }
+
+
+                        const reader =
+                            new FileReader();
+
+
+                        reader.onload =
+                            () =>
+                                resolve(
+                                    reader.result
+                                );
+
+
+                        reader.onerror =
+                            () =>
+                                resolve("");
+
+
+                        reader.readAsDataURL(
+                            file
+                        );
+
+                    }
+                );
+
+
+        /* =========================================
+           IMAGES
+        ========================================= */
+
+        const avatarFile =
+            document
+                .getElementById("editAvatar")
+                .files[0];
+
+
+        const bannerFile =
+            document
+                .getElementById("editBanner")
+                .files[0];
+
+
+        const verifiedFile =
+            document
+                .getElementById("editVerified")
+                .files[0];
+
+
+        const bgFile =
+            document
+                .getElementById("editBgImage")
+                .files[0];
+
+
+        const old =
+            window._editingData || {};
+
+
+        const avatar =
+            avatarFile
+                ? await toDataURL(avatarFile)
+                : old.avatar || "";
+
+
+        const banner =
+            bannerFile
+                ? await toDataURL(bannerFile)
+                : old.banner || "";
+
+
+        const verified =
+            verifiedFile
+                ? await toDataURL(verifiedFile)
+                : old.verified || "";
+
+
+        const bgImage =
+            bgFile
+                ? await toDataURL(bgFile)
+                : old.bgImage || "";
+
+
+        /* =========================================
+           GALLERY
+        ========================================= */
+
+        const galleryFiles =
+            document
+                .getElementById("editGallery")
+                .files;
+
+
+        const gallery = [];
+
+
+        for (
+            const file
+            of galleryFiles
+        ) {
+
+            gallery.push(
+                await toDataURL(file)
+            );
+
+        }
+
+
+        const finalGallery =
+            gallery.length
+                ? [
+                    ...(old.gallery || []),
+                    ...gallery
+                ]
+                : (
+                    old.gallery || []
+                );
+
+
+        /* =========================================
+           FILES
+        ========================================= */
+
+        const fileInputs =
+            document
+                .getElementById("editFiles")
+                .files;
+
+
+        const files = [];
+
+
+        for (
+            const file
+            of fileInputs
+        ) {
+
+            files.push({
+
+                name:
+                    file.name,
+
+                data:
+                    await toDataURL(file)
+
+            });
+
+        }
+
+
+        const finalFiles =
+            files.length
+                ? [
+                    ...(old.files || []),
+                    ...files
+                ]
+                : (
+                    old.files || []
+                );
+
+
+        /* =========================================
+           MUSIC
+        ========================================= */
+
+        const musicFiles =
+            document
+                .getElementById("editMusic")
+                .files;
+
+
+        const music = [];
+
+
+        for (
+            const file
+            of musicFiles
+        ) {
+
+            if (
+                file.size >
+                50 * 1024 * 1024
+            ) {
+
+                showToast(
+                    "⚠️",
+                    `"${file.name}" excede 50MB.`
+                );
+
+                continue;
+
+            }
+
+
+            music.push({
+
+                title:
+                    file.name.replace(
+                        /\.[^/.]+$/,
+                        ""
+                    ),
+
+                artist:
+                    "Artista",
+
+                blob:
+                    await toDataURL(file)
+
+            });
+
+        }
+
+
+        const finalMusic =
+            music.length
+                ? [
+                    ...(old.music || []),
+                    ...music
+                ]
+                : (
+                    old.music || []
+                );
+
+
+        /* =========================================
+           STATS
+           NUNCA VÊM DO FORMULÁRIO
+        ========================================= */
+
+        const oldStats =
+            old.stats || {
+
+                views:
+                    Number(old.views) || 0,
+
+                likes:
+                    0,
+
+                followers:
+                    Number(old.followers) || 0
+
+            };
+
+
+        /* =========================================
+           PROFILE
+        ========================================= */
+
+        const profileData = {
+
+            ownerId:
+                old.ownerId ||
+                window.currentUser.uid,
+
+            name,
+
+            username,
+
+            bio:
+                getVal("editBio"),
+
+            location:
+                getVal("editLocation"),
+
+            birthday:
+                getVal("editBirthday"),
+
+            gender:
+                getVal("editGender"),
+
+            primary:
+                getVal("editPrimary") ||
+                "#8b5cf6",
+
+            secondary:
+                getVal("editSecondary") ||
+                "#06b6d4",
+
+            textColor:
+                getVal("editTextColor") ||
+                "#ffffff",
+
+            bgColor:
+                getVal("editBgColor") ||
+                "#0a0a0f",
+
+            opacity:
+                parseFloat(
+                    getVal("editOpacity")
+                ) || .85,
+
+            blur:
+                getNum("editBlur") || 18,
+
+            radius:
+                getNum("editRadius") || 20,
+
+            padding:
+                getNum("editPadding") || 24,
+
+            font:
+                getVal("editFont") ||
+                "'Segoe UI', system-ui, sans-serif",
+
+            fontSize:
+                getNum("editFontSize") || 14,
+
+            bold:
+                getCheck("editBold"),
+
+            italic:
+                getCheck("editItalic"),
+
+            uppercase:
+                getCheck("editUppercase"),
+
+            glow:
+                getCheck("editGlow"),
+
+            particles:
+                getCheck("editParticles"),
+
+            glitch:
+                getCheck("editGlitch"),
+
+            neon:
+                getCheck("editNeon"),
+
+            rainbow:
+                getCheck("editRainbow"),
+
+            floating:
+                getCheck("editFloating"),
+
+            pulse:
+                getCheck("editPulse"),
+
+            shadow:
+                getCheck("editShadow"),
+
+            autoplay:
+                getVal("editAutoplay") === "true",
+
+            volume:
+                getNum("editVolume") || 80,
+
+            bgPosition:
+                getVal("editBgPosition") ||
+                "center",
+
+            bgSize:
+                getVal("editBgSize") ||
+                "cover",
+
+            avatar,
+
+            banner,
+
+            verified,
+
+            bgImage,
+
+            gallery:
+                finalGallery,
+
+            files:
+                finalFiles,
+
+            music:
+                finalMusic,
+
+            links,
+
+            stats:
+                oldStats,
+
+            likes:
+                old.likes || {},
+
+            followers:
+                old.followers || {},
+
+            createdAt:
+                old.createdAt ||
+                Date.now(),
+
+            updatedAt:
+                Date.now()
+
+        };
+
+
+        /* =========================================
+           SAVE
+        ========================================= */
+
+        if (window._editingId) {
+
+            /* segurança no cliente */
+
+            if (
+                old.ownerId &&
+                old.ownerId !==
+                window.currentUser.uid
+            ) {
+
+                showToast(
+                    "❌",
+                    "Você não é o dono desse perfil."
+                );
+
+                return;
+
+            }
+
+
+            await set(
+                ref(
+                    db,
+                    `profiles/${window._editingId}`
+                ),
+                profileData
+            );
+
+
+            showToast(
+                "✅",
+                "Perfil atualizado!"
+            );
+
+        } else {
+
+            const newRef =
+                push(profilesRef);
+
+
+            profileData.ownerId =
+                window.currentUser.uid;
+
+
+            await set(
+                newRef,
+                profileData
+            );
+
+
+            showToast(
+                "🎉",
+                `Perfil criado!`
+            );
+
+        }
+
+
+        closeCreator();
+
+        await loadProfiles();
+
+    } catch (error) {
+
+        console.error(error);
+
+        status.textContent = "";
+
+        showToast(
+            "❌",
+            "Erro ao salvar: " +
+            error.message
+        );
+
+    }
+
+};
+
+
+/* =========================================================
+   DELETE
+========================================================= */
+
+window.deleteProfile = async function(id) {
+
+    if (!window.currentUser) {
+
+        showToast(
+            "🔐",
+            "Faça login."
+        );
+
+        return;
+
+    }
+
+
+    const profile =
+        window._profilesData.find(
+            p => p.id === id
+        );
+
+
+    if (!profile) return;
+
+
+    if (
+        profile.ownerId !==
+        window.currentUser.uid
+    ) {
+
+        showToast(
+            "❌",
+            "Você não é o dono desse perfil."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        !confirm(
+            "Tem certeza que deseja excluir este perfil?"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    try {
+
+        await remove(
+            ref(
+                db,
+                `profiles/${id}`
+            )
+        );
+
+
+        closeProfileViewer();
+
+
+        showToast(
+            "🗑️",
+            "Perfil removido."
+        );
+
+
+        await loadProfiles();
+
+    } catch (error) {
+
+        console.error(error);
+
+        showToast(
+            "❌",
+            "Erro ao excluir o perfil."
+        );
+
+    }
+
+};
+
+
+/* =========================================================
+   VISITOR ID
+========================================================= */
+
+function getVisitorId() {
 
     let id =
         localStorage.getItem(
             "perfilme_visitor_id"
         );
 
-    if(!id){
+
+    if (!id) {
 
         id =
             crypto.randomUUID
-            ? crypto.randomUUID()
-            : "v_"+Date.now()+"_"+Math.random();
+                ? crypto.randomUUID()
+                : "v_" +
+                  Date.now() +
+                  "_" +
+                  Math.random()
+                    .toString(36)
+                    .slice(2);
+
 
         localStorage.setItem(
             "perfilme_visitor_id",
@@ -1818,1911 +4546,1834 @@ function getVisitorId(){
 
     }
 
+
     return id.replace(
-        /[.#$[\]/]/g,
+        /[.#$\[\]/]/g,
         "_"
     );
 
 }
 
-function requireLogin(callback){
-
-    if(!currentUser){
-
-        showToast(
-            "🔐 Você precisa estar logado."
-        );
-
-        openLogin();
-
-        return;
-
-    }
-
-    callback();
-
-}
-
-function fileToDataURL(file){
-
-    return new Promise(resolve=>{
-
-        if(!file){
-
-            resolve("");
-
-            return;
-
-        }
-
-        const reader =
-            new FileReader();
-
-        reader.onload=()=>{
-            resolve(reader.result);
-        };
-
-        reader.readAsDataURL(file);
-
-    });
-
-}
 
 /* =========================================================
-   HOME
+   STATS
 ========================================================= */
 
-window.goHome = function(){
+function getStats(profile) {
 
-    history.pushState(
-        {},
-        "",
-        location.pathname
+    const stats =
+        profile.stats || {};
+
+
+    return {
+
+        views:
+            Number(
+                stats.views ??
+                profile.views ??
+                0
+            ),
+
+        likes:
+            Number(
+                stats.likes ?? 0
+            ),
+
+        followers:
+            Number(
+                stats.followers ??
+                profile.followers ??
+                0
+            )
+
+    };
+
+}
+
+
+function getMapCount(map) {
+
+    return (
+        map &&
+        typeof map === "object"
+    )
+        ? Object.keys(map).length
+        : 0;
+
+}
+
+
+function hasUserAction(
+    profile,
+    type
+) {
+
+    const visitorId =
+        getVisitorId();
+
+
+    return !!(
+        profile?.[type]?.[visitorId]
     );
 
-    document
-        .getElementById("profilePage")
-        .style.display="none";
+}
 
-    document
-        .getElementById("homePage")
-        .style.display="block";
-
-    window.scrollTo(0,0);
-
-};
 
 /* =========================================================
-   LOAD PROFILES
+   ESCAPE
 ========================================================= */
 
-async function loadProfiles(){
+function escapeHTML(value) {
 
-    try{
-
-        const snapshot =
-            await get(profilesRef);
-
-        if(!snapshot.exists()){
-
-            profiles=[];
-
-            renderProfiles();
-
-            return;
-
-        }
-
-        const data =
-            snapshot.val();
-
-        profiles =
-            Object.entries(data)
-            .map(([id,p])=>({
-
-                id,
-                ...p,
-
-                stats:p.stats || {},
-
-                likes:
-                    p.likes &&
-                    typeof p.likes==="object"
-                    ? p.likes
-                    : {},
-
-                followers:
-                    p.followers &&
-                    typeof p.followers==="object"
-                    ? p.followers
-                    : {}
-
-            }));
-
-        renderProfiles();
-
-        updateLoginButton();
-
-    }catch(e){
-
-        console.error(e);
-
-        document
-            .getElementById("profilesGrid")
-            .innerHTML=`
-
-            <div class="empty">
-
-                ⚠️
-
-                <h3>
-                    Erro ao carregar perfis
-                </h3>
-
-                <p>
-                    ${escapeHTML(e.message)}
-                </p>
-
-            </div>
-
-            `;
-
-    }
+    return String(
+        value ?? ""
+    ).replace(
+        /[&<>"']/g,
+        c => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#039;"
+        }[c])
+    );
 
 }
 
+
 /* =========================================================
-   RENDER CARDS
+   NUMBER
 ========================================================= */
 
-function renderProfiles(){
+function formatNumber(number) {
 
-    const grid =
-        document.getElementById(
-            "profilesGrid"
-        );
+    return Number(
+        number || 0
+    ).toLocaleString(
+        "pt-BR"
+    );
 
-    if(!profiles.length){
+}
 
-        grid.innerHTML=`
 
-        <div class="empty">
+/* =========================================================
+   LINKS
+========================================================= */
 
-            <div style="font-size:50px">
-                ✨
-            </div>
+function linkHTML(links) {
 
-            <h3>Nenhum perfil ainda</h3>
+    if (
+        !Array.isArray(links) ||
+        !links.length
+    ) {
 
-            <p style="margin-top:8px">
-                Seja o primeiro a criar.
-            </p>
-
-        </div>
-
+        return `
+            <span class="viewer-empty">
+                Nenhum link adicionado.
+            </span>
         `;
 
-        return;
-
     }
 
-    grid.innerHTML =
-        profiles.map(profile=>{
 
-            const views =
-                Number(
-                    profile.stats?.views ||
-                    profile.views ||
-                    0
-                );
-
-            const likes =
-                Object.keys(
-                    profile.likes || {}
-                ).length;
-
-            const followers =
-                Object.keys(
-                    profile.followers || {}
-                ).length;
-
-            const avatar =
-                profile.avatar ||
-                "https://placehold.co/200x200/14141d/ffffff?text="+
-                encodeURIComponent(
-                    (profile.name||"?")
-                    .charAt(0)
-                );
-
-            return `
-
-            <article
-                class="profile-card"
-                data-search="${escapeHTML(
-                    (profile.name||"")+" "+
-                    (profile.username||"")
-                ).toLowerCase()}"
-                onclick="openProfile('${escapeHTML(profile.username)}')">
-
-                <img
-                    class="card-avatar"
-                    src="${escapeHTML(avatar)}">
-
-                <div
-                    class="card-name"
-                    style="color:${escapeHTML(
-                        profile.primary ||
-                        "#fff"
-                    )}">
-                    ${escapeHTML(profile.name)}
-                </div>
-
-                <div class="card-username">
-                    @${escapeHTML(profile.username)}
-                </div>
-
-                ${
-                    profile.bio
-                    ? `
-                    <div class="card-bio">
-                        ${escapeHTML(profile.bio)}
-                    </div>
-                    `
-                    :""
-                }
-
-                <div class="card-stats">
-
-                    <span class="card-stat">
-                        👁️ ${formatNumber(views)}
-                    </span>
-
-                    <span class="card-stat">
-                        ❤️ ${formatNumber(likes)}
-                    </span>
-
-                    <span class="card-stat">
-                        👤 ${formatNumber(followers)}
-                    </span>
-
-                </div>
-
-            </article>
-
-            `;
-
-        }).join("");
+    return links
+        .map(
+            l => `
+                <a
+                    href="${escapeHTML(l.url)}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    🔗
+                    ${escapeHTML(l.label)}
+                </a>
+            `
+        )
+        .join("");
 
 }
 
-/* =========================================================
-   SEARCH
-========================================================= */
-
-window.filterProfiles=function(){
-
-    const term =
-        document
-        .getElementById("search")
-        .value
-        .toLowerCase()
-        .trim();
-
-    document
-        .querySelectorAll(".profile-card")
-        .forEach(card=>{
-
-            card.style.display =
-                card.dataset.search
-                .includes(term)
-                ? ""
-                : "none";
-
-        });
-
-};
 
 /* =========================================================
-   OPEN PROFILE BY USERNAME
+   GALLERY
 ========================================================= */
 
-window.openProfile = async function(username){
+function galleryHTML(gallery) {
 
-    const profile =
-        profiles.find(
-            p=>
-                p.username?.toLowerCase() ===
-                username.toLowerCase()
-        );
+    if (
+        !Array.isArray(gallery) ||
+        !gallery.length
+    ) {
 
-    if(!profile){
-
-        showToast("❌ Perfil não encontrado.");
-
-        return;
+        return `
+            <span class="viewer-empty">
+                Nenhuma imagem na galeria.
+            </span>
+        `;
 
     }
 
-    viewingProfile=profile;
 
-    history.pushState(
-        {},
-        "",
-        "?u="+encodeURIComponent(
-            profile.username
+    return gallery
+        .map(
+            img => `
+                <img
+                    src="${escapeHTML(img)}"
+                    alt="Imagem"
+                    loading="lazy"
+                >
+            `
         )
-    );
+        .join("");
 
-    document
-        .getElementById("homePage")
-        .style.display="none";
+}
 
-    document
-        .getElementById("profilePage")
-        .style.display="block";
 
-    renderProfile(profile);
+/* =========================================================
+   MUSIC
+========================================================= */
 
-    window.scrollTo(0,0);
+function musicHTML(
+    music,
+    autoplay,
+    volume
+) {
 
-    /*
-        Visualização automática.
-        O localStorage impede que a mesma pessoa
-        fique recarregando a página e gerando infinitas
-        visualizações.
-    */
+    if (
+        !Array.isArray(music) ||
+        !music.length
+    ) {
 
-    const viewKey =
-        "viewed_"+profile.id;
+        return `
+            <span class="viewer-empty">
+                Nenhuma música adicionada.
+            </span>
+        `;
 
-    if(!sessionStorage.getItem(viewKey)){
+    }
 
-        sessionStorage.setItem(
-            viewKey,
-            "1"
-        );
 
-        try{
+    return music
+        .map(
+            (m, i) => {
 
-            const statsRef =
-                ref(
-                    db,
-                    `profiles/${profile.id}/stats/views`
-                );
+                const auto =
+                    autoplay &&
+                    i === 0
+                        ? "autoplay"
+                        : "";
 
-            const result =
-                await runTransaction(
-                    statsRef,
-                    current =>
-                        Number(current||0)+1
-                );
 
-            if(result.committed){
+                const vol =
+                    Math.max(
+                        0,
+                        Math.min(
+                            100,
+                            Number(
+                                volume ?? 80
+                            )
+                        )
+                    ) / 100;
 
-                profile.stats =
-                    profile.stats || {};
 
-                profile.stats.views =
-                    result.snapshot.val();
+                return `
+                    <div>
 
-                renderProfile(profile);
+                        <div
+                            style="
+                                font-size:13px;
+                                margin-bottom:5px;
+                            "
+                        >
+                            🎵
+                            ${escapeHTML(
+                                m.title ||
+                                "Música " +
+                                (i + 1)
+                            )}
+                        </div>
+
+                        <audio
+                            controls
+                            ${auto}
+                            src="${escapeHTML(
+                                m.blob || ""
+                            )}"
+                            data-volume="${vol}"
+                        ></audio>
+
+                    </div>
+                `;
 
             }
+        )
+        .join("");
 
-        }catch(e){
+}
 
-            console.error(
-                "Erro na visualização:",
-                e
+
+/* =========================================================
+   OPEN PROFILE
+========================================================= */
+
+window.openProfile = async function(id) {
+
+    const profile =
+        window._profilesData.find(
+            p => p.id === id
+        );
+
+
+    if (!profile) return;
+
+
+    window._viewingProfileId =
+        id;
+
+    window._viewingProfile =
+        profile;
+
+
+    document
+        .getElementById(
+            "profileViewerModal"
+        )
+        .classList.add("active");
+
+
+    renderProfileViewer(
+        profile
+    );
+
+
+    /* =========================================
+       VIEW
+    ========================================= */
+
+    try {
+
+        const statsRef =
+            ref(
+                db,
+                `profiles/${id}/stats/views`
             );
+
+
+        const result =
+            await runTransaction(
+                statsRef,
+                current =>
+                    Number(
+                        current || 0
+                    ) + 1
+            );
+
+
+        if (result.committed) {
+
+            profile.stats =
+                profile.stats || {};
+
+
+            profile.stats.views =
+                result.snapshot.val();
+
+
+            renderProfileViewer(
+                profile
+            );
+
+
+            loadProfiles();
 
         }
 
+    } catch (error) {
+
+        console.error(
+            "Erro ao registrar visualização:",
+            error
+        );
+
     }
 
 };
+
 
 /* =========================================================
    RENDER PROFILE
 ========================================================= */
 
-function renderProfile(profile){
+function renderProfileViewer(
+    profile
+) {
 
-    const container =
-        document.getElementById(
-            "profileContainer"
-        );
+    const stats =
+        getStats(profile);
 
-    const views =
-        Number(
-            profile.stats?.views ||
-            profile.views ||
-            0
-        );
 
     const likes =
-        Object.keys(
-            profile.likes || {}
-        ).length;
+        getMapCount(
+            profile.likes
+        ) ||
+        stats.likes;
+
 
     const followers =
-        Object.keys(
-            profile.followers || {}
-        ).length;
+        getMapCount(
+            profile.followers
+        ) ||
+        stats.followers;
 
-    const visitorId =
-        getVisitorId();
 
     const liked =
-        !!profile.likes?.[visitorId];
+        hasUserAction(
+            profile,
+            "likes"
+        );
+
 
     const following =
-        !!profile.followers?.[visitorId];
-
-    const owner =
-        currentUser &&
-        profile.uid === currentUser.uid;
-
-    const avatar =
-        profile.avatar ||
-        "https://placehold.co/300x300/14141d/ffffff?text="+
-        encodeURIComponent(
-            (profile.name||"?").charAt(0)
+        hasUserAction(
+            profile,
+            "followers"
         );
+
+
+    const isOwner =
+        !!(
+            window.currentUser &&
+            profile.ownerId ===
+            window.currentUser.uid
+        );
+
 
     const bannerStyle =
         profile.banner
-        ? `background-image:url("${escapeHTML(profile.banner)}");`
-        : `
-        background:
-        linear-gradient(
-            135deg,
-            ${escapeHTML(profile.primary||"#8b5cf6")},
-            ${escapeHTML(profile.secondary||"#06b6d4")}
-        );
-        `;
+            ? `
+                background-image:
+                    url("${escapeHTML(profile.banner)}");
+            `
+            : `
+                background:
+                    linear-gradient(
+                        135deg,
+                        ${escapeHTML(
+                            profile.primary ||
+                            "#8b5cf6"
+                        )},
+                        ${escapeHTML(
+                            profile.secondary ||
+                            "#06b6d4"
+                        )}
+                    );
+            `;
 
-    const links =
-        Array.isArray(profile.links)
-        ? profile.links
-        : [];
 
-    const gallery =
-        Array.isArray(profile.gallery)
-        ? profile.gallery
-        : [];
+    const avatar =
+        profile.avatar ||
+        `
+            https://placehold.co/200x200/
+            14141e/
+            ffffff
+            ?text=${
+                encodeURIComponent(
+                    (
+                        profile.name ||
+                        "?"
+                    ).charAt(0)
+                )
+            }
+        `.replace(/\s/g, "");
 
-    const music =
-        Array.isArray(profile.music)
-        ? profile.music
-        : [];
 
-    container.innerHTML=`
+    document.getElementById(
+        "profileViewerContent"
+    ).innerHTML = `
 
-    <div
-        class="profile-banner"
-        style="${bannerStyle}">
-    </div>
+        <div
+            class="viewer-banner"
+            style="${bannerStyle}"
+        ></div>
 
-    <div class="profile-content">
+        <div class="viewer-content">
 
-        <div class="profile-top">
+            <div class="viewer-head">
 
-            <div>
+                <div>
 
-                <img
-                    class="profile-avatar"
-                    src="${escapeHTML(avatar)}">
+                    <img
+                        class="viewer-avatar"
+                        src="${escapeHTML(avatar)}"
+                        alt="Avatar"
+                    >
 
-                <div
-                    class="profile-name"
-                    style="color:${escapeHTML(
-                        profile.primary||"#fff"
-                    )}">
-                    ${escapeHTML(profile.name)}
-                </div>
+                    <div
+                        class="viewer-name"
+                        style="
+                            color:${escapeHTML(
+                                profile.primary ||
+                                "#fff"
+                            )};
+                        "
+                    >
+                        ${escapeHTML(
+                            profile.name
+                        )}
+                    </div>
 
-                <div class="profile-username">
-                    @${escapeHTML(profile.username)}
+                    <div class="viewer-username">
+                        @${escapeHTML(
+                            profile.username
+                        )}
+                    </div>
+
+                    ${
+                        isOwner
+                            ? `
+                                <div class="owner-badge">
+                                    👑 Seu perfil
+                                </div>
+                            `
+                            : ""
+                    }
+
                 </div>
 
             </div>
 
-            <div>
-
-                ${
-                    owner
+            ${
+                profile.bio
                     ? `
-                    <button
-                        class="btn"
-                        onclick="editMyProfile()">
-                        ✏️ Editar
-                    </button>
-
-                    <button
-                        class="btn btn-danger"
-                        onclick="deleteMyProfile()">
-                        🗑️
-                    </button>
-                    `
-                    :""
-                }
-
-            </div>
-
-        </div>
-
-        ${
-            profile.bio
-            ? `
-            <div class="profile-bio">
-                ${escapeHTML(profile.bio)}
-            </div>
-            `
-            :""
-        }
-
-        ${
-            profile.location
-            ? `
-            <div class="profile-location">
-                📍 ${escapeHTML(profile.location)}
-            </div>
-            `
-            :""
-        }
-
-        <div class="profile-stats">
-
-            <div class="stat">
-
-                <strong>
-                    ${formatNumber(views)}
-                </strong>
-
-                <span>
-                    Visualizações
-                </span>
-
-            </div>
-
-            <div class="stat">
-
-                <strong>
-                    ${formatNumber(likes)}
-                </strong>
-
-                <span>
-                    Curtidas
-                </span>
-
-            </div>
-
-            <div class="stat">
-
-                <strong>
-                    ${formatNumber(followers)}
-                </strong>
-
-                <span>
-                    Seguidores
-                </span>
-
-            </div>
-
-            <div class="stat">
-
-                <strong>
-                    ${formatNumber(profile.posts||0)}
-                </strong>
-
-                <span>
-                    Posts
-                </span>
-
-            </div>
-
-        </div>
-
-        <div class="profile-actions">
-
-            <button
-                class="btn ${liked?"active":""}"
-                onclick="toggleLike()">
-
-                ${liked
-                    ? "❤️ Curtido"
-                    : "🤍 Curtir"}
-
-            </button>
-
-            <button
-                class="btn ${following?"active":""}"
-                onclick="toggleFollow()">
-
-                ${following
-                    ? "👤 Seguindo"
-                    : "➕ Seguir"}
-
-            </button>
-
-            <button
-                class="btn"
-                onclick="copyProfileLink()">
-
-                🔗 Compartilhar
-
-            </button>
-
-        </div>
-
-        ${
-            links.length
-            ? `
-
-            <div class="section">
-
-                <h3>🔗 Links</h3>
-
-                <div class="links">
-
-                    ${
-                        links.map(link=>`
-
-                        <a
-                            href="${escapeHTML(link.url)}"
-                            target="_blank"
-                            rel="noopener noreferrer">
-
-                            🔗
-                            ${escapeHTML(link.label)}
-
-                        </a>
-
-                        `).join("")
-                    }
-
-                </div>
-
-            </div>
-
-            `
-            :""
-        }
-
-        ${
-            gallery.length
-            ? `
-
-            <div class="section">
-
-                <h3>🖼️ Galeria</h3>
-
-                <div class="gallery">
-
-                    ${
-                        gallery.map(img=>`
-
-                        <img
-                            src="${escapeHTML(img)}"
-                            loading="lazy">
-
-                        `).join("")
-                    }
-
-                </div>
-
-            </div>
-
-            `
-            :""
-        }
-
-        ${
-            music.length
-            ? `
-
-            <div class="section">
-
-                <h3>🎵 Música</h3>
-
-                <div class="music">
-
-                    ${
-                        music.map((m,i)=>`
-
-                        <div class="music-item">
-
-                            🎵
+                        <div class="viewer-bio">
                             ${escapeHTML(
-                                m.title ||
-                                "Música "+(i+1)
+                                profile.bio
                             )}
+                        </div>
+                    `
+                    : ""
+            }
 
-                            <audio
-                                controls
-                                ${
-                                    i===0 &&
-                                    profile.autoplay
-                                    ? "autoplay"
-                                    :""
-                                }
-                                src="${escapeHTML(
-                                    m.blob||""
-                                )}">
-                            </audio>
+            ${
+                profile.location
+                    ? `
+                        <div class="viewer-location">
+                            📍
+                            ${escapeHTML(
+                                profile.location
+                            )}
+                        </div>
+                    `
+                    : ""
+            }
+
+
+            <div class="viewer-stats">
+
+                <div class="viewer-stat">
+
+                    <strong id="viewerViews">
+                        ${formatNumber(
+                            stats.views
+                        )}
+                    </strong>
+
+                    <span>
+                        Visualizações
+                    </span>
+
+                </div>
+
+
+                <div class="viewer-stat">
+
+                    <strong id="viewerLikes">
+                        ${formatNumber(
+                            likes
+                        )}
+                    </strong>
+
+                    <span>
+                        Curtidas
+                    </span>
+
+                </div>
+
+
+                <div class="viewer-stat">
+
+                    <strong id="viewerFollowers">
+                        ${formatNumber(
+                            followers
+                        )}
+                    </strong>
+
+                    <span>
+                        Seguidores
+                    </span>
+
+                </div>
+
+
+                <div class="viewer-stat">
+
+                    <strong>
+                        ${formatNumber(
+                            profile.posts || 0
+                        )}
+                    </strong>
+
+                    <span>
+                        Posts
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            ${
+                isOwner
+                    ? `
+                        <div class="owner-tools">
+
+                            <button
+                                class="btn btn-primary"
+                                onclick="editViewedProfile()"
+                            >
+                                ✏️ Editar perfil
+                            </button>
+
+                            <button
+                                class="btn btn-danger"
+                                onclick="deleteProfile('${escapeHTML(profile.id)}')"
+                            >
+                                🗑️ Excluir
+                            </button>
 
                         </div>
+                    `
+                    : `
+                        <div class="viewer-actions">
 
-                        `).join("")
-                    }
+                            <button
+                                id="likeButton"
+                                class="btn ${
+                                    liked
+                                        ? "active"
+                                        : ""
+                                }"
+                                onclick="toggleLike()"
+                            >
+                                ${
+                                    liked
+                                        ? "❤️ Curtido"
+                                        : "🤍 Curtir"
+                                }
+                            </button>
+
+                            <button
+                                id="followButton"
+                                class="btn ${
+                                    following
+                                        ? "active"
+                                        : ""
+                                }"
+                                onclick="toggleFollow()"
+                            >
+                                ${
+                                    following
+                                        ? "👤 Seguindo"
+                                        : "➕ Seguir"
+                                }
+                            </button>
+
+                        </div>
+                    `
+            }
+
+
+            <div class="viewer-section">
+
+                <h3>
+                    🔗 Links
+                </h3>
+
+                <div class="viewer-links">
+                    ${linkHTML(
+                        profile.links
+                    )}
+                </div>
+
+            </div>
+
+
+            <div class="viewer-section">
+
+                <h3>
+                    🖼️ Galeria
+                </h3>
+
+                <div class="viewer-gallery">
+                    ${galleryHTML(
+                        profile.gallery
+                    )}
+                </div>
+
+            </div>
+
+
+            <div class="viewer-section">
+
+                <h3>
+                    🎵 Música
+                </h3>
+
+                <div class="viewer-music">
+
+                    ${musicHTML(
+                        profile.music,
+                        profile.autoplay,
+                        profile.volume
+                    )}
 
                 </div>
 
             </div>
 
-            `
-            :""
-        }
-
-    </div>
+        </div>
 
     `;
 
-    applyProfileStyle(profile);
+
+    /* volume */
+
+    document
+        .querySelectorAll(
+            ".viewer-music audio"
+        )
+        .forEach(audio => {
+
+            audio.volume =
+                Number(
+                    audio.dataset.volume
+                ) || .8;
+
+        });
 
 }
+
 
 /* =========================================================
-   PROFILE STYLE
+   CLOSE VIEWER
 ========================================================= */
 
-function applyProfileStyle(profile){
+window.closeProfileViewer =
+    function() {
 
-    const root =
-        document.documentElement;
+        document
+            .getElementById(
+                "profileViewerModal"
+            )
+            .classList.remove("active");
 
-    if(profile.primary)
-        root.style.setProperty(
-            "--primary",
-            profile.primary
+
+        document.getElementById(
+            "profileViewerContent"
+        ).innerHTML = "";
+
+
+        window._viewingProfileId =
+            null;
+
+
+        window._viewingProfile =
+            null;
+
+    };
+
+
+/* =========================================================
+   EDIT VIEWED PROFILE
+========================================================= */
+
+window.editViewedProfile =
+    function() {
+
+        const profile =
+            window._viewingProfile;
+
+
+        if (!profile) return;
+
+
+        if (!window.currentUser) {
+
+            showToast(
+                "🔐",
+                "Faça login."
+            );
+
+            return;
+
+        }
+
+
+        if (
+            profile.ownerId !==
+            window.currentUser.uid
+        ) {
+
+            showToast(
+                "❌",
+                "Você não é o dono desse perfil."
+            );
+
+            return;
+
+        }
+
+
+        closeProfileViewer();
+
+        window._editingData =
+            profile;
+
+        openCreator(
+            profile
         );
 
-    if(profile.secondary)
-        root.style.setProperty(
-            "--secondary",
-            profile.secondary
-        );
+    };
 
-    if(profile.bgColor)
-        root.style.setProperty(
-            "--bg",
-            profile.bgColor
-        );
-
-    if(profile.textColor)
-        root.style.setProperty(
-            "--text",
-            profile.textColor
-        );
-
-    if(profile.font)
-        root.style.setProperty(
-            "--font",
-            profile.font
-        );
-
-    if(profile.radius)
-        root.style.setProperty(
-            "--radius",
-            profile.radius+"px"
-        );
-
-}
 
 /* =========================================================
    LIKE
 ========================================================= */
 
-window.toggleLike=function(){
+window.toggleLike =
+    async function() {
 
-    requireLogin(
-        async ()=>{
+        if (!window.currentUser) {
 
-            if(!viewingProfile)
-                return;
+            showToast(
+                "🔐",
+                "Faça login para curtir."
+            );
 
-            const uid =
-                currentUser.uid;
+            openAuth();
 
-            const likeRef =
-                ref(
-                    db,
-                    `profiles/${viewingProfile.id}/likes/${uid}`
-                );
+            return;
 
-            try{
+        }
 
-                const result =
-                    await runTransaction(
-                        likeRef,
-                        current =>
-                            current
+
+        const id =
+            window._viewingProfileId;
+
+
+        if (!id) return;
+
+
+        const visitorId =
+            getVisitorId();
+
+
+        const markerRef =
+            ref(
+                db,
+                `profiles/${id}/likes/${visitorId}`
+            );
+
+
+        try {
+
+            const result =
+                await runTransaction(
+                    markerRef,
+                    current =>
+                        current
                             ? null
                             : true
-                    );
-
-                if(result.committed){
-
-                    viewingProfile.likes =
-                        viewingProfile.likes ||
-                        {};
-
-                    if(result.snapshot.exists()){
-
-                        viewingProfile.likes[uid]=true;
-
-                        showToast(
-                            "❤️ Curtida adicionada!"
-                        );
-
-                    }else{
-
-                        delete viewingProfile.likes[uid];
-
-                        showToast(
-                            "🤍 Curtida removida."
-                        );
-
-                    }
-
-                    renderProfile(
-                        viewingProfile
-                    );
-
-                }
-
-            }catch(e){
-
-                console.error(e);
-
-                showToast(
-                    "❌ Não foi possível curtir."
                 );
+
+
+            if (!result.committed)
+                return;
+
+
+            const profile =
+                window._profilesData.find(
+                    p => p.id === id
+                );
+
+
+            if (!profile) return;
+
+
+            profile.likes =
+                profile.likes || {};
+
+
+            if (
+                result.snapshot.exists()
+            ) {
+
+                profile.likes[
+                    visitorId
+                ] = true;
+
+            } else {
+
+                delete profile.likes[
+                    visitorId
+                ];
 
             }
 
-        }
-    );
 
-};
+            profile.stats =
+                profile.stats || {};
+
+
+            profile.stats.likes =
+                getMapCount(
+                    profile.likes
+                );
+
+
+            window._viewingProfile =
+                profile;
+
+
+            renderProfileViewer(
+                profile
+            );
+
+
+            showToast(
+
+                result.snapshot.exists()
+                    ? "❤️"
+                    : "🤍",
+
+                result.snapshot.exists()
+                    ? "Curtida adicionada!"
+                    : "Curtida removida!"
+
+            );
+
+
+            loadProfiles();
+
+        } catch (error) {
+
+            console.error(error);
+
+            showToast(
+                "❌",
+                "Não foi possível registrar a curtida."
+            );
+
+        }
+
+    };
+
 
 /* =========================================================
    FOLLOW
 ========================================================= */
 
-window.toggleFollow=function(){
+window.toggleFollow =
+    async function() {
 
-    requireLogin(
-        async ()=>{
-
-            if(!viewingProfile)
-                return;
-
-            if(
-                viewingProfile.uid ===
-                currentUser.uid
-            ){
-
-                showToast(
-                    "😎 Você não pode seguir você mesmo."
-                );
-
-                return;
-
-            }
-
-            const uid =
-                currentUser.uid;
-
-            const followRef =
-                ref(
-                    db,
-                    `profiles/${viewingProfile.id}/followers/${uid}`
-                );
-
-            try{
-
-                const result =
-                    await runTransaction(
-                        followRef,
-                        current =>
-                            current
-                            ? null
-                            : true
-                    );
-
-                if(result.committed){
-
-                    viewingProfile.followers =
-                        viewingProfile.followers ||
-                        {};
-
-                    if(result.snapshot.exists()){
-
-                        viewingProfile.followers[uid]=true;
-
-                        showToast(
-                            "👤 Você está seguindo!"
-                        );
-
-                    }else{
-
-                        delete viewingProfile.followers[uid];
-
-                        showToast(
-                            "👋 Você deixou de seguir."
-                        );
-
-                    }
-
-                    renderProfile(
-                        viewingProfile
-                    );
-
-                }
-
-            }catch(e){
-
-                console.error(e);
-
-                showToast(
-                    "❌ Não foi possível seguir."
-                );
-
-            }
-
-        }
-    );
-
-};
-
-/* =========================================================
-   COPY PROFILE
-========================================================= */
-
-window.copyProfileLink=function(){
-
-    const url =
-        location.origin +
-        location.pathname +
-        "?u="+
-        encodeURIComponent(
-            viewingProfile.username
-        );
-
-    navigator.clipboard
-        .writeText(url)
-        .then(()=>{
-            showToast(
-                "🔗 Link copiado!"
-            );
-        });
-
-};
-
-/* =========================================================
-   CREATOR
-========================================================= */
-
-window.openCreator=function(){
-
-    if(!currentUser){
-
-        openLogin();
-
-        return;
-
-    }
-
-    editingProfile=null;
-
-    clearCreator();
-
-    document.getElementById(
-        "creatorTitle"
-    ).textContent=
-        "✨ Criar Perfil";
-
-    document
-        .getElementById("creatorModal")
-        .classList.add("active");
-
-};
-
-window.closeCreator=function(){
-
-    document
-        .getElementById("creatorModal")
-        .classList.remove("active");
-
-};
-
-function clearCreator(){
-
-    const ids=[
-
-        "editName",
-        "editUsername",
-        "editBio",
-        "editLocation",
-        "editBirthday",
-        "editDiscord",
-        "editYoutube",
-        "editGithub",
-        "editInstagram",
-        "editTiktok",
-        "editTwitter",
-        "editTwitch",
-        "editSpotify",
-        "editWebsite"
-
-    ];
-
-    ids.forEach(id=>{
-
-        const el=
-            document.getElementById(id);
-
-        if(el) el.value="";
-
-    });
-
-    document.getElementById(
-        "editPrimary"
-    ).value="#8b5cf6";
-
-    document.getElementById(
-        "editSecondary"
-    ).value="#06b6d4";
-
-    document.getElementById(
-        "editTextColor"
-    ).value="#ffffff";
-
-    document.getElementById(
-        "editBgColor"
-    ).value="#08080d";
-
-    document.getElementById(
-        "editRadius"
-    ).value=20;
-
-    document.getElementById(
-        "editBlur"
-    ).value=18;
-
-    document.getElementById(
-        "editFontSize"
-    ).value=14;
-
-    document.getElementById(
-        "editVolume"
-    ).value=80;
-
-    document
-        .querySelectorAll(
-            ".checks input"
-        )
-        .forEach(x=>x.checked=false);
-
-    document.getElementById(
-        "musicPreview"
-    ).innerHTML="";
-
-    document.getElementById(
-        "galleryPreview"
-    ).innerHTML="";
-
-    updateRanges();
-
-}
-
-/* =========================================================
-   EDIT PROFILE
-========================================================= */
-
-window.editMyProfile=function(){
-
-    if(!currentUser ||
-       !viewingProfile)
-        return;
-
-    if(
-        viewingProfile.uid !==
-        currentUser.uid
-    ){
-
-        showToast(
-            "❌ Este perfil não é seu."
-        );
-
-        return;
-
-    }
-
-    editingProfile=
-        viewingProfile;
-
-    fillCreator(
-        viewingProfile
-    );
-
-    document.getElementById(
-        "creatorTitle"
-    ).textContent=
-        "✏️ Editar Perfil";
-
-    document
-        .getElementById("creatorModal")
-        .classList.add("active");
-
-};
-
-function fillCreator(p){
-
-    const values={
-
-        editName:p.name,
-        editUsername:p.username,
-        editBio:p.bio,
-        editLocation:p.location,
-        editBirthday:p.birthday,
-        editGender:p.gender,
-        editPrimary:p.primary,
-        editSecondary:p.secondary,
-        editTextColor:p.textColor,
-        editBgColor:p.bgColor,
-        editRadius:p.radius,
-        editBlur:p.blur,
-        editFont:p.font,
-        editFontSize:p.fontSize,
-        editAutoplay:
-            p.autoplay ? "true":"false",
-        editVolume:p.volume,
-        editBgPosition:p.bgPosition,
-        editBgSize:p.bgSize
-
-    };
-
-    Object.entries(values)
-        .forEach(([id,value])=>{
-
-            const el =
-                document.getElementById(id);
-
-            if(el && value!==undefined)
-                el.value=value;
-
-        });
-
-    const checks=[
-
-        "editBold",
-        "editItalic",
-        "editUppercase",
-        "editGlow",
-        "editParticles",
-        "editGlitch",
-        "editNeon",
-        "editRainbow",
-        "editFloating",
-        "editPulse"
-
-    ];
-
-    checks.forEach(id=>{
-
-        const el =
-            document.getElementById(id);
-
-        if(el)
-            el.checked=!!p[
-                id.replace("edit","")
-                   .charAt(0)
-                   .toLowerCase()+
-                id.replace("edit","")
-                   .slice(1)
-            ];
-
-    });
-
-    const links =
-        Array.isArray(p.links)
-        ? p.links
-        : [];
-
-    const linkMap={};
-
-    links.forEach(l=>{
-        linkMap[l.label]=l.url;
-    });
-
-    const linkFields={
-
-        editDiscord:"Discord",
-        editYoutube:"YouTube",
-        editGithub:"GitHub",
-        editInstagram:"Instagram",
-        editTiktok:"TikTok",
-        editTwitter:"Twitter",
-        editTwitch:"Twitch",
-        editSpotify:"Spotify",
-        editWebsite:"Website"
-
-    };
-
-    Object.entries(linkFields)
-        .forEach(([id,label])=>{
-
-            document.getElementById(id)
-                .value=linkMap[label]||"";
-
-        });
-
-    updateRanges();
-
-    document.getElementById(
-        "bioCount"
-    ).textContent=
-        (p.bio||"").length;
-
-}
-
-/* =========================================================
-   SAVE PROFILE
-========================================================= */
-
-window.saveProfile=async function(){
-
-    if(!currentUser){
-
-        openLogin();
-
-        return;
-
-    }
-
-    const name =
-        document
-        .getElementById("editName")
-        .value
-        .trim();
-
-    const username =
-        document
-        .getElementById("editUsername")
-        .value
-        .trim()
-        .toLowerCase();
-
-    if(!name){
-
-        showToast(
-            "❌ Digite seu nome."
-        );
-
-        return;
-
-    }
-
-    if(!username){
-
-        showToast(
-            "❌ Digite um username."
-        );
-
-        return;
-
-    }
-
-    if(!/^[a-z0-9_]+$/.test(username)){
-
-        showToast(
-            "❌ Username inválido."
-        );
-
-        return;
-
-    }
-
-    /*
-        Username único.
-    */
-
-    const duplicate =
-        profiles.find(
-            p=>
-                p.username === username &&
-                p.id !== editingProfile?.id
-        );
-
-    if(duplicate){
-
-        showToast(
-            "❌ Esse username já existe."
-        );
-
-        return;
-
-    }
-
-    const get=id=>
-        document.getElementById(id)?.value || "";
-
-    const checked=id=>
-        !!document.getElementById(id)?.checked;
-
-    /*
-        Uploads.
-    */
-
-    let avatar =
-        editingProfile?.avatar || "";
-
-    let banner =
-        editingProfile?.banner || "";
-
-    let bgImage =
-        editingProfile?.bgImage || "";
-
-    const avatarFile =
-        document
-        .getElementById("editAvatar")
-        .files[0];
-
-    const bannerFile =
-        document
-        .getElementById("editBanner")
-        .files[0];
-
-    const bgFile =
-        document
-        .getElementById("editBgImage")
-        .files[0];
-
-    if(avatarFile)
-        avatar=
-            await fileToDataURL(
-                avatarFile
-            );
-
-    if(bannerFile)
-        banner=
-            await fileToDataURL(
-                bannerFile
-            );
-
-    if(bgFile)
-        bgImage=
-            await fileToDataURL(
-                bgFile
-            );
-
-    /*
-        Galeria.
-    */
-
-    let gallery =
-        editingProfile?.gallery || [];
-
-    const galleryFiles =
-        document
-        .getElementById("editGallery")
-        .files;
-
-    if(galleryFiles.length){
-
-        gallery=[];
-
-        for(const file of galleryFiles){
-
-            gallery.push(
-                await fileToDataURL(file)
-            );
-
-        }
-
-    }
-
-    /*
-        Música.
-    */
-
-    let music =
-        editingProfile?.music || [];
-
-    const musicFiles =
-        document
-        .getElementById("editMusic")
-        .files;
-
-    if(musicFiles.length){
-
-        music=[];
-
-        for(const file of musicFiles){
-
-            if(
-                file.size >
-                10*1024*1024
-            ){
-
-                showToast(
-                    `⚠️ ${file.name} é muito grande.`
-                );
-
-                continue;
-
-            }
-
-            music.push({
-
-                title:
-                    file.name
-                    .replace(
-                        /\.[^/.]+$/,
-                        ""
-                    ),
-
-                artist:"",
-
-                blob:
-                    await fileToDataURL(
-                        file
-                    )
-
-            });
-
-        }
-
-    }
-
-    /*
-        Links.
-    */
-
-    const linkFields=[
-
-        ["editDiscord","Discord"],
-        ["editYoutube","YouTube"],
-        ["editGithub","GitHub"],
-        ["editInstagram","Instagram"],
-        ["editTiktok","TikTok"],
-        ["editTwitter","Twitter"],
-        ["editTwitch","Twitch"],
-        ["editSpotify","Spotify"],
-        ["editWebsite","Website"]
-
-    ];
-
-    const links=[];
-
-    linkFields.forEach(
-        ([id,label])=>{
-
-            const value =
-                get(id).trim();
-
-            if(value){
-
-                links.push({
-                    label,
-                    url:value
-                });
-
-            }
-
-        }
-    );
-
-    const data={
-
-        uid:
-            currentUser.uid,
-
-        name,
-
-        username,
-
-        bio:get("editBio"),
-
-        location:
-            get("editLocation"),
-
-        birthday:
-            get("editBirthday"),
-
-        gender:
-            get("editGender"),
-
-        primary:
-            get("editPrimary") ||
-            "#8b5cf6",
-
-        secondary:
-            get("editSecondary") ||
-            "#06b6d4",
-
-        textColor:
-            get("editTextColor") ||
-            "#ffffff",
-
-        bgColor:
-            get("editBgColor") ||
-            "#08080d",
-
-        radius:
-            Number(get("editRadius"))||20,
-
-        blur:
-            Number(get("editBlur"))||18,
-
-        font:
-            get("editFont") ||
-            "'Segoe UI',system-ui,sans-serif",
-
-        fontSize:
-            Number(get("editFontSize"))||14,
-
-        bold:
-            checked("editBold"),
-
-        italic:
-            checked("editItalic"),
-
-        uppercase:
-            checked("editUppercase"),
-
-        glow:
-            checked("editGlow"),
-
-        particles:
-            checked("editParticles"),
-
-        glitch:
-            checked("editGlitch"),
-
-        neon:
-            checked("editNeon"),
-
-        rainbow:
-            checked("editRainbow"),
-
-        floating:
-            checked("editFloating"),
-
-        pulse:
-            checked("editPulse"),
-
-        autoplay:
-            get("editAutoplay")==="true",
-
-        volume:
-            Number(get("editVolume"))||80,
-
-        bgPosition:
-            get("editBgPosition")||
-            "center",
-
-        bgSize:
-            get("editBgSize")||
-            "cover",
-
-        avatar,
-
-        banner,
-
-        bgImage,
-
-        gallery,
-
-        music,
-
-        links,
-
-        stats:
-            editingProfile?.stats || {
-                views:0
-            },
-
-        likes:
-            editingProfile?.likes || {},
-
-        followers:
-            editingProfile?.followers || {},
-
-        createdAt:
-            editingProfile?.createdAt ||
-            Date.now()
-
-    };
-
-    try{
-
-        if(editingProfile){
-
-            /*
-                Segurança adicional no frontend.
-            */
-
-            if(
-                editingProfile.uid !==
-                currentUser.uid
-            ){
-
-                showToast(
-                    "❌ Você não pode editar esse perfil."
-                );
-
-                return;
-
-            }
-
-            await set(
-                ref(
-                    db,
-                    `profiles/${editingProfile.id}`
-                ),
-                data
-            );
+        if (!window.currentUser) {
 
             showToast(
-                "✅ Perfil atualizado!"
+                "🔐",
+                "Faça login para seguir."
             );
 
-        }else{
+            openAuth();
 
-            const newRef =
-                push(profilesRef);
-
-            await set(
-                newRef,
-                data
-            );
-
-            showToast(
-                "🎉 Perfil criado!"
-            );
+            return;
 
         }
 
-        closeCreator();
 
-        await loadProfiles();
+        const id =
+            window._viewingProfileId;
 
-        openProfile(username);
 
-    }catch(e){
+        if (!id) return;
 
-        console.error(e);
 
-        showToast(
-            "❌ Erro: "+e.message
-        );
+        const visitorId =
+            getVisitorId();
 
-    }
 
-};
-
-/* =========================================================
-   DELETE
-========================================================= */
-
-window.deleteMyProfile=async function(){
-
-    if(!currentUser ||
-       !viewingProfile)
-        return;
-
-    if(
-        viewingProfile.uid !==
-        currentUser.uid
-    ){
-
-        showToast(
-            "❌ Você não é o dono."
-        );
-
-        return;
-
-    }
-
-    const yes =
-        confirm(
-            "Tem certeza que deseja excluir seu perfil?"
-        );
-
-    if(!yes)
-        return;
-
-    try{
-
-        await remove(
+        const markerRef =
             ref(
                 db,
-                `profiles/${viewingProfile.id}`
-            )
+                `profiles/${id}/followers/${visitorId}`
+            );
+
+
+        try {
+
+            const result =
+                await runTransaction(
+                    markerRef,
+                    current =>
+                        current
+                            ? null
+                            : true
+                );
+
+
+            if (!result.committed)
+                return;
+
+
+            const profile =
+                window._profilesData.find(
+                    p => p.id === id
+                );
+
+
+            if (!profile) return;
+
+
+            profile.followers =
+                profile.followers || {};
+
+
+            if (
+                result.snapshot.exists()
+            ) {
+
+                profile.followers[
+                    visitorId
+                ] = true;
+
+            } else {
+
+                delete profile.followers[
+                    visitorId
+                ];
+
+            }
+
+
+            profile.stats =
+                profile.stats || {};
+
+
+            profile.stats.followers =
+                getMapCount(
+                    profile.followers
+                );
+
+
+            window._viewingProfile =
+                profile;
+
+
+            renderProfileViewer(
+                profile
+            );
+
+
+            showToast(
+
+                result.snapshot.exists()
+                    ? "👤"
+                    : "👋",
+
+                result.snapshot.exists()
+                    ? "Você está seguindo!"
+                    : "Você deixou de seguir."
+
+            );
+
+
+            loadProfiles();
+
+        } catch (error) {
+
+            console.error(error);
+
+            showToast(
+                "❌",
+                "Não foi possível alterar o seguimento."
+            );
+
+        }
+
+    };
+
+
+/* =========================================================
+   FILTER
+========================================================= */
+
+window.filterProfiles =
+    function() {
+
+        const term =
+            document
+                .getElementById(
+                    "searchInput"
+                )
+                .value
+                .toLowerCase();
+
+
+        const items =
+            document.querySelectorAll(
+                ".profile-card-link"
+            );
+
+
+        items.forEach(item => {
+
+            const text =
+                item.dataset.search ||
+                "";
+
+
+            item.style.display =
+                text.includes(term)
+                    ? ""
+                    : "none";
+
+        });
+
+    };
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function showToast(
+    icon,
+    message
+) {
+
+    const toast =
+        document.getElementById(
+            "toast"
         );
 
-        showToast(
-            "🗑️ Perfil excluído."
+
+    document.getElementById(
+        "toastIcon"
+    ).textContent =
+        icon;
+
+
+    document.getElementById(
+        "toastMessage"
+    ).textContent =
+        message;
+
+
+    toast.className =
+        "toast show";
+
+
+    clearTimeout(
+        toast._timeout
+    );
+
+
+    toast._timeout =
+        setTimeout(
+            () => {
+
+                toast.className =
+                    "toast";
+
+            },
+            3000
         );
 
-        viewingProfile=null;
+}
 
-        await loadProfiles();
 
-        goHome();
+/* =========================================================
+   LOAD PROFILES
+========================================================= */
 
-    }catch(e){
+async function loadProfiles() {
 
-        console.error(e);
-
-        showToast(
-            "❌ Não foi possível excluir."
+    const container =
+        document.getElementById(
+            "profilesGrid"
         );
+
+
+    try {
+
+        const snapshot =
+            await get(
+                profilesRef
+            );
+
+
+        if (!snapshot.exists()) {
+
+            window._profilesData =
+                [];
+
+
+            container.innerHTML = `
+
+                <div class="empty-state">
+
+                    <span class="emoji">
+                        🌟
+                    </span>
+
+                    <h3>
+                        Nenhum perfil ainda
+                    </h3>
+
+                    <p
+                        style="
+                            color:var(--muted);
+                            margin-top:8px;
+                        "
+                    >
+                        Seja o primeiro a criar
+                        seu perfil Ultra!
+                    </p>
+
+                    <button
+                        class="btn btn-primary"
+                        onclick="openCreator()"
+                        style="margin-top:16px"
+                    >
+                        Criar Perfil
+                    </button>
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        const data =
+            snapshot.val();
+
+
+        const profiles =
+            Object.entries(data)
+                .map(
+                    ([id, p]) => {
+
+                        const profile =
+                            {
+                                id,
+                                ...p
+                            };
+
+
+                        profile.stats =
+                            profile.stats || {
+
+                                views:
+                                    Number(
+                                        profile.views
+                                    ) || 0,
+
+                                likes:
+                                    0,
+
+                                followers:
+                                    Number(
+                                        profile.followers
+                                    ) || 0
+
+                            };
+
+
+                        profile.likes =
+                            (
+                                profile.likes &&
+                                typeof profile.likes ===
+                                    "object"
+                            )
+                                ? profile.likes
+                                : {};
+
+
+                        profile.followers =
+                            (
+                                profile.followers &&
+                                typeof profile.followers ===
+                                    "object"
+                            )
+                                ? profile.followers
+                                : {};
+
+
+                        profile.stats.views =
+                            Number(
+                                profile.stats.views ||
+                                0
+                            );
+
+
+                        profile.stats.likes =
+                            getMapCount(
+                                profile.likes
+                            );
+
+
+                        profile.stats.followers =
+                            getMapCount(
+                                profile.followers
+                            );
+
+
+                        return profile;
+
+                    }
+                );
+
+
+        profiles.sort(
+            (a, b) =>
+                (
+                    b.createdAt || 0
+                ) -
+                (
+                    a.createdAt || 0
+                )
+        );
+
+
+        window._profilesData =
+            profiles;
+
+
+        container.innerHTML =
+            profiles
+                .map(
+                    p => {
+
+                        const safeName =
+                            escapeHTML(
+                                p.name ||
+                                "Perfil"
+                            );
+
+
+                        const safeUsername =
+                            escapeHTML(
+                                p.username ||
+                                ""
+                            );
+
+
+                        const avatar =
+                            p.avatar ||
+                            `https://placehold.co/200x200/14141e/ffffff?text=${
+                                encodeURIComponent(
+                                    (
+                                        p.name ||
+                                        "?"
+                                    ).charAt(0)
+                                )
+                            }`;
+
+
+                        return `
+
+                            <a
+                                href="?u=${encodeURIComponent(
+                                    p.username || ""
+                                )}"
+                                class="profile-card-link"
+                                data-search="${escapeHTML(
+                                    (
+                                        (p.name || "") +
+                                        " " +
+                                        (p.username || "")
+                                    ).toLowerCase()
+                                )}"
+                                onclick="
+                                    openProfile('${escapeHTML(p.id)}');
+                                    history.replaceState(
+                                        null,
+                                        '',
+                                        '?u=${encodeURIComponent(
+                                            p.username || ''
+                                        )}'
+                                    );
+                                    return false;
+                                "
+                            >
+
+                                <div
+                                    class="profile-card-mini"
+                                    style="${
+                                        p.primary
+                                            ? `
+                                                border-color:
+                                                ${escapeHTML(
+                                                    p.primary
+                                                )}44;
+                                            `
+                                            : ""
+                                    }"
+                                >
+
+                                    <img
+                                        class="avatar-mini"
+                                        src="${escapeHTML(avatar)}"
+                                        alt=""
+                                    >
+
+                                    <div
+                                        class="name"
+                                        style="${
+                                            p.primary
+                                                ? `
+                                                    color:
+                                                    ${escapeHTML(
+                                                        p.primary
+                                                    )};
+                                                `
+                                                : ""
+                                        }"
+                                    >
+                                        ${safeName}
+                                    </div>
+
+                                    <div class="username">
+                                        @${safeUsername}
+                                    </div>
+
+                                    ${
+                                        p.bio
+                                            ? `
+                                                <div class="bio-mini">
+                                                    ${escapeHTML(
+                                                        p.bio
+                                                    )}
+                                                </div>
+                                            `
+                                            : ""
+                                    }
+
+                                    <div class="tags">
+
+                                        ${
+                                            p.location
+                                                ? `
+                                                    <span class="tag">
+                                                        📍
+                                                        ${escapeHTML(
+                                                            p.location
+                                                        )}
+                                                    </span>
+                                                `
+                                                : ""
+                                        }
+
+                                        ${
+                                            p.music?.length
+                                                ? `
+                                                    <span class="tag">
+                                                        🎵
+                                                        ${p.music.length}
+                                                    </span>
+                                                `
+                                                : ""
+                                        }
+
+                                        ${
+                                            p.gallery?.length
+                                                ? `
+                                                    <span class="tag">
+                                                        🖼️
+                                                        ${p.gallery.length}
+                                                    </span>
+                                                `
+                                                : ""
+                                        }
+
+                                    </div>
+
+                                    <div class="tags">
+
+                                        <span class="tag">
+                                            👁️
+                                            ${formatNumber(
+                                                p.stats.views
+                                            )}
+                                        </span>
+
+                                        <span class="tag">
+                                            ❤️
+                                            ${formatNumber(
+                                                p.stats.likes
+                                            )}
+                                        </span>
+
+                                        <span class="tag">
+                                            👤
+                                            ${formatNumber(
+                                                p.stats.followers
+                                            )}
+                                        </span>
+
+                                    </div>
+
+                                    <div class="badge-mini">
+                                        ✨
+                                        perfil.me/?u=${safeUsername}
+                                    </div>
+
+                                    <div class="link-icon">
+                                        🔗
+                                    </div>
+
+                                </div>
+
+                            </a>
+
+                        `;
+
+                    }
+                )
+                .join("");
+
+
+        /* =================================================
+           OPEN PROFILE FROM URL
+        ================================================= */
+
+        const params =
+            new URLSearchParams(
+                location.search
+            );
+
+
+        const username =
+            params.get("u");
+
+
+        if (username) {
+
+            const target =
+                profiles.find(
+                    p =>
+                        String(
+                            p.username
+                        ).toLowerCase() ===
+                        String(
+                            username
+                        ).toLowerCase()
+                );
+
+
+            if (target) {
+
+                openProfile(
+                    target.id
+                );
+
+            }
+
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+
+        container.innerHTML = `
+
+            <div class="empty-state">
+
+                <span class="emoji">
+                    ⚠️
+                </span>
+
+                <h3>
+                    Erro ao carregar
+                </h3>
+
+                <p
+                    style="
+                        color:var(--muted);
+                        margin-top:8px;
+                    "
+                >
+                    ${escapeHTML(
+                        error.message
+                    )}
+                </p>
+
+            </div>
+
+        `;
 
     }
 
-};
+}
+
 
 /* =========================================================
-   RANGE UI
+   RANGE LABELS
 ========================================================= */
 
-function updateRanges(){
+function updateRangeLabels() {
 
-    const radius =
+    const opacity =
         document.getElementById(
-            "editRadius"
-        ).value;
+            "editOpacity"
+        );
+
 
     const blur =
         document.getElementById(
             "editBlur"
-        ).value;
+        );
+
+
+    const radius =
+        document.getElementById(
+            "editRadius"
+        );
+
+
+    const padding =
+        document.getElementById(
+            "editPadding"
+        );
+
 
     document.getElementById(
-        "radiusValue"
-    ).textContent=
-        radius+"px";
+        "opacityValue"
+    ).textContent =
+        opacity.value;
+
 
     document.getElementById(
         "blurValue"
-    ).textContent=
-        blur+"px";
+    ).textContent =
+        blur.value + "px";
+
+
+    document.getElementById(
+        "radiusValue"
+    ).textContent =
+        radius.value + "px";
+
+
+    document.getElementById(
+        "paddingValue"
+    ).textContent =
+        padding.value + "px";
 
 }
+
 
 /* =========================================================
    EVENTS
 ========================================================= */
 
 document
-.getElementById("editUsername")
-.addEventListener(
-    "input",
-    function(){
+    .getElementById(
+        "editUsername"
+    )
+    .addEventListener(
+        "input",
+        function() {
 
-        this.value =
-            this.value
-            .toLowerCase()
-            .replace(
-                /[^a-z0-9_]/g,
-                ""
-            );
+            this.value =
+                this.value
+                    .toLowerCase()
+                    .replace(
+                        /[^a-z0-9_]/g,
+                        ""
+                    );
 
-        document.getElementById(
-            "usernamePreview"
-        ).textContent =
-            this.value ||
-            "usuario";
 
-    }
-);
+            document.getElementById(
+                "usernamePreview"
+            ).textContent =
+                this.value ||
+                "usuario";
 
-document
-.getElementById("editBio")
-.addEventListener(
-    "input",
-    function(){
+        }
+    );
 
-        document.getElementById(
-            "bioCount"
-        ).textContent=
-            this.value.length;
-
-    }
-);
 
 document
-.getElementById("editRadius")
-.addEventListener(
-    "input",
-    updateRanges
-);
+    .getElementById(
+        "editBio"
+    )
+    .addEventListener(
+        "input",
+        function() {
+
+            document.getElementById(
+                "bioCount"
+            ).textContent =
+                this.value.length;
+
+        }
+    );
+
 
 document
-.getElementById("editBlur")
-.addEventListener(
-    "input",
-    updateRanges
-);
+    .getElementById(
+        "editOpacity"
+    )
+    .addEventListener(
+        "input",
+        updateRangeLabels
+    );
+
+
+document
+    .getElementById(
+        "editBlur"
+    )
+    .addEventListener(
+        "input",
+        updateRangeLabels
+    );
+
+
+document
+    .getElementById(
+        "editRadius"
+    )
+    .addEventListener(
+        "input",
+        updateRangeLabels
+    );
+
+
+document
+    .getElementById(
+        "editPadding"
+    )
+    .addEventListener(
+        "input",
+        updateRangeLabels
+    );
+
+
+/* =========================================================
+   ESC
+========================================================= */
 
 document.addEventListener(
     "keydown",
-    e=>{
+    e => {
 
-        if(e.key==="Escape"){
+        if (e.key === "Escape") {
 
-            closeLogin();
             closeCreator();
+
+            closeProfileViewer();
+
+            closeAuth();
 
         }
 
     }
 );
 
-window.addEventListener(
-    "popstate",
-    ()=>{
-        route();
-    }
-);
 
 /* =========================================================
-   ROUTER
+   CLICK OUTSIDE
 ========================================================= */
 
-async function route(){
+document
+    .getElementById(
+        "profileViewerModal"
+    )
+    .addEventListener(
+        "click",
+        function(e) {
 
-    const params =
-        new URLSearchParams(
-            location.search
-        );
+            if (
+                e.target === this
+            ) {
 
-    const username =
-        params.get("u");
+                closeProfileViewer();
 
-    if(username){
+            }
 
-        await openProfile(
-            username
-        );
+        }
+    );
 
-    }else{
 
-        goHome();
+document
+    .getElementById(
+        "creatorModal"
+    )
+    .addEventListener(
+        "click",
+        function(e) {
 
-    }
+            if (
+                e.target === this
+            ) {
 
-}
+                closeCreator();
+
+            }
+
+        }
+    );
+
+
+document
+    .getElementById(
+        "authModal"
+    )
+    .addEventListener(
+        "click",
+        function(e) {
+
+            if (
+                e.target === this
+            ) {
+
+                closeAuth();
+
+            }
+
+        }
+    );
+
 
 /* =========================================================
-   START
+   INITIAL
 ========================================================= */
 
-await loadProfiles();
-
-await route();
-
 console.log(
-    "🚀 Perfil.me iniciado."
+    "🚀 Perfil.me Ultra iniciado."
 );
 
 console.log(
-    "🔥 Sistema de perfis + Firebase Auth."
+    "🔐 Firebase Authentication ativo."
+);
+
+console.log(
+    "✏️ Edição protegida por ownerId."
 );
 
 </script>
