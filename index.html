@@ -3,105 +3,97 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Meu Perfil</title>
+<title>Meu Perfil ✨</title>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
     --primary: #8b5cf6;
     --secondary: #06b6d4;
     --accent: #a78bfa;
-
     --text: #ffffff;
     --muted: #a1a1aa;
-
     --card: rgba(15, 15, 25, .72);
     --border: rgba(255,255,255,.12);
-
     --blur: 18px;
     --radius: 24px;
+    --cursor-url: default;
 }
 
-html,
-body {
-    width: 100%;
-    min-height: 100%;
-}
+html, body { width: 100%; min-height: 100%; }
 
 body {
     background: #050509;
     color: var(--text);
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Segoe UI', Arial, sans-serif;
     overflow-x: hidden;
+    cursor: var(--cursor-url);
 }
 
 /* =========================================================
-   FUNDO
+   FUNDO COM PARTÍCULAS
 ========================================================= */
 
 #background {
     position: fixed;
     inset: 0;
     z-index: -10;
-
     background:
-        radial-gradient(
-            circle at center,
-            rgba(139,92,246,.15),
-            transparent 55%
-        ),
+        radial-gradient(circle at center, rgba(139,92,246,.15), transparent 55%),
         #050509;
-
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-
-    transition:
-        background-image 1.2s ease,
-        opacity 1s ease,
-        filter .5s ease;
+    transition: background-image 1.2s ease, opacity 1s ease, filter .5s ease;
 }
 
 #background::after {
     content: "";
     position: absolute;
     inset: 0;
-
-    background:
-        linear-gradient(
-            rgba(0,0,0,.35),
-            rgba(0,0,0,.7)
-        );
+    background: linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.7));
 }
 
-#background.blur {
-    filter: blur(8px);
-    transform: scale(1.05);
-}
+#background.blur { filter: blur(8px); transform: scale(1.05); }
 
-/* =========================================================
-   OVERLAY
-========================================================= */
+#particles {
+    position: fixed;
+    inset: 0;
+    z-index: -8;
+    pointer-events: none;
+    opacity: .6;
+}
 
 #overlay {
     position: fixed;
     inset: 0;
     z-index: -5;
-
     pointer-events: none;
+    background: radial-gradient(circle at 50% 20%, rgba(139,92,246,.18), transparent 45%);
+}
 
-    background:
-        radial-gradient(
-            circle at 50% 20%,
-            rgba(139,92,246,.18),
-            transparent 45%
-        );
+/* =========================================================
+   CURSOR PERSONALIZADO
+========================================================= */
+
+.custom-cursor {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--primary);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width .2s, height .2s, background .2s;
+    mix-blend-mode: difference;
+}
+
+.custom-cursor.hover {
+    width: 40px;
+    height: 40px;
+    background: rgba(139,92,246,.3);
 }
 
 /* =========================================================
@@ -111,73 +103,84 @@ body {
 .profile-wrapper {
     width: 100%;
     min-height: 100vh;
-
     display: flex;
     justify-content: center;
     align-items: center;
-
     padding: 40px 18px;
 }
 
 .profile-card {
     width: min(760px, 100%);
-
     padding: 34px;
-
     background: var(--card);
-
     border: 1px solid var(--border);
-
     border-radius: var(--radius);
-
     backdrop-filter: blur(var(--blur));
     -webkit-backdrop-filter: blur(var(--blur));
-
-    box-shadow:
-        0 30px 100px rgba(0,0,0,.55),
-        0 0 80px rgba(139,92,246,.08);
-
+    box-shadow: 0 30px 100px rgba(0,0,0,.55), 0 0 80px rgba(139,92,246,.08);
     animation: cardIn .8s ease;
+    position: relative;
+    overflow: hidden;
 }
 
-@keyframes cardIn {
-    from {
-        opacity: 0;
-        transform: translateY(25px) scale(.97);
-    }
+.profile-card::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(from 0deg, transparent, var(--primary), transparent, var(--secondary), transparent);
+    animation: rotate 8s linear infinite;
+    opacity: .05;
+    z-index: -1;
+}
 
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
+@keyframes rotate { to { transform: rotate(360deg); } }
+
+@keyframes cardIn {
+    from { opacity: 0; transform: translateY(25px) scale(.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 /* =========================================================
-   AVATAR
+   AVATAR COM ANEL GIRATÓRIO
 ========================================================= */
 
 .avatar-container {
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
+    position: relative;
 }
+
+.avatar-ring {
+    position: absolute;
+    width: 145px;
+    height: 145px;
+    border-radius: 50%;
+    background: conic-gradient(var(--primary), var(--secondary), var(--primary));
+    animation: spin-ring 4s linear infinite;
+    opacity: .7;
+    filter: blur(3px);
+}
+
+@keyframes spin-ring { to { transform: rotate(360deg); } }
 
 .avatar {
     width: 125px;
     height: 125px;
-
     border-radius: 50%;
-
     object-fit: cover;
-
     border: 4px solid rgba(255,255,255,.15);
-
-    box-shadow:
-        0 0 0 5px rgba(139,92,246,.08),
-        0 15px 50px rgba(0,0,0,.5);
-
+    box-shadow: 0 0 0 5px rgba(139,92,246,.08), 0 15px 50px rgba(0,0,0,.5);
     background: #111;
+    position: relative;
+    z-index: 2;
+    transition: transform .3s;
 }
+
+.avatar:hover { transform: scale(1.05) rotate(3deg); }
 
 /* =========================================================
    TEXTO
@@ -185,34 +188,28 @@ body {
 
 .profile-name {
     text-align: center;
-
     font-size: clamp(30px, 6vw, 48px);
     font-weight: 900;
-
     letter-spacing: -1px;
-
     margin-bottom: 8px;
-
-    text-shadow:
-        0 0 25px rgba(139,92,246,.35);
+    text-shadow: 0 0 25px rgba(139,92,246,.35);
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .profile-description {
     text-align: center;
-
     color: var(--muted);
-
     line-height: 1.6;
-
     max-width: 600px;
-
     margin: auto;
-
     white-space: pre-wrap;
 }
 
 /* =========================================================
-   BADGE
+   BADGES
 ========================================================= */
 
 .badges {
@@ -220,22 +217,22 @@ body {
     justify-content: center;
     gap: 8px;
     flex-wrap: wrap;
-
     margin-top: 18px;
 }
 
 .badge {
     padding: 7px 12px;
-
     border-radius: 999px;
-
     background: rgba(139,92,246,.15);
-
     border: 1px solid rgba(139,92,246,.25);
-
     font-size: 13px;
-
     color: #ddd6fe;
+    transition: .2s;
+}
+
+.badge:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 5px 20px rgba(139,92,246,.3);
 }
 
 /* =========================================================
@@ -245,43 +242,111 @@ body {
 .links {
     display: flex;
     flex-direction: column;
-
     gap: 12px;
-
     margin-top: 30px;
 }
 
 .social-link {
     width: 100%;
-
     padding: 15px 18px;
-
     border-radius: 16px;
-
     background: rgba(255,255,255,.06);
-
     border: 1px solid rgba(255,255,255,.08);
-
     color: white;
-
     text-decoration: none;
-
     text-align: center;
-
     font-weight: 700;
-
     transition: .25s;
+    position: relative;
+    overflow: hidden;
 }
+
+.social-link::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(139,92,246,.3), transparent);
+    transition: left .5s;
+}
+
+.social-link:hover::before { left: 100%; }
 
 .social-link:hover {
     transform: translateY(-3px);
-
     background: rgba(139,92,246,.18);
-
     border-color: rgba(139,92,246,.4);
+    box-shadow: 0 10px 35px rgba(139,92,246,.12);
+}
 
-    box-shadow:
-        0 10px 35px rgba(139,92,246,.12);
+/* =========================================================
+   DISCO DE VINIL
+========================================================= */
+
+.vinyl-container {
+    display: flex;
+    justify-content: center;
+    margin: 25px 0;
+    perspective: 1000px;
+}
+
+.vinyl {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #1a1a1a 0%, #0a0a0a 30%, #111 31%, #0a0a0a 32%, #111 33%, #0a0a0a 34%, #111 35%, #0a0a0a 36%, #111 37%, #0a0a0a 38%, #111 39%, #0a0a0a 40%, #111 41%, #0a0a0a 42%, #111 43%, #0a0a0a 44%, #111 45%, #0a0a0a 46%, #111 47%, #0a0a0a 48%, #111 49%, #0a0a0a 50%, #111 51%, #0a0a0a 52%, #111 53%, #0a0a0a 54%, #111 55%, #0a0a0a 56%, #111 57%, #0a0a0a 58%, #111 59%, #0a0a0a 60%, #111 61%, #0a0a0a 62%, #111 63%, #0a0a0a 64%, #111 65%, #0a0a0a 66%, #111 67%, #0a0a0a 68%, #111 69%, #0a0a0a 70%, #111 71%, #0a0a0a 72%, #111 73%, #0a0a0a 74%, #111 75%, #0a0a0a 76%, #111 77%, #0a0a0a 78%, #111 79%, #0a0a0a 80%, #111 81%, #0a0a0a 82%, #111 83%, #0a0a0a 84%, #111 85%, #0a0a0a 86%, #111 87%, #0a0a0a 88%, #111 89%, #0a0a0a 90%, #111 91%, #0a0a0a 92%, #111 93%, #0a0a0a 94%, #111 95%, #0a0a0a 96%, #111 97%, #0a0a0a 98%, #111 99%, #0a0a0a 100%);
+    box-shadow: 0 10px 40px rgba(0,0,0,.6), inset 0 0 20px rgba(0,0,0,.8);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform .3s;
+}
+
+.vinyl::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.1), transparent 50%);
+    pointer-events: none;
+}
+
+.vinyl.spinning {
+    animation: vinyl-spin 2s linear infinite;
+}
+
+@keyframes vinyl-spin { to { transform: rotate(360deg); } }
+
+.vinyl-label {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: 2px solid rgba(255,255,255,.2);
+    box-shadow: 0 0 15px var(--primary);
+}
+
+.vinyl-label img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.vinyl-center {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #000;
+    z-index: 3;
 }
 
 /* =========================================================
@@ -289,20 +354,19 @@ body {
 ========================================================= */
 
 .music-player {
-    margin-top: 30px;
-
+    margin-top: 20px;
     padding: 18px;
-
     border-radius: 20px;
-
     background: rgba(0,0,0,.25);
-
     border: 1px solid rgba(255,255,255,.08);
 }
 
 .music-title {
     font-weight: 800;
     margin-bottom: 12px;
+    text-align: center;
+    font-size: 14px;
+    color: var(--accent);
 }
 
 .music-controls {
@@ -314,123 +378,105 @@ body {
 .music-btn {
     width: 42px;
     height: 42px;
-
     border: none;
-
     border-radius: 50%;
-
     background: rgba(139,92,246,.2);
-
     color: white;
-
     cursor: pointer;
-
     transition: .2s;
+    font-size: 16px;
 }
 
 .music-btn:hover {
     background: rgba(139,92,246,.4);
-
     transform: scale(1.05);
 }
 
 .music-progress {
     flex: 1;
-
     height: 5px;
-
     appearance: none;
-
     border-radius: 999px;
-
     background: rgba(255,255,255,.12);
-
     cursor: pointer;
 }
 
-.volume {
-    width: 90px;
+.music-progress::-webkit-slider-thumb {
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--primary);
+    box-shadow: 0 0 10px var(--primary);
 }
+
+.volume { width: 90px; }
 
 .music-time {
     display: flex;
     justify-content: space-between;
-
     color: #a1a1aa;
-
     font-size: 12px;
-
     margin-top: 8px;
 }
 
 .playlist {
     margin-top: 14px;
-
     display: flex;
     flex-direction: column;
-
     gap: 7px;
-
     max-height: 160px;
-
     overflow-y: auto;
 }
 
 .playlist-item {
     padding: 10px 12px;
-
     border-radius: 10px;
-
     cursor: pointer;
-
     color: #aaa;
-
     transition: .2s;
+    font-size: 13px;
 }
 
 .playlist-item:hover,
 .playlist-item.active {
     background: rgba(139,92,246,.14);
-
     color: white;
 }
 
 /* =========================================================
-   ADMIN BUTTON
+   BOTÕES FLUTUANTES
 ========================================================= */
 
-.admin-button {
+.float-buttons {
     position: fixed;
-
     right: 18px;
     bottom: 18px;
-
-    width: 48px;
-    height: 48px;
-
-    border-radius: 50%;
-
-    border: 1px solid rgba(255,255,255,.12);
-
-    background: rgba(10,10,15,.75);
-
-    backdrop-filter: blur(12px);
-
-    color: white;
-
-    cursor: pointer;
-
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     z-index: 100;
-
-    opacity: .25;
-
-    transition: .25s;
 }
 
-.admin-button:hover {
-    opacity: 1;
+.float-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,.12);
+    background: rgba(10,10,15,.75);
+    backdrop-filter: blur(12px);
+    color: white;
+    cursor: pointer;
+    font-size: 18px;
+    transition: .25s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-    transform: scale(1.08);
+.float-btn:hover {
+    transform: scale(1.1) rotate(5deg);
+    background: rgba(139,92,246,.3);
 }
 
 /* =========================================================
@@ -439,135 +485,86 @@ body {
 
 .modal {
     position: fixed;
-
     inset: 0;
-
     z-index: 500;
-
     display: none;
-
     align-items: center;
     justify-content: center;
-
     padding: 18px;
-
     background: rgba(0,0,0,.72);
-
     backdrop-filter: blur(10px);
 }
 
-.modal.show {
-    display: flex;
-}
+.modal.show { display: flex; }
 
 .modal-box {
     width: min(900px, 100%);
     max-height: 92vh;
-
     overflow-y: auto;
-
     padding: 25px;
-
     border-radius: 24px;
-
     background: #0c0c13;
-
     border: 1px solid rgba(255,255,255,.1);
-
     box-shadow: 0 30px 100px rgba(0,0,0,.7);
+    animation: cardIn .4s ease;
 }
 
 .modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     margin-bottom: 22px;
 }
 
-.modal-header h2 {
-    font-size: 24px;
-}
+.modal-header h2 { font-size: 24px; }
 
 .close {
     width: 40px;
     height: 40px;
-
     border: none;
-
     border-radius: 10px;
-
     background: rgba(255,255,255,.06);
-
     color: white;
-
     cursor: pointer;
-
     font-size: 20px;
 }
 
 /* =========================================================
-   LOGIN
+   LOGIN E INPUTS
 ========================================================= */
 
-.login-box {
-    width: min(420px, 100%);
-}
+.login-box { width: min(420px, 100%); }
 
 .input {
     width: 100%;
-
     padding: 13px 14px;
-
     margin-bottom: 12px;
-
     border-radius: 12px;
-
     border: 1px solid rgba(255,255,255,.1);
-
     background: #14141d;
-
     color: white;
-
     outline: none;
+    font-family: inherit;
 }
 
-.input:focus {
-    border-color: var(--primary);
-}
+.input:focus { border-color: var(--primary); }
 
-textarea.input {
-    min-height: 120px;
-    resize: vertical;
-}
+textarea.input { min-height: 120px; resize: vertical; }
 
 .primary-button {
     width: 100%;
-
     padding: 13px;
-
     border: none;
-
     border-radius: 12px;
-
-    background: linear-gradient(
-        135deg,
-        var(--primary),
-        var(--secondary)
-    );
-
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
     color: white;
-
     font-weight: 800;
-
     cursor: pointer;
-
     transition: .2s;
 }
 
 .primary-button:hover {
     transform: translateY(-2px);
-
     filter: brightness(1.1);
 }
 
@@ -577,115 +574,63 @@ textarea.input {
 
 .admin-section {
     padding: 18px;
-
     margin-bottom: 14px;
-
     border-radius: 17px;
-
     background: rgba(255,255,255,.035);
-
     border: 1px solid rgba(255,255,255,.07);
 }
 
-.admin-section h3 {
-    margin-bottom: 15px;
-}
+.admin-section h3 { margin-bottom: 15px; }
 
 .grid {
     display: grid;
-
-    grid-template-columns:
-        repeat(2, minmax(0, 1fr));
-
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
-}
-
-@media(max-width:650px) {
-    .grid {
-        grid-template-columns: 1fr;
-    }
-
-    .profile-card {
-        padding: 22px;
-    }
-
-    .music-controls {
-        flex-wrap: wrap;
-    }
-
-    .volume {
-        width: 100%;
-    }
 }
 
 .file-input {
     width: 100%;
-
     padding: 12px;
-
     border-radius: 12px;
-
     background: #14141d;
-
     border: 1px dashed rgba(255,255,255,.15);
-
     color: #aaa;
-
     margin-bottom: 10px;
 }
 
 .admin-list {
     display: flex;
     flex-direction: column;
-
     gap: 10px;
 }
 
 .admin-item {
     display: flex;
-
     gap: 10px;
-
     align-items: center;
-
     padding: 10px;
-
     border-radius: 12px;
-
     background: rgba(255,255,255,.04);
 }
 
-.admin-item input {
-    flex: 1;
-}
+.admin-item input { flex: 1; }
 
 .small-button {
     padding: 10px 13px;
-
     border: none;
-
     border-radius: 10px;
-
     background: rgba(255,255,255,.08);
-
     color: white;
-
     cursor: pointer;
 }
 
-.danger {
-    background: rgba(239,68,68,.15);
-}
+.danger { background: rgba(239,68,68,.15); }
 
 .checkbox-row {
     display: flex;
-
     align-items: center;
-
     gap: 10px;
-
     margin: 10px 0;
-
     color: #ccc;
 }
 
@@ -695,44 +640,27 @@ textarea.input {
 
 #loading {
     position: fixed;
-
     inset: 0;
-
     z-index: 1000;
-
     display: flex;
-
     align-items: center;
     justify-content: center;
-
     background: #050509;
-
     transition: opacity .4s;
 }
 
-#loading.hide {
-    opacity: 0;
-    pointer-events: none;
-}
+#loading.hide { opacity: 0; pointer-events: none; }
 
 .loader {
     width: 42px;
     height: 42px;
-
     border-radius: 50%;
-
     border: 3px solid rgba(255,255,255,.1);
-
     border-top-color: var(--primary);
-
     animation: spin .8s linear infinite;
 }
 
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
-}
+@keyframes spin { to { transform: rotate(360deg); } }
 
 /* =========================================================
    TOAST
@@ -740,37 +668,52 @@ textarea.input {
 
 #toast {
     position: fixed;
-
     left: 50%;
     bottom: 25px;
-
     transform: translateX(-50%) translateY(30px);
-
     padding: 12px 18px;
-
     border-radius: 12px;
-
     background: #15151e;
-
     border: 1px solid rgba(255,255,255,.1);
-
     color: white;
-
     opacity: 0;
-
     pointer-events: none;
-
     transition: .3s;
-
     z-index: 2000;
 }
 
 #toast.show {
     opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
 
-    transform:
-        translateX(-50%)
-        translateY(0);
+/* =========================================================
+   EFEITOS
+========================================================= */
+
+.fade-in-music {
+    animation: fadeInMusic 3s ease forwards;
+}
+
+@keyframes fadeInMusic {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.glow-text {
+    text-shadow: 0 0 15px var(--primary), 0 0 40px var(--primary) !important;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:650px) {
+    .grid { grid-template-columns: 1fr; }
+    .profile-card { padding: 22px; }
+    .music-controls { flex-wrap: wrap; }
+    .volume { width: 100%; }
+    .custom-cursor { display: none; }
 }
 </style>
 </head>
@@ -778,516 +721,184 @@ textarea.input {
 <body>
 
 <div id="background"></div>
+<canvas id="particles"></canvas>
 <div id="overlay"></div>
+<div class="custom-cursor" id="cursor"></div>
 
-<div id="loading">
-    <div class="loader"></div>
-</div>
+<div id="loading"><div class="loader"></div></div>
 
 <main class="profile-wrapper">
-
     <section class="profile-card">
-
         <div class="avatar-container">
-            <img
-                id="avatar"
-                class="avatar"
-                src=""
-                alt="Avatar"
-            >
+            <div class="avatar-ring"></div>
+            <img id="avatar" class="avatar" src="" alt="Avatar">
         </div>
 
-        <h1
-            id="profileName"
-            class="profile-name"
-        >
-            Carregando...
-        </h1>
+        <h1 id="profileName" class="profile-name">Carregando...</h1>
+        <p id="profileDescription" class="profile-description"></p>
+        <div id="badges" class="badges"></div>
+        <div id="links" class="links"></div>
 
-        <p
-            id="profileDescription"
-            class="profile-description"
-        ></p>
-
-        <div
-            id="badges"
-            class="badges"
-        ></div>
-
-        <div
-            id="links"
-            class="links"
-        ></div>
-
-        <div
-            id="musicPlayer"
-            class="music-player"
-            style="display:none"
-        >
-
-            <div
-                id="musicTitle"
-                class="music-title"
-            >
-                Música
+        <!-- DISCO DE VINIL -->
+        <div id="vinylContainer" class="vinyl-container" style="display:none">
+            <div id="vinyl" class="vinyl" onclick="togglePlay()">
+                <div class="vinyl-label" id="vinylLabel">
+                    <img id="vinylCover" src="" alt="">
+                </div>
+                <div class="vinyl-center"></div>
             </div>
+        </div>
 
+        <div id="musicPlayer" class="music-player" style="display:none">
+            <div id="musicTitle" class="music-title">Música</div>
             <div class="music-controls">
-
-                <button
-                    id="prevBtn"
-                    class="music-btn"
-                >
-                    ⏮
-                </button>
-
-                <button
-                    id="playBtn"
-                    class="music-btn"
-                >
-                    ▶
-                </button>
-
-                <button
-                    id="nextBtn"
-                    class="music-btn"
-                >
-                    ⏭
-                </button>
-
-                <input
-                    id="progress"
-                    class="music-progress"
-                    type="range"
-                    min="0"
-                    max="100"
-                    value="0"
-                >
-
-                <input
-                    id="volume"
-                    class="volume"
-                    type="range"
-                    min="0"
-                    max="1"
-                    step=".01"
-                    value=".7"
-                >
-
+                <button id="prevBtn" class="music-btn">⏮</button>
+                <button id="playBtn" class="music-btn">▶</button>
+                <button id="nextBtn" class="music-btn">⏭</button>
+                <input id="progress" class="music-progress" type="range" min="0" max="100" value="0">
+                <input id="volume" class="volume" type="range" min="0" max="1" step=".01" value=".7">
             </div>
-
             <div class="music-time">
-
-                <span id="currentTime">
-                    0:00
-                </span>
-
-                <span id="duration">
-                    0:00
-                </span>
-
+                <span id="currentTime">0:00</span>
+                <span id="duration">0:00</span>
             </div>
-
-            <div
-                id="playlist"
-                class="playlist"
-            ></div>
-
+            <div id="playlist" class="playlist"></div>
         </div>
-
     </section>
-
 </main>
 
-<button
-    id="adminButton"
-    class="admin-button"
-    title="Administrador"
->
-    ⚙
-</button>
-
-<!-- =====================================================
-     LOGIN
-===================================================== -->
-
-<div
-    id="loginModal"
-    class="modal"
->
-
-    <div class="modal-box login-box">
-
-        <div class="modal-header">
-
-            <h2>
-                🔐 Administrador
-            </h2>
-
-            <button
-                class="close"
-                onclick="closeModal('loginModal')"
-            >
-                ×
-            </button>
-
-        </div>
-
-        <input
-            id="loginEmail"
-            class="input"
-            type="email"
-            placeholder="E-mail"
-        >
-
-        <input
-            id="loginPassword"
-            class="input"
-            type="password"
-            placeholder="Senha"
-        >
-
-        <button
-            id="loginButton"
-            class="primary-button"
-        >
-            Entrar
-        </button>
-
-    </div>
-
+<div class="float-buttons">
+    <button id="adminButton" class="float-btn" title="Administrador">⚙</button>
+    <button id="themeToggle" class="float-btn" title="Alternar tema">🌙</button>
 </div>
 
-<!-- =====================================================
-     ADMIN PANEL
-===================================================== -->
-
-<div
-    id="adminModal"
-    class="modal"
->
-
-    <div class="modal-box">
-
+<!-- LOGIN -->
+<div id="loginModal" class="modal">
+    <div class="modal-box login-box">
         <div class="modal-header">
-
-            <h2>
-                👑 Painel do Administrador
-            </h2>
-
-            <button
-                class="close"
-                onclick="closeModal('adminModal')"
-            >
-                ×
-            </button>
-
+            <h2>🔐 Administrador</h2>
+            <button class="close" onclick="closeModal('loginModal')">×</button>
         </div>
-
-        <!-- PERFIL -->
-
-        <div class="admin-section">
-
-            <h3>
-                👤 Perfil
-            </h3>
-
-            <div class="grid">
-
-                <input
-                    id="editName"
-                    class="input"
-                    placeholder="Nome"
-                >
-
-                <input
-                    id="editTitle"
-                    class="input"
-                    placeholder="Título"
-                >
-
-            </div>
-
-            <textarea
-                id="editDescription"
-                class="input"
-                placeholder="Descrição"
-            ></textarea>
-
-            <label>
-                Avatar
-            </label>
-
-            <input
-                id="avatarFile"
-                class="file-input"
-                type="file"
-                accept="image/*"
-            >
-
-        </div>
-
-        <!-- VISUAL -->
-
-        <div class="admin-section">
-
-            <h3>
-                🎨 Aparência
-            </h3>
-
-            <div class="grid">
-
-                <input
-                    id="primaryColor"
-                    class="input"
-                    type="color"
-                    value="#8b5cf6"
-                >
-
-                <input
-                    id="secondaryColor"
-                    class="input"
-                    type="color"
-                    value="#06b6d4"
-                >
-
-            </div>
-
-            <label>
-                Fundos
-            </label>
-
-            <input
-                id="backgroundFiles"
-                class="file-input"
-                type="file"
-                accept="image/*"
-                multiple
-            >
-
-            <div
-                id="backgroundList"
-                class="admin-list"
-            ></div>
-
-            <div class="grid">
-
-                <input
-                    id="backgroundInterval"
-                    class="input"
-                    type="number"
-                    min="1"
-                    placeholder="Tempo do fundo (segundos)"
-                >
-
-                <input
-                    id="blurAmount"
-                    class="input"
-                    type="number"
-                    min="0"
-                    max="30"
-                    placeholder="Blur"
-                >
-
-            </div>
-
-        </div>
-
-        <!-- LINKS -->
-
-        <div class="admin-section">
-
-            <h3>
-                🔗 Links
-            </h3>
-
-            <div
-                id="linksEditor"
-                class="admin-list"
-            ></div>
-
-            <button
-                id="addLink"
-                class="small-button"
-            >
-                + Adicionar link
-            </button>
-
-        </div>
-
-        <!-- BADGES -->
-
-        <div class="admin-section">
-
-            <h3>
-                🏷️ Badges
-            </h3>
-
-            <input
-                id="badgeInput"
-                class="input"
-                placeholder="Ex: Developer"
-            >
-
-            <button
-                id="addBadge"
-                class="small-button"
-            >
-                + Adicionar badge
-            </button>
-
-            <div
-                id="badgesEditor"
-                class="admin-list"
-            ></div>
-
-        </div>
-
-        <!-- MÚSICAS -->
-
-        <div class="admin-section">
-
-            <h3>
-                🎵 Playlist
-            </h3>
-
-            <input
-                id="musicFiles"
-                class="file-input"
-                type="file"
-                accept="audio/mpeg,audio/mp3,audio/*"
-                multiple
-            >
-
-            <div
-                id="musicEditor"
-                class="admin-list"
-            ></div>
-
-            <label class="checkbox-row">
-
-                <input
-                    id="musicAutoplay"
-                    type="checkbox"
-                >
-
-                Reprodução automática
-
-            </label>
-
-            <label class="checkbox-row">
-
-                <input
-                    id="musicLoop"
-                    type="checkbox"
-                    checked
-                >
-
-                Repetir playlist
-
-            </label>
-
-            <label class="checkbox-row">
-
-                <input
-                    id="musicShuffle"
-                    type="checkbox"
-                >
-
-                Embaralhar músicas
-
-            </label>
-
-            <label class="checkbox-row">
-
-                <input
-                    id="musicChangeBackground"
-                    type="checkbox"
-                >
-
-                Trocar fundo junto com a música
-
-            </label>
-
-        </div>
-
-        <!-- EFEITOS -->
-
-        <div class="admin-section">
-
-            <h3>
-                ✨ Efeitos
-            </h3>
-
-            <label class="checkbox-row">
-
-                <input
-                    id="effectGlow"
-                    type="checkbox"
-                    checked
-                >
-
-                Glow
-
-            </label>
-
-            <label class="checkbox-row">
-
-                <input
-                    id="effectBlur"
-                    type="checkbox"
-                >
-
-                Blur no fundo
-
-            </label>
-
-        </div>
-
-        <button
-            id="saveButton"
-            class="primary-button"
-        >
-            💾 SALVAR TUDO
-        </button>
-
-        <br><br>
-
-        <button
-            id="logoutButton"
-            class="small-button"
-            style="width:100%"
-        >
-            Sair
-        </button>
-
+        <input id="loginEmail" class="input" type="email" placeholder="E-mail">
+        <input id="loginPassword" class="input" type="password" placeholder="Senha">
+        <button id="loginButton" class="primary-button">Entrar</button>
     </div>
+</div>
 
+<!-- ADMIN PANEL -->
+<div id="adminModal" class="modal">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h2>👑 Painel do Administrador</h2>
+            <button class="close" onclick="closeModal('adminModal')">×</button>
+        </div>
+
+        <div class="admin-section">
+            <h3>👤 Perfil</h3>
+            <div class="grid">
+                <input id="editName" class="input" placeholder="Nome">
+                <input id="editTitle" class="input" placeholder="Título">
+            </div>
+            <textarea id="editDescription" class="input" placeholder="Descrição"></textarea>
+            <label>Avatar</label>
+            <input id="avatarFile" class="file-input" type="file" accept="image/*">
+        </div>
+
+        <div class="admin-section">
+            <h3>🎨 Aparência</h3>
+            <div class="grid">
+                <input id="primaryColor" class="input" type="color" value="#8b5cf6">
+                <input id="secondaryColor" class="input" type="color" value="#06b6d4">
+            </div>
+            <label>Fundos</label>
+            <input id="backgroundFiles" class="file-input" type="file" accept="image/*" multiple>
+            <div id="backgroundList" class="admin-list"></div>
+            <div class="grid">
+                <input id="backgroundInterval" class="input" type="number" min="1" placeholder="Tempo do fundo (segundos)">
+                <input id="blurAmount" class="input" type="number" min="0" max="30" placeholder="Blur">
+            </div>
+        </div>
+
+        <div class="admin-section">
+            <h3>🔗 Links</h3>
+            <div id="linksEditor" class="admin-list"></div>
+            <button id="addLink" class="small-button">+ Adicionar link</button>
+        </div>
+
+        <div class="admin-section">
+            <h3>🏷️ Badges</h3>
+            <input id="badgeInput" class="input" placeholder="Ex: Developer">
+            <button id="addBadge" class="small-button">+ Adicionar badge</button>
+            <div id="badgesEditor" class="admin-list"></div>
+        </div>
+
+        <div class="admin-section">
+            <h3>🎵 Playlist</h3>
+            <input id="musicFiles" class="file-input" type="file" accept="audio/*" multiple>
+            <div id="musicEditor" class="admin-list"></div>
+            <label class="checkbox-row">
+                <input id="musicAutoplay" type="checkbox"> Reprodução automática
+            </label>
+            <label class="checkbox-row">
+                <input id="musicLoop" type="checkbox" checked> Repetir playlist
+            </label>
+            <label class="checkbox-row">
+                <input id="musicShuffle" type="checkbox"> Embaralhar músicas
+            </label>
+            <label class="checkbox-row">
+                <input id="musicChangeBackground" type="checkbox"> Trocar fundo junto com a música
+            </label>
+            <label class="checkbox-row">
+                <input id="musicFadeIn" type="checkbox" checked> Fade-in de música
+            </label>
+        </div>
+
+        <div class="admin-section">
+            <h3>🎬 YouTube (opcional)</h3>
+            <input id="youtubeUrl" class="input" placeholder="https://youtube.com/watch?v=...">
+            <label class="checkbox-row">
+                <input id="youtubeLoop" type="checkbox" checked> Repetir YouTube
+            </label>
+        </div>
+
+        <div class="admin-section">
+            <h3>✨ Efeitos</h3>
+            <label class="checkbox-row">
+                <input id="effectGlow" type="checkbox" checked> Glow no nome
+            </label>
+            <label class="checkbox-row">
+                <input id="effectBlur" type="checkbox"> Blur no fundo
+            </label>
+            <label class="checkbox-row">
+                <input id="effectParticles" type="checkbox" checked> Partículas
+            </label>
+            <label class="checkbox-row">
+                <input id="effectVinyl" type="checkbox" checked> Disco de vinil
+            </label>
+            <label class="checkbox-row">
+                <input id="effectCursor" type="checkbox" checked> Cursor personalizado
+            </label>
+            <label class="checkbox-row">
+                <input id="effectRing" type="checkbox" checked> Anel giratório no avatar
+            </label>
+        </div>
+
+        <button id="saveButton" class="primary-button">💾 SALVAR TUDO</button>
+        <br><br>
+        <button id="logoutButton" class="small-button" style="width:100%">Sair</button>
+    </div>
 </div>
 
 <div id="toast"></div>
 
-<audio
-    id="audio"
-    preload="metadata"
-></audio>
-
-<!-- =====================================================
-     FIREBASE
-===================================================== -->
+<audio id="audio" preload="metadata" crossorigin="anonymous"></audio>
+<div id="youtubeContainer" style="position:fixed;bottom:-9999px;left:-9999px;"></div>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 
 <script>
-
-/* =========================================================
-   FIREBASE
-========================================================= */
-
 const firebaseConfig = {
     apiKey: "AIzaSyB35ktkxiS_MPTrSflfHhBe5snYAV0iV6Q",
     authDomain: "myprofile-7db79.firebaseapp.com",
@@ -1300,1456 +911,853 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-
 const auth = firebase.auth();
 const db = firebase.database();
-
 const PROFILE_PATH = "profile";
 
-/* =========================================================
-   ESTADO
-========================================================= */
-
 let profile = null;
-
 let backgrounds = [];
-
 let backgroundIndex = 0;
-
 let backgroundTimer = null;
-
 let playlist = [];
-
 let currentSong = 0;
-
 let audio = document.getElementById("audio");
-
 let isPlaying = false;
+let fadeInterval = null;
 
-/* =========================================================
-   ELEMENTOS
-========================================================= */
-
-const $ = id =>
-    document.getElementById(id);
+const $ = id => document.getElementById(id);
 
 /* =========================================================
    TOAST
 ========================================================= */
-
 function toast(message) {
-
     const el = $("toast");
-
     el.textContent = message;
-
     el.classList.add("show");
-
-    setTimeout(() => {
-        el.classList.remove("show");
-    }, 2500);
+    setTimeout(() => el.classList.remove("show"), 2500);
 }
 
 /* =========================================================
    MODAIS
 ========================================================= */
+function openModal(id) { $(id).classList.add("show"); }
+function closeModal(id) { $(id).classList.remove("show"); }
 
-function openModal(id) {
-
-    $(id).classList.add("show");
-}
-
-function closeModal(id) {
-
-    $(id).classList.remove("show");
+/* =========================================================
+   CURSOR PERSONALIZADO
+========================================================= */
+const cursor = $("cursor");
+if (window.innerWidth > 650) {
+    document.addEventListener("mousemove", e => {
+        cursor.style.left = e.clientX + "px";
+        cursor.style.top = e.clientY + "px";
+    });
+    document.querySelectorAll("a, button, .vinyl, .playlist-item, .social-link, .badge").forEach(el => {
+        el.addEventListener("mouseenter", () => cursor.classList.add("hover"));
+        el.addEventListener("mouseleave", () => cursor.classList.remove("hover"));
+    });
 }
 
 /* =========================================================
-   CONVERTER ARQUIVO
+   PARTÍCULAS
 ========================================================= */
+const canvas = $("particles");
+const ctx = canvas.getContext("2d");
+let particles = [];
 
+function initParticles() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    particles = [];
+    const count = Math.min(80, Math.floor(window.innerWidth / 15));
+    for (let i = 0; i < count; i++) {
+        particles.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            vx: (Math.random() - 0.5) * 0.5,
+            vy: (Math.random() - 0.5) * 0.5,
+            r: Math.random() * 2 + 0.5,
+            color: Math.random() > 0.5 ? "139,92,246" : "6,182,212"
+        });
+    }
+}
+
+function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${p.color},0.6)`;
+        ctx.fill();
+    });
+    // linhas entre partículas próximas
+    for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 120) {
+                ctx.beginPath();
+                ctx.moveTo(particles[i].x, particles[i].y);
+                ctx.lineTo(particles[j].x, particles[j].y);
+                ctx.strokeStyle = `rgba(139,92,246,${0.15 * (1 - dist / 120)})`;
+                ctx.stroke();
+            }
+        }
+    }
+    requestAnimationFrame(animateParticles);
+}
+
+if (window.matchMedia("(prefers-reduced-motion: no-preference)").matches) {
+    initParticles();
+    animateParticles();
+    window.addEventListener("resize", initParticles);
+}
+
+/* =========================================================
+   FILE TO DATA URL
+========================================================= */
 function fileToDataURL(file) {
-
     return new Promise((resolve, reject) => {
-
         const reader = new FileReader();
-
-        reader.onload = () =>
-            resolve(reader.result);
-
+        reader.onload = () => resolve(reader.result);
         reader.onerror = reject;
-
         reader.readAsDataURL(file);
-
     });
 }
 
 /* =========================================================
    CARREGAR PERFIL
 ========================================================= */
-
 async function loadProfile() {
-
     try {
-
-        const snapshot =
-            await db.ref(PROFILE_PATH).once("value");
-
+        const snapshot = await db.ref(PROFILE_PATH).once("value");
         profile = snapshot.val();
-
         if (!profile) {
-
             profile = {
-
                 name: "Liebebrr",
-
                 title: "",
-
-                description:
-                    "Meu perfil.",
-
+                description: "Meu perfil.",
                 avatar: "",
-
                 backgrounds: [],
-
                 backgroundInterval: 8,
-
                 blur: 0,
-
                 primary: "#8b5cf6",
-
                 secondary: "#06b6d4",
-
                 links: [],
-
                 badges: [],
-
                 playlist: [],
-
                 autoplay: false,
-
                 loop: true,
-
                 shuffle: false,
-
                 musicChangeBackground: false,
-
-                glow: true
-
+                musicFadeIn: true,
+                glow: true,
+                effectParticles: true,
+                effectVinyl: true,
+                effectCursor: true,
+                effectRing: true,
+                youtubeUrl: "",
+                youtubeLoop: true
             };
-
         }
-
         applyProfile();
-
-    } catch(error) {
-
+    } catch (error) {
         console.error(error);
-
-        toast(
-            "Erro ao carregar o perfil."
-        );
-
+        toast("Erro ao carregar o perfil.");
     }
-
-    setTimeout(() => {
-
-        $("loading").classList.add("hide");
-
-    }, 400);
-
+    setTimeout(() => $("loading").classList.add("hide"), 400);
 }
 
 /* =========================================================
    APLICAR PERFIL
 ========================================================= */
-
 function applyProfile() {
-
     if (!profile) return;
 
-    $("profileName").textContent =
-        profile.name || "Meu Perfil";
-
-    $("profileDescription").textContent =
-        profile.description || "";
+    $("profileName").textContent = profile.name || "Meu Perfil";
+    $("profileDescription").textContent = profile.description || "";
 
     if (profile.avatar) {
-
-        $("avatar").src =
-            profile.avatar;
-
+        $("avatar").src = profile.avatar;
+        $("vinylCover").src = profile.avatar;
     } else {
-
-        $("avatar").src =
-            "data:image/svg+xml;charset=UTF-8," +
-            encodeURIComponent(`
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     width="300"
-                     height="300">
-                    <rect width="100%" height="100%"
-                          fill="#111"/>
-                    <text x="50%" y="50%"
-                          dominant-baseline="middle"
-                          text-anchor="middle"
-                          fill="white"
-                          font-size="80">
-                        ?
-                    </text>
-                </svg>
-            `);
-
+        $("avatar").src = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(
+            `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300">
+                <rect width="100%" height="100%" fill="#111"/>
+                <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="white" font-size="80">?</text>
+            </svg>`
+        );
     }
 
-    document.documentElement.style
-        .setProperty(
-            "--primary",
-            profile.primary || "#8b5cf6"
-        );
+    document.documentElement.style.setProperty("--primary", profile.primary || "#8b5cf6");
+    document.documentElement.style.setProperty("--secondary", profile.secondary || "#06b6d4");
 
-    document.documentElement.style
-        .setProperty(
-            "--secondary",
-            profile.secondary || "#06b6d4"
-        );
-
-    backgrounds =
-        Array.isArray(profile.backgrounds)
-            ? profile.backgrounds
-            : [];
-
-    playlist =
-        Array.isArray(profile.playlist)
-            ? profile.playlist
-            : [];
+    backgrounds = Array.isArray(profile.backgrounds) ? profile.backgrounds : [];
+    playlist = Array.isArray(profile.playlist) ? profile.playlist : [];
 
     if (profile.blur > 0) {
-
-        $("background").style.filter =
-            `blur(${profile.blur}px)`;
-
+        $("background").style.filter = `blur(${profile.blur}px)`;
     } else {
-
-        $("background").style.filter =
-            "none";
-
+        $("background").style.filter = "none";
     }
 
+    // efeitos
+    document.querySelector(".avatar-ring").style.display = profile.effectRing !== false ? "block" : "none";
+    canvas.style.display = profile.effectParticles !== false ? "block" : "none";
+    $("vinylContainer").style.display = (profile.effectVinyl !== false && playlist.length) ? "flex" : "none";
+    cursor.style.display = profile.effectCursor !== false ? "block" : "none";
+    $("profileName").classList.toggle("glow-text", profile.glow !== false);
+
     renderLinks();
-
     renderBadges();
-
     renderPlaylist();
-
     startBackgrounds();
-
     setupMusic();
-
+    setupYouTube();
 }
 
 /* =========================================================
    LINKS
 ========================================================= */
-
 function renderLinks() {
-
-    const container =
-        $("links");
-
+    const container = $("links");
     container.innerHTML = "";
-
-    const links =
-        profile.links || [];
-
-    links.forEach(link => {
-
+    (profile.links || []).forEach(link => {
         if (!link.url) return;
-
-        const a =
-            document.createElement("a");
-
-        a.className =
-            "social-link";
-
-        a.href =
-            link.url;
-
-        a.target =
-            "_blank";
-
-        a.rel =
-            "noopener noreferrer";
-
-        a.textContent =
-            link.name || link.url;
-
+        const a = document.createElement("a");
+        a.className = "social-link";
+        a.href = link.url;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+        a.textContent = link.name || link.url;
         container.appendChild(a);
-
     });
-
 }
 
 /* =========================================================
    BADGES
 ========================================================= */
-
 function renderBadges() {
-
-    const container =
-        $("badges");
-
+    const container = $("badges");
     container.innerHTML = "";
-
-    (profile.badges || []).forEach(
-        badge => {
-
-            const el =
-                document.createElement("div");
-
-            el.className =
-                "badge";
-
-            el.textContent =
-                badge;
-
-            container.appendChild(el);
-
-        }
-    );
-
+    (profile.badges || []).forEach(badge => {
+        const el = document.createElement("div");
+        el.className = "badge";
+        el.textContent = badge;
+        container.appendChild(el);
+    });
 }
 
 /* =========================================================
    FUNDOS
 ========================================================= */
-
 function startBackgrounds() {
-
     clearInterval(backgroundTimer);
-
     if (!backgrounds.length) {
-
-        $("background").style.backgroundImage =
-            "";
-
+        $("background").style.backgroundImage = "";
         return;
-
     }
-
     backgroundIndex = 0;
-
     changeBackground();
-
-    const interval =
-        Math.max(
-            1,
-            Number(profile.backgroundInterval || 8)
-        ) * 1000;
-
+    const interval = Math.max(1, Number(profile.backgroundInterval || 8)) * 1000;
     if (backgrounds.length > 1) {
-
-        backgroundTimer =
-            setInterval(
-                changeBackground,
-                interval
-            );
-
+        backgroundTimer = setInterval(changeBackground, interval);
     }
-
 }
 
 function changeBackground() {
-
-    if (!backgrounds.length)
-        return;
-
-    const bg =
-        backgrounds[backgroundIndex];
-
-    $("background").style.opacity =
-        "0";
-
+    if (!backgrounds.length) return;
+    const bg = backgrounds[backgroundIndex];
+    $("background").style.opacity = "0";
     setTimeout(() => {
-
-        $("background").style.backgroundImage =
-            `url("${bg}")`;
-
-        $("background").style.opacity =
-            "1";
-
+        $("background").style.backgroundImage = `url("${bg}")`;
+        $("background").style.opacity = "1";
     }, 300);
-
     backgroundIndex++;
-
-    if (backgroundIndex >= backgrounds.length)
-        backgroundIndex = 0;
-
+    if (backgroundIndex >= backgrounds.length) backgroundIndex = 0;
 }
 
 /* =========================================================
    PLAYLIST
 ========================================================= */
-
 function renderPlaylist() {
-
-    const container =
-        $("playlist");
-
+    const container = $("playlist");
     container.innerHTML = "";
-
-    playlist.forEach(
-        (song, index) => {
-
-            const item =
-                document.createElement("div");
-
-            item.className =
-                "playlist-item";
-
-            if (index === currentSong)
-                item.classList.add("active");
-
-            item.textContent =
-                `${index + 1}. ${song.name}`;
-
-            item.onclick = () => {
-
-                currentSong = index;
-
-                loadSong();
-
-                playMusic();
-
-            };
-
-            container.appendChild(item);
-
-        }
-    );
-
-    $("musicPlayer").style.display =
-        playlist.length
-            ? "block"
-            : "none";
-
+    playlist.forEach((song, index) => {
+        const item = document.createElement("div");
+        item.className = "playlist-item";
+        if (index === currentSong) item.classList.add("active");
+        item.textContent = `${index + 1}. ${song.name}`;
+        item.onclick = () => {
+            currentSong = index;
+            loadSong();
+            playMusic();
+        };
+        container.appendChild(item);
+    });
+    $("musicPlayer").style.display = playlist.length ? "block" : "none";
+    $("vinylContainer").style.display = (playlist.length && profile.effectVinyl !== false) ? "flex" : "none";
 }
 
 /* =========================================================
    PLAYER
 ========================================================= */
-
 function setupMusic() {
-
-    if (!playlist.length)
-        return;
-
+    if (!playlist.length) return;
     currentSong = 0;
-
     audio.volume = .7;
-
     loadSong();
-
 }
 
 function loadSong() {
-
-    if (!playlist.length)
-        return;
-
-    const song =
-        playlist[currentSong];
-
-    audio.src =
-        song.data;
-
-    $("musicTitle").textContent =
-        song.name;
-
+    if (!playlist.length) return;
+    const song = playlist[currentSong];
+    audio.src = song.data;
+    $("musicTitle").textContent = song.name;
     updatePlaylistUI();
 
+    // trocar fundo junto com a música
+    if (profile.musicChangeBackground && backgrounds.length) {
+        const idx = currentSong % backgrounds.length;
+        $("background").style.opacity = "0";
+        setTimeout(() => {
+            $("background").style.backgroundImage = `url("${backgrounds[idx]}")`;
+            $("background").style.opacity = "1";
+        }, 300);
+    }
 }
 
 function updatePlaylistUI() {
-
-    document
-        .querySelectorAll(".playlist-item")
-        .forEach(
-            (el, index) => {
-
-                el.classList.toggle(
-                    "active",
-                    index === currentSong
-                );
-
-            }
-        );
-
+    document.querySelectorAll(".playlist-item").forEach((el, index) => {
+        el.classList.toggle("active", index === currentSong);
+    });
 }
 
+/* =========================================================
+   FADE IN DE MÚSICA
+========================================================= */
+function fadeInMusic() {
+    if (!profile.musicFadeIn) {
+        audio.volume = Number($("volume").value);
+        return;
+    }
+    clearInterval(fadeInterval);
+    const targetVolume = Number($("volume").value);
+    audio.volume = 0;
+    const steps = 30;
+    let step = 0;
+    fadeInterval = setInterval(() => {
+        step++;
+        audio.volume = Math.min(targetVolume, (step / steps) * targetVolume);
+        if (step >= steps) clearInterval(fadeInterval);
+    }, 100);
+}
+
+function fadeOutMusic(callback) {
+    if (!profile.musicFadeIn) {
+        audio.pause();
+        if (callback) callback();
+        return;
+    }
+    clearInterval(fadeInterval);
+    const startVolume = audio.volume;
+    const steps = 20;
+    let step = 0;
+    fadeInterval = setInterval(() => {
+        step++;
+        audio.volume = Math.max(0, startVolume * (1 - step / steps));
+        if (step >= steps) {
+            clearInterval(fadeInterval);
+            audio.pause();
+            audio.volume = Number($("volume").value);
+            if (callback) callback();
+        }
+    }, 80);
+}
+
+/* =========================================================
+   PLAY / PAUSE
+========================================================= */
 function playMusic() {
-
-    audio.play()
-        .then(() => {
-
-            isPlaying = true;
-
-            $("playBtn").textContent =
-                "⏸";
-
-        })
-        .catch(error => {
-
-            console.log(
-                "Autoplay bloqueado:",
-                error
-            );
-
-        });
-
+    audio.play().then(() => {
+        isPlaying = true;
+        $("playBtn").textContent = "⏸";
+        $("vinyl").classList.add("spinning");
+        fadeInMusic();
+    }).catch(error => {
+        console.log("Autoplay bloqueado:", error);
+    });
 }
 
 function pauseMusic() {
-
-    audio.pause();
-
-    isPlaying = false;
-
-    $("playBtn").textContent =
-        "▶";
-
+    fadeOutMusic(() => {
+        isPlaying = false;
+        $("playBtn").textContent = "▶";
+        $("vinyl").classList.remove("spinning");
+    });
 }
 
-$("playBtn").onclick = () => {
+function togglePlay() {
+    if (isPlaying) pauseMusic();
+    else playMusic();
+}
 
-    if (isPlaying)
-        pauseMusic();
-    else
-        playMusic();
-
-};
+$("playBtn").onclick = togglePlay;
 
 $("prevBtn").onclick = () => {
-
-    if (!playlist.length)
-        return;
-
+    if (!playlist.length) return;
     currentSong--;
-
-    if (currentSong < 0)
-        currentSong =
-            playlist.length - 1;
-
+    if (currentSong < 0) currentSong = playlist.length - 1;
     loadSong();
-
     playMusic();
-
 };
 
-$("nextBtn").onclick = () => {
-
-    nextSong();
-
-};
+$("nextBtn").onclick = () => nextSong();
 
 function nextSong() {
+    if (!playlist.length) return;
 
-    if (!playlist.length)
-        return;
-
-    currentSong++;
-
-    if (
-        currentSong >=
-        playlist.length
-    ) {
-
-        if (profile.loop) {
-
-            currentSong = 0;
-
-        } else {
-
-            currentSong =
-                playlist.length - 1;
-
-            pauseMusic();
-
-            return;
-
+    if (profile.shuffle) {
+        let next;
+        do {
+            next = Math.floor(Math.random() * playlist.length);
+        } while (playlist.length > 1 && next === currentSong);
+        currentSong = next;
+    } else {
+        currentSong++;
+        if (currentSong >= playlist.length) {
+            if (profile.loop) {
+                currentSong = 0;
+            } else {
+                currentSong = playlist.length - 1;
+                pauseMusic();
+                return;
+            }
         }
-
     }
 
     loadSong();
-
     playMusic();
-
 }
 
-audio.addEventListener(
-    "ended",
-    nextSong
-);
+audio.addEventListener("ended", nextSong);
 
-audio.addEventListener(
-    "timeupdate",
-    () => {
+audio.addEventListener("timeupdate", () => {
+    if (!audio.duration) return;
+    $("progress").value = (audio.currentTime / audio.duration) * 100;
+    $("currentTime").textContent = formatTime(audio.currentTime);
+    $("duration").textContent = formatTime(audio.duration);
+});
 
-        if (!audio.duration)
-            return;
+$("progress").oninput = () => {
+    if (!audio.duration) return;
+    audio.currentTime = (Number($("progress").value) / 100) * audio.duration;
+};
 
-        $("progress").value =
-            (
-                audio.currentTime /
-                audio.duration
-            ) * 100;
-
-        $("currentTime").textContent =
-            formatTime(
-                audio.currentTime
-            );
-
-        $("duration").textContent =
-            formatTime(
-                audio.duration
-            );
-
+$("volume").oninput = () => {
+    if (!profile.musicFadeIn || !fadeInterval) {
+        audio.volume = Number($("volume").value);
     }
-);
-
-$("progress").oninput =
-    () => {
-
-        if (!audio.duration)
-            return;
-
-        audio.currentTime =
-            (
-                Number(
-                    $("progress").value
-                ) / 100
-            ) * audio.duration;
-
-    };
-
-$("volume").oninput =
-    () => {
-
-        audio.volume =
-            Number(
-                $("volume").value
-            );
-
-    };
+};
 
 function formatTime(seconds) {
-
-    if (!Number.isFinite(seconds))
-        return "0:00";
-
-    const minutes =
-        Math.floor(seconds / 60);
-
-    const secs =
-        Math.floor(seconds % 60)
-            .toString()
-            .padStart(2, "0");
-
+    if (!Number.isFinite(seconds)) return "0:00";
+    const minutes = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60).toString().padStart(2, "0");
     return `${minutes}:${secs}`;
+}
 
+/* =========================================================
+   YOUTUBE
+========================================================= */
+let ytPlayer = null;
+let ytReady = false;
+
+function setupYouTube() {
+    if (!profile.youtubeUrl) return;
+
+    const container = $("youtubeContainer");
+    container.innerHTML = '<div id="ytPlayer"></div>';
+
+    const tag = document.createElement("script");
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.body.appendChild(tag);
+
+    window.onYouTubeIframeAPIReady = () => {
+        const videoId = extractYouTubeId(profile.youtubeUrl);
+        if (!videoId) return;
+
+        ytPlayer = new YT.Player("ytPlayer", {
+            height: "1",
+            width: "1",
+            videoId: videoId,
+            playerVars: {
+                autoplay: 0,
+                loop: profile.youtubeLoop ? 1 : 0,
+                playlist: videoId,
+                controls: 0
+            },
+            events: {
+                onReady: () => { ytReady = true; }
+            }
+        });
+    };
+}
+
+function extractYouTubeId(url) {
+    const match = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
+    return match ? match[1] : null;
 }
 
 /* =========================================================
    ADMIN BUTTON
 ========================================================= */
+$("adminButton").onclick = () => {
+    if (auth.currentUser) openAdmin();
+    else openModal("loginModal");
+};
 
-$("adminButton").onclick =
-    () => {
-
-        if (auth.currentUser) {
-
-            openAdmin();
-
-        } else {
-
-            openModal("loginModal");
-
-        }
-
-    };
+/* =========================================================
+   TEMA
+========================================================= */
+$("themeToggle").onclick = () => {
+    const isDark = document.body.style.background !== "rgb(245, 245, 245)";
+    if (isDark) {
+        document.body.style.background = "#f5f5f5";
+        document.body.style.color = "#111";
+        document.documentElement.style.setProperty("--card", "rgba(255,255,255,.85)");
+        document.documentElement.style.setProperty("--text", "#111");
+        document.documentElement.style.setProperty("--muted", "#555");
+        document.documentElement.style.setProperty("--border", "rgba(0,0,0,.1)");
+        $("themeToggle").textContent = "☀️";
+    } else {
+        document.body.style.background = "#050509";
+        document.body.style.color = "#fff";
+        document.documentElement.style.setProperty("--card", "rgba(15,15,25,.72)");
+        document.documentElement.style.setProperty("--text", "#fff");
+        document.documentElement.style.setProperty("--muted", "#a1a1aa");
+        document.documentElement.style.setProperty("--border", "rgba(255,255,255,.12)");
+        $("themeToggle").textContent = "🌙";
+    }
+};
 
 /* =========================================================
    LOGIN
 ========================================================= */
+$("loginButton").onclick = async () => {
+    const email = $("loginEmail").value.trim();
+    const password = $("loginPassword").value;
 
-$("loginButton").onclick =
-    async () => {
-
-        const email =
-            $("loginEmail").value.trim();
-
-        const password =
-            $("loginPassword").value;
-
-        if (!email || !password) {
-
-            toast(
-                "Preencha e-mail e senha."
-            );
-
-            return;
-
-        }
-
-        try {
-
-            await auth.signInWithEmailAndPassword(
-                email,
-                password
-            );
-
-            closeModal("loginModal");
-
-            openAdmin();
-
-            toast(
-                "Administrador conectado."
-            );
-
-        } catch(error) {
-
-            console.error(error);
-
-            toast(
-                "Login inválido."
-            );
-
-        }
-
-    };
-
-/* =========================================================
-   AUTH
-========================================================= */
-
-auth.onAuthStateChanged(
-    user => {
-
-        console.log(
-            "Auth:",
-            user
-                ? user.email
-                : "não conectado"
-        );
-
+    if (!email || !password) {
+        toast("Preencha e-mail e senha.");
+        return;
     }
-);
+
+    try {
+        await auth.signInWithEmailAndPassword(email, password);
+        closeModal("loginModal");
+        openAdmin();
+        toast("Administrador conectado.");
+    } catch (error) {
+        console.error(error);
+        toast("Login inválido.");
+    }
+};
+
+auth.onAuthStateChanged(user => {
+    console.log("Auth:", user ? user.email : "não conectado");
+});
 
 /* =========================================================
-   ABRIR ADMIN
+   ADMIN
 ========================================================= */
-
 function openAdmin() {
-
     loadAdminValues();
-
     openModal("adminModal");
-
 }
 
-/* =========================================================
-   CARREGAR VALORES ADMIN
-========================================================= */
-
 function loadAdminValues() {
-
-    $("editName").value =
-        profile.name || "";
-
-    $("editTitle").value =
-        profile.title || "";
-
-    $("editDescription").value =
-        profile.description || "";
-
-    $("primaryColor").value =
-        profile.primary || "#8b5cf6";
-
-    $("secondaryColor").value =
-        profile.secondary || "#06b6d4";
-
-    $("backgroundInterval").value =
-        profile.backgroundInterval || 8;
-
-    $("blurAmount").value =
-        profile.blur || 0;
-
-    $("musicAutoplay").checked =
-        !!profile.autoplay;
-
-    $("musicLoop").checked =
-        profile.loop !== false;
-
-    $("musicShuffle").checked =
-        !!profile.shuffle;
-
-    $("musicChangeBackground").checked =
-        !!profile.musicChangeBackground;
-
-    $("effectGlow").checked =
-        profile.glow !== false;
-
-    $("effectBlur").checked =
-        !!profile.effectBlur;
+    $("editName").value = profile.name || "";
+    $("editTitle").value = profile.title || "";
+    $("editDescription").value = profile.description || "";
+    $("primaryColor").value = profile.primary || "#8b5cf6";
+    $("secondaryColor").value = profile.secondary || "#06b6d4";
+    $("backgroundInterval").value = profile.backgroundInterval || 8;
+    $("blurAmount").value = profile.blur || 0;
+    $("musicAutoplay").checked = !!profile.autoplay;
+    $("musicLoop").checked = profile.loop !== false;
+    $("musicShuffle").checked = !!profile.shuffle;
+    $("musicChangeBackground").checked = !!profile.musicChangeBackground;
+    $("musicFadeIn").checked = profile.musicFadeIn !== false;
+    $("effectGlow").checked = profile.glow !== false;
+    $("effectBlur").checked = !!profile.effectBlur;
+    $("effectParticles").checked = profile.effectParticles !== false;
+    $("effectVinyl").checked = profile.effectVinyl !== false;
+    $("effectCursor").checked = profile.effectCursor !== false;
+    $("effectRing").checked = profile.effectRing !== false;
+    $("youtubeUrl").value = profile.youtubeUrl || "";
+    $("youtubeLoop").checked = profile.youtubeLoop !== false;
 
     renderBackgroundEditor();
-
     renderLinksEditor();
-
     renderBadgesEditor();
-
     renderMusicEditor();
-
 }
 
 /* =========================================================
    AVATAR
 ========================================================= */
-
-$("avatarFile").onchange =
-    async event => {
-
-        const file =
-            event.target.files[0];
-
-        if (!file)
-            return;
-
-        if (file.size >
-            2 * 1024 * 1024) {
-
-            toast(
-                "Avatar máximo: 2 MB."
-            );
-
-            return;
-
-        }
-
-        profile.avatar =
-            await fileToDataURL(file);
-
-        toast(
-            "Avatar carregado."
-        );
-
-    };
+$("avatarFile").onchange = async event => {
+    const file = event.target.files[0];
+    if (!file) return;
+    if (file.size > 2 * 1024 * 1024) {
+        toast("Avatar máximo: 2 MB.");
+        return;
+    }
+    profile.avatar = await fileToDataURL(file);
+    toast("Avatar carregado.");
+};
 
 /* =========================================================
-   FUNDOS UPLOAD
+   FUNDOS
 ========================================================= */
-
-$("backgroundFiles").onchange =
-    async event => {
-
-        const files =
-            Array.from(
-                event.target.files
-            );
-
-        for (const file of files) {
-
-            if (
-                file.size >
-                3 * 1024 * 1024
-            ) {
-
-                toast(
-                    `${file.name} é grande demais.`
-                );
-
-                continue;
-
-            }
-
-            const data =
-                await fileToDataURL(file);
-
-            backgrounds.push(data);
-
+$("backgroundFiles").onchange = async event => {
+    const files = Array.from(event.target.files);
+    for (const file of files) {
+        if (file.size > 3 * 1024 * 1024) {
+            toast(`${file.name} é grande demais.`);
+            continue;
         }
-
-        renderBackgroundEditor();
-
-    };
+        const data = await fileToDataURL(file);
+        backgrounds.push(data);
+    }
+    renderBackgroundEditor();
+};
 
 function renderBackgroundEditor() {
-
-    const container =
-        $("backgroundList");
-
+    const container = $("backgroundList");
     container.innerHTML = "";
-
-    backgrounds.forEach(
-        (bg, index) => {
-
-            const row =
-                document.createElement("div");
-
-            row.className =
-                "admin-item";
-
-            row.innerHTML = `
-
-                <img
-                    src="${bg}"
-                    style="
-                        width:70px;
-                        height:45px;
-                        object-fit:cover;
-                        border-radius:8px;
-                    "
-                >
-
-                <span style="flex:1">
-                    Fundo ${index + 1}
-                </span>
-
-                <button
-                    class="small-button danger"
-                    onclick="removeBackground(${index})"
-                >
-                    Remover
-                </button>
-
-            `;
-
-            container.appendChild(row);
-
-        }
-    );
-
+    backgrounds.forEach((bg, index) => {
+        const row = document.createElement("div");
+        row.className = "admin-item";
+        row.innerHTML = `
+            <img src="${bg}" style="width:70px;height:45px;object-fit:cover;border-radius:8px;">
+            <span style="flex:1">Fundo ${index + 1}</span>
+            <button class="small-button danger" onclick="removeBackground(${index})">Remover</button>
+        `;
+        container.appendChild(row);
+    });
 }
 
 function removeBackground(index) {
-
     backgrounds.splice(index, 1);
-
     renderBackgroundEditor();
-
 }
 
 /* =========================================================
    LINKS EDITOR
 ========================================================= */
-
 function renderLinksEditor() {
-
-    const container =
-        $("linksEditor");
-
+    const container = $("linksEditor");
     container.innerHTML = "";
-
-    const links =
-        profile.links || [];
-
-    links.forEach(
-        (link, index) => {
-
-            const row =
-                document.createElement("div");
-
-            row.className =
-                "admin-item";
-
-            row.innerHTML = `
-
-                <input
-                    class="input"
-                    value="${escapeHTML(link.name || "")}"
-                    placeholder="Nome"
-                    data-link-name="${index}"
-                >
-
-                <input
-                    class="input"
-                    value="${escapeHTML(link.url || "")}"
-                    placeholder="URL"
-                    data-link-url="${index}"
-                >
-
-                <button
-                    class="small-button danger"
-                    onclick="removeLink(${index})"
-                >
-                    ×
-                </button>
-
-            `;
-
-            container.appendChild(row);
-
-        }
-    );
-
+    (profile.links || []).forEach((link, index) => {
+        const row = document.createElement("div");
+        row.className = "admin-item";
+        row.innerHTML = `
+            <input class="input" value="${escapeHTML(link.name || "")}" placeholder="Nome" data-link-name="${index}">
+            <input class="input" value="${escapeHTML(link.url || "")}" placeholder="URL" data-link-url="${index}">
+            <button class="small-button danger" onclick="removeLink(${index})">×</button>
+        `;
+        container.appendChild(row);
+    });
 }
 
-$("addLink").onclick =
-    () => {
-
-        if (!profile.links)
-            profile.links = [];
-
-        profile.links.push({
-            name: "Novo link",
-            url: "https://"
-        });
-
-        renderLinksEditor();
-
-    };
+$("addLink").onclick = () => {
+    if (!profile.links) profile.links = [];
+    profile.links.push({ name: "Novo link", url: "https://" });
+    renderLinksEditor();
+};
 
 function removeLink(index) {
-
     profile.links.splice(index, 1);
-
     renderLinksEditor();
-
 }
 
 /* =========================================================
    BADGES
 ========================================================= */
-
-$("addBadge").onclick =
-    () => {
-
-        const value =
-            $("badgeInput")
-                .value
-                .trim();
-
-        if (!value)
-            return;
-
-        if (!profile.badges)
-            profile.badges = [];
-
-        profile.badges.push(value);
-
-        $("badgeInput").value = "";
-
-        renderBadgesEditor();
-
-    };
+$("addBadge").onclick = () => {
+    const value = $("badgeInput").value.trim();
+    if (!value) return;
+    if (!profile.badges) profile.badges = [];
+    profile.badges.push(value);
+    $("badgeInput").value = "";
+    renderBadgesEditor();
+};
 
 function renderBadgesEditor() {
-
-    const container =
-        $("badgesEditor");
-
+    const container = $("badgesEditor");
     container.innerHTML = "";
-
-    (profile.badges || [])
-        .forEach(
-            (badge, index) => {
-
-                const row =
-                    document.createElement("div");
-
-                row.className =
-                    "admin-item";
-
-                row.innerHTML = `
-
-                    <input
-                        class="input"
-                        value="${escapeHTML(badge)}"
-                        data-badge="${index}"
-                    >
-
-                    <button
-                        class="small-button danger"
-                        onclick="removeBadge(${index})"
-                    >
-                        ×
-                    </button>
-
-                `;
-
-                container.appendChild(row);
-
-            }
-        );
-
+    (profile.badges || []).forEach((badge, index) => {
+        const row = document.createElement("div");
+        row.className = "admin-item";
+        row.innerHTML = `
+            <input class="input" value="${escapeHTML(badge)}" data-badge="${index}">
+            <button class="small-button danger" onclick="removeBadge(${index})">×</button>
+        `;
+        container.appendChild(row);
+    });
 }
 
 function removeBadge(index) {
-
     profile.badges.splice(index, 1);
-
     renderBadgesEditor();
-
 }
 
 /* =========================================================
    MÚSICAS
 ========================================================= */
-
-$("musicFiles").onchange =
-    async event => {
-
-        const files =
-            Array.from(
-                event.target.files
-            );
-
-        for (const file of files) {
-
-            if (
-                file.size >
-                8 * 1024 * 1024
-            ) {
-
-                toast(
-                    `${file.name} excede 8 MB.`
-                );
-
-                continue;
-
-            }
-
-            toast(
-                `Carregando ${file.name}...`
-            );
-
-            const data =
-                await fileToDataURL(file);
-
-            playlist.push({
-
-                name:
-                    file.name
-                        .replace(/\.[^/.]+$/, ""),
-
-                data
-
-            });
-
+$("musicFiles").onchange = async event => {
+    const files = Array.from(event.target.files);
+    for (const file of files) {
+        if (file.size > 8 * 1024 * 1024) {
+            toast(`${file.name} excede 8 MB.`);
+            continue;
         }
-
-        renderMusicEditor();
-
-    };
+        toast(`Carregando ${file.name}...`);
+        const data = await fileToDataURL(file);
+        playlist.push({
+            name: file.name.replace(/\.[^/.]+$/, ""),
+            data
+        });
+    }
+    renderMusicEditor();
+};
 
 function renderMusicEditor() {
-
-    const container =
-        $("musicEditor");
-
+    const container = $("musicEditor");
     container.innerHTML = "";
-
-    playlist.forEach(
-        (song, index) => {
-
-            const row =
-                document.createElement("div");
-
-            row.className =
-                "admin-item";
-
-            row.innerHTML = `
-
-                <input
-                    class="input"
-                    value="${escapeHTML(song.name)}"
-                    data-song-name="${index}"
-                >
-
-                <button
-                    class="small-button danger"
-                    onclick="removeSong(${index})"
-                >
-                    Remover
-                </button>
-
-            `;
-
-            container.appendChild(row);
-
-        }
-    );
-
+    playlist.forEach((song, index) => {
+        const row = document.createElement("div");
+        row.className = "admin-item";
+        row.innerHTML = `
+            <input class="input" value="${escapeHTML(song.name)}" data-song-name="${index}">
+            <button class="small-button danger" onclick="removeSong(${index})">Remover</button>
+        `;
+        container.appendChild(row);
+    });
 }
 
 function removeSong(index) {
-
     playlist.splice(index, 1);
-
     renderMusicEditor();
-
 }
 
 /* =========================================================
    SALVAR
 ========================================================= */
+$("saveButton").onclick = async () => {
+    if (!auth.currentUser) {
+        toast("Você precisa estar logado.");
+        return;
+    }
 
-$("saveButton").onclick =
-    async () => {
+    try {
+        const links = [];
+        document.querySelectorAll("[data-link-name]").forEach(input => {
+            const index = input.dataset.linkName;
+            const name = input.value;
+            const urlInput = document.querySelector(`[data-link-url="${index}"]`);
+            links.push({ name, url: urlInput ? urlInput.value : "" });
+        });
 
-        if (!auth.currentUser) {
+        const badges = [];
+        document.querySelectorAll("[data-badge]").forEach(input => {
+            badges.push(input.value);
+        });
 
-            toast(
-                "Você precisa estar logado."
-            );
+        playlist.forEach((song, index) => {
+            const input = document.querySelector(`[data-song-name="${index}"]`);
+            if (input) song.name = input.value;
+        });
 
-            return;
+        profile.name = $("editName").value;
+        profile.title = $("editTitle").value;
+        profile.description = $("editDescription").value;
+        profile.primary = $("primaryColor").value;
+        profile.secondary = $("secondaryColor").value;
+        profile.backgrounds = backgrounds;
+        profile.backgroundInterval = Number($("backgroundInterval").value) || 8;
+        profile.blur = Number($("blurAmount").value) || 0;
+        profile.links = links;
+        profile.badges = badges;
+        profile.playlist = playlist;
+        profile.autoplay = $("musicAutoplay").checked;
+        profile.loop = $("musicLoop").checked;
+        profile.shuffle = $("musicShuffle").checked;
+        profile.musicChangeBackground = $("musicChangeBackground").checked;
+        profile.musicFadeIn = $("musicFadeIn").checked;
+        profile.glow = $("effectGlow").checked;
+        profile.effectBlur = $("effectBlur").checked;
+        profile.effectParticles = $("effectParticles").checked;
+        profile.effectVinyl = $("effectVinyl").checked;
+        profile.effectCursor = $("effectCursor").checked;
+        profile.effectRing = $("effectRing").checked;
+        profile.youtubeUrl = $("youtubeUrl").value.trim();
+        profile.youtubeLoop = $("youtubeLoop").checked;
 
-        }
-
-        try {
-
-            /* LINKS */
-
-            const links = [];
-
-            document
-                .querySelectorAll(
-                    "[data-link-name]"
-                )
-                .forEach(
-                    input => {
-
-                        const index =
-                            input.dataset
-                                .linkName;
-
-                        const name =
-                            input.value;
-
-                        const urlInput =
-                            document.querySelector(
-                                `[data-link-url="${index}"]`
-                            );
-
-                        links.push({
-
-                            name,
-
-                            url:
-                                urlInput
-                                    ? urlInput.value
-                                    : ""
-
-                        });
-
-                    }
-                );
-
-            /* BADGES */
-
-            const badges = [];
-
-            document
-                .querySelectorAll(
-                    "[data-badge]"
-                )
-                .forEach(
-                    input => {
-
-                        badges.push(
-                            input.value
-                        );
-
-                    }
-                );
-
-            /* MÚSICAS */
-
-            playlist.forEach(
-                (song, index) => {
-
-                    const input =
-                        document.querySelector(
-                            `[data-song-name="${index}"]`
-                        );
-
-                    if (input)
-                        song.name =
-                            input.value;
-
-                }
-            );
-
-            profile.name =
-                $("editName").value;
-
-            profile.title =
-                $("editTitle").value;
-
-            profile.description =
-                $("editDescription").value;
-
-            profile.primary =
-                $("primaryColor").value;
-
-            profile.secondary =
-                $("secondaryColor").value;
-
-            profile.backgrounds =
-                backgrounds;
-
-            profile.backgroundInterval =
-                Number(
-                    $("backgroundInterval").value
-                ) || 8;
-
-            profile.blur =
-                Number(
-                    $("blurAmount").value
-                ) || 0;
-
-            profile.links =
-                links;
-
-            profile.badges =
-                badges;
-
-            profile.playlist =
-                playlist;
-
-            profile.autoplay =
-                $("musicAutoplay").checked;
-
-            profile.loop =
-                $("musicLoop").checked;
-
-            profile.shuffle =
-                $("musicShuffle").checked;
-
-            profile.musicChangeBackground =
-                $("musicChangeBackground")
-                    .checked;
-
-            profile.glow =
-                $("effectGlow").checked;
-
-            profile.effectBlur =
-                $("effectBlur").checked;
-
-            await db
-                .ref(PROFILE_PATH)
-                .set(profile);
-
-            applyProfile();
-
-            closeModal("adminModal");
-
-            toast(
-                "👑 Perfil atualizado para todo mundo."
-            );
-
-        } catch(error) {
-
-            console.error(error);
-
-            toast(
-                "Erro ao salvar. Veja o console."
-            );
-
-        }
-
-    };
+        await db.ref(PROFILE_PATH).set(profile);
+        applyProfile();
+        closeModal("adminModal");
+        toast("👑 Perfil atualizado para todo mundo.");
+    } catch (error) {
+        console.error(error);
+        toast("Erro ao salvar. Veja o console.");
+    }
+};
 
 /* =========================================================
    LOGOUT
 ========================================================= */
-
-$("logoutButton").onclick =
-    async () => {
-
-        await auth.signOut();
-
-        closeModal("adminModal");
-
-        toast(
-            "Administrador desconectado."
-        );
-
-    };
+$("logoutButton").onclick = async () => {
+    await auth.signOut();
+    closeModal("adminModal");
+    toast("Administrador desconectado.");
+};
 
 /* =========================================================
-   ESCAPE HTML
+   ESCAPE
 ========================================================= */
-
 function escapeHTML(value) {
-
     return String(value)
         .replaceAll("&", "&amp;")
         .replaceAll("<", "&lt;")
         .replaceAll(">", "&gt;")
         .replaceAll('"', "&quot;")
         .replaceAll("'", "&#039;");
-
-}
-
-/* =========================================================
-   EFEITO DE GLOW
-========================================================= */
-
-function updateGlow() {
-
-    if (
-        profile &&
-        profile.glow
-    ) {
-
-        $("profileName").style.textShadow =
-            `
-            0 0 15px var(--primary),
-            0 0 40px var(--primary)
-            `;
-
-    } else {
-
-        $("profileName").style.textShadow =
-            "none";
-
-    }
-
 }
 
 /* =========================================================
    AUTOPLAY
 ========================================================= */
-
-document.addEventListener(
-    "click",
-    () => {
-
-        if (
-            profile &&
-            profile.autoplay &&
-            playlist.length &&
-            !isPlaying
-        ) {
-
-            playMusic();
-
-        }
-
-    },
-    {
-        once: true
+document.addEventListener("click", () => {
+    if (profile && profile.autoplay && playlist.length && !isPlaying) {
+        playMusic();
     }
-);
+    if (profile && profile.youtubeUrl && ytReady && ytPlayer && typeof ytPlayer.playVideo === "function") {
+        ytPlayer.playVideo();
+    }
+}, { once: true });
 
 /* =========================================================
    INICIALIZAÇÃO
 ========================================================= */
-
 loadProfile();
-
 </script>
 
 </body>
