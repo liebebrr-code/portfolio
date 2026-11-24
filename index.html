@@ -18,21 +18,29 @@
     --border: rgba(255,255,255,.12);
     --blur: 18px;
     --radius: 24px;
-    --cursor-url: default;
+    --bg-base: #050509;
+    --glow-intensity: 1;
+    --particle-color: 139,92,246;
+    --entry-speed: .8s;
+    --anim-speed: 1;
 }
 
 html, body { width: 100%; min-height: 100%; }
 
 body {
-    background: #050509;
+    background: var(--bg-base);
     color: var(--text);
     font-family: 'Segoe UI', Arial, sans-serif;
     overflow-x: hidden;
-    cursor: var(--cursor-url);
+    transition: background .6s ease, color .4s ease;
+    cursor: default;
 }
 
+body.no-cursor-custom { cursor: auto; }
+body.no-cursor-custom * { cursor: auto !important; }
+
 /* =========================================================
-   FUNDO COM PARTÍCULAS
+   FUNDO
 ========================================================= */
 
 #background {
@@ -40,8 +48,8 @@ body {
     inset: 0;
     z-index: -10;
     background:
-        radial-gradient(circle at center, rgba(139,92,246,.15), transparent 55%),
-        #050509;
+        radial-gradient(circle at center, rgba(var(--particle-color),.15), transparent 55%),
+        var(--bg-base);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -53,16 +61,71 @@ body {
     position: absolute;
     inset: 0;
     background: linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.7));
+    pointer-events: none;
 }
 
 #background.blur { filter: blur(8px); transform: scale(1.05); }
+
+/* Camadas ambientais (neblina, aurora, ondas) */
+.ambient-layer {
+    position: fixed;
+    inset: 0;
+    z-index: -9;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+.ambient-layer.active { opacity: 1; }
+
+.ambient-fog {
+    background:
+        radial-gradient(circle at 20% 30%, rgba(139,92,246,.18), transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(6,182,212,.15), transparent 45%);
+    animation: fogMove 25s ease-in-out infinite alternate;
+}
+@keyframes fogMove {
+    from { transform: translate(-3%, 2%) scale(1.1); }
+    to   { transform: translate(3%, -2%) scale(1.2); }
+}
+
+.ambient-aurora {
+    background:
+        linear-gradient(120deg,
+            transparent 0%,
+            rgba(139,92,246,.10) 25%,
+            rgba(6,182,212,.14) 50%,
+            rgba(167,139,250,.10) 75%,
+            transparent 100%);
+    background-size: 200% 200%;
+    animation: auroraShift 18s linear infinite;
+    filter: blur(40px);
+}
+@keyframes auroraShift {
+    0%   { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}
+
+.ambient-waves {
+    background:
+        repeating-linear-gradient(115deg,
+            rgba(139,92,246,.05) 0px,
+            rgba(139,92,246,.05) 2px,
+            transparent 2px,
+            transparent 60px);
+    animation: wavesMove 30s linear infinite;
+    opacity: .5;
+}
+@keyframes wavesMove {
+    from { background-position: 0 0; }
+    to   { background-position: 600px 0; }
+}
 
 #particles {
     position: fixed;
     inset: 0;
     z-index: -8;
     pointer-events: none;
-    opacity: .6;
+    opacity: .7;
 }
 
 #overlay {
@@ -70,7 +133,19 @@ body {
     inset: 0;
     z-index: -5;
     pointer-events: none;
-    background: radial-gradient(circle at 50% 20%, rgba(139,92,246,.18), transparent 45%);
+    background: radial-gradient(circle at 50% 20%, rgba(var(--particle-color),.18), transparent 45%);
+}
+
+/* Progresso do scroll */
+#scrollProgress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    width: 0%;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    z-index: 3000;
+    transition: width .1s linear;
+    box-shadow: 0 0 12px var(--primary);
 }
 
 /* =========================================================
@@ -79,21 +154,65 @@ body {
 
 .custom-cursor {
     position: fixed;
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     border: 2px solid var(--primary);
     border-radius: 50%;
     pointer-events: none;
     z-index: 9999;
     transform: translate(-50%, -50%);
-    transition: width .2s, height .2s, background .2s;
+    transition: width .2s, height .2s, background .2s, opacity .2s;
     mix-blend-mode: difference;
+    opacity: 0;
+}
+.custom-cursor.active { opacity: 1; }
+.custom-cursor.hover {
+    width: 44px;
+    height: 44px;
+    background: rgba(var(--particle-color),.3);
 }
 
-.custom-cursor.hover {
-    width: 40px;
-    height: 40px;
-    background: rgba(139,92,246,.3);
+.cursor-trail {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--primary);
+    pointer-events: none;
+    z-index: 9998;
+    opacity: .55;
+    transform: translate(-50%, -50%);
+    filter: blur(1px);
+    transition: opacity .4s ease;
+}
+
+.click-ripple {
+    position: fixed;
+    border: 2px solid var(--primary);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9997;
+    transform: translate(-50%, -50%);
+    animation: rippleAnim .7s ease-out forwards;
+}
+@keyframes rippleAnim {
+    from { width: 0; height: 0; opacity: .9; }
+    to   { width: 120px; height: 120px; opacity: 0; }
+}
+
+.click-particle {
+    position: fixed;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--secondary);
+    pointer-events: none;
+    z-index: 9997;
+    transform: translate(-50%, -50%);
+    animation: clickParticle .8s ease-out forwards;
+}
+@keyframes clickParticle {
+    from { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+    to   { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(.2); }
 }
 
 /* =========================================================
@@ -117,34 +236,67 @@ body {
     border-radius: var(--radius);
     backdrop-filter: blur(var(--blur));
     -webkit-backdrop-filter: blur(var(--blur));
-    box-shadow: 0 30px 100px rgba(0,0,0,.55), 0 0 80px rgba(139,92,246,.08);
-    animation: cardIn .8s ease;
+    box-shadow: 0 30px 100px rgba(0,0,0,.55), 0 0 80px rgba(var(--particle-color),.08);
     position: relative;
     overflow: hidden;
+    animation: cardIn var(--entry-speed) ease;
+    transition: transform .3s ease, box-shadow .4s ease;
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+
+.profile-card.tilt:hover {
+    box-shadow: 0 40px 120px rgba(0,0,0,.6), 0 0 100px rgba(var(--particle-color),.18);
 }
 
 .profile-card::before {
     content: "";
     position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
     background: conic-gradient(from 0deg, transparent, var(--primary), transparent, var(--secondary), transparent);
     animation: rotate 8s linear infinite;
     opacity: .05;
     z-index: -1;
+    pointer-events: none;
 }
-
 @keyframes rotate { to { transform: rotate(360deg); } }
+
+.profile-card::after {
+    content: "";
+    position: absolute;
+    top: 0; left: -100%;
+    width: 60%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.06), transparent);
+    transform: skewX(-20deg);
+    pointer-events: none;
+    animation: sweep 6s ease-in-out infinite;
+}
+@keyframes sweep {
+    0%, 70% { left: -100%; }
+    100% { left: 200%; }
+}
 
 @keyframes cardIn {
     from { opacity: 0; transform: translateY(25px) scale(.97); }
     to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
+/* Animação de entrada alternativa */
+.profile-card.entry-fade { animation: entryFade var(--entry-speed) ease; }
+@keyframes entryFade { from { opacity: 0; } to { opacity: 1; } }
+
+.profile-card.entry-slide { animation: entrySlide var(--entry-speed) ease; }
+@keyframes entrySlide { from { opacity: 0; transform: translateX(-40px); } to { opacity: 1; transform: translateX(0); } }
+
+.profile-card.entry-zoom { animation: entryZoom var(--entry-speed) ease; }
+@keyframes entryZoom { from { opacity: 0; transform: scale(.85); } to { opacity: 1; transform: scale(1); } }
+
+.profile-card.entry-blur { animation: entryBlur var(--entry-speed) ease; }
+@keyframes entryBlur { from { opacity: 0; filter: blur(12px); } to { opacity: 1; filter: blur(0); } }
+
 /* =========================================================
-   AVATAR COM ANEL GIRATÓRIO
+   AVATAR
 ========================================================= */
 
 .avatar-container {
@@ -156,34 +308,33 @@ body {
 
 .avatar-ring {
     position: absolute;
-    width: 145px;
-    height: 145px;
+    width: 145px; height: 145px;
     border-radius: 50%;
     background: conic-gradient(var(--primary), var(--secondary), var(--primary));
     animation: spin-ring 4s linear infinite;
     opacity: .7;
     filter: blur(3px);
 }
-
+.avatar-ring.disabled { display: none; }
 @keyframes spin-ring { to { transform: rotate(360deg); } }
 
 .avatar {
-    width: 125px;
-    height: 125px;
+    width: 125px; height: 125px;
     border-radius: 50%;
     object-fit: cover;
     border: 4px solid rgba(255,255,255,.15);
-    box-shadow: 0 0 0 5px rgba(139,92,246,.08), 0 15px 50px rgba(0,0,0,.5);
+    box-shadow: 0 0 0 5px rgba(var(--particle-color),.08), 0 15px 50px rgba(0,0,0,.5);
     background: #111;
     position: relative;
     z-index: 2;
-    transition: transform .3s;
+    transition: transform .3s, opacity .6s;
+    opacity: 0;
 }
-
-.avatar:hover { transform: scale(1.05) rotate(3deg); }
+.avatar.loaded { opacity: 1; }
+.avatar:hover { transform: scale(1.06) rotate(3deg); }
 
 /* =========================================================
-   TEXTO
+   TEXTO / BADGES / LINKS
 ========================================================= */
 
 .profile-name {
@@ -192,11 +343,14 @@ body {
     font-weight: 900;
     letter-spacing: -1px;
     margin-bottom: 8px;
-    text-shadow: 0 0 25px rgba(139,92,246,.35);
     background: linear-gradient(135deg, var(--primary), var(--secondary));
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
+    transition: filter .4s;
+}
+.profile-name.glowing {
+    filter: drop-shadow(0 0 calc(15px * var(--glow-intensity)) var(--primary));
 }
 
 .profile-description {
@@ -207,10 +361,6 @@ body {
     margin: auto;
     white-space: pre-wrap;
 }
-
-/* =========================================================
-   BADGES
-========================================================= */
 
 .badges {
     display: flex;
@@ -223,21 +373,21 @@ body {
 .badge {
     padding: 7px 12px;
     border-radius: 999px;
-    background: rgba(139,92,246,.15);
-    border: 1px solid rgba(139,92,246,.25);
+    background: rgba(var(--particle-color),.15);
+    border: 1px solid rgba(var(--particle-color),.25);
     font-size: 13px;
     color: #ddd6fe;
-    transition: .2s;
+    transition: .25s;
+    animation: badgeIn .4s ease both;
 }
-
+@keyframes badgeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 .badge:hover {
     transform: translateY(-2px) scale(1.05);
-    box-shadow: 0 5px 20px rgba(139,92,246,.3);
+    box-shadow: 0 5px 20px rgba(var(--particle-color),.3);
 }
-
-/* =========================================================
-   LINKS
-========================================================= */
 
 .links {
     display: flex;
@@ -264,22 +414,20 @@ body {
 .social-link::before {
     content: "";
     position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(139,92,246,.3), transparent);
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(var(--particle-color),.3), transparent);
     transition: left .5s;
 }
-
 .social-link:hover::before { left: 100%; }
 
 .social-link:hover {
     transform: translateY(-3px);
-    background: rgba(139,92,246,.18);
-    border-color: rgba(139,92,246,.4);
-    box-shadow: 0 10px 35px rgba(139,92,246,.12);
+    background: rgba(var(--particle-color),.18);
+    border-color: rgba(var(--particle-color),.4);
+    box-shadow: 0 10px 35px rgba(var(--particle-color),.18);
 }
+.social-link:active { transform: translateY(-1px) scale(.98); }
 
 /* =========================================================
    DISCO DE VINIL
@@ -293,10 +441,24 @@ body {
 }
 
 .vinyl {
-    width: 140px;
-    height: 140px;
+    width: 140px; height: 140px;
     border-radius: 50%;
-    background: radial-gradient(circle, #1a1a1a 0%, #0a0a0a 30%, #111 31%, #0a0a0a 32%, #111 33%, #0a0a0a 34%, #111 35%, #0a0a0a 36%, #111 37%, #0a0a0a 38%, #111 39%, #0a0a0a 40%, #111 41%, #0a0a0a 42%, #111 43%, #0a0a0a 44%, #111 45%, #0a0a0a 46%, #111 47%, #0a0a0a 48%, #111 49%, #0a0a0a 50%, #111 51%, #0a0a0a 52%, #111 53%, #0a0a0a 54%, #111 55%, #0a0a0a 56%, #111 57%, #0a0a0a 58%, #111 59%, #0a0a0a 60%, #111 61%, #0a0a0a 62%, #111 63%, #0a0a0a 64%, #111 65%, #0a0a0a 66%, #111 67%, #0a0a0a 68%, #111 69%, #0a0a0a 70%, #111 71%, #0a0a0a 72%, #111 73%, #0a0a0a 74%, #111 75%, #0a0a0a 76%, #111 77%, #0a0a0a 78%, #111 79%, #0a0a0a 80%, #111 81%, #0a0a0a 82%, #111 83%, #0a0a0a 84%, #111 85%, #0a0a0a 86%, #111 87%, #0a0a0a 88%, #111 89%, #0a0a0a 90%, #111 91%, #0a0a0a 92%, #111 93%, #0a0a0a 94%, #111 95%, #0a0a0a 96%, #111 97%, #0a0a0a 98%, #111 99%, #0a0a0a 100%);
+    background: radial-gradient(circle,
+        #1a1a1a 0%, #0a0a0a 30%, #111 31%, #0a0a0a 32%, #111 33%,
+        #0a0a0a 34%, #111 35%, #0a0a0a 36%, #111 37%, #0a0a0a 38%,
+        #111 39%, #0a0a0a 40%, #111 41%, #0a0a0a 42%, #111 43%,
+        #0a0a0a 44%, #111 45%, #0a0a0a 46%, #111 47%, #0a0a0a 48%,
+        #111 49%, #0a0a0a 50%, #111 51%, #0a0a0a 52%, #111 53%,
+        #0a0a0a 54%, #111 55%, #0a0a0a 56%, #111 57%, #0a0a0a 58%,
+        #111 59%, #0a0a0a 60%, #111 61%, #0a0a0a 62%, #111 63%,
+        #0a0a0a 64%, #111 65%, #0a0a0a 66%, #111 67%, #0a0a0a 68%,
+        #111 69%, #0a0a0a 70%, #111 71%, #0a0a0a 72%, #111 73%,
+        #0a0a0a 74%, #111 75%, #0a0a0a 76%, #111 77%, #0a0a0a 78%,
+        #111 79%, #0a0a0a 80%, #111 81%, #0a0a0a 82%, #111 83%,
+        #0a0a0a 84%, #111 85%, #0a0a0a 86%, #111 87%, #0a0a0a 88%,
+        #111 89%, #0a0a0a 90%, #111 91%, #0a0a0a 92%, #111 93%,
+        #0a0a0a 94%, #111 95%, #0a0a0a 96%, #111 97%, #0a0a0a 98%,
+        #111 99%, #0a0a0a 100%);
     box-shadow: 0 10px 40px rgba(0,0,0,.6), inset 0 0 20px rgba(0,0,0,.8);
     position: relative;
     display: flex;
@@ -315,15 +477,11 @@ body {
     pointer-events: none;
 }
 
-.vinyl.spinning {
-    animation: vinyl-spin 2s linear infinite;
-}
-
+.vinyl.spinning { animation: vinyl-spin 2s linear infinite; }
 @keyframes vinyl-spin { to { transform: rotate(360deg); } }
 
 .vinyl-label {
-    width: 50px;
-    height: 50px;
+    width: 50px; height: 50px;
     border-radius: 50%;
     background: var(--primary);
     display: flex;
@@ -332,18 +490,13 @@ body {
     overflow: hidden;
     border: 2px solid rgba(255,255,255,.2);
     box-shadow: 0 0 15px var(--primary);
+    transition: box-shadow .5s;
 }
-
-.vinyl-label img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
+.vinyl-label img { width: 100%; height: 100%; object-fit: cover; }
 
 .vinyl-center {
     position: absolute;
-    width: 8px;
-    height: 8px;
+    width: 8px; height: 8px;
     border-radius: 50%;
     background: #000;
     z-index: 3;
@@ -359,6 +512,12 @@ body {
     border-radius: 20px;
     background: rgba(0,0,0,.25);
     border: 1px solid rgba(255,255,255,.08);
+    transition: max-height .4s ease, opacity .3s;
+    overflow: hidden;
+}
+.music-player.collapsed {
+    max-height: 60px;
+    padding: 10px 18px;
 }
 
 .music-title {
@@ -367,47 +526,79 @@ body {
     text-align: center;
     font-size: 14px;
     color: var(--accent);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
 }
+
+.eq {
+    display: inline-flex;
+    gap: 2px;
+    align-items: flex-end;
+    height: 14px;
+}
+.eq span {
+    width: 3px;
+    background: var(--primary);
+    border-radius: 2px;
+    height: 4px;
+    transition: height .15s;
+}
+.eq.playing span:nth-child(1) { animation: eq1 .7s ease-in-out infinite; }
+.eq.playing span:nth-child(2) { animation: eq2 .5s ease-in-out infinite; }
+.eq.playing span:nth-child(3) { animation: eq3 .9s ease-in-out infinite; }
+.eq.playing span:nth-child(4) { animation: eq2 .6s ease-in-out infinite; }
+@keyframes eq1 { 0%,100% { height: 4px; } 50% { height: 14px; } }
+@keyframes eq2 { 0%,100% { height: 10px; } 50% { height: 3px; } }
+@keyframes eq3 { 0%,100% { height: 6px; } 50% { height: 12px; } }
 
 .music-controls {
     display: flex;
     align-items: center;
     gap: 10px;
+    flex-wrap: wrap;
 }
 
 .music-btn {
-    width: 42px;
-    height: 42px;
+    width: 42px; height: 42px;
     border: none;
     border-radius: 50%;
-    background: rgba(139,92,246,.2);
+    background: rgba(var(--particle-color),.2);
     color: white;
     cursor: pointer;
     transition: .2s;
     font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-
-.music-btn:hover {
-    background: rgba(139,92,246,.4);
-    transform: scale(1.05);
-}
+.music-btn:hover { background: rgba(var(--particle-color),.4); transform: scale(1.08); }
+.music-btn:active { transform: scale(.94); }
+.music-btn.active { background: var(--primary); box-shadow: 0 0 15px var(--primary); }
 
 .music-progress {
     flex: 1;
+    min-width: 100px;
     height: 5px;
     appearance: none;
     border-radius: 999px;
     background: rgba(255,255,255,.12);
     cursor: pointer;
 }
-
 .music-progress::-webkit-slider-thumb {
     appearance: none;
-    width: 14px;
-    height: 14px;
+    width: 14px; height: 14px;
     border-radius: 50%;
     background: var(--primary);
     box-shadow: 0 0 10px var(--primary);
+    cursor: pointer;
+}
+.music-progress::-moz-range-thumb {
+    width: 14px; height: 14px;
+    border: none;
+    border-radius: 50%;
+    background: var(--primary);
 }
 
 .volume { width: 90px; }
@@ -425,7 +616,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 7px;
-    max-height: 160px;
+    max-height: 180px;
     overflow-y: auto;
 }
 
@@ -436,12 +627,50 @@ body {
     color: #aaa;
     transition: .2s;
     font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    user-select: none;
 }
-
-.playlist-item:hover,
-.playlist-item.active {
-    background: rgba(139,92,246,.14);
+.playlist-item:hover, .playlist-item.active {
+    background: rgba(var(--particle-color),.14);
     color: white;
+}
+.playlist-item.active { box-shadow: inset 3px 0 0 var(--primary); }
+.playlist-item .src-badge {
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(255,255,255,.08);
+    color: #bbb;
+    flex-shrink: 0;
+}
+.playlist-item .yt-icon { color: #ff4444; }
+.playlist-item .drag-handle {
+    cursor: grab;
+    opacity: .4;
+    font-size: 12px;
+}
+.playlist-item.dragging { opacity: .4; }
+.playlist-item.drag-over { border-top: 2px solid var(--primary); }
+.playlist-item .remove-btn {
+    margin-left: auto;
+    background: transparent;
+    border: none;
+    color: #f87171;
+    cursor: pointer;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity .2s;
+}
+.playlist-item:hover .remove-btn { opacity: 1; }
+
+.playlist-empty {
+    text-align: center;
+    color: #666;
+    padding: 20px;
+    font-size: 13px;
+    font-style: italic;
 }
 
 /* =========================================================
@@ -459,8 +688,7 @@ body {
 }
 
 .float-btn {
-    width: 48px;
-    height: 48px;
+    width: 48px; height: 48px;
     border-radius: 50%;
     border: 1px solid rgba(255,255,255,.12);
     background: rgba(10,10,15,.75);
@@ -472,12 +700,32 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
 }
-
 .float-btn:hover {
     transform: scale(1.1) rotate(5deg);
-    background: rgba(139,92,246,.3);
+    background: rgba(var(--particle-color),.3);
+    box-shadow: 0 0 20px rgba(var(--particle-color),.3);
 }
+.float-btn:active { transform: scale(.92); }
+
+.float-btn .tooltip {
+    position: absolute;
+    right: 60px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #15151e;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s;
+    border: 1px solid rgba(255,255,255,.1);
+}
+.float-btn:hover .tooltip { opacity: 1; }
 
 /* =========================================================
    MODAL
@@ -494,7 +742,6 @@ body {
     background: rgba(0,0,0,.72);
     backdrop-filter: blur(10px);
 }
-
 .modal.show { display: flex; }
 
 .modal-box {
@@ -515,22 +762,22 @@ body {
     align-items: center;
     margin-bottom: 22px;
 }
-
 .modal-header h2 { font-size: 24px; }
 
 .close {
-    width: 40px;
-    height: 40px;
+    width: 40px; height: 40px;
     border: none;
     border-radius: 10px;
     background: rgba(255,255,255,.06);
     color: white;
     cursor: pointer;
     font-size: 20px;
+    transition: .2s;
 }
+.close:hover { background: rgba(239,68,68,.3); transform: rotate(90deg); }
 
 /* =========================================================
-   LOGIN E INPUTS
+   LOGIN / INPUTS
 ========================================================= */
 
 .login-box { width: min(420px, 100%); }
@@ -545,9 +792,9 @@ body {
     color: white;
     outline: none;
     font-family: inherit;
+    transition: border-color .2s;
 }
-
-.input:focus { border-color: var(--primary); }
+.input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(var(--particle-color),.15); }
 
 textarea.input { min-height: 120px; resize: vertical; }
 
@@ -561,12 +808,11 @@ textarea.input { min-height: 120px; resize: vertical; }
     font-weight: 800;
     cursor: pointer;
     transition: .2s;
+    position: relative;
+    overflow: hidden;
 }
-
-.primary-button:hover {
-    transform: translateY(-2px);
-    filter: brightness(1.1);
-}
+.primary-button:hover { transform: translateY(-2px); filter: brightness(1.1); box-shadow: 0 8px 25px rgba(var(--particle-color),.3); }
+.primary-button:active { transform: translateY(0) scale(.98); }
 
 /* =========================================================
    ADMIN
@@ -579,8 +825,7 @@ textarea.input { min-height: 120px; resize: vertical; }
     background: rgba(255,255,255,.035);
     border: 1px solid rgba(255,255,255,.07);
 }
-
-.admin-section h3 { margin-bottom: 15px; }
+.admin-section h3 { margin-bottom: 15px; font-size: 15px; }
 
 .grid {
     display: grid;
@@ -612,7 +857,6 @@ textarea.input { min-height: 120px; resize: vertical; }
     border-radius: 12px;
     background: rgba(255,255,255,.04);
 }
-
 .admin-item input { flex: 1; }
 
 .small-button {
@@ -622,9 +866,11 @@ textarea.input { min-height: 120px; resize: vertical; }
     background: rgba(255,255,255,.08);
     color: white;
     cursor: pointer;
+    transition: .2s;
 }
-
+.small-button:hover { background: rgba(255,255,255,.15); }
 .danger { background: rgba(239,68,68,.15); }
+.danger:hover { background: rgba(239,68,68,.3); }
 
 .checkbox-row {
     display: flex;
@@ -632,10 +878,111 @@ textarea.input { min-height: 120px; resize: vertical; }
     gap: 10px;
     margin: 10px 0;
     color: #ccc;
+    cursor: pointer;
+}
+.checkbox-row input[type="checkbox"] {
+    width: 18px; height: 18px;
+    accent-color: var(--primary);
+    cursor: pointer;
 }
 
+/* Sliders personalizados */
+.slider-row {
+    margin: 12px 0;
+}
+.slider-row label {
+    display: block;
+    font-size: 13px;
+    color: #ccc;
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+}
+.slider-row label span { color: var(--primary); font-weight: 700; }
+.slider-row input[type="range"] {
+    width: 100%;
+    height: 6px;
+    appearance: none;
+    border-radius: 999px;
+    background: rgba(255,255,255,.1);
+    cursor: pointer;
+}
+.slider-row input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--primary);
+    box-shadow: 0 0 10px var(--primary);
+}
+.slider-row input[type="range"]::-moz-range-thumb {
+    width: 16px; height: 16px;
+    border: none;
+    border-radius: 50%;
+    background: var(--primary);
+}
+
+/* Temas */
+.theme-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 8px;
+    margin-top: 12px;
+}
+.theme-chip {
+    padding: 10px 6px;
+    border-radius: 10px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: white;
+    transition: .2s;
+    position: relative;
+    overflow: hidden;
+}
+.theme-chip:hover { transform: translateY(-2px); }
+.theme-chip.selected { border-color: white; box-shadow: 0 0 15px rgba(255,255,255,.4); }
+.theme-chip.cyberpunk { background: linear-gradient(135deg, #ff00ff, #00ffff); }
+.theme-chip.dreamcore { background: linear-gradient(135deg, #ffb3d9, #b3e0ff); }
+.theme-chip.celestial { background: linear-gradient(135deg, #4a00e0, #8e2de2); }
+.theme-chip.gothic { background: linear-gradient(135deg, #1a1a1a, #4a0033); }
+.theme-chip.dark { background: linear-gradient(135deg, #0a0a0a, #2a2a2a); }
+.theme-chip.aurora { background: linear-gradient(135deg, #00ffa3, #00c6ff); }
+.theme-chip.sakura { background: linear-gradient(135deg, #ffb7c5, #ffc0cb); color: #333; }
+.theme-chip.ocean { background: linear-gradient(135deg, #006994, #00b4d8); }
+.theme-chip.sunset { background: linear-gradient(135deg, #ff512f, #f09819); }
+.theme-chip.neon { background: linear-gradient(135deg, #ff00ff, #00ff00); color: #000; }
+.theme-chip.minimal { background: linear-gradient(135deg, #f5f5f5, #e0e0e0); color: #333; }
+.theme-chip.vintage { background: linear-gradient(135deg, #c9a26a, #8b6f47); }
+.theme-chip.cherry { background: linear-gradient(135deg, #ff0040, #ff6b9d); }
+.theme-chip.midnight { background: linear-gradient(135deg, #0f2027, #2c5364); }
+.theme-chip.forest { background: linear-gradient(135deg, #134e5e, #71b280); }
+.theme-chip.vaporwave { background: linear-gradient(135deg, #ff71ce, #01cdfe); }
+
+/* Modo buttons */
+.mode-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 8px;
+}
+.mode-chip {
+    padding: 12px 8px;
+    border-radius: 10px;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);
+    cursor: pointer;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: white;
+    transition: .2s;
+}
+.mode-chip:hover { background: rgba(var(--particle-color),.2); transform: translateY(-2px); }
+.mode-chip:active { transform: scale(.96); }
+
 /* =========================================================
-   LOADING
+   LOADING / TOAST
 ========================================================= */
 
 #loading {
@@ -648,23 +995,16 @@ textarea.input { min-height: 120px; resize: vertical; }
     background: #050509;
     transition: opacity .4s;
 }
-
 #loading.hide { opacity: 0; pointer-events: none; }
 
 .loader {
-    width: 42px;
-    height: 42px;
+    width: 42px; height: 42px;
     border-radius: 50%;
     border: 3px solid rgba(255,255,255,.1);
     border-top-color: var(--primary);
     animation: spin .8s linear infinite;
 }
-
 @keyframes spin { to { transform: rotate(360deg); } }
-
-/* =========================================================
-   TOAST
-========================================================= */
 
 #toast {
     position: fixed;
@@ -680,29 +1020,32 @@ textarea.input { min-height: 120px; resize: vertical; }
     pointer-events: none;
     transition: .3s;
     z-index: 2000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 90vw;
+    overflow: hidden;
 }
-
-#toast.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+#toast .toast-icon { font-size: 18px; }
+#toast .toast-bar {
+    position: absolute;
+    bottom: 0; left: 0;
+    height: 3px;
+    background: var(--primary);
+    width: 100%;
+    transform-origin: left;
+    animation: toastBar 3s linear forwards;
 }
-
-/* =========================================================
-   EFEITOS
-========================================================= */
-
-.fade-in-music {
-    animation: fadeInMusic 3s ease forwards;
-}
-
-@keyframes fadeInMusic {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-.glow-text {
-    text-shadow: 0 0 15px var(--primary), 0 0 40px var(--primary) !important;
-}
+@keyframes toastBar { to { transform: scaleX(0); } }
+#toast.success { border-color: rgba(34,197,94,.4); }
+#toast.success .toast-icon { color: #22c55e; }
+#toast.success .toast-bar { background: #22c55e; }
+#toast.error { border-color: rgba(239,68,68,.4); }
+#toast.error .toast-icon { color: #ef4444; }
+#toast.error .toast-bar { background: #ef4444; }
+#toast.info .toast-icon { color: #3b82f6; }
+#toast.info .toast-bar { background: #3b82f6; }
 
 /* =========================================================
    MOBILE
@@ -713,7 +1056,17 @@ textarea.input { min-height: 120px; resize: vertical; }
     .profile-card { padding: 22px; }
     .music-controls { flex-wrap: wrap; }
     .volume { width: 100%; }
-    .custom-cursor { display: none; }
+    .custom-cursor, .cursor-trail { display: none !important; }
+    .float-btn { width: 44px; height: 44px; font-size: 16px; }
+}
+
+/* prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
 }
 </style>
 </head>
@@ -721,16 +1074,20 @@ textarea.input { min-height: 120px; resize: vertical; }
 <body>
 
 <div id="background"></div>
+<div class="ambient-layer ambient-fog" id="ambientFog"></div>
+<div class="ambient-layer ambient-aurora" id="ambientAurora"></div>
+<div class="ambient-layer ambient-waves" id="ambientWaves"></div>
 <canvas id="particles"></canvas>
 <div id="overlay"></div>
+<div id="scrollProgress"></div>
 <div class="custom-cursor" id="cursor"></div>
 
 <div id="loading"><div class="loader"></div></div>
 
 <main class="profile-wrapper">
-    <section class="profile-card">
+    <section class="profile-card" id="profileCard">
         <div class="avatar-container">
-            <div class="avatar-ring"></div>
+            <div class="avatar-ring" id="avatarRing"></div>
             <img id="avatar" class="avatar" src="" alt="Avatar">
         </div>
 
@@ -739,7 +1096,6 @@ textarea.input { min-height: 120px; resize: vertical; }
         <div id="badges" class="badges"></div>
         <div id="links" class="links"></div>
 
-        <!-- DISCO DE VINIL -->
         <div id="vinylContainer" class="vinyl-container" style="display:none">
             <div id="vinyl" class="vinyl" onclick="togglePlay()">
                 <div class="vinyl-label" id="vinylLabel">
@@ -750,11 +1106,17 @@ textarea.input { min-height: 120px; resize: vertical; }
         </div>
 
         <div id="musicPlayer" class="music-player" style="display:none">
-            <div id="musicTitle" class="music-title">Música</div>
+            <div id="musicTitle" class="music-title">
+                <span class="eq" id="eq"><span></span><span></span><span></span><span></span></span>
+                <span id="musicTitleText">Música</span>
+            </div>
             <div class="music-controls">
-                <button id="prevBtn" class="music-btn">⏮</button>
-                <button id="playBtn" class="music-btn">▶</button>
-                <button id="nextBtn" class="music-btn">⏭</button>
+                <button id="prevBtn" class="music-btn" title="Anterior">⏮</button>
+                <button id="playBtn" class="music-btn" title="Play/Pause">▶</button>
+                <button id="nextBtn" class="music-btn" title="Próxima">⏭</button>
+                <button id="shuffleBtn" class="music-btn" title="Aleatório">🔀</button>
+                <button id="repeatBtn" class="music-btn" title="Repetir">🔁</button>
+                <button id="muteBtn" class="music-btn" title="Mudo">🔊</button>
                 <input id="progress" class="music-progress" type="range" min="0" max="100" value="0">
                 <input id="volume" class="volume" type="range" min="0" max="1" step=".01" value=".7">
             </div>
@@ -768,8 +1130,18 @@ textarea.input { min-height: 120px; resize: vertical; }
 </main>
 
 <div class="float-buttons">
-    <button id="adminButton" class="float-btn" title="Administrador">⚙</button>
-    <button id="themeToggle" class="float-btn" title="Alternar tema">🌙</button>
+    <button id="adminButton" class="float-btn" title="Administrador">
+        ⚙ <span class="tooltip">Admin</span>
+    </button>
+    <button id="themeToggle" class="float-btn" title="Alternar tema">
+        🌙 <span class="tooltip">Tema</span>
+    </button>
+    <button id="effectsPanelBtn" class="float-btn" title="Personalização">
+        ✨ <span class="tooltip">Efeitos</span>
+    </button>
+    <button id="randomThemeBtn" class="float-btn" title="Tema aleatório">
+        🎲 <span class="tooltip">Aleatório</span>
+    </button>
 </div>
 
 <!-- LOGIN -->
@@ -835,6 +1207,10 @@ textarea.input { min-height: 120px; resize: vertical; }
         <div class="admin-section">
             <h3>🎵 Playlist</h3>
             <input id="musicFiles" class="file-input" type="file" accept="audio/*" multiple>
+            <div class="grid" style="margin-bottom:10px;">
+                <input id="youtubeUrlInput" class="input" placeholder="Cole link do YouTube" style="margin:0">
+                <button id="addYoutubeBtn" class="small-button">+ YouTube</button>
+            </div>
             <div id="musicEditor" class="admin-list"></div>
             <label class="checkbox-row">
                 <input id="musicAutoplay" type="checkbox"> Reprodução automática
@@ -849,16 +1225,12 @@ textarea.input { min-height: 120px; resize: vertical; }
                 <input id="musicChangeBackground" type="checkbox"> Trocar fundo junto com a música
             </label>
             <label class="checkbox-row">
-                <input id="musicFadeIn" type="checkbox" checked> Fade-in de música
+                <input id="musicFadeIn" type="checkbox" checked> Fade-in/out de música
             </label>
-        </div>
-
-        <div class="admin-section">
-            <h3>🎬 YouTube (opcional)</h3>
-            <input id="youtubeUrl" class="input" placeholder="https://youtube.com/watch?v=...">
-            <label class="checkbox-row">
-                <input id="youtubeLoop" type="checkbox" checked> Repetir YouTube
-            </label>
+            <div class="slider-row">
+                <label>Duração do fade <span id="fadeDurationVal">3s</span></label>
+                <input id="fadeDuration" type="range" min="1" max="15" value="3">
+            </div>
         </div>
 
         <div class="admin-section">
@@ -881,6 +1253,9 @@ textarea.input { min-height: 120px; resize: vertical; }
             <label class="checkbox-row">
                 <input id="effectRing" type="checkbox" checked> Anel giratório no avatar
             </label>
+            <label class="checkbox-row">
+                <input id="effectAmbient" type="checkbox"> Camadas ambientais (neblina/aurora/ondas)
+            </label>
         </div>
 
         <button id="saveButton" class="primary-button">💾 SALVAR TUDO</button>
@@ -889,7 +1264,133 @@ textarea.input { min-height: 120px; resize: vertical; }
     </div>
 </div>
 
-<div id="toast"></div>
+<!-- PAINEL DE PERSONALIZAÇÃO -->
+<div id="effectsModal" class="modal">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h2>✨ Personalização</h2>
+            <button class="close" onclick="closeModal('effectsModal')">×</button>
+        </div>
+
+        <div class="admin-section">
+            <h3>🎨 Tema</h3>
+            <div class="theme-grid" id="themeGrid"></div>
+            <div class="grid" style="margin-top:12px;">
+                <button class="small-button" id="themeRandom">🎲 Aleatório</button>
+                <button class="small-button" id="themeReset">↺ Padrão</button>
+            </div>
+        </div>
+
+        <div class="admin-section">
+            <h3>⚡ Modos rápidos</h3>
+            <div class="mode-grid">
+                <button class="mode-chip" data-mode="light">🌿 Leve</button>
+                <button class="mode-chip" data-mode="immersive">🌊 Imersivo</button>
+                <button class="mode-chip" data-mode="cinematic">🎬 Cinemático</button>
+                <button class="mode-chip" data-mode="galaxy">🌌 Galáxia</button>
+                <button class="mode-chip" data-mode="aurora">🌠 Aurora</button>
+                <button class="mode-chip" data-mode="performance">⚡ Performance</button>
+                <button class="mode-chip" data-mode="minimal">◻ Minimalista</button>
+                <button class="mode-chip" data-mode="allOff">🔇 Tudo off</button>
+            </div>
+        </div>
+
+        <div class="admin-section">
+            <h3>✨ Partículas</h3>
+            <label class="checkbox-row">
+                <input id="optParticles" type="checkbox" checked> Ativar partículas
+            </label>
+            <div class="slider-row">
+                <label>Quantidade <span id="valParticleCount">60</span></label>
+                <input id="optParticleCount" type="range" min="10" max="200" value="60">
+            </div>
+            <div class="slider-row">
+                <label>Velocidade <span id="valParticleSpeed">1</span></label>
+                <input id="optParticleSpeed" type="range" min="0" max="3" step=".1" value="1">
+            </div>
+            <div class="slider-row">
+                <label>Tamanho <span id="valParticleSize">1</span></label>
+                <input id="optParticleSize" type="range" min=".3" max="3" step=".1" value="1">
+            </div>
+            <div class="slider-row">
+                <label>Opacidade <span id="valParticleOpacity">.7</span></label>
+                <input id="optParticleOpacity" type="range" min=".1" max="1" step=".05" value=".7">
+            </div>
+        </div>
+
+        <div class="admin-section">
+            <h3>🖱️ Cursor</h3>
+            <label class="checkbox-row">
+                <input id="optCursor" type="checkbox" checked> Cursor personalizado
+            </label>
+            <label class="checkbox-row">
+                <input id="optCursorTrail" type="checkbox" checked> Rastro de cursor
+            </label>
+            <label class="checkbox-row">
+                <input id="optClickRipple" type="checkbox" checked> Onda ao clicar
+            </label>
+            <label class="checkbox-row">
+                <input id="optClickParticles" type="checkbox" checked> Partículas ao clicar
+            </label>
+        </div>
+
+        <div class="admin-section">
+            <h3>🎬 Entrada</h3>
+            <select id="optEntryAnim" class="input">
+                <option value="card">Padrão (scale)</option>
+                <option value="fade">Fade-in</option>
+                <option value="slide">Slide lateral</option>
+                <option value="zoom">Zoom suave</option>
+                <option value="blur">Blur</option>
+            </select>
+            <div class="slider-row">
+                <label>Velocidade <span id="valEntrySpeed">.8s</span></label>
+                <input id="optEntrySpeed" type="range" min=".2" max="2" step=".1" value=".8">
+            </div>
+        </div>
+
+        <div class="admin-section">
+            <h3>🌫️ Ambiental</h3>
+            <label class="checkbox-row">
+                <input id="optAmbientFog" type="checkbox"> Neblina
+            </label>
+            <label class="checkbox-row">
+                <input id="optAmbientAurora" type="checkbox"> Aurora
+            </label>
+            <label class="checkbox-row">
+                <input id="optAmbientWaves" type="checkbox"> Ondas de luz
+            </label>
+        </div>
+
+        <div class="admin-section">
+            <h3>🔊 Áudio</h3>
+            <label class="checkbox-row">
+                <input id="optClickSound" type="checkbox"> Sons de clique
+            </label>
+            <div class="slider-row">
+                <label>Volume dos efeitos <span id="valSoundVolume">.3</span></label>
+                <input id="optSoundVolume" type="range" min="0" max="1" step=".05" value=".3">
+            </div>
+        </div>
+
+        <div class="admin-section">
+            <h3>🎯 Global</h3>
+            <div class="slider-row">
+                <label>Intensidade do glow <span id="valGlow">1</span></label>
+                <input id="optGlow" type="range" min="0" max="2" step=".1" value="1">
+            </div>
+            <button class="small-button" id="resetAll" style="width:100%;margin-top:10px;">↺ Restaurar padrão</button>
+        </div>
+
+        <button id="closeEffectsBtn" class="primary-button">✓ Fechar</button>
+    </div>
+</div>
+
+<div id="toast">
+    <span class="toast-icon">✓</span>
+    <span class="toast-text"></span>
+    <div class="toast-bar"></div>
+</div>
 
 <audio id="audio" preload="metadata" crossorigin="anonymous"></audio>
 <div id="youtubeContainer" style="position:fixed;bottom:-9999px;left:-9999px;"></div>
@@ -899,6 +1400,9 @@ textarea.input { min-height: 120px; resize: vertical; }
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 
 <script>
+/* =========================================================
+   FIREBASE
+========================================================= */
 const firebaseConfig = {
     apiKey: "AIzaSyB35ktkxiS_MPTrSflfHhBe5snYAV0iV6Q",
     authDomain: "myprofile-7db79.firebaseapp.com",
@@ -915,6 +1419,9 @@ const auth = firebase.auth();
 const db = firebase.database();
 const PROFILE_PATH = "profile";
 
+/* =========================================================
+   ESTADO
+========================================================= */
 let profile = null;
 let backgrounds = [];
 let backgroundIndex = 0;
@@ -924,17 +1431,69 @@ let currentSong = 0;
 let audio = document.getElementById("audio");
 let isPlaying = false;
 let fadeInterval = null;
+let isMuted = false;
+
+/* =========================================================
+   SETTINGS PERSISTENTES (localStorage)
+========================================================= */
+const DEFAULT_SETTINGS = {
+    theme: "default",
+    particles: true,
+    particleCount: 60,
+    particleSpeed: 1,
+    particleSize: 1,
+    particleOpacity: .7,
+    cursor: true,
+    cursorTrail: true,
+    clickRipple: true,
+    clickParticles: true,
+    entryAnim: "card",
+    entrySpeed: .8,
+    ambientFog: false,
+    ambientAurora: false,
+    ambientWaves: false,
+    clickSound: false,
+    soundVolume: .3,
+    glowIntensity: 1
+};
+
+let settings = { ...DEFAULT_SETTINGS };
+
+function loadSettings() {
+    try {
+        const saved = localStorage.getItem("profile_settings");
+        if (saved) settings = { ...DEFAULT_SETTINGS, ...JSON.parse(saved) };
+    } catch(e) { console.warn(e); }
+}
+
+function saveSettings() {
+    try {
+        localStorage.setItem("profile_settings", JSON.stringify(settings));
+    } catch(e) { console.warn(e); }
+}
+
+loadSettings();
 
 const $ = id => document.getElementById(id);
 
 /* =========================================================
-   TOAST
+   TOAST MELHORADO
 ========================================================= */
-function toast(message) {
+let toastTimeout = null;
+function toast(message, type = "info") {
     const el = $("toast");
-    el.textContent = message;
-    el.classList.add("show");
-    setTimeout(() => el.classList.remove("show"), 2500);
+    el.className = "show " + type;
+    el.querySelector(".toast-text").textContent = message;
+    const icon = type === "success" ? "✓" : type === "error" ? "✕" : "ℹ";
+    el.querySelector(".toast-icon").textContent = icon;
+    const bar = el.querySelector(".toast-bar");
+    bar.style.animation = "none";
+    void bar.offsetWidth;
+    bar.style.animation = "toastBar 3s linear forwards";
+    clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => {
+        el.className = "";
+    }, 3000);
 }
 
 /* =========================================================
@@ -944,18 +1503,125 @@ function openModal(id) { $(id).classList.add("show"); }
 function closeModal(id) { $(id).classList.remove("show"); }
 
 /* =========================================================
+   TEMAS
+========================================================= */
+const THEMES = {
+    default: { primary: "#8b5cf6", secondary: "#06b6d4", bg: "#050509", particle: "139,92,246" },
+    cyberpunk: { primary: "#ff00ff", secondary: "#00ffff", bg: "#0a0014", particle: "255,0,255" },
+    dreamcore: { primary: "#ffb3d9", secondary: "#b3e0ff", bg: "#1a1025", particle: "255,179,217" },
+    celestial: { primary: "#8e2de2", secondary: "#4a00e0", bg: "#0a0520", particle: "142,45,226" },
+    gothic: { primary: "#8b0000", secondary: "#4a0033", bg: "#0a0505", particle: "139,0,0" },
+    dark: { primary: "#444444", secondary: "#888888", bg: "#000000", particle: "100,100,100" },
+    aurora: { primary: "#00ffa3", secondary: "#00c6ff", bg: "#001a1a", particle: "0,255,163" },
+    sakura: { primary: "#ffb7c5", secondary: "#ffc0cb", bg: "#2a1a1f", particle: "255,183,197" },
+    ocean: { primary: "#00b4d8", secondary: "#006994", bg: "#001220", particle: "0,180,216" },
+    sunset: { primary: "#ff512f", secondary: "#f09819", bg: "#1a0a00", particle: "255,81,47" },
+    neon: { primary: "#ff00ff", secondary: "#00ff00", bg: "#000000", particle: "255,0,255" },
+    minimal: { primary: "#666666", secondary: "#999999", bg: "#f5f5f5", particle: "100,100,100", text: "#333" },
+    vintage: { primary: "#c9a26a", secondary: "#8b6f47", bg: "#1a1410", particle: "201,162,106" },
+    cherry: { primary: "#ff0040", secondary: "#ff6b9d", bg: "#1a0008", particle: "255,0,64" },
+    midnight: { primary: "#2c5364", secondary: "#0f2027", bg: "#050a10", particle: "44,83,100" },
+    forest: { primary: "#71b280", secondary: "#134e5e", bg: "#051010", particle: "113,178,128" },
+    vaporwave: { primary: "#ff71ce", secondary: "#01cdfe", bg: "#0a0014", particle: "255,113,206" }
+};
+
+function applyTheme(themeName) {
+    const t = THEMES[themeName] || THEMES.default;
+    document.documentElement.style.setProperty("--primary", t.primary);
+    document.documentElement.style.setProperty("--secondary", t.secondary);
+    document.documentElement.style.setProperty("--bg-base", t.bg);
+    document.documentElement.style.setProperty("--particle-color", t.particle);
+    document.body.style.background = t.bg;
+    if (t.text) document.documentElement.style.setProperty("--text", t.text);
+
+    settings.theme = themeName;
+    saveSettings();
+    updateThemeChips();
+    toast(`Tema: ${themeName}`, "success");
+}
+
+function updateThemeChips() {
+    document.querySelectorAll(".theme-chip").forEach(c => {
+        c.classList.toggle("selected", c.dataset.theme === settings.theme);
+    });
+}
+
+/* =========================================================
    CURSOR PERSONALIZADO
 ========================================================= */
 const cursor = $("cursor");
-if (window.innerWidth > 650) {
+const trailElements = [];
+let lastTrailTime = 0;
+
+function initCursor() {
+    if (window.innerWidth <= 650) return;
+    if (!settings.cursor) return;
+    cursor.classList.add("active");
     document.addEventListener("mousemove", e => {
         cursor.style.left = e.clientX + "px";
         cursor.style.top = e.clientY + "px";
+
+        if (settings.cursorTrail) {
+            const now = Date.now();
+            if (now - lastTrailTime > 40) {
+                lastTrailTime = now;
+                const t = document.createElement("div");
+                t.className = "cursor-trail";
+                t.style.left = e.clientX + "px";
+                t.style.top = e.clientY + "px";
+                document.body.appendChild(t);
+                setTimeout(() => t.remove(), 500);
+            }
+        }
     });
-    document.querySelectorAll("a, button, .vinyl, .playlist-item, .social-link, .badge").forEach(el => {
+    document.querySelectorAll("a, button, .vinyl, .playlist-item, .social-link, .badge, .theme-chip, .mode-chip").forEach(el => {
         el.addEventListener("mouseenter", () => cursor.classList.add("hover"));
         el.addEventListener("mouseleave", () => cursor.classList.remove("hover"));
     });
+    document.addEventListener("click", e => {
+        if (settings.clickRipple) {
+            const r = document.createElement("div");
+            r.className = "click-ripple";
+            r.style.left = e.clientX + "px";
+            r.style.top = e.clientY + "px";
+            document.body.appendChild(r);
+            setTimeout(() => r.remove(), 700);
+        }
+        if (settings.clickParticles) {
+            for (let i = 0; i < 6; i++) {
+                const p = document.createElement("div");
+                p.className = "click-particle";
+                p.style.left = e.clientX + "px";
+                p.style.top = e.clientY + "px";
+                const angle = (i / 6) * Math.PI * 2;
+                p.style.setProperty("--dx", Math.cos(angle) * 50 + "px");
+                p.style.setProperty("--dy", Math.sin(angle) * 50 + "px");
+                document.body.appendChild(p);
+                setTimeout(() => p.remove(), 800);
+            }
+        }
+        if (settings.clickSound) playClickSound();
+    });
+}
+
+/* =========================================================
+   SOM DE CLIQUE (Web Audio API)
+========================================================= */
+let audioCtx = null;
+function playClickSound() {
+    try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.frequency.value = 800;
+        osc.type = "sine";
+        gain.gain.setValueAtTime(settings.soundVolume, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(.001, audioCtx.currentTime + .08);
+        osc.start();
+        osc.stop(audioCtx.currentTime + .08);
+    } catch(e) { /* silencioso */ }
 }
 
 /* =========================================================
@@ -964,25 +1630,38 @@ if (window.innerWidth > 650) {
 const canvas = $("particles");
 const ctx = canvas.getContext("2d");
 let particles = [];
+let particleAnimId = null;
 
 function initParticles() {
+    if (particleAnimId) {
+        cancelAnimationFrame(particleAnimId);
+        particleAnimId = null;
+    }
+    if (!settings.particles) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        return;
+    }
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     particles = [];
-    const count = Math.min(80, Math.floor(window.innerWidth / 15));
+    const count = settings.particleCount;
+    const color = getComputedStyle(document.documentElement).getPropertyValue("--particle-color").trim();
     for (let i = 0; i < count; i++) {
         particles.push({
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height,
-            vx: (Math.random() - 0.5) * 0.5,
-            vy: (Math.random() - 0.5) * 0.5,
-            r: Math.random() * 2 + 0.5,
-            color: Math.random() > 0.5 ? "139,92,246" : "6,182,212"
+            vx: (Math.random() - 0.5) * 0.5 * settings.particleSpeed,
+            vy: (Math.random() - 0.5) * 0.5 * settings.particleSpeed,
+            r: (Math.random() * 2 + 0.5) * settings.particleSize,
+            opacity: (Math.random() * .5 + .3) * settings.particleOpacity,
+            color
         });
     }
+    animateParticles();
 }
 
 function animateParticles() {
+    if (!settings.particles) return;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     particles.forEach(p => {
         p.x += p.vx;
@@ -991,10 +1670,10 @@ function animateParticles() {
         if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${p.color},0.6)`;
+        ctx.fillStyle = `rgba(${p.color},${p.opacity})`;
         ctx.fill();
     });
-    // linhas entre partículas próximas
+    // linhas próximas
     for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
             const dx = particles[i].x - particles[j].x;
@@ -1004,18 +1683,23 @@ function animateParticles() {
                 ctx.beginPath();
                 ctx.moveTo(particles[i].x, particles[i].y);
                 ctx.lineTo(particles[j].x, particles[j].y);
-                ctx.strokeStyle = `rgba(139,92,246,${0.15 * (1 - dist / 120)})`;
+                ctx.strokeStyle = `rgba(${particles[i].color},${0.15 * (1 - dist / 120) * settings.particleOpacity})`;
                 ctx.stroke();
             }
         }
     }
-    requestAnimationFrame(animateParticles);
+    particleAnimId = requestAnimationFrame(animateParticles);
 }
 
-if (window.matchMedia("(prefers-reduced-motion: no-preference)").matches) {
-    initParticles();
-    animateParticles();
-    window.addEventListener("resize", initParticles);
+window.addEventListener("resize", initParticles);
+
+/* =========================================================
+   AMBIENT LAYERS
+========================================================= */
+function updateAmbient() {
+    $("ambientFog").classList.toggle("active", settings.ambientFog);
+    $("ambientAurora").classList.toggle("active", settings.ambientAurora);
+    $("ambientWaves").classList.toggle("active", settings.ambientWaves);
 }
 
 /* =========================================================
@@ -1061,14 +1745,14 @@ async function loadProfile() {
                 effectVinyl: true,
                 effectCursor: true,
                 effectRing: true,
-                youtubeUrl: "",
-                youtubeLoop: true
+                effectAmbient: false,
+                fadeDuration: 3
             };
         }
         applyProfile();
     } catch (error) {
         console.error(error);
-        toast("Erro ao carregar o perfil.");
+        toast("Erro ao carregar o perfil.", "error");
     }
     setTimeout(() => $("loading").classList.add("hide"), 400);
 }
@@ -1082,11 +1766,13 @@ function applyProfile() {
     $("profileName").textContent = profile.name || "Meu Perfil";
     $("profileDescription").textContent = profile.description || "";
 
+    const avatar = $("avatar");
+    avatar.onload = () => avatar.classList.add("loaded");
     if (profile.avatar) {
-        $("avatar").src = profile.avatar;
+        avatar.src = profile.avatar;
         $("vinylCover").src = profile.avatar;
     } else {
-        $("avatar").src = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(
+        avatar.src = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(
             `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300">
                 <rect width="100%" height="100%" fill="#111"/>
                 <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="white" font-size="80">?</text>
@@ -1100,25 +1786,25 @@ function applyProfile() {
     backgrounds = Array.isArray(profile.backgrounds) ? profile.backgrounds : [];
     playlist = Array.isArray(profile.playlist) ? profile.playlist : [];
 
-    if (profile.blur > 0) {
-        $("background").style.filter = `blur(${profile.blur}px)`;
-    } else {
-        $("background").style.filter = "none";
-    }
+    if (profile.blur > 0) $("background").style.filter = `blur(${profile.blur}px)`;
+    else $("background").style.filter = "none";
 
-    // efeitos
-    document.querySelector(".avatar-ring").style.display = profile.effectRing !== false ? "block" : "none";
-    canvas.style.display = profile.effectParticles !== false ? "block" : "none";
+    // efeitos admin
+    $("avatarRing").classList.toggle("disabled", profile.effectRing === false);
+    $("profileName").classList.toggle("glowing", profile.glow !== false);
     $("vinylContainer").style.display = (profile.effectVinyl !== false && playlist.length) ? "flex" : "none";
-    cursor.style.display = profile.effectCursor !== false ? "block" : "none";
-    $("profileName").classList.toggle("glow-text", profile.glow !== false);
+
+    // entry animation
+    const card = $("profileCard");
+    card.className = "profile-card " + (settings.entryAnim === "card" ? "" : "entry-" + settings.entryAnim);
+    document.documentElement.style.setProperty("--entry-speed", settings.entrySpeed + "s");
 
     renderLinks();
     renderBadges();
     renderPlaylist();
     startBackgrounds();
     setupMusic();
-    setupYouTube();
+    updateAmbient();
 }
 
 /* =========================================================
@@ -1145,10 +1831,11 @@ function renderLinks() {
 function renderBadges() {
     const container = $("badges");
     container.innerHTML = "";
-    (profile.badges || []).forEach(badge => {
+    (profile.badges || []).forEach((badge, i) => {
         const el = document.createElement("div");
         el.className = "badge";
         el.textContent = badge;
+        el.style.animationDelay = (i * 0.05) + "s";
         container.appendChild(el);
     });
 }
@@ -1188,18 +1875,81 @@ function changeBackground() {
 function renderPlaylist() {
     const container = $("playlist");
     container.innerHTML = "";
-    playlist.forEach((song, index) => {
-        const item = document.createElement("div");
-        item.className = "playlist-item";
-        if (index === currentSong) item.classList.add("active");
-        item.textContent = `${index + 1}. ${song.name}`;
-        item.onclick = () => {
-            currentSong = index;
-            loadSong();
-            playMusic();
-        };
-        container.appendChild(item);
-    });
+    if (!playlist.length) {
+        container.innerHTML = '<div class="playlist-empty">Playlist vazia</div>';
+    } else {
+        playlist.forEach((song, index) => {
+            const item = document.createElement("div");
+            item.className = "playlist-item";
+            if (index === currentSong) item.classList.add("active");
+            item.draggable = true;
+            item.dataset.index = index;
+
+            const handle = document.createElement("span");
+            handle.className = "drag-handle";
+            handle.textContent = "⋮⋮";
+            item.appendChild(handle);
+
+            const srcBadge = document.createElement("span");
+            srcBadge.className = "src-badge";
+            if (song.source === "youtube") {
+                srcBadge.innerHTML = '<span class="yt-icon">▶</span> YT';
+            } else {
+                srcBadge.textContent = "MP3";
+            }
+            item.appendChild(srcBadge);
+
+            const nameSpan = document.createElement("span");
+            nameSpan.textContent = `${index + 1}. ${song.name}`;
+            nameSpan.style.flex = "1";
+            item.appendChild(nameSpan);
+
+            const removeBtn = document.createElement("button");
+            removeBtn.className = "remove-btn";
+            removeBtn.textContent = "✕";
+            removeBtn.title = "Remover";
+            removeBtn.onclick = (e) => {
+                e.stopPropagation();
+                playlist.splice(index, 1);
+                if (currentSong >= playlist.length) currentSong = Math.max(0, playlist.length - 1);
+                renderPlaylist();
+                savePlaylistLocal();
+                toast("Música removida", "info");
+            };
+            item.appendChild(removeBtn);
+
+            item.onclick = () => {
+                currentSong = index;
+                loadSong();
+                playMusic();
+            };
+
+            // drag&drop
+            item.ondragstart = (e) => {
+                e.dataTransfer.setData("text/plain", index);
+                item.classList.add("dragging");
+            };
+            item.ondragend = () => item.classList.remove("dragging");
+            item.ondragover = (e) => {
+                e.preventDefault();
+                item.classList.add("drag-over");
+            };
+            item.ondragleave = () => item.classList.remove("drag-over");
+            item.ondrop = (e) => {
+                e.preventDefault();
+                item.classList.remove("drag-over");
+                const fromIdx = parseInt(e.dataTransfer.getData("text/plain"));
+                const toIdx = index;
+                if (fromIdx === toIdx) return;
+                const [moved] = playlist.splice(fromIdx, 1);
+                playlist.splice(toIdx, 0, moved);
+                renderPlaylist();
+                savePlaylistLocal();
+            };
+
+            container.appendChild(item);
+        });
+    }
     $("musicPlayer").style.display = playlist.length ? "block" : "none";
     $("vinylContainer").style.display = (playlist.length && profile.effectVinyl !== false) ? "flex" : "none";
 }
@@ -1209,19 +1959,24 @@ function renderPlaylist() {
 ========================================================= */
 function setupMusic() {
     if (!playlist.length) return;
-    currentSong = 0;
+    if (currentSong >= playlist.length) currentSong = 0;
     audio.volume = .7;
+    $("volume").value = .7;
     loadSong();
 }
 
 function loadSong() {
     if (!playlist.length) return;
     const song = playlist[currentSong];
-    audio.src = song.data;
-    $("musicTitle").textContent = song.name;
+    if (song.source === "youtube") {
+        loadYouTube(song);
+    } else {
+        audio.src = song.data;
+        stopYouTube();
+    }
+    $("musicTitleText").textContent = song.name;
     updatePlaylistUI();
 
-    // trocar fundo junto com a música
     if (profile.musicChangeBackground && backgrounds.length) {
         const idx = currentSong % backgrounds.length;
         $("background").style.opacity = "0";
@@ -1239,8 +1994,12 @@ function updatePlaylistUI() {
 }
 
 /* =========================================================
-   FADE IN DE MÚSICA
+   FADE IN / OUT REAL
 ========================================================= */
+function getFadeDuration() {
+    return (profile.fadeDuration || 3) * 1000;
+}
+
 function fadeInMusic() {
     if (!profile.musicFadeIn) {
         audio.volume = Number($("volume").value);
@@ -1248,14 +2007,17 @@ function fadeInMusic() {
     }
     clearInterval(fadeInterval);
     const targetVolume = Number($("volume").value);
+    if (audio.src && audio.src.startsWith("blob") === false && isYouTubeCurrent()) return;
     audio.volume = 0;
+    const duration = getFadeDuration();
     const steps = 30;
+    const stepTime = duration / steps;
     let step = 0;
     fadeInterval = setInterval(() => {
         step++;
         audio.volume = Math.min(targetVolume, (step / steps) * targetVolume);
         if (step >= steps) clearInterval(fadeInterval);
-    }, 100);
+    }, stepTime);
 }
 
 function fadeOutMusic(callback) {
@@ -1266,7 +2028,9 @@ function fadeOutMusic(callback) {
     }
     clearInterval(fadeInterval);
     const startVolume = audio.volume;
+    const duration = getFadeDuration();
     const steps = 20;
+    const stepTime = duration / steps;
     let step = 0;
     fadeInterval = setInterval(() => {
         step++;
@@ -1277,28 +2041,51 @@ function fadeOutMusic(callback) {
             audio.volume = Number($("volume").value);
             if (callback) callback();
         }
-    }, 80);
+    }, stepTime);
 }
 
 /* =========================================================
    PLAY / PAUSE
 ========================================================= */
+function isYouTubeCurrent() {
+    return playlist[currentSong] && playlist[currentSong].source === "youtube";
+}
+
 function playMusic() {
+    if (isYouTubeCurrent()) {
+        playYouTube();
+        isPlaying = true;
+        $("playBtn").textContent = "⏸";
+        $("vinyl").classList.add("spinning");
+        $("eq").classList.add("playing");
+        return;
+    }
     audio.play().then(() => {
         isPlaying = true;
         $("playBtn").textContent = "⏸";
         $("vinyl").classList.add("spinning");
+        $("eq").classList.add("playing");
         fadeInMusic();
     }).catch(error => {
         console.log("Autoplay bloqueado:", error);
+        toast("Clique para iniciar a música", "info");
     });
 }
 
 function pauseMusic() {
+    if (isYouTubeCurrent()) {
+        pauseYouTube();
+        isPlaying = false;
+        $("playBtn").textContent = "▶";
+        $("vinyl").classList.remove("spinning");
+        $("eq").classList.remove("playing");
+        return;
+    }
     fadeOutMusic(() => {
         isPlaying = false;
         $("playBtn").textContent = "▶";
         $("vinyl").classList.remove("spinning");
+        $("eq").classList.remove("playing");
     });
 }
 
@@ -1319,28 +2106,39 @@ $("prevBtn").onclick = () => {
 
 $("nextBtn").onclick = () => nextSong();
 
+$("shuffleBtn").onclick = () => {
+    profile.shuffle = !profile.shuffle;
+    $("shuffleBtn").classList.toggle("active", profile.shuffle);
+    toast(profile.shuffle ? "Shuffle ON" : "Shuffle OFF", "info");
+};
+
+$("repeatBtn").onclick = () => {
+    profile.loop = !profile.loop;
+    $("repeatBtn").classList.toggle("active", profile.loop);
+    toast(profile.loop ? "Repetir playlist" : "Repetir OFF", "info");
+};
+
+$("muteBtn").onclick = () => {
+    isMuted = !isMuted;
+    audio.muted = isMuted;
+    if (ytPlayer && ytPlayer.setVolume) ytPlayer.setVolume(isMuted ? 0 : Number($("volume").value) * 100);
+    $("muteBtn").textContent = isMuted ? "🔇" : "🔊";
+};
+
 function nextSong() {
     if (!playlist.length) return;
-
     if (profile.shuffle) {
         let next;
-        do {
-            next = Math.floor(Math.random() * playlist.length);
-        } while (playlist.length > 1 && next === currentSong);
+        do { next = Math.floor(Math.random() * playlist.length); }
+        while (playlist.length > 1 && next === currentSong);
         currentSong = next;
     } else {
         currentSong++;
         if (currentSong >= playlist.length) {
-            if (profile.loop) {
-                currentSong = 0;
-            } else {
-                currentSong = playlist.length - 1;
-                pauseMusic();
-                return;
-            }
+            if (profile.loop) currentSong = 0;
+            else { currentSong = playlist.length - 1; pauseMusic(); return; }
         }
     }
-
     loadSong();
     playMusic();
 }
@@ -1355,6 +2153,13 @@ audio.addEventListener("timeupdate", () => {
 });
 
 $("progress").oninput = () => {
+    if (isYouTubeCurrent()) {
+        if (ytPlayer && ytPlayer.seekTo) {
+            const dur = ytPlayer.getDuration ? ytPlayer.getDuration() : 0;
+            if (dur) ytPlayer.seekTo((Number($("progress").value) / 100) * dur, true);
+        }
+        return;
+    }
     if (!audio.duration) return;
     audio.currentTime = (Number($("progress").value) / 100) * audio.duration;
 };
@@ -1362,6 +2167,9 @@ $("progress").oninput = () => {
 $("volume").oninput = () => {
     if (!profile.musicFadeIn || !fadeInterval) {
         audio.volume = Number($("volume").value);
+    }
+    if (ytPlayer && ytPlayer.setVolume) {
+        ytPlayer.setVolume(Number($("volume").value) * 100);
     }
 };
 
@@ -1377,41 +2185,204 @@ function formatTime(seconds) {
 ========================================================= */
 let ytPlayer = null;
 let ytReady = false;
+let ytApiLoaded = false;
 
-function setupYouTube() {
-    if (!profile.youtubeUrl) return;
-
-    const container = $("youtubeContainer");
-    container.innerHTML = '<div id="ytPlayer"></div>';
-
+function loadYouTubeAPI() {
+    if (ytApiLoaded) return;
+    ytApiLoaded = true;
     const tag = document.createElement("script");
     tag.src = "https://www.youtube.com/iframe_api";
     document.body.appendChild(tag);
-
     window.onYouTubeIframeAPIReady = () => {
-        const videoId = extractYouTubeId(profile.youtubeUrl);
-        if (!videoId) return;
-
-        ytPlayer = new YT.Player("ytPlayer", {
-            height: "1",
-            width: "1",
-            videoId: videoId,
-            playerVars: {
-                autoplay: 0,
-                loop: profile.youtubeLoop ? 1 : 0,
-                playlist: videoId,
-                controls: 0
-            },
-            events: {
-                onReady: () => { ytReady = true; }
-            }
-        });
+        ytReady = true;
+        if (playlist[currentSong] && playlist[currentSong].source === "youtube") {
+            loadYouTube(playlist[currentSong]);
+        }
     };
 }
 
 function extractYouTubeId(url) {
     const match = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
     return match ? match[1] : null;
+}
+
+function loadYouTube(song) {
+    loadYouTubeAPI();
+    const videoId = song.videoId || extractYouTubeId(song.data);
+    if (!videoId) { toast("Link YouTube inválido", "error"); return; }
+
+    // Se player já existe, carrega vídeo nele
+    if (ytPlayer && ytReady && ytPlayer.loadVideoById) {
+        ytPlayer.loadVideoById(videoId);
+        if (ytPlayer.setVolume) ytPlayer.setVolume(Number($("volume").value) * 100);
+        return;
+    }
+
+    // Criar player
+    $("youtubeContainer").innerHTML = '<div id="ytPlayerDiv"></div>';
+    ytPlayer = new YT.Player("ytPlayerDiv", {
+        height: "1",
+        width: "1",
+        videoId: videoId,
+        playerVars: {
+            autoplay: 0,
+            loop: profile.loop ? 1 : 0,
+            playlist: videoId,
+            controls: 0,
+            modestbranding: 1
+        },
+        events: {
+            onReady: () => {
+                ytReady = true;
+                if (ytPlayer.setVolume) ytPlayer.setVolume(Number($("volume").value) * 100);
+            },
+            onStateChange: (e) => {
+                if (e.data === 0) { // ended
+                    nextSong();
+                }
+            },
+            onError: () => {
+                toast("Vídeo indisponível. Pulando...", "error");
+                setTimeout(nextSong, 1000);
+            }
+        }
+    });
+}
+
+function playYouTube() {
+    if (ytPlayer && ytPlayer.playVideo) ytPlayer.playVideo();
+}
+function pauseYouTube() {
+    if (ytPlayer && ytPlayer.pauseVideo) ytPlayer.pauseVideo();
+}
+function stopYouTube() {
+    if (ytPlayer && ytPlayer.stopVideo) ytPlayer.stopVideo();
+}
+
+// Atualiza progresso do YouTube
+setInterval(() => {
+    if (isYouTubeCurrent() && ytPlayer && ytPlayer.getCurrentTime && ytReady) {
+        const cur = ytPlayer.getCurrentTime();
+        const dur = ytPlayer.getDuration();
+        if (dur) {
+            $("progress").value = (cur / dur) * 100;
+            $("currentTime").textContent = formatTime(cur);
+            $("duration").textContent = formatTime(dur);
+        }
+    }
+}, 500);
+
+/* =========================================================
+   LOCAL PLAYLIST SAVE
+========================================================= */
+function savePlaylistLocal() {
+    try {
+        const toSave = playlist.map(s => ({
+            name: s.name,
+            source: s.source || "local",
+            data: s.source === "youtube" ? null : s.data,
+            videoId: s.videoId || null
+        }));
+        localStorage.setItem("playlist_meta", JSON.stringify({
+            list: toSave,
+            volume: $("volume").value,
+            current: currentSong,
+            shuffle: profile ? profile.shuffle : false,
+            loop: profile ? profile.loop : true
+        }));
+    } catch(e) { /* quota */ }
+}
+
+function restorePlaylistLocal() {
+    try {
+        const saved = localStorage.getItem("playlist_meta");
+        if (!saved) return;
+        const data = JSON.parse(saved);
+        if (data.volume) {
+            $("volume").value = data.volume;
+            audio.volume = Number(data.volume);
+        }
+        if (typeof data.current === "number") currentSong = data.current;
+        if (data.shuffle !== undefined) {
+            profile.shuffle = data.shuffle;
+            $("shuffleBtn").classList.toggle("active", profile.shuffle);
+        }
+        if (data.loop !== undefined) {
+            profile.loop = data.loop;
+            $("repeatBtn").classList.toggle("active", profile.loop);
+        }
+    } catch(e) { /* silent */ }
+}
+
+/* =========================================================
+   MODOS RÁPIDOS
+========================================================= */
+const MODES = {
+    light: { particles: true, particleCount: 30, ambientFog: false, ambientAurora: false, ambientWaves: false, cursorTrail: false, clickRipple: true, clickParticles: false },
+    immersive: { particles: true, particleCount: 120, ambientFog: true, ambientAurora: true, ambientWaves: true, cursorTrail: true, clickRipple: true, clickParticles: true },
+    cinematic: { particles: true, particleCount: 50, ambientFog: true, ambientAurora: true, ambientWaves: true, cursorTrail: true, entrySpeed: 1.5, clickParticles: true },
+    galaxy: { particles: true, particleCount: 200, particleSpeed: 0.5, ambientAurora: true, ambientFog: false, ambientWaves: false },
+    aurora: { particles: true, particleCount: 80, ambientAurora: true, ambientWaves: true, ambientFog: false },
+    performance: { particles: false, ambientFog: false, ambientAurora: false, ambientWaves: false, cursorTrail: false, clickParticles: false, clickRipple: false },
+    minimal: { particles: false, ambientFog: false, ambientAurora: false, ambientWaves: false, cursorTrail: false, clickParticles: false, clickRipple: false, cursor: true },
+    allOff: { particles: false, ambientFog: false, ambientAurora: false, ambientWaves: false, cursor: false, cursorTrail: false, clickRipple: false, clickParticles: false, clickSound: false }
+};
+
+function applyMode(modeName) {
+    const mode = MODES[modeName];
+    if (!mode) return;
+    Object.assign(settings, mode);
+    saveSettings();
+    applySettingsToUI();
+    refreshAllEffects();
+    toast(`Modo: ${modeName}`, "success");
+}
+
+/* =========================================================
+   APLICAR SETTINGS NA UI
+========================================================= */
+function applySettingsToUI() {
+    $("optParticles").checked = settings.particles;
+    $("optParticleCount").value = settings.particleCount;
+    $("valParticleCount").textContent = settings.particleCount;
+    $("optParticleSpeed").value = settings.particleSpeed;
+    $("valParticleSpeed").textContent = settings.particleSpeed;
+    $("optParticleSize").value = settings.particleSize;
+    $("valParticleSize").textContent = settings.particleSize;
+    $("optParticleOpacity").value = settings.particleOpacity;
+    $("valParticleOpacity").textContent = settings.particleOpacity;
+    $("optCursor").checked = settings.cursor;
+    $("optCursorTrail").checked = settings.cursorTrail;
+    $("optClickRipple").checked = settings.clickRipple;
+    $("optClickParticles").checked = settings.clickParticles;
+    $("optEntryAnim").value = settings.entryAnim;
+    $("optEntrySpeed").value = settings.entrySpeed;
+    $("valEntrySpeed").textContent = settings.entrySpeed + "s";
+    $("optAmbientFog").checked = settings.ambientFog;
+    $("optAmbientAurora").checked = settings.ambientAurora;
+    $("optAmbientWaves").checked = settings.ambientWaves;
+    $("optClickSound").checked = settings.clickSound;
+    $("optSoundVolume").value = settings.soundVolume;
+    $("valSoundVolume").textContent = settings.soundVolume;
+    $("optGlow").value = settings.glowIntensity;
+    $("valGlow").textContent = settings.glowIntensity;
+
+    document.documentElement.style.setProperty("--glow-intensity", settings.glowIntensity);
+    document.documentElement.style.setProperty("--entry-speed", settings.entrySpeed + "s");
+
+    canvas.style.opacity = settings.particleOpacity;
+    cursor.style.display = settings.cursor ? "block" : "none";
+    document.body.classList.toggle("no-cursor-custom", !settings.cursor);
+
+    updateThemeChips();
+}
+
+function refreshAllEffects() {
+    initParticles();
+    updateAmbient();
+    updateAmbient();
+    updateAmbient();
+    $("profileCard").className = "profile-card " + (settings.entryAnim === "card" ? "" : "entry-" + settings.entryAnim);
 }
 
 /* =========================================================
@@ -1422,28 +2393,22 @@ $("adminButton").onclick = () => {
     else openModal("loginModal");
 };
 
-/* =========================================================
-   TEMA
-========================================================= */
+$("effectsPanelBtn").onclick = () => {
+    applySettingsToUI();
+    openModal("effectsModal");
+};
+
+$("closeEffectsBtn").onclick = () => closeModal("effectsModal");
+
 $("themeToggle").onclick = () => {
-    const isDark = document.body.style.background !== "rgb(245, 245, 245)";
-    if (isDark) {
-        document.body.style.background = "#f5f5f5";
-        document.body.style.color = "#111";
-        document.documentElement.style.setProperty("--card", "rgba(255,255,255,.85)");
-        document.documentElement.style.setProperty("--text", "#111");
-        document.documentElement.style.setProperty("--muted", "#555");
-        document.documentElement.style.setProperty("--border", "rgba(0,0,0,.1)");
-        $("themeToggle").textContent = "☀️";
-    } else {
-        document.body.style.background = "#050509";
-        document.body.style.color = "#fff";
-        document.documentElement.style.setProperty("--card", "rgba(15,15,25,.72)");
-        document.documentElement.style.setProperty("--text", "#fff");
-        document.documentElement.style.setProperty("--muted", "#a1a1aa");
-        document.documentElement.style.setProperty("--border", "rgba(255,255,255,.12)");
-        $("themeToggle").textContent = "🌙";
-    }
+    const isDark = settings.theme !== "minimal";
+    applyTheme(isDark ? "minimal" : "default");
+};
+
+$("randomThemeBtn").onclick = () => {
+    const keys = Object.keys(THEMES);
+    const random = keys[Math.floor(Math.random() * keys.length)];
+    applyTheme(random);
 };
 
 /* =========================================================
@@ -1452,20 +2417,15 @@ $("themeToggle").onclick = () => {
 $("loginButton").onclick = async () => {
     const email = $("loginEmail").value.trim();
     const password = $("loginPassword").value;
-
-    if (!email || !password) {
-        toast("Preencha e-mail e senha.");
-        return;
-    }
-
+    if (!email || !password) { toast("Preencha e-mail e senha.", "error"); return; }
     try {
         await auth.signInWithEmailAndPassword(email, password);
         closeModal("loginModal");
         openAdmin();
-        toast("Administrador conectado.");
+        toast("Administrador conectado.", "success");
     } catch (error) {
         console.error(error);
-        toast("Login inválido.");
+        toast("Login inválido.", "error");
     }
 };
 
@@ -1500,8 +2460,9 @@ function loadAdminValues() {
     $("effectVinyl").checked = profile.effectVinyl !== false;
     $("effectCursor").checked = profile.effectCursor !== false;
     $("effectRing").checked = profile.effectRing !== false;
-    $("youtubeUrl").value = profile.youtubeUrl || "";
-    $("youtubeLoop").checked = profile.youtubeLoop !== false;
+    $("effectAmbient").checked = !!profile.effectAmbient;
+    $("fadeDuration").value = profile.fadeDuration || 3;
+    $("fadeDurationVal").textContent = (profile.fadeDuration || 3) + "s";
 
     renderBackgroundEditor();
     renderLinksEditor();
@@ -1515,12 +2476,9 @@ function loadAdminValues() {
 $("avatarFile").onchange = async event => {
     const file = event.target.files[0];
     if (!file) return;
-    if (file.size > 2 * 1024 * 1024) {
-        toast("Avatar máximo: 2 MB.");
-        return;
-    }
+    if (file.size > 2 * 1024 * 1024) { toast("Avatar máximo: 2 MB.", "error"); return; }
     profile.avatar = await fileToDataURL(file);
-    toast("Avatar carregado.");
+    toast("Avatar carregado.", "success");
 };
 
 /* =========================================================
@@ -1530,7 +2488,7 @@ $("backgroundFiles").onchange = async event => {
     const files = Array.from(event.target.files);
     for (const file of files) {
         if (file.size > 3 * 1024 * 1024) {
-            toast(`${file.name} é grande demais.`);
+            toast(`${file.name} é grande demais.`, "error");
             continue;
         }
         const data = await fileToDataURL(file);
@@ -1626,17 +2584,36 @@ $("musicFiles").onchange = async event => {
     const files = Array.from(event.target.files);
     for (const file of files) {
         if (file.size > 8 * 1024 * 1024) {
-            toast(`${file.name} excede 8 MB.`);
+            toast(`${file.name} excede 8 MB.`, "error");
             continue;
         }
-        toast(`Carregando ${file.name}...`);
+        toast(`Carregando ${file.name}...`, "info");
         const data = await fileToDataURL(file);
         playlist.push({
             name: file.name.replace(/\.[^/.]+$/, ""),
-            data
+            data,
+            source: "local"
         });
     }
     renderMusicEditor();
+    renderPlaylist();
+};
+
+$("addYoutubeBtn").onclick = () => {
+    const url = $("youtubeUrlInput").value.trim();
+    if (!url) return;
+    const videoId = extractYouTubeId(url);
+    if (!videoId) { toast("Link inválido.", "error"); return; }
+    playlist.push({
+        name: "YouTube: " + videoId,
+        data: url,
+        videoId,
+        source: "youtube"
+    });
+    $("youtubeUrlInput").value = "";
+    renderMusicEditor();
+    renderPlaylist();
+    toast("Vídeo do YouTube adicionado.", "success");
 };
 
 function renderMusicEditor() {
@@ -1656,17 +2633,21 @@ function renderMusicEditor() {
 function removeSong(index) {
     playlist.splice(index, 1);
     renderMusicEditor();
+    renderPlaylist();
 }
+
+/* =========================================================
+   FADE DURATION SLIDER
+========================================================= */
+$("fadeDuration").oninput = () => {
+    $("fadeDurationVal").textContent = $("fadeDuration").value + "s";
+};
 
 /* =========================================================
    SALVAR
 ========================================================= */
 $("saveButton").onclick = async () => {
-    if (!auth.currentUser) {
-        toast("Você precisa estar logado.");
-        return;
-    }
-
+    if (!auth.currentUser) { toast("Você precisa estar logado.", "error"); return; }
     try {
         const links = [];
         document.querySelectorAll("[data-link-name]").forEach(input => {
@@ -1677,9 +2658,7 @@ $("saveButton").onclick = async () => {
         });
 
         const badges = [];
-        document.querySelectorAll("[data-badge]").forEach(input => {
-            badges.push(input.value);
-        });
+        document.querySelectorAll("[data-badge]").forEach(input => badges.push(input.value));
 
         playlist.forEach((song, index) => {
             const input = document.querySelector(`[data-song-name="${index}"]`);
@@ -1708,16 +2687,17 @@ $("saveButton").onclick = async () => {
         profile.effectVinyl = $("effectVinyl").checked;
         profile.effectCursor = $("effectCursor").checked;
         profile.effectRing = $("effectRing").checked;
-        profile.youtubeUrl = $("youtubeUrl").value.trim();
-        profile.youtubeLoop = $("youtubeLoop").checked;
+        profile.effectAmbient = $("effectAmbient").checked;
+        profile.fadeDuration = Number($("fadeDuration").value);
 
         await db.ref(PROFILE_PATH).set(profile);
         applyProfile();
+        savePlaylistLocal();
         closeModal("adminModal");
-        toast("👑 Perfil atualizado para todo mundo.");
+        toast("👑 Perfil atualizado para todo mundo.", "success");
     } catch (error) {
         console.error(error);
-        toast("Erro ao salvar. Veja o console.");
+        toast("Erro ao salvar.", "error");
     }
 };
 
@@ -1727,7 +2707,7 @@ $("saveButton").onclick = async () => {
 $("logoutButton").onclick = async () => {
     await auth.signOut();
     closeModal("adminModal");
-    toast("Administrador desconectado.");
+    toast("Administrador desconectado.", "info");
 };
 
 /* =========================================================
@@ -1743,21 +2723,163 @@ function escapeHTML(value) {
 }
 
 /* =========================================================
-   AUTOPLAY
+   SETTINGS CONTROLS
 ========================================================= */
-document.addEventListener("click", () => {
-    if (profile && profile.autoplay && playlist.length && !isPlaying) {
-        playMusic();
-    }
-    if (profile && profile.youtubeUrl && ytReady && ytPlayer && typeof ytPlayer.playVideo === "function") {
-        ytPlayer.playVideo();
-    }
-}, { once: true });
+function bindSettingsControls() {
+    $("optParticles").onchange = e => { settings.particles = e.target.checked; saveSettings(); initParticles(); };
+    $("optParticleCount").oninput = e => {
+        settings.particleCount = Number(e.target.value);
+        $("valParticleCount").textContent = settings.particleCount;
+        saveSettings(); initParticles();
+    };
+    $("optParticleSpeed").oninput = e => {
+        settings.particleSpeed = Number(e.target.value);
+        $("valParticleSpeed").textContent = settings.particleSpeed;
+        saveSettings(); initParticles();
+    };
+    $("optParticleSize").oninput = e => {
+        settings.particleSize = Number(e.target.value);
+        $("valParticleSize").textContent = settings.particleSize;
+        saveSettings(); initParticles();
+    };
+    $("optParticleOpacity").oninput = e => {
+        settings.particleOpacity = Number(e.target.value);
+        $("valParticleOpacity").textContent = settings.particleOpacity;
+        canvas.style.opacity = settings.particleOpacity;
+        saveSettings();
+    };
+    $("optCursor").onchange = e => {
+        settings.cursor = e.target.checked;
+        saveSettings();
+        document.body.classList.toggle("no-cursor-custom", !settings.cursor);
+        cursor.style.display = settings.cursor ? "block" : "none";
+    };
+    $("optCursorTrail").onchange = e => { settings.cursorTrail = e.target.checked; saveSettings(); };
+    $("optClickRipple").onchange = e => { settings.clickRipple = e.target.checked; saveSettings(); };
+    $("optClickParticles").onchange = e => { settings.clickParticles = e.target.checked; saveSettings(); };
+    $("optEntryAnim").onchange = e => {
+        settings.entryAnim = e.target.value;
+        saveSettings();
+        $("profileCard").className = "profile-card " + (settings.entryAnim === "card" ? "" : "entry-" + settings.entryAnim);
+    };
+    $("optEntrySpeed").oninput = e => {
+        settings.entrySpeed = Number(e.target.value);
+        $("valEntrySpeed").textContent = settings.entrySpeed + "s";
+        document.documentElement.style.setProperty("--entry-speed", settings.entrySpeed + "s");
+        saveSettings();
+    };
+    $("optAmbientFog").onchange = e => { settings.ambientFog = e.target.checked; saveSettings(); updateAmbient(); };
+    $("optAmbientAurora").onchange = e => { settings.ambientAurora = e.target.checked; saveSettings(); updateAmbient(); };
+    $("optAmbientWaves").onchange = e => { settings.ambientWaves = e.target.checked; saveSettings(); updateAmbient(); };
+    $("optClickSound").onchange = e => { settings.clickSound = e.target.checked; saveSettings(); };
+    $("optSoundVolume").oninput = e => {
+        settings.soundVolume = Number(e.target.value);
+        $("valSoundVolume").textContent = settings.soundVolume;
+        saveSettings();
+    };
+    $("optGlow").oninput = e => {
+        settings.glowIntensity = Number(e.target.value);
+        $("valGlow").textContent = settings.glowIntensity;
+        document.documentElement.style.setProperty("--glow-intensity", settings.glowIntensity);
+        saveSettings();
+    };
+    $("resetAll").onclick = () => {
+        settings = { ...DEFAULT_SETTINGS };
+        saveSettings();
+        applySettingsToUI();
+        refreshAllEffects();
+        toast("Configurações restauradas.", "success");
+    };
+    document.querySelectorAll(".mode-chip").forEach(btn => {
+        btn.onclick = () => applyMode(btn.dataset.mode);
+    });
+    $("themeRandom").onclick = () => $("randomThemeBtn").click();
+    $("themeReset").onclick = () => applyTheme("default");
+}
+
+/* =========================================================
+   SCROLL PROGRESS
+========================================================= */
+window.addEventListener("scroll", () => {
+    const scroll = window.scrollY;
+    const height = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = height > 0 ? (scroll / height) * 100 : 0;
+    $("scrollProgress").style.width = pct + "%";
+});
+
+/* =========================================================
+   THEME CHIPS
+========================================================= */
+function buildThemeChips() {
+    const grid = $("themeGrid");
+    grid.innerHTML = "";
+    Object.keys(THEMES).forEach(name => {
+        const chip = document.createElement("div");
+        chip.className = "theme-chip " + name;
+        chip.dataset.theme = name;
+        chip.textContent = name;
+        chip.onclick = () => applyTheme(name);
+        grid.appendChild(chip);
+    });
+    updateThemeChips();
+}
 
 /* =========================================================
    INICIALIZAÇÃO
 ========================================================= */
-loadProfile();
+buildThemeChips();
+bindSettingsControls();
+initCursor();
+initParticles();
+applySettingsToUI();
+
+document.addEventListener("click", function onFirstClick() {
+    if (profile && profile.autoplay && playlist.length && !isPlaying) {
+        playMusic();
+    }
+    if (profile && profile.autoplay && playlist[currentSong] && playlist[currentSong].source === "youtube") {
+        playMusic();
+    }
+    document.removeEventListener("click", onFirstClick);
+}, { once: true });
+
+// Teclado
+document.addEventListener("keydown", e => {
+    if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+    if (e.code === "Space") { e.preventDefault(); togglePlay(); }
+    if (e.code === "ArrowRight") nextSong();
+    if (e.code === "ArrowLeft") $("prevBtn").click();
+});
+
+// Restaurar playlist local
+restorePlaylistLocal();
+
+// Carregar perfil
+loadProfile().then(() => {
+    restorePlaylistLocal();
+    if (profile && profile.fadeDuration) {
+        $("fadeDuration").value = profile.fadeDuration;
+        $("fadeDurationVal").textContent = profile.fadeDuration + "s";
+    }
+});
+
+// Resize
+window.addEventListener("resize", () => {
+    if (window.innerWidth <= 650) {
+        cursor.style.display = "none";
+    } else if (settings.cursor) {
+        cursor.style.display = "block";
+    }
+});
+
+// Ao trocar de aba, pausar animações pesadas
+document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+        if (particleAnimId) { cancelAnimationFrame(particleAnimId); particleAnimId = null; }
+    } else {
+        if (settings.particles && !particleAnimId) initParticles();
+    }
+});
 </script>
 
 </body>
