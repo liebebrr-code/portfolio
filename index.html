@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Meu Perfil ✨</title>
+<title>My pfp</title>
 
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -39,41 +39,24 @@ body {
 body.no-cursor-custom { cursor: auto; }
 body.no-cursor-custom * { cursor: auto !important; }
 
-/* =========================================================
-   FUNDO
-========================================================= */
-
 #background {
-    position: fixed;
-    inset: 0;
-    z-index: -10;
+    position: fixed; inset: 0; z-index: -10;
     background:
         radial-gradient(circle at center, rgba(var(--particle-color),.15), transparent 55%),
         var(--bg-base);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    background-size: cover; background-position: center; background-repeat: no-repeat;
     transition: background-image 1.2s ease, opacity 1s ease, filter .5s ease;
 }
-
 #background::after {
-    content: "";
-    position: absolute;
-    inset: 0;
+    content: ""; position: absolute; inset: 0;
     background: linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.7));
     pointer-events: none;
 }
-
 #background.blur { filter: blur(8px); transform: scale(1.05); }
 
-/* Camadas ambientais (neblina, aurora, ondas) */
 .ambient-layer {
-    position: fixed;
-    inset: 0;
-    z-index: -9;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 1s ease;
+    position: fixed; inset: 0; z-index: -9; pointer-events: none;
+    opacity: 0; transition: opacity 1s ease;
 }
 .ambient-layer.active { opacity: 1; }
 
@@ -89,13 +72,7 @@ body.no-cursor-custom * { cursor: auto !important; }
 }
 
 .ambient-aurora {
-    background:
-        linear-gradient(120deg,
-            transparent 0%,
-            rgba(139,92,246,.10) 25%,
-            rgba(6,182,212,.14) 50%,
-            rgba(167,139,250,.10) 75%,
-            transparent 100%);
+    background: linear-gradient(120deg, transparent 0%, rgba(139,92,246,.10) 25%, rgba(6,182,212,.14) 50%, rgba(167,139,250,.10) 75%, transparent 100%);
     background-size: 200% 200%;
     animation: auroraShift 18s linear infinite;
     filter: blur(40px);
@@ -106,12 +83,7 @@ body.no-cursor-custom * { cursor: auto !important; }
 }
 
 .ambient-waves {
-    background:
-        repeating-linear-gradient(115deg,
-            rgba(139,92,246,.05) 0px,
-            rgba(139,92,246,.05) 2px,
-            transparent 2px,
-            transparent 60px);
+    background: repeating-linear-gradient(115deg, rgba(139,92,246,.05) 0px, rgba(139,92,246,.05) 2px, transparent 2px, transparent 60px);
     animation: wavesMove 30s linear infinite;
     opacity: .5;
 }
@@ -120,79 +92,42 @@ body.no-cursor-custom * { cursor: auto !important; }
     to   { background-position: 600px 0; }
 }
 
-#particles {
-    position: fixed;
-    inset: 0;
-    z-index: -8;
-    pointer-events: none;
-    opacity: .7;
-}
+#particles { position: fixed; inset: 0; z-index: -8; pointer-events: none; opacity: .7; }
 
 #overlay {
-    position: fixed;
-    inset: 0;
-    z-index: -5;
-    pointer-events: none;
+    position: fixed; inset: 0; z-index: -5; pointer-events: none;
     background: radial-gradient(circle at 50% 20%, rgba(var(--particle-color),.18), transparent 45%);
 }
 
-/* Progresso do scroll */
 #scrollProgress {
-    position: fixed;
-    top: 0; left: 0;
-    height: 3px;
-    width: 0%;
+    position: fixed; top: 0; left: 0; height: 3px; width: 0%;
     background: linear-gradient(90deg, var(--primary), var(--secondary));
-    z-index: 3000;
-    transition: width .1s linear;
+    z-index: 3000; transition: width .1s linear;
     box-shadow: 0 0 12px var(--primary);
 }
 
-/* =========================================================
-   CURSOR PERSONALIZADO
-========================================================= */
-
+/* ============ CURSOR ============ */
 .custom-cursor {
-    position: fixed;
-    width: 22px;
-    height: 22px;
-    border: 2px solid var(--primary);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9999;
+    position: fixed; width: 22px; height: 22px;
+    border: 2px solid var(--primary); border-radius: 50%;
+    pointer-events: none; z-index: 9999;
     transform: translate(-50%, -50%);
     transition: width .2s, height .2s, background .2s, opacity .2s;
-    mix-blend-mode: difference;
-    opacity: 0;
+    mix-blend-mode: difference; opacity: 0;
 }
 .custom-cursor.active { opacity: 1; }
-.custom-cursor.hover {
-    width: 44px;
-    height: 44px;
-    background: rgba(var(--particle-color),.3);
-}
+.custom-cursor.hover { width: 44px; height: 44px; background: rgba(var(--particle-color),.3); }
 
 .cursor-trail {
-    position: fixed;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--primary);
-    pointer-events: none;
-    z-index: 9998;
-    opacity: .55;
-    transform: translate(-50%, -50%);
-    filter: blur(1px);
-    transition: opacity .4s ease;
+    position: fixed; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--primary); pointer-events: none; z-index: 9998;
+    opacity: .55; transform: translate(-50%, -50%);
+    filter: blur(1px); transition: opacity .4s ease;
 }
 
 .click-ripple {
-    position: fixed;
-    border: 2px solid var(--primary);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9997;
-    transform: translate(-50%, -50%);
+    position: fixed; border: 2px solid var(--primary); border-radius: 50%;
+    pointer-events: none; z-index: 9997; transform: translate(-50%, -50%);
     animation: rippleAnim .7s ease-out forwards;
 }
 @keyframes rippleAnim {
@@ -201,12 +136,8 @@ body.no-cursor-custom * { cursor: auto !important; }
 }
 
 .click-particle {
-    position: fixed;
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--secondary);
-    pointer-events: none;
-    z-index: 9997;
+    position: fixed; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--secondary); pointer-events: none; z-index: 9997;
     transform: translate(-50%, -50%);
     animation: clickParticle .8s ease-out forwards;
 }
@@ -215,34 +146,23 @@ body.no-cursor-custom * { cursor: auto !important; }
     to   { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(.2); }
 }
 
-/* =========================================================
-   PERFIL
-========================================================= */
-
+/* ============ PERFIL ============ */
 .profile-wrapper {
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    width: 100%; min-height: 100vh;
+    display: flex; justify-content: center; align-items: center;
     padding: 40px 18px;
 }
 
 .profile-card {
-    width: min(760px, 100%);
-    padding: 34px;
-    background: var(--card);
-    border: 1px solid var(--border);
+    width: min(760px, 100%); padding: 34px;
+    background: var(--card); border: 1px solid var(--border);
     border-radius: var(--radius);
-    backdrop-filter: blur(var(--blur));
-    -webkit-backdrop-filter: blur(var(--blur));
+    backdrop-filter: blur(var(--blur)); -webkit-backdrop-filter: blur(var(--blur));
     box-shadow: 0 30px 100px rgba(0,0,0,.55), 0 0 80px rgba(var(--particle-color),.08);
-    position: relative;
-    overflow: hidden;
+    position: relative; overflow: hidden;
     animation: cardIn var(--entry-speed) ease;
     transition: transform .3s ease, box-shadow .4s ease;
-    transform-style: preserve-3d;
-    will-change: transform;
+    transform-style: preserve-3d; will-change: transform;
 }
 
 .profile-card.tilt:hover {
@@ -250,26 +170,18 @@ body.no-cursor-custom * { cursor: auto !important; }
 }
 
 .profile-card::before {
-    content: "";
-    position: absolute;
-    top: -50%; left: -50%;
+    content: ""; position: absolute; top: -50%; left: -50%;
     width: 200%; height: 200%;
     background: conic-gradient(from 0deg, transparent, var(--primary), transparent, var(--secondary), transparent);
-    animation: rotate 8s linear infinite;
-    opacity: .05;
-    z-index: -1;
-    pointer-events: none;
+    animation: rotate 8s linear infinite; opacity: .05; z-index: -1; pointer-events: none;
 }
 @keyframes rotate { to { transform: rotate(360deg); } }
 
 .profile-card::after {
-    content: "";
-    position: absolute;
-    top: 0; left: -100%;
+    content: ""; position: absolute; top: 0; left: -100%;
     width: 60%; height: 100%;
     background: linear-gradient(90deg, transparent, rgba(255,255,255,.06), transparent);
-    transform: skewX(-20deg);
-    pointer-events: none;
+    transform: skewX(-20deg); pointer-events: none;
     animation: sweep 6s ease-in-out infinite;
 }
 @keyframes sweep {
@@ -281,168 +193,93 @@ body.no-cursor-custom * { cursor: auto !important; }
     from { opacity: 0; transform: translateY(25px) scale(.97); }
     to { opacity: 1; transform: translateY(0) scale(1); }
 }
-
-/* Animação de entrada alternativa */
 .profile-card.entry-fade { animation: entryFade var(--entry-speed) ease; }
 @keyframes entryFade { from { opacity: 0; } to { opacity: 1; } }
-
 .profile-card.entry-slide { animation: entrySlide var(--entry-speed) ease; }
 @keyframes entrySlide { from { opacity: 0; transform: translateX(-40px); } to { opacity: 1; transform: translateX(0); } }
-
 .profile-card.entry-zoom { animation: entryZoom var(--entry-speed) ease; }
 @keyframes entryZoom { from { opacity: 0; transform: scale(.85); } to { opacity: 1; transform: scale(1); } }
-
 .profile-card.entry-blur { animation: entryBlur var(--entry-speed) ease; }
 @keyframes entryBlur { from { opacity: 0; filter: blur(12px); } to { opacity: 1; filter: blur(0); } }
 
-/* =========================================================
-   AVATAR
-========================================================= */
-
+/* ============ AVATAR ============ */
 .avatar-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-    position: relative;
+    display: flex; justify-content: center; margin-bottom: 20px; position: relative;
 }
-
 .avatar-ring {
-    position: absolute;
-    width: 145px; height: 145px;
-    border-radius: 50%;
+    position: absolute; width: 145px; height: 145px; border-radius: 50%;
     background: conic-gradient(var(--primary), var(--secondary), var(--primary));
-    animation: spin-ring 4s linear infinite;
-    opacity: .7;
-    filter: blur(3px);
+    animation: spin-ring 4s linear infinite; opacity: .7; filter: blur(3px);
 }
 .avatar-ring.disabled { display: none; }
 @keyframes spin-ring { to { transform: rotate(360deg); } }
 
 .avatar {
-    width: 125px; height: 125px;
-    border-radius: 50%;
-    object-fit: cover;
+    width: 125px; height: 125px; border-radius: 50%; object-fit: cover;
     border: 4px solid rgba(255,255,255,.15);
     box-shadow: 0 0 0 5px rgba(var(--particle-color),.08), 0 15px 50px rgba(0,0,0,.5);
-    background: #111;
-    position: relative;
-    z-index: 2;
-    transition: transform .3s, opacity .6s;
-    opacity: 0;
+    background: #111; position: relative; z-index: 2;
+    transition: transform .3s, opacity .6s; opacity: 0;
 }
 .avatar.loaded { opacity: 1; }
 .avatar:hover { transform: scale(1.06) rotate(3deg); }
 
-/* =========================================================
-   TEXTO / BADGES / LINKS
-========================================================= */
-
+/* ============ TEXTO / BADGES / LINKS ============ */
 .profile-name {
-    text-align: center;
-    font-size: clamp(30px, 6vw, 48px);
-    font-weight: 900;
-    letter-spacing: -1px;
-    margin-bottom: 8px;
+    text-align: center; font-size: clamp(30px, 6vw, 48px); font-weight: 900;
+    letter-spacing: -1px; margin-bottom: 8px;
     background: linear-gradient(135deg, var(--primary), var(--secondary));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    transition: filter .4s;
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent; transition: filter .4s;
 }
 .profile-name.glowing {
     filter: drop-shadow(0 0 calc(15px * var(--glow-intensity)) var(--primary));
 }
 
 .profile-description {
-    text-align: center;
-    color: var(--muted);
-    line-height: 1.6;
-    max-width: 600px;
-    margin: auto;
-    white-space: pre-wrap;
+    text-align: center; color: var(--muted); line-height: 1.6;
+    max-width: 600px; margin: auto; white-space: pre-wrap;
 }
 
 .badges {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-top: 18px;
+    display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-top: 18px;
 }
-
 .badge {
-    padding: 7px 12px;
-    border-radius: 999px;
+    padding: 7px 12px; border-radius: 999px;
     background: rgba(var(--particle-color),.15);
     border: 1px solid rgba(var(--particle-color),.25);
-    font-size: 13px;
-    color: #ddd6fe;
-    transition: .25s;
+    font-size: 13px; color: #ddd6fe; transition: .25s;
     animation: badgeIn .4s ease both;
 }
-@keyframes badgeIn {
-    from { opacity: 0; transform: translateY(6px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-.badge:hover {
-    transform: translateY(-2px) scale(1.05);
-    box-shadow: 0 5px 20px rgba(var(--particle-color),.3);
-}
+@keyframes badgeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+.badge:hover { transform: translateY(-2px) scale(1.05); box-shadow: 0 5px 20px rgba(var(--particle-color),.3); }
 
-.links {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-top: 30px;
-}
-
+.links { display: flex; flex-direction: column; gap: 12px; margin-top: 30px; }
 .social-link {
-    width: 100%;
-    padding: 15px 18px;
-    border-radius: 16px;
-    background: rgba(255,255,255,.06);
-    border: 1px solid rgba(255,255,255,.08);
-    color: white;
-    text-decoration: none;
-    text-align: center;
-    font-weight: 700;
-    transition: .25s;
-    position: relative;
-    overflow: hidden;
+    width: 100%; padding: 15px 18px; border-radius: 16px;
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.08);
+    color: white; text-decoration: none; text-align: center; font-weight: 700;
+    transition: .25s; position: relative; overflow: hidden;
 }
-
 .social-link::before {
-    content: "";
-    position: absolute;
-    top: 0; left: -100%;
-    width: 100%; height: 100%;
+    content: ""; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
     background: linear-gradient(90deg, transparent, rgba(var(--particle-color),.3), transparent);
     transition: left .5s;
 }
 .social-link:hover::before { left: 100%; }
-
 .social-link:hover {
-    transform: translateY(-3px);
-    background: rgba(var(--particle-color),.18);
+    transform: translateY(-3px); background: rgba(var(--particle-color),.18);
     border-color: rgba(var(--particle-color),.4);
     box-shadow: 0 10px 35px rgba(var(--particle-color),.18);
 }
 .social-link:active { transform: translateY(-1px) scale(.98); }
 
-/* =========================================================
-   DISCO DE VINIL
-========================================================= */
-
+/* ============ VINIL ============ */
 .vinyl-container {
-    display: flex;
-    justify-content: center;
-    margin: 25px 0;
-    perspective: 1000px;
+    display: flex; justify-content: center; margin: 25px 0; perspective: 1000px;
 }
-
 .vinyl {
-    width: 140px; height: 140px;
-    border-radius: 50%;
+    width: 140px; height: 140px; border-radius: 50%;
     background: radial-gradient(circle,
         #1a1a1a 0%, #0a0a0a 30%, #111 31%, #0a0a0a 32%, #111 33%,
         #0a0a0a 34%, #111 35%, #0a0a0a 36%, #111 37%, #0a0a0a 38%,
@@ -460,91 +297,43 @@ body.no-cursor-custom * { cursor: auto !important; }
         #0a0a0a 94%, #111 95%, #0a0a0a 96%, #111 97%, #0a0a0a 98%,
         #111 99%, #0a0a0a 100%);
     box-shadow: 0 10px 40px rgba(0,0,0,.6), inset 0 0 20px rgba(0,0,0,.8);
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: transform .3s;
+    position: relative; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: transform .3s;
 }
-
 .vinyl::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
+    content: ""; position: absolute; inset: 0; border-radius: 50%;
     background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.1), transparent 50%);
     pointer-events: none;
 }
-
 .vinyl.spinning { animation: vinyl-spin 2s linear infinite; }
 @keyframes vinyl-spin { to { transform: rotate(360deg); } }
 
 .vinyl-label {
-    width: 50px; height: 50px;
-    border-radius: 50%;
+    width: 50px; height: 50px; border-radius: 50%;
     background: var(--primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    border: 2px solid rgba(255,255,255,.2);
-    box-shadow: 0 0 15px var(--primary);
-    transition: box-shadow .5s;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden; border: 2px solid rgba(255,255,255,.2);
+    box-shadow: 0 0 15px var(--primary); transition: box-shadow .5s;
 }
 .vinyl-label img { width: 100%; height: 100%; object-fit: cover; }
-
 .vinyl-center {
-    position: absolute;
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: #000;
-    z-index: 3;
+    position: absolute; width: 8px; height: 8px; border-radius: 50%;
+    background: #000; z-index: 3;
 }
 
-/* =========================================================
-   PLAYER
-========================================================= */
-
+/* ============ PLAYER ============ */
 .music-player {
-    margin-top: 20px;
-    padding: 18px;
-    border-radius: 20px;
-    background: rgba(0,0,0,.25);
-    border: 1px solid rgba(255,255,255,.08);
-    transition: max-height .4s ease, opacity .3s;
-    overflow: hidden;
+    margin-top: 20px; padding: 18px; border-radius: 20px;
+    background: rgba(0,0,0,.25); border: 1px solid rgba(255,255,255,.08);
+    transition: max-height .4s ease, opacity .3s; overflow: hidden;
 }
-.music-player.collapsed {
-    max-height: 60px;
-    padding: 10px 18px;
-}
-
 .music-title {
-    font-weight: 800;
-    margin-bottom: 12px;
-    text-align: center;
-    font-size: 14px;
-    color: var(--accent);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
+    font-weight: 800; margin-bottom: 12px; text-align: center; font-size: 14px;
+    color: var(--accent); display: flex; justify-content: center; align-items: center; gap: 8px;
 }
 
-.eq {
-    display: inline-flex;
-    gap: 2px;
-    align-items: flex-end;
-    height: 14px;
-}
-.eq span {
-    width: 3px;
-    background: var(--primary);
-    border-radius: 2px;
-    height: 4px;
-    transition: height .15s;
-}
+.eq { display: inline-flex; gap: 2px; align-items: flex-end; height: 14px; }
+.eq span { width: 3px; background: var(--primary); border-radius: 2px; height: 4px; transition: height .15s; }
 .eq.playing span:nth-child(1) { animation: eq1 .7s ease-in-out infinite; }
 .eq.playing span:nth-child(2) { animation: eq2 .5s ease-in-out infinite; }
 .eq.playing span:nth-child(3) { animation: eq3 .9s ease-in-out infinite; }
@@ -553,154 +342,81 @@ body.no-cursor-custom * { cursor: auto !important; }
 @keyframes eq2 { 0%,100% { height: 10px; } 50% { height: 3px; } }
 @keyframes eq3 { 0%,100% { height: 6px; } 50% { height: 12px; } }
 
-.music-controls {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-}
+.music-controls { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 
 .music-btn {
-    width: 42px; height: 42px;
-    border: none;
-    border-radius: 50%;
-    background: rgba(var(--particle-color),.2);
-    color: white;
-    cursor: pointer;
-    transition: .2s;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 42px; height: 42px; border: none; border-radius: 50%;
+    background: rgba(var(--particle-color),.2); color: white; cursor: pointer;
+    transition: .2s; font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
 }
 .music-btn:hover { background: rgba(var(--particle-color),.4); transform: scale(1.08); }
 .music-btn:active { transform: scale(.94); }
 .music-btn.active { background: var(--primary); box-shadow: 0 0 15px var(--primary); }
 
 .music-progress {
-    flex: 1;
-    min-width: 100px;
-    height: 5px;
-    appearance: none;
-    border-radius: 999px;
-    background: rgba(255,255,255,.12);
-    cursor: pointer;
+    flex: 1; min-width: 100px; height: 5px; appearance: none;
+    border-radius: 999px; background: rgba(255,255,255,.12); cursor: pointer;
 }
 .music-progress::-webkit-slider-thumb {
-    appearance: none;
-    width: 14px; height: 14px;
-    border-radius: 50%;
-    background: var(--primary);
-    box-shadow: 0 0 10px var(--primary);
-    cursor: pointer;
+    appearance: none; width: 14px; height: 14px; border-radius: 50%;
+    background: var(--primary); box-shadow: 0 0 10px var(--primary); cursor: pointer;
 }
 .music-progress::-moz-range-thumb {
-    width: 14px; height: 14px;
-    border: none;
-    border-radius: 50%;
-    background: var(--primary);
+    width: 14px; height: 14px; border: none; border-radius: 50%; background: var(--primary);
 }
 
 .volume { width: 90px; }
 
 .music-time {
-    display: flex;
-    justify-content: space-between;
-    color: #a1a1aa;
-    font-size: 12px;
-    margin-top: 8px;
+    display: flex; justify-content: space-between; color: #a1a1aa;
+    font-size: 12px; margin-top: 8px;
 }
 
 .playlist {
-    margin-top: 14px;
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-    max-height: 180px;
-    overflow-y: auto;
+    margin-top: 14px; display: flex; flex-direction: column; gap: 7px;
+    max-height: 180px; overflow-y: auto;
 }
-
 .playlist-item {
-    padding: 10px 12px;
-    border-radius: 10px;
-    cursor: pointer;
-    color: #aaa;
-    transition: .2s;
-    font-size: 13px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    user-select: none;
+    padding: 10px 12px; border-radius: 10px; cursor: pointer; color: #aaa;
+    transition: .2s; font-size: 13px;
+    display: flex; align-items: center; gap: 8px; user-select: none;
 }
 .playlist-item:hover, .playlist-item.active {
-    background: rgba(var(--particle-color),.14);
-    color: white;
+    background: rgba(var(--particle-color),.14); color: white;
 }
 .playlist-item.active { box-shadow: inset 3px 0 0 var(--primary); }
 .playlist-item .src-badge {
-    font-size: 10px;
-    padding: 2px 6px;
-    border-radius: 4px;
-    background: rgba(255,255,255,.08);
-    color: #bbb;
-    flex-shrink: 0;
+    font-size: 10px; padding: 2px 6px; border-radius: 4px;
+    background: rgba(255,255,255,.08); color: #bbb; flex-shrink: 0;
 }
 .playlist-item .yt-icon { color: #ff4444; }
-.playlist-item .drag-handle {
-    cursor: grab;
-    opacity: .4;
-    font-size: 12px;
-}
+.playlist-item .drag-handle { cursor: grab; opacity: .4; font-size: 12px; }
 .playlist-item.dragging { opacity: .4; }
 .playlist-item.drag-over { border-top: 2px solid var(--primary); }
 .playlist-item .remove-btn {
-    margin-left: auto;
-    background: transparent;
-    border: none;
-    color: #f87171;
-    cursor: pointer;
-    font-size: 14px;
-    opacity: 0;
-    transition: opacity .2s;
+    margin-left: auto; background: transparent; border: none;
+    color: #f87171; cursor: pointer; font-size: 14px;
+    opacity: 0; transition: opacity .2s;
 }
 .playlist-item:hover .remove-btn { opacity: 1; }
-
 .playlist-empty {
-    text-align: center;
-    color: #666;
-    padding: 20px;
-    font-size: 13px;
-    font-style: italic;
+    text-align: center; color: #666; padding: 20px;
+    font-size: 13px; font-style: italic;
 }
 
-/* =========================================================
-   BOTÕES FLUTUANTES
-========================================================= */
-
+/* ============ BOTÕES FLUTUANTES ============ */
 .float-buttons {
-    position: fixed;
-    right: 18px;
-    bottom: 18px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    z-index: 100;
+    position: fixed; right: 18px; bottom: 18px;
+    display: flex; flex-direction: column; gap: 10px; z-index: 100;
 }
-
 .float-btn {
-    width: 48px; height: 48px;
-    border-radius: 50%;
+    width: 48px; height: 48px; border-radius: 50%;
     border: 1px solid rgba(255,255,255,.12);
     background: rgba(10,10,15,.75);
     backdrop-filter: blur(12px);
-    color: white;
-    cursor: pointer;
-    font-size: 18px;
-    transition: .25s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
+    color: white; cursor: pointer; font-size: 18px; transition: .25s;
+    display: flex; align-items: center; justify-content: center; position: relative;
 }
 .float-btn:hover {
     transform: scale(1.1) rotate(5deg);
@@ -708,120 +424,69 @@ body.no-cursor-custom * { cursor: auto !important; }
     box-shadow: 0 0 20px rgba(var(--particle-color),.3);
 }
 .float-btn:active { transform: scale(.92); }
-
 .float-btn .tooltip {
-    position: absolute;
-    right: 60px;
-    top: 50%;
+    position: absolute; right: 60px; top: 50%;
     transform: translateY(-50%);
-    background: #15151e;
-    color: white;
-    padding: 6px 10px;
-    border-radius: 8px;
-    font-size: 12px;
-    white-space: nowrap;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity .2s;
+    background: #15151e; color: white; padding: 6px 10px;
+    border-radius: 8px; font-size: 12px; white-space: nowrap;
+    opacity: 0; pointer-events: none; transition: opacity .2s;
     border: 1px solid rgba(255,255,255,.1);
 }
 .float-btn:hover .tooltip { opacity: 1; }
 
-/* =========================================================
-   MODAL
-========================================================= */
-
+/* ============ MODAL ============ */
 .modal {
-    position: fixed;
-    inset: 0;
-    z-index: 500;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 18px;
-    background: rgba(0,0,0,.72);
+    position: fixed; inset: 0; z-index: 500;
+    display: none; align-items: center; justify-content: center;
+    padding: 18px; background: rgba(0,0,0,.72);
     backdrop-filter: blur(10px);
 }
 .modal.show { display: flex; }
-
 .modal-box {
-    width: min(900px, 100%);
-    max-height: 92vh;
-    overflow-y: auto;
-    padding: 25px;
-    border-radius: 24px;
-    background: #0c0c13;
-    border: 1px solid rgba(255,255,255,.1);
+    width: min(900px, 100%); max-height: 92vh; overflow-y: auto;
+    padding: 25px; border-radius: 24px;
+    background: #0c0c13; border: 1px solid rgba(255,255,255,.1);
     box-shadow: 0 30px 100px rgba(0,0,0,.7);
-    animation: cardIn .4s ease;
+    animation: cardIn .4s ease; position: relative;
 }
-
 .modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: flex; justify-content: space-between; align-items: center;
     margin-bottom: 22px;
 }
 .modal-header h2 { font-size: 24px; }
-
 .close {
-    width: 40px; height: 40px;
-    border: none;
-    border-radius: 10px;
-    background: rgba(255,255,255,.06);
-    color: white;
-    cursor: pointer;
-    font-size: 20px;
-    transition: .2s;
+    width: 40px; height: 40px; border: none; border-radius: 10px;
+    background: rgba(255,255,255,.06); color: white; cursor: pointer;
+    font-size: 20px; transition: .2s;
 }
 .close:hover { background: rgba(239,68,68,.3); transform: rotate(90deg); }
 
-/* =========================================================
-   LOGIN / INPUTS
-========================================================= */
-
+/* ============ LOGIN / INPUTS ============ */
 .login-box { width: min(420px, 100%); }
-
 .input {
-    width: 100%;
-    padding: 13px 14px;
-    margin-bottom: 12px;
-    border-radius: 12px;
-    border: 1px solid rgba(255,255,255,.1);
-    background: #14141d;
-    color: white;
-    outline: none;
-    font-family: inherit;
-    transition: border-color .2s;
+    width: 100%; padding: 13px 14px; margin-bottom: 12px;
+    border-radius: 12px; border: 1px solid rgba(255,255,255,.1);
+    background: #14141d; color: white; outline: none;
+    font-family: inherit; transition: border-color .2s;
 }
 .input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(var(--particle-color),.15); }
-
 textarea.input { min-height: 120px; resize: vertical; }
 
 .primary-button {
-    width: 100%;
-    padding: 13px;
-    border: none;
-    border-radius: 12px;
+    width: 100%; padding: 13px; border: none; border-radius: 12px;
     background: linear-gradient(135deg, var(--primary), var(--secondary));
-    color: white;
-    font-weight: 800;
-    cursor: pointer;
-    transition: .2s;
-    position: relative;
-    overflow: hidden;
+    color: white; font-weight: 800; cursor: pointer; transition: .2s;
+    position: relative; overflow: hidden;
 }
-.primary-button:hover { transform: translateY(-2px); filter: brightness(1.1); box-shadow: 0 8px 25px rgba(var(--particle-color),.3); }
+.primary-button:hover {
+    transform: translateY(-2px); filter: brightness(1.1);
+    box-shadow: 0 8px 25px rgba(var(--particle-color),.3);
+}
 .primary-button:active { transform: translateY(0) scale(.98); }
 
-/* =========================================================
-   ADMIN
-========================================================= */
-
+/* ============ ADMIN ============ */
 .admin-section {
-    padding: 18px;
-    margin-bottom: 14px;
-    border-radius: 17px;
+    padding: 18px; margin-bottom: 14px; border-radius: 17px;
     background: rgba(255,255,255,.035);
     border: 1px solid rgba(255,255,255,.07);
 }
@@ -834,112 +499,65 @@ textarea.input { min-height: 120px; resize: vertical; }
 }
 
 .file-input {
-    width: 100%;
-    padding: 12px;
-    border-radius: 12px;
-    background: #14141d;
-    border: 1px dashed rgba(255,255,255,.15);
-    color: #aaa;
-    margin-bottom: 10px;
+    width: 100%; padding: 12px; border-radius: 12px;
+    background: #14141d; border: 1px dashed rgba(255,255,255,.15);
+    color: #aaa; margin-bottom: 10px;
 }
 
-.admin-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
+.admin-list { display: flex; flex-direction: column; gap: 10px; }
 .admin-item {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    padding: 10px;
-    border-radius: 12px;
+    display: flex; gap: 10px; align-items: center;
+    padding: 10px; border-radius: 12px;
     background: rgba(255,255,255,.04);
 }
 .admin-item input { flex: 1; }
 
 .small-button {
-    padding: 10px 13px;
-    border: none;
-    border-radius: 10px;
-    background: rgba(255,255,255,.08);
-    color: white;
-    cursor: pointer;
-    transition: .2s;
+    padding: 10px 13px; border: none; border-radius: 10px;
+    background: rgba(255,255,255,.08); color: white;
+    cursor: pointer; transition: .2s;
 }
 .small-button:hover { background: rgba(255,255,255,.15); }
 .danger { background: rgba(239,68,68,.15); }
 .danger:hover { background: rgba(239,68,68,.3); }
 
 .checkbox-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 10px 0;
-    color: #ccc;
-    cursor: pointer;
+    display: flex; align-items: center; gap: 10px;
+    margin: 10px 0; color: #ccc; cursor: pointer;
 }
 .checkbox-row input[type="checkbox"] {
-    width: 18px; height: 18px;
-    accent-color: var(--primary);
-    cursor: pointer;
+    width: 18px; height: 18px; accent-color: var(--primary); cursor: pointer;
 }
 
-/* Sliders personalizados */
-.slider-row {
-    margin: 12px 0;
-}
+.slider-row { margin: 12px 0; }
 .slider-row label {
-    display: block;
-    font-size: 13px;
-    color: #ccc;
-    margin-bottom: 6px;
-    display: flex;
-    justify-content: space-between;
+    font-size: 13px; color: #ccc; margin-bottom: 6px;
+    display: flex; justify-content: space-between;
 }
 .slider-row label span { color: var(--primary); font-weight: 700; }
 .slider-row input[type="range"] {
-    width: 100%;
-    height: 6px;
-    appearance: none;
-    border-radius: 999px;
-    background: rgba(255,255,255,.1);
-    cursor: pointer;
+    width: 100%; height: 6px; appearance: none;
+    border-radius: 999px; background: rgba(255,255,255,.1); cursor: pointer;
 }
 .slider-row input[type="range"]::-webkit-slider-thumb {
-    appearance: none;
-    width: 16px; height: 16px;
-    border-radius: 50%;
-    background: var(--primary);
-    box-shadow: 0 0 10px var(--primary);
+    appearance: none; width: 16px; height: 16px; border-radius: 50%;
+    background: var(--primary); box-shadow: 0 0 10px var(--primary);
 }
 .slider-row input[type="range"]::-moz-range-thumb {
-    width: 16px; height: 16px;
-    border: none;
-    border-radius: 50%;
-    background: var(--primary);
+    width: 16px; height: 16px; border: none; border-radius: 50%; background: var(--primary);
 }
 
 /* Temas */
 .theme-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-    gap: 8px;
-    margin-top: 12px;
+    gap: 8px; margin-top: 12px;
 }
 .theme-chip {
-    padding: 10px 6px;
-    border-radius: 10px;
-    border: 2px solid transparent;
-    cursor: pointer;
-    text-align: center;
-    font-size: 11px;
-    font-weight: 700;
-    color: white;
-    transition: .2s;
-    position: relative;
-    overflow: hidden;
+    padding: 10px 6px; border-radius: 10px;
+    border: 2px solid transparent; cursor: pointer; text-align: center;
+    font-size: 11px; font-weight: 700; color: white;
+    transition: .2s; position: relative; overflow: hidden;
 }
 .theme-chip:hover { transform: translateY(-2px); }
 .theme-chip.selected { border-color: white; box-shadow: 0 0 15px rgba(255,255,255,.4); }
@@ -959,83 +577,220 @@ textarea.input { min-height: 120px; resize: vertical; }
 .theme-chip.midnight { background: linear-gradient(135deg, #0f2027, #2c5364); }
 .theme-chip.forest { background: linear-gradient(135deg, #134e5e, #71b280); }
 .theme-chip.vaporwave { background: linear-gradient(135deg, #ff71ce, #01cdfe); }
+.theme-chip.default { background: linear-gradient(135deg, #8b5cf6, #06b6d4); }
 
-/* Modo buttons */
 .mode-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
     gap: 8px;
 }
 .mode-chip {
-    padding: 12px 8px;
-    border-radius: 10px;
+    padding: 12px 8px; border-radius: 10px;
     background: rgba(255,255,255,.06);
     border: 1px solid rgba(255,255,255,.1);
-    cursor: pointer;
-    text-align: center;
-    font-size: 12px;
-    font-weight: 700;
-    color: white;
-    transition: .2s;
+    cursor: pointer; text-align: center; font-size: 12px;
+    font-weight: 700; color: white; transition: .2s;
 }
 .mode-chip:hover { background: rgba(var(--particle-color),.2); transform: translateY(-2px); }
 .mode-chip:active { transform: scale(.96); }
 
-/* =========================================================
-   LOADING / TOAST
-========================================================= */
+/* ============ ADMIN DECORATIONS (apenas painel admin) ============ */
+.admin-box {
+    background: linear-gradient(135deg, #0c0c13 0%, #100820 50%, #0c1320 100%);
+    position: relative;
+    overflow: hidden;
+}
+.admin-box::before {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+        radial-gradient(circle at 10% 10%, rgba(var(--particle-color),.08), transparent 40%),
+        radial-gradient(circle at 90% 90%, rgba(6,182,212,.08), transparent 40%);
+    pointer-events: none;
+    animation: adminBgShift 15s ease-in-out infinite alternate;
+}
+@keyframes adminBgShift {
+    from { opacity: .5; transform: scale(1); }
+    to { opacity: 1; transform: scale(1.05); }
+}
 
+.admin-decor {
+    position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+    z-index: 0;
+}
+.admin-decor span {
+    position: absolute;
+    color: rgba(var(--particle-color),.4);
+    font-size: 14px;
+    animation: decorFloat var(--d, 8s) ease-in-out infinite;
+    left: var(--x); top: var(--y);
+}
+@keyframes decorFloat {
+    0%, 100% { transform: translateY(0) rotate(0); opacity: .3; }
+    50% { transform: translateY(-20px) rotate(180deg); opacity: .7; }
+}
+
+.admin-hero {
+    background: linear-gradient(135deg, rgba(var(--particle-color),.15), rgba(6,182,212,.08));
+    border-radius: 18px; padding: 18px 20px; margin-bottom: 18px;
+    border: 1px solid rgba(var(--particle-color),.25);
+    position: relative; overflow: hidden;
+}
+.admin-hero::before {
+    content: "";
+    position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.06), transparent);
+    animation: heroShine 5s ease-in-out infinite;
+}
+@keyframes heroShine {
+    0%, 70% { left: -100%; }
+    100% { left: 100%; }
+}
+.admin-hero-content {
+    display: flex; justify-content: space-between; align-items: center;
+    position: relative; z-index: 1; flex-wrap: wrap; gap: 10px;
+}
+.admin-hero h2 {
+    font-size: 22px; margin: 0;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 20px rgba(var(--particle-color),.5));
+}
+.admin-status {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; color: #aaa; margin-top: 4px;
+}
+.status-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 10px #22c55e;
+    animation: pulseDot 2s ease-in-out infinite;
+}
+@keyframes pulseDot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: .5; transform: scale(1.3); }
+}
+.pro-badge {
+    padding: 4px 10px; border-radius: 6px;
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: #000; font-size: 11px; font-weight: 900; letter-spacing: 1px;
+    box-shadow: 0 0 15px rgba(251,191,36,.5);
+    animation: proPulse 3s ease-in-out infinite;
+}
+@keyframes proPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+}
+
+.admin-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px; margin-bottom: 18px;
+}
+.stat-card {
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 14px; padding: 12px;
+    display: flex; align-items: center; gap: 10px;
+    transition: .3s; position: relative; overflow: hidden;
+}
+.stat-card::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(var(--particle-color),.15), transparent);
+    opacity: 0; transition: opacity .3s;
+}
+.stat-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(var(--particle-color),.4);
+    box-shadow: 0 8px 25px rgba(var(--particle-color),.2);
+}
+.stat-card:hover::before { opacity: 1; }
+.stat-icon {
+    font-size: 22px; position: relative; z-index: 1;
+    transition: transform .3s;
+}
+.stat-card:hover .stat-icon { transform: scale(1.2) rotate(-8deg); }
+.stat-info { position: relative; z-index: 1; }
+.stat-value {
+    font-size: 18px; font-weight: 900; color: var(--primary);
+    line-height: 1;
+}
+.stat-label {
+    font-size: 10px; color: #888; text-transform: uppercase;
+    letter-spacing: .5px; margin-top: 3px;
+}
+
+.admin-section {
+    position: relative;
+    transition: .3s;
+}
+.admin-section::before {
+    content: "";
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(var(--particle-color),.5), transparent);
+    opacity: 0; transition: opacity .3s;
+    border-radius: 2px 2px 0 0;
+}
+.admin-section:hover::before { opacity: 1; }
+.admin-section:hover {
+    background: rgba(255,255,255,.05);
+    border-color: rgba(var(--particle-color),.2);
+}
+
+.admin-section h3 {
+    display: flex; align-items: center; gap: 8px;
+    padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.admin-section h3::after {
+    content: "";
+    flex: 1; height: 1px;
+    background: linear-gradient(90deg, rgba(var(--particle-color),.3), transparent);
+}
+
+.admin-footer {
+    text-align: center; margin-top: 18px;
+    padding-top: 18px; border-top: 1px solid rgba(255,255,255,.06);
+    font-size: 11px; color: #666;
+    display: flex; justify-content: center; align-items: center; gap: 12px;
+    flex-wrap: wrap;
+}
+.admin-footer .version-tag {
+    padding: 3px 8px; border-radius: 5px;
+    background: rgba(var(--particle-color),.15);
+    color: var(--primary); font-weight: 700;
+}
+
+/* ============ LOADING / TOAST ============ */
 #loading {
-    position: fixed;
-    inset: 0;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #050509;
-    transition: opacity .4s;
+    position: fixed; inset: 0; z-index: 1000;
+    display: flex; align-items: center; justify-content: center;
+    background: #050509; transition: opacity .4s;
 }
 #loading.hide { opacity: 0; pointer-events: none; }
-
 .loader {
-    width: 42px; height: 42px;
-    border-radius: 50%;
+    width: 42px; height: 42px; border-radius: 50%;
     border: 3px solid rgba(255,255,255,.1);
-    border-top-color: var(--primary);
-    animation: spin .8s linear infinite;
+    border-top-color: var(--primary); animation: spin .8s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
 #toast {
-    position: fixed;
-    left: 50%;
-    bottom: 25px;
+    position: fixed; left: 50%; bottom: 25px;
     transform: translateX(-50%) translateY(30px);
-    padding: 12px 18px;
-    border-radius: 12px;
-    background: #15151e;
-    border: 1px solid rgba(255,255,255,.1);
-    color: white;
-    opacity: 0;
-    pointer-events: none;
-    transition: .3s;
-    z-index: 2000;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    max-width: 90vw;
-    overflow: hidden;
+    padding: 12px 18px; border-radius: 12px;
+    background: #15151e; border: 1px solid rgba(255,255,255,.1);
+    color: white; opacity: 0; pointer-events: none; transition: .3s;
+    z-index: 2000; display: flex; align-items: center; gap: 10px;
+    max-width: 90vw; overflow: hidden;
 }
 #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 #toast .toast-icon { font-size: 18px; }
 #toast .toast-bar {
-    position: absolute;
-    bottom: 0; left: 0;
-    height: 3px;
-    background: var(--primary);
-    width: 100%;
-    transform-origin: left;
-    animation: toastBar 3s linear forwards;
+    position: absolute; bottom: 0; left: 0; height: 3px;
+    background: var(--primary); width: 100%;
+    transform-origin: left; animation: toastBar 3s linear forwards;
 }
 @keyframes toastBar { to { transform: scaleX(0); } }
 #toast.success { border-color: rgba(34,197,94,.4); }
@@ -1047,10 +802,7 @@ textarea.input { min-height: 120px; resize: vertical; }
 #toast.info .toast-icon { color: #3b82f6; }
 #toast.info .toast-bar { background: #3b82f6; }
 
-/* =========================================================
-   MOBILE
-========================================================= */
-
+/* ============ MOBILE ============ */
 @media(max-width:650px) {
     .grid { grid-template-columns: 1fr; }
     .profile-card { padding: 22px; }
@@ -1058,9 +810,9 @@ textarea.input { min-height: 120px; resize: vertical; }
     .volume { width: 100%; }
     .custom-cursor, .cursor-trail { display: none !important; }
     .float-btn { width: 44px; height: 44px; font-size: 16px; }
+    .admin-hero-content { flex-direction: column; align-items: flex-start; }
 }
 
-/* prefers-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
         animation-duration: .01ms !important;
@@ -1097,7 +849,7 @@ textarea.input { min-height: 120px; resize: vertical; }
         <div id="links" class="links"></div>
 
         <div id="vinylContainer" class="vinyl-container" style="display:none">
-            <div id="vinyl" class="vinyl" onclick="togglePlay()">
+            <div id="vinyl" class="vinyl">
                 <div class="vinyl-label" id="vinylLabel">
                     <img id="vinylCover" src="" alt="">
                 </div>
@@ -1159,10 +911,61 @@ textarea.input { min-height: 120px; resize: vertical; }
 
 <!-- ADMIN PANEL -->
 <div id="adminModal" class="modal">
-    <div class="modal-box">
-        <div class="modal-header">
-            <h2>👑 Painel do Administrador</h2>
-            <button class="close" onclick="closeModal('adminModal')">×</button>
+    <div class="modal-box admin-box">
+        <div class="admin-decor" aria-hidden="true">
+            <span style="--x: 5%; --y: 15%; --d: 7s;">✦</span>
+            <span style="--x: 92%; --y: 8%; --d: 9s;">✧</span>
+            <span style="--x: 15%; --y: 85%; --d: 6s;">✦</span>
+            <span style="--x: 85%; --y: 75%; --d: 8s;">✧</span>
+            <span style="--x: 45%; --y: 5%; --d: 10s;">⋆</span>
+            <span style="--x: 70%; --y: 92%; --d: 5s;">✦</span>
+        </div>
+
+        <div class="admin-hero">
+            <div class="admin-hero-content">
+                <div>
+                    <h2>👑 Painel do Administrador</h2>
+                    <div class="admin-status">
+                        <span class="status-dot"></span>
+                        <span id="adminUserEmail">Autenticado</span>
+                    </div>
+                </div>
+                <div style="display:flex;gap:10px;align-items:center">
+                    <span class="pro-badge">PRO</span>
+                    <button class="close" onclick="closeModal('adminModal')">×</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin-stats">
+            <div class="stat-card">
+                <div class="stat-icon">🎵</div>
+                <div class="stat-info">
+                    <div class="stat-value" id="statSongs">0</div>
+                    <div class="stat-label">Músicas</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🔗</div>
+                <div class="stat-info">
+                    <div class="stat-value" id="statLinks">0</div>
+                    <div class="stat-label">Links</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🏷️</div>
+                <div class="stat-info">
+                    <div class="stat-value" id="statBadges">0</div>
+                    <div class="stat-label">Badges</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🖼️</div>
+                <div class="stat-info">
+                    <div class="stat-value" id="statBackgrounds">0</div>
+                    <div class="stat-label">Fundos</div>
+                </div>
+            </div>
         </div>
 
         <div class="admin-section">
@@ -1239,9 +1042,6 @@ textarea.input { min-height: 120px; resize: vertical; }
                 <input id="effectGlow" type="checkbox" checked> Glow no nome
             </label>
             <label class="checkbox-row">
-                <input id="effectBlur" type="checkbox"> Blur no fundo
-            </label>
-            <label class="checkbox-row">
                 <input id="effectParticles" type="checkbox" checked> Partículas
             </label>
             <label class="checkbox-row">
@@ -1254,13 +1054,21 @@ textarea.input { min-height: 120px; resize: vertical; }
                 <input id="effectRing" type="checkbox" checked> Anel giratório no avatar
             </label>
             <label class="checkbox-row">
-                <input id="effectAmbient" type="checkbox"> Camadas ambientais (neblina/aurora/ondas)
+                <input id="effectAmbient" type="checkbox"> Camadas ambientais
             </label>
         </div>
 
         <button id="saveButton" class="primary-button">💾 SALVAR TUDO</button>
         <br><br>
         <button id="logoutButton" class="small-button" style="width:100%">Sair</button>
+
+        <div class="admin-footer">
+            <span>v2.1.0</span>
+            <span>·</span>
+            <span>Painel Administrativo</span>
+            <span>·</span>
+            <span class="version-tag">PRO</span>
+        </div>
     </div>
 </div>
 
@@ -1432,9 +1240,10 @@ let audio = document.getElementById("audio");
 let isPlaying = false;
 let fadeInterval = null;
 let isMuted = false;
+let cursorListenersAttached = false;
 
 /* =========================================================
-   SETTINGS PERSISTENTES (localStorage)
+   SETTINGS
 ========================================================= */
 const DEFAULT_SETTINGS = {
     theme: "default",
@@ -1477,7 +1286,7 @@ loadSettings();
 const $ = id => document.getElementById(id);
 
 /* =========================================================
-   TOAST MELHORADO
+   TOAST
 ========================================================= */
 let toastTimeout = null;
 function toast(message, type = "info") {
@@ -1491,9 +1300,7 @@ function toast(message, type = "info") {
     void bar.offsetWidth;
     bar.style.animation = "toastBar 3s linear forwards";
     clearTimeout(toastTimeout);
-    toastTimeout = setTimeout(() => {
-        el.className = "";
-    }, 3000);
+    toastTimeout = setTimeout(() => { el.className = ""; }, 3000);
 }
 
 /* =========================================================
@@ -1525,7 +1332,7 @@ const THEMES = {
     vaporwave: { primary: "#ff71ce", secondary: "#01cdfe", bg: "#0a0014", particle: "255,113,206" }
 };
 
-function applyTheme(themeName) {
+function applyTheme(themeName, silent = false) {
     const t = THEMES[themeName] || THEMES.default;
     document.documentElement.style.setProperty("--primary", t.primary);
     document.documentElement.style.setProperty("--secondary", t.secondary);
@@ -1533,11 +1340,13 @@ function applyTheme(themeName) {
     document.documentElement.style.setProperty("--particle-color", t.particle);
     document.body.style.background = t.bg;
     if (t.text) document.documentElement.style.setProperty("--text", t.text);
+    else document.documentElement.style.setProperty("--text", "#ffffff");
 
     settings.theme = themeName;
     saveSettings();
     updateThemeChips();
-    toast(`Tema: ${themeName}`, "success");
+    initParticles(); // ← BUG FIX: partículas precisam atualizar cor
+    if (!silent) toast(`Tema: ${themeName}`, "success");
 }
 
 function updateThemeChips() {
@@ -1547,17 +1356,17 @@ function updateThemeChips() {
 }
 
 /* =========================================================
-   CURSOR PERSONALIZADO
+   CURSOR PERSONALIZADO (listeners uma vez, checam setting)
 ========================================================= */
 const cursor = $("cursor");
-const trailElements = [];
 let lastTrailTime = 0;
 
-function initCursor() {
-    if (window.innerWidth <= 650) return;
-    if (!settings.cursor) return;
-    cursor.classList.add("active");
+function attachCursorListeners() {
+    if (cursorListenersAttached) return;
+    cursorListenersAttached = true;
+
     document.addEventListener("mousemove", e => {
+        if (!settings.cursor) return;
         cursor.style.left = e.clientX + "px";
         cursor.style.top = e.clientY + "px";
 
@@ -1574,10 +1383,7 @@ function initCursor() {
             }
         }
     });
-    document.querySelectorAll("a, button, .vinyl, .playlist-item, .social-link, .badge, .theme-chip, .mode-chip").forEach(el => {
-        el.addEventListener("mouseenter", () => cursor.classList.add("hover"));
-        el.addEventListener("mouseleave", () => cursor.classList.remove("hover"));
-    });
+
     document.addEventListener("click", e => {
         if (settings.clickRipple) {
             const r = document.createElement("div");
@@ -1602,10 +1408,29 @@ function initCursor() {
         }
         if (settings.clickSound) playClickSound();
     });
+
+    // Event delegation para hover (funciona com elementos dinâmicos)
+    const hoverSelector = "a, button, .vinyl, .playlist-item, .social-link, .badge, .theme-chip, .mode-chip, .float-btn";
+    document.addEventListener("mouseover", e => {
+        if (!settings.cursor) return;
+        if (e.target.closest(hoverSelector)) cursor.classList.add("hover");
+    });
+    document.addEventListener("mouseout", e => {
+        if (!settings.cursor) return;
+        if (e.target.closest(hoverSelector)) cursor.classList.remove("hover");
+    });
+}
+
+function initCursor() {
+    if (window.innerWidth <= 650) return;
+    attachCursorListeners();
+    cursor.classList.toggle("active", settings.cursor);
+    cursor.style.display = settings.cursor ? "block" : "none";
+    document.body.classList.toggle("no-cursor-custom", !settings.cursor);
 }
 
 /* =========================================================
-   SOM DE CLIQUE (Web Audio API)
+   SOM DE CLIQUE
 ========================================================= */
 let audioCtx = null;
 function playClickSound() {
@@ -1645,7 +1470,7 @@ function initParticles() {
     canvas.height = window.innerHeight;
     particles = [];
     const count = settings.particleCount;
-    const color = getComputedStyle(document.documentElement).getPropertyValue("--particle-color").trim();
+    const color = getComputedStyle(document.documentElement).getPropertyValue("--particle-color").trim() || "139,92,246";
     for (let i = 0; i < count; i++) {
         particles.push({
             x: Math.random() * canvas.width,
@@ -1673,7 +1498,6 @@ function animateParticles() {
         ctx.fillStyle = `rgba(${p.color},${p.opacity})`;
         ctx.fill();
     });
-    // linhas próximas
     for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
             const dx = particles[i].x - particles[j].x;
@@ -1780,8 +1604,11 @@ function applyProfile() {
         );
     }
 
-    document.documentElement.style.setProperty("--primary", profile.primary || "#8b5cf6");
-    document.documentElement.style.setProperty("--secondary", profile.secondary || "#06b6d4");
+    // BUG FIX: só aplica cores do perfil se tema for default
+    if (settings.theme === "default") {
+        document.documentElement.style.setProperty("--primary", profile.primary || "#8b5cf6");
+        document.documentElement.style.setProperty("--secondary", profile.secondary || "#06b6d4");
+    }
 
     backgrounds = Array.isArray(profile.backgrounds) ? profile.backgrounds : [];
     playlist = Array.isArray(profile.playlist) ? profile.playlist : [];
@@ -1789,12 +1616,21 @@ function applyProfile() {
     if (profile.blur > 0) $("background").style.filter = `blur(${profile.blur}px)`;
     else $("background").style.filter = "none";
 
-    // efeitos admin
+    // Efeitos admin → sincronizar com settings
+    if (profile.effectParticles !== undefined) settings.particles = profile.effectParticles;
+    if (profile.effectCursor !== undefined) settings.cursor = profile.effectCursor;
+    if (profile.effectAmbient !== undefined) {
+        settings.ambientFog = profile.effectAmbient;
+        settings.ambientAurora = profile.effectAmbient;
+        settings.ambientWaves = profile.effectAmbient;
+    }
+    saveSettings();
+
     $("avatarRing").classList.toggle("disabled", profile.effectRing === false);
     $("profileName").classList.toggle("glowing", profile.glow !== false);
     $("vinylContainer").style.display = (profile.effectVinyl !== false && playlist.length) ? "flex" : "none";
+    $("eq").classList.toggle("playing", isPlaying);
 
-    // entry animation
     const card = $("profileCard");
     card.className = "profile-card " + (settings.entryAnim === "card" ? "" : "entry-" + settings.entryAnim);
     document.documentElement.style.setProperty("--entry-speed", settings.entrySpeed + "s");
@@ -1805,6 +1641,9 @@ function applyProfile() {
     startBackgrounds();
     setupMusic();
     updateAmbient();
+    initParticles();
+    initCursor();
+    applySettingsToUI();
 }
 
 /* =========================================================
@@ -1919,12 +1758,12 @@ function renderPlaylist() {
             item.appendChild(removeBtn);
 
             item.onclick = () => {
+                if (currentSong === index && isPlaying) return;
                 currentSong = index;
                 loadSong();
                 playMusic();
             };
 
-            // drag&drop
             item.ondragstart = (e) => {
                 e.dataTransfer.setData("text/plain", index);
                 item.classList.add("dragging");
@@ -1955,7 +1794,7 @@ function renderPlaylist() {
 }
 
 /* =========================================================
-   PLAYER
+   PLAYER — SETUP
 ========================================================= */
 function setupMusic() {
     if (!playlist.length) return;
@@ -1968,11 +1807,15 @@ function setupMusic() {
 function loadSong() {
     if (!playlist.length) return;
     const song = playlist[currentSong];
+
+    // BUG FIX: parar player anterior sempre
     if (song.source === "youtube") {
+        audio.pause();
+        stopYouTube();
         loadYouTube(song);
     } else {
-        audio.src = song.data;
         stopYouTube();
+        audio.src = song.data;
     }
     $("musicTitleText").textContent = song.name;
     updatePlaylistUI();
@@ -1994,99 +1837,107 @@ function updatePlaylistUI() {
 }
 
 /* =========================================================
-   FADE IN / OUT REAL
+   FADE — CONTROLE UNIFICADO
 ========================================================= */
 function getFadeDuration() {
     return (profile.fadeDuration || 3) * 1000;
 }
 
-function fadeInMusic() {
-    if (!profile.musicFadeIn) {
-        audio.volume = Number($("volume").value);
-        return;
-    }
-    clearInterval(fadeInterval);
-    const targetVolume = Number($("volume").value);
-    if (audio.src && audio.src.startsWith("blob") === false && isYouTubeCurrent()) return;
-    audio.volume = 0;
-    const duration = getFadeDuration();
-    const steps = 30;
-    const stepTime = duration / steps;
-    let step = 0;
-    fadeInterval = setInterval(() => {
-        step++;
-        audio.volume = Math.min(targetVolume, (step / steps) * targetVolume);
-        if (step >= steps) clearInterval(fadeInterval);
-    }, stepTime);
-}
-
-function fadeOutMusic(callback) {
-    if (!profile.musicFadeIn) {
-        audio.pause();
-        if (callback) callback();
-        return;
-    }
-    clearInterval(fadeInterval);
-    const startVolume = audio.volume;
-    const duration = getFadeDuration();
-    const steps = 20;
-    const stepTime = duration / steps;
-    let step = 0;
-    fadeInterval = setInterval(() => {
-        step++;
-        audio.volume = Math.max(0, startVolume * (1 - step / steps));
-        if (step >= steps) {
-            clearInterval(fadeInterval);
-            audio.pause();
-            audio.volume = Number($("volume").value);
-            if (callback) callback();
-        }
-    }, stepTime);
-}
-
 /* =========================================================
-   PLAY / PAUSE
+   PLAY / PAUSE — CORRIGIDO
+   isPlaying vira false IMEDIATAMENTE.
+   fadeInterval é sempre limpo antes de começar outro fade.
 ========================================================= */
 function isYouTubeCurrent() {
     return playlist[currentSong] && playlist[currentSong].source === "youtube";
 }
 
+function updatePlayUI(playing) {
+    $("playBtn").textContent = playing ? "⏸" : "▶";
+    $("vinyl").classList.toggle("spinning", playing);
+    $("eq").classList.toggle("playing", playing);
+}
+
 function playMusic() {
+    clearInterval(fadeInterval);
+    fadeInterval = null;
+
     if (isYouTubeCurrent()) {
         playYouTube();
         isPlaying = true;
-        $("playBtn").textContent = "⏸";
-        $("vinyl").classList.add("spinning");
-        $("eq").classList.add("playing");
+        updatePlayUI(true);
         return;
     }
+
+    const targetVolume = Number($("volume").value);
+
+    if (profile.musicFadeIn) {
+        audio.volume = 0;
+    } else {
+        audio.volume = targetVolume;
+    }
+
     audio.play().then(() => {
         isPlaying = true;
-        $("playBtn").textContent = "⏸";
-        $("vinyl").classList.add("spinning");
-        $("eq").classList.add("playing");
-        fadeInMusic();
-    }).catch(error => {
-        console.log("Autoplay bloqueado:", error);
+        updatePlayUI(true);
+        if (profile.musicFadeIn) {
+            const duration = getFadeDuration();
+            const steps = 30;
+            const stepTime = Math.max(30, duration / steps);
+            let step = 0;
+            fadeInterval = setInterval(() => {
+                step++;
+                audio.volume = Math.min(targetVolume, (step / steps) * targetVolume);
+                if (step >= steps) {
+                    clearInterval(fadeInterval);
+                    fadeInterval = null;
+                }
+            }, stepTime);
+        }
+    }).catch(err => {
+        console.log("Autoplay bloqueado:", err);
         toast("Clique para iniciar a música", "info");
     });
 }
 
 function pauseMusic() {
+    if (!isPlaying) return;
+
+    // Estado muda IMEDIATAMENTE → botão responde na hora
+    isPlaying = false;
+    updatePlayUI(false);
+
+    clearInterval(fadeInterval);
+    fadeInterval = null;
+
     if (isYouTubeCurrent()) {
         pauseYouTube();
-        isPlaying = false;
-        $("playBtn").textContent = "▶";
-        $("vinyl").classList.remove("spinning");
-        $("eq").classList.remove("playing");
         return;
     }
-    fadeOutMusic(() => {
-        isPlaying = false;
-        $("playBtn").textContent = "▶";
-        $("vinyl").classList.remove("spinning");
-        $("eq").classList.remove("playing");
-    });
+
+    const targetVolume = Number($("volume").value);
+
+    if (profile.musicFadeIn && audio.volume > 0.02) {
+        const startVolume = audio.volume;
+        // Cap a 1.2s para resposta rápida
+        const duration = Math.min(getFadeDuration(), 1200);
+        const steps = 15;
+        const stepTime = duration / steps;
+        let step = 0;
+        fadeInterval = setInterval(() => {
+            step++;
+            audio.volume = Math.max(0, startVolume * (1 - step / steps));
+            if (step >= steps) {
+                clearInterval(fadeInterval);
+                fadeInterval = null;
+                audio.pause();
+                audio.volume = targetVolume;
+            }
+        }, stepTime);
+    } else {
+        audio.pause();
+        audio.volume = targetVolume;
+    }
 }
 
 function togglePlay() {
@@ -2095,6 +1946,7 @@ function togglePlay() {
 }
 
 $("playBtn").onclick = togglePlay;
+$("vinyl").onclick = togglePlay;
 
 $("prevBtn").onclick = () => {
     if (!playlist.length) return;
@@ -2109,12 +1961,14 @@ $("nextBtn").onclick = () => nextSong();
 $("shuffleBtn").onclick = () => {
     profile.shuffle = !profile.shuffle;
     $("shuffleBtn").classList.toggle("active", profile.shuffle);
+    savePlaylistLocal();
     toast(profile.shuffle ? "Shuffle ON" : "Shuffle OFF", "info");
 };
 
 $("repeatBtn").onclick = () => {
     profile.loop = !profile.loop;
     $("repeatBtn").classList.toggle("active", profile.loop);
+    savePlaylistLocal();
     toast(profile.loop ? "Repetir playlist" : "Repetir OFF", "info");
 };
 
@@ -2165,12 +2019,9 @@ $("progress").oninput = () => {
 };
 
 $("volume").oninput = () => {
-    if (!profile.musicFadeIn || !fadeInterval) {
-        audio.volume = Number($("volume").value);
-    }
-    if (ytPlayer && ytPlayer.setVolume) {
-        ytPlayer.setVolume(Number($("volume").value) * 100);
-    }
+    const v = Number($("volume").value);
+    if (!fadeInterval) audio.volume = v;
+    if (ytPlayer && ytPlayer.setVolume) ytPlayer.setVolume(v * 100);
 };
 
 function formatTime(seconds) {
@@ -2186,6 +2037,7 @@ function formatTime(seconds) {
 let ytPlayer = null;
 let ytReady = false;
 let ytApiLoaded = false;
+let pendingYouTubePlay = false;
 
 function loadYouTubeAPI() {
     if (ytApiLoaded) return;
@@ -2211,14 +2063,12 @@ function loadYouTube(song) {
     const videoId = song.videoId || extractYouTubeId(song.data);
     if (!videoId) { toast("Link YouTube inválido", "error"); return; }
 
-    // Se player já existe, carrega vídeo nele
     if (ytPlayer && ytReady && ytPlayer.loadVideoById) {
         ytPlayer.loadVideoById(videoId);
         if (ytPlayer.setVolume) ytPlayer.setVolume(Number($("volume").value) * 100);
         return;
     }
 
-    // Criar player
     $("youtubeContainer").innerHTML = '<div id="ytPlayerDiv"></div>';
     ytPlayer = new YT.Player("ytPlayerDiv", {
         height: "1",
@@ -2235,11 +2085,13 @@ function loadYouTube(song) {
             onReady: () => {
                 ytReady = true;
                 if (ytPlayer.setVolume) ytPlayer.setVolume(Number($("volume").value) * 100);
+                if (pendingYouTubePlay) {
+                    ytPlayer.playVideo();
+                    pendingYouTubePlay = false;
+                }
             },
             onStateChange: (e) => {
-                if (e.data === 0) { // ended
-                    nextSong();
-                }
+                if (e.data === 0) nextSong();
             },
             onError: () => {
                 toast("Vídeo indisponível. Pulando...", "error");
@@ -2250,16 +2102,21 @@ function loadYouTube(song) {
 }
 
 function playYouTube() {
-    if (ytPlayer && ytPlayer.playVideo) ytPlayer.playVideo();
+    if (ytPlayer && ytReady && ytPlayer.playVideo) {
+        ytPlayer.playVideo();
+    } else {
+        pendingYouTubePlay = true;
+    }
 }
 function pauseYouTube() {
+    pendingYouTubePlay = false;
     if (ytPlayer && ytPlayer.pauseVideo) ytPlayer.pauseVideo();
 }
 function stopYouTube() {
     if (ytPlayer && ytPlayer.stopVideo) ytPlayer.stopVideo();
 }
 
-// Atualiza progresso do YouTube
+// Progresso YouTube
 setInterval(() => {
     if (isYouTubeCurrent() && ytPlayer && ytPlayer.getCurrentTime && ytReady) {
         const cur = ytPlayer.getCurrentTime();
@@ -2280,8 +2137,8 @@ function savePlaylistLocal() {
         const toSave = playlist.map(s => ({
             name: s.name,
             source: s.source || "local",
-            data: s.source === "youtube" ? null : s.data,
             videoId: s.videoId || null
+            // Não salva data URIs (estouram quota)
         }));
         localStorage.setItem("playlist_meta", JSON.stringify({
             list: toSave,
@@ -2303,11 +2160,11 @@ function restorePlaylistLocal() {
             audio.volume = Number(data.volume);
         }
         if (typeof data.current === "number") currentSong = data.current;
-        if (data.shuffle !== undefined) {
+        if (data.shuffle !== undefined && profile) {
             profile.shuffle = data.shuffle;
             $("shuffleBtn").classList.toggle("active", profile.shuffle);
         }
-        if (data.loop !== undefined) {
+        if (data.loop !== undefined && profile) {
             profile.loop = data.loop;
             $("repeatBtn").classList.toggle("active", profile.loop);
         }
@@ -2371,22 +2228,31 @@ function applySettingsToUI() {
     document.documentElement.style.setProperty("--entry-speed", settings.entrySpeed + "s");
 
     canvas.style.opacity = settings.particleOpacity;
-    cursor.style.display = settings.cursor ? "block" : "none";
-    document.body.classList.toggle("no-cursor-custom", !settings.cursor);
-
+    initCursor();
     updateThemeChips();
 }
 
 function refreshAllEffects() {
     initParticles();
     updateAmbient();
-    updateAmbient();
-    updateAmbient();
+    initCursor();
     $("profileCard").className = "profile-card " + (settings.entryAnim === "card" ? "" : "entry-" + settings.entryAnim);
 }
 
 /* =========================================================
-   ADMIN BUTTON
+   ADMIN — STATS DECORATIVAS
+========================================================= */
+function updateAdminStats() {
+    $("statSongs").textContent = playlist.length;
+    $("statLinks").textContent = (profile && profile.links) ? profile.links.length : 0;
+    $("statBadges").textContent = (profile && profile.badges) ? profile.badges.length : 0;
+    $("statBackgrounds").textContent = backgrounds.length;
+    const email = auth.currentUser ? auth.currentUser.email : "Autenticado";
+    $("adminUserEmail").textContent = email;
+}
+
+/* =========================================================
+   BOTÕES FLUTUANTES
 ========================================================= */
 $("adminButton").onclick = () => {
     if (auth.currentUser) openAdmin();
@@ -2431,6 +2297,7 @@ $("loginButton").onclick = async () => {
 
 auth.onAuthStateChanged(user => {
     console.log("Auth:", user ? user.email : "não conectado");
+    if (user) updateAdminStats();
 });
 
 /* =========================================================
@@ -2438,6 +2305,7 @@ auth.onAuthStateChanged(user => {
 ========================================================= */
 function openAdmin() {
     loadAdminValues();
+    updateAdminStats();
     openModal("adminModal");
 }
 
@@ -2455,7 +2323,6 @@ function loadAdminValues() {
     $("musicChangeBackground").checked = !!profile.musicChangeBackground;
     $("musicFadeIn").checked = profile.musicFadeIn !== false;
     $("effectGlow").checked = profile.glow !== false;
-    $("effectBlur").checked = !!profile.effectBlur;
     $("effectParticles").checked = profile.effectParticles !== false;
     $("effectVinyl").checked = profile.effectVinyl !== false;
     $("effectCursor").checked = profile.effectCursor !== false;
@@ -2495,6 +2362,7 @@ $("backgroundFiles").onchange = async event => {
         backgrounds.push(data);
     }
     renderBackgroundEditor();
+    updateAdminStats();
 };
 
 function renderBackgroundEditor() {
@@ -2515,6 +2383,7 @@ function renderBackgroundEditor() {
 function removeBackground(index) {
     backgrounds.splice(index, 1);
     renderBackgroundEditor();
+    updateAdminStats();
 }
 
 /* =========================================================
@@ -2539,11 +2408,13 @@ $("addLink").onclick = () => {
     if (!profile.links) profile.links = [];
     profile.links.push({ name: "Novo link", url: "https://" });
     renderLinksEditor();
+    updateAdminStats();
 };
 
 function removeLink(index) {
     profile.links.splice(index, 1);
     renderLinksEditor();
+    updateAdminStats();
 }
 
 /* =========================================================
@@ -2556,6 +2427,7 @@ $("addBadge").onclick = () => {
     profile.badges.push(value);
     $("badgeInput").value = "";
     renderBadgesEditor();
+    updateAdminStats();
 };
 
 function renderBadgesEditor() {
@@ -2575,6 +2447,7 @@ function renderBadgesEditor() {
 function removeBadge(index) {
     profile.badges.splice(index, 1);
     renderBadgesEditor();
+    updateAdminStats();
 }
 
 /* =========================================================
@@ -2597,6 +2470,7 @@ $("musicFiles").onchange = async event => {
     }
     renderMusicEditor();
     renderPlaylist();
+    updateAdminStats();
 };
 
 $("addYoutubeBtn").onclick = () => {
@@ -2613,6 +2487,7 @@ $("addYoutubeBtn").onclick = () => {
     $("youtubeUrlInput").value = "";
     renderMusicEditor();
     renderPlaylist();
+    updateAdminStats();
     toast("Vídeo do YouTube adicionado.", "success");
 };
 
@@ -2632,13 +2507,12 @@ function renderMusicEditor() {
 
 function removeSong(index) {
     playlist.splice(index, 1);
+    if (currentSong >= playlist.length) currentSong = Math.max(0, playlist.length - 1);
     renderMusicEditor();
     renderPlaylist();
+    updateAdminStats();
 }
 
-/* =========================================================
-   FADE DURATION SLIDER
-========================================================= */
 $("fadeDuration").oninput = () => {
     $("fadeDurationVal").textContent = $("fadeDuration").value + "s";
 };
@@ -2682,7 +2556,6 @@ $("saveButton").onclick = async () => {
         profile.musicChangeBackground = $("musicChangeBackground").checked;
         profile.musicFadeIn = $("musicFadeIn").checked;
         profile.glow = $("effectGlow").checked;
-        profile.effectBlur = $("effectBlur").checked;
         profile.effectParticles = $("effectParticles").checked;
         profile.effectVinyl = $("effectVinyl").checked;
         profile.effectCursor = $("effectCursor").checked;
@@ -2690,20 +2563,23 @@ $("saveButton").onclick = async () => {
         profile.effectAmbient = $("effectAmbient").checked;
         profile.fadeDuration = Number($("fadeDuration").value);
 
+        // Sincronizar admin → settings (para efeitos aplicarem imediatamente)
+        settings.particles = profile.effectParticles;
+        settings.cursor = profile.effectCursor;
+        settings.ambientFog = settings.ambientAurora = settings.ambientWaves = profile.effectAmbient;
+        saveSettings();
+
         await db.ref(PROFILE_PATH).set(profile);
         applyProfile();
         savePlaylistLocal();
         closeModal("adminModal");
-        toast("👑 Perfil atualizado para todo mundo.", "success");
+        toast("👑 Perfil atualizado.", "success");
     } catch (error) {
         console.error(error);
         toast("Erro ao salvar.", "error");
     }
 };
 
-/* =========================================================
-   LOGOUT
-========================================================= */
 $("logoutButton").onclick = async () => {
     await auth.signOut();
     closeModal("adminModal");
@@ -2751,8 +2627,7 @@ function bindSettingsControls() {
     $("optCursor").onchange = e => {
         settings.cursor = e.target.checked;
         saveSettings();
-        document.body.classList.toggle("no-cursor-custom", !settings.cursor);
-        cursor.style.display = settings.cursor ? "block" : "none";
+        initCursor();
     };
     $("optCursorTrail").onchange = e => { settings.cursorTrail = e.target.checked; saveSettings(); };
     $("optClickRipple").onchange = e => { settings.clickRipple = e.target.checked; saveSettings(); };
@@ -2798,7 +2673,7 @@ function bindSettingsControls() {
 }
 
 /* =========================================================
-   SCROLL PROGRESS
+   SCROLL
 ========================================================= */
 window.addEventListener("scroll", () => {
     const scroll = window.scrollY;
@@ -2833,17 +2708,18 @@ initCursor();
 initParticles();
 applySettingsToUI();
 
+// BUG FIX: aplicar tema salvo no reload (sem toast)
+if (settings.theme) {
+    applyTheme(settings.theme, true);
+}
+
 document.addEventListener("click", function onFirstClick() {
     if (profile && profile.autoplay && playlist.length && !isPlaying) {
-        playMusic();
-    }
-    if (profile && profile.autoplay && playlist[currentSong] && playlist[currentSong].source === "youtube") {
         playMusic();
     }
     document.removeEventListener("click", onFirstClick);
 }, { once: true });
 
-// Teclado
 document.addEventListener("keydown", e => {
     if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
     if (e.code === "Space") { e.preventDefault(); togglePlay(); }
@@ -2851,19 +2727,16 @@ document.addEventListener("keydown", e => {
     if (e.code === "ArrowLeft") $("prevBtn").click();
 });
 
-// Restaurar playlist local
-restorePlaylistLocal();
-
-// Carregar perfil
 loadProfile().then(() => {
     restorePlaylistLocal();
     if (profile && profile.fadeDuration) {
         $("fadeDuration").value = profile.fadeDuration;
         $("fadeDurationVal").textContent = profile.fadeDuration + "s";
     }
+    $("shuffleBtn").classList.toggle("active", !!profile.shuffle);
+    $("repeatBtn").classList.toggle("active", profile.loop !== false);
 });
 
-// Resize
 window.addEventListener("resize", () => {
     if (window.innerWidth <= 650) {
         cursor.style.display = "none";
@@ -2872,7 +2745,6 @@ window.addEventListener("resize", () => {
     }
 });
 
-// Ao trocar de aba, pausar animações pesadas
 document.addEventListener("visibilitychange", () => {
     if (document.hidden) {
         if (particleAnimId) { cancelAnimationFrame(particleAnimId); particleAnimId = null; }
