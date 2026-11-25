@@ -38,8 +38,15 @@ body {
     cursor: default;
 }
 
+/* ============ CURSOR NATIVO ============ */
 body.no-cursor-custom { cursor: auto; }
 body.no-cursor-custom * { cursor: auto !important; }
+
+/* Esconde cursor nativo quando o custom está ativo */
+body.hide-native-cursor,
+body.hide-native-cursor * {
+    cursor: none !important;
+}
 
 /* ============ FUNDO / AMBIENT ============ */
 #background {
@@ -151,7 +158,6 @@ body.no-cursor-custom * { cursor: auto !important; }
 .custom-cursor.loading {
     animation: cursorSpin 1s linear infinite;
 }
-/* GIFs animados: não girar — a própria animação já é o efeito */
 .custom-cursor.has-image.loading { animation: none; }
 @keyframes cursorSpin {
     to { transform: translate(-50%, -50%) rotate(360deg); }
@@ -1056,6 +1062,11 @@ textarea.input { min-height: 120px; resize: vertical; }
     .artes-grid { grid-template-columns: repeat(2, 1fr); }
     .friends-grid { grid-template-columns: 1fr; }
     .mini-player { bottom: 72px; right: 12px; max-width: 240px; }
+    /* Em mobile, garante que o cursor nativo volte */
+    body.hide-native-cursor,
+    body.hide-native-cursor * {
+        cursor: auto !important;
+    }
 }
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
@@ -1437,7 +1448,7 @@ textarea.input { min-height: 120px; resize: vertical; }
         <button id="logoutButton" class="small-button" style="width:100%">Sair</button>
 
         <div class="admin-footer">
-            <span>v2.5.0</span>
+            <span>v2.6.0</span>
             <span>·</span>
             <span>Painel Administrativo</span>
             <span>·</span>
@@ -1923,12 +1934,20 @@ function attachCursorListeners() {
 }
 
 function initCursor() {
-    if (window.innerWidth <= 650) return;
+    if (window.innerWidth <= 650) {
+        // Mobile: sem cursor customizado, mantém nativo
+        cursor.classList.remove("active");
+        cursor.style.display = "none";
+        document.body.classList.remove("hide-native-cursor");
+        document.body.classList.remove("no-cursor-custom");
+        return;
+    }
     attachCursorListeners();
     applyCursorSizes();
     cursor.classList.toggle("active", settings.cursor);
     cursor.style.display = settings.cursor ? "block" : "none";
     document.body.classList.toggle("no-cursor-custom", !settings.cursor);
+    document.body.classList.toggle("hide-native-cursor", settings.cursor);
     setCursorState("normal");
 }
 
@@ -2016,7 +2035,10 @@ function animateParticles() {
     }
     particleAnimId = requestAnimationFrame(animateParticles);
 }
-window.addEventListener("resize", initParticles);
+window.addEventListener("resize", () => {
+    initParticles();
+    initCursor();
+});
 
 /* =========================================================
    AMBIENT
