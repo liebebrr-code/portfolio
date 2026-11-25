@@ -137,6 +137,7 @@ body.no-cursor-custom * { cursor: auto !important; }
     background-position: center;
     background-repeat: no-repeat;
     mix-blend-mode: normal;
+    transition: width .15s ease, height .15s ease, opacity .2s ease;
 }
 .custom-cursor.has-image.hover {
     width: calc(var(--cursor-size, 32px) * 1.2);
@@ -144,13 +145,20 @@ body.no-cursor-custom * { cursor: auto !important; }
     background-color: transparent;
 }
 .custom-cursor.has-image.clicking {
-    transform: translate(-50%, -50%) scale(0.82);
+    transform: translate(-50%, -50%) scale(0.88);
+    opacity: 0.85;
 }
 .custom-cursor.loading {
     animation: cursorSpin 1s linear infinite;
 }
+/* GIFs animados: não girar — a própria animação já é o efeito */
+.custom-cursor.has-image.loading { animation: none; }
 @keyframes cursorSpin {
     to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+.custom-cursor.pixelated {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
 }
 
 .cursor-trail {
@@ -175,6 +183,10 @@ body.no-cursor-custom * { cursor: auto !important; }
     background-repeat: no-repeat;
     filter: none;
     border-radius: 0;
+}
+.cursor-trail.pixelated {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
 }
 
 .click-ripple {
@@ -1370,8 +1382,8 @@ textarea.input { min-height: 120px; resize: vertical; }
         <div class="admin-section">
             <h3>🖱️ Cursor Customizável</h3>
             <p style="font-size:12px;color:#888;margin-bottom:12px;line-height:1.5;">
-                Envie um <b>PNG</b> para cada estado do cursor. Se não enviar, usa o círculo padrão.
-                Recomendado: 64×64 ou 96×96 com fundo transparente.
+                Aceita <b>PNG, GIF, APNG e WebP animado</b>. Animações tocam automaticamente.<br>
+                <span style="color:#f59e0b;">⚠️ .ani e .cur (cursores do Windows) não são suportados por navegadores web.</span>
             </p>
 
             <div class="slider-row">
@@ -1382,11 +1394,19 @@ textarea.input { min-height: 120px; resize: vertical; }
                 <label>Tamanho do rastro <span id="trailSizeVal">16px</span></label>
                 <input id="trailSizeSlider" type="range" min="4" max="64" value="16">
             </div>
+            <div class="slider-row">
+                <label>Duração do rastro <span id="trailDurationVal">0.8s</span></label>
+                <input id="trailDurationSlider" type="range" min="0.3" max="3" step="0.1" value="0.8">
+            </div>
+
+            <label class="checkbox-row">
+                <input id="cursorPixelated" type="checkbox"> Estilo pixel art (image-rendering)
+            </label>
 
             <div id="cursorStatesEditor" class="admin-list" style="margin-top:12px;"></div>
 
             <button id="resetCursorsBtn" class="small-button danger" style="width:100%;margin-top:10px;">
-                🗑️ Remover todos os PNGs do cursor
+                🗑️ Remover todos os PNGs/GIFs do cursor
             </button>
         </div>
 
@@ -1417,7 +1437,7 @@ textarea.input { min-height: 120px; resize: vertical; }
         <button id="logoutButton" class="small-button" style="width:100%">Sair</button>
 
         <div class="admin-footer">
-            <span>v2.4.0</span>
+            <span>v2.5.0</span>
             <span>·</span>
             <span>Painel Administrativo</span>
             <span>·</span>
@@ -1825,6 +1845,7 @@ function applyCursorSizes() {
     const trailSize = Number(profile?.trailSize || 8);
     document.documentElement.style.setProperty("--cursor-size", size + "px");
     document.documentElement.style.setProperty("--trail-size", trailSize + "px");
+    cursor.classList.toggle("pixelated", !!profile?.cursorPixelated);
 }
 
 function attachCursorListeners() {
@@ -1854,6 +1875,7 @@ function attachCursorListeners() {
                 lastTrailTime = now;
                 const t = document.createElement("div");
                 t.className = "cursor-trail";
+                if (profile?.cursorPixelated) t.classList.add("pixelated");
                 t.style.left = e.clientX + "px";
                 t.style.top = e.clientY + "px";
                 const trailImg = profile?.cursors?.trail;
@@ -1862,7 +1884,8 @@ function attachCursorListeners() {
                     t.style.setProperty("--trail-img", `url("${trailImg}")`);
                 }
                 document.body.appendChild(t);
-                setTimeout(() => t.remove(), 500);
+                const trailDuration = (profile?.trailDuration || 0.8) * 1000;
+                setTimeout(() => t.remove(), trailDuration);
             }
         }
     });
@@ -2137,7 +2160,9 @@ async function loadProfile() {
                 videoMuted: true,
                 cursors: {},
                 cursorSize: 22,
-                trailSize: 8
+                trailSize: 8,
+                trailDuration: 0.8,
+                cursorPixelated: false
             };
         }
         if (!Array.isArray(profile.arts)) profile.arts = [];
@@ -2149,6 +2174,8 @@ async function loadProfile() {
         if (!profile.cursors) profile.cursors = {};
         if (profile.cursorSize === undefined) profile.cursorSize = 22;
         if (profile.trailSize === undefined) profile.trailSize = 8;
+        if (profile.trailDuration === undefined) profile.trailDuration = 0.8;
+        if (profile.cursorPixelated === undefined) profile.cursorPixelated = false;
 
         if (profile.videoBg) videoBgData = profile.videoBg;
         videoBgEnabled = !!profile.videoBgEnabled;
@@ -2928,9 +2955,14 @@ function renderCursorStatesEditor() {
     $("cursorSizeVal").textContent = (profile.cursorSize || 22) + "px";
     $("trailSizeSlider").value = profile.trailSize || 8;
     $("trailSizeVal").textContent = (profile.trailSize || 8) + "px";
+    $("trailDurationSlider").value = profile.trailDuration || 0.8;
+    $("trailDurationVal").textContent = (profile.trailDuration || 0.8) + "s";
+    $("cursorPixelated").checked = !!profile.cursorPixelated;
 
     CURSOR_STATES.forEach(state => {
         const val = profile.cursors[state.key] || "";
+        const isAnimated = profile.cursors[state.key + "_anim"] === true;
+
         const item = document.createElement("div");
         item.className = "admin-item-col";
         item.style.cssText = "gap:8px;padding:12px;";
@@ -2942,6 +2974,7 @@ function renderCursorStatesEditor() {
                     <div style="font-weight:700;font-size:13px;">${state.label}</div>
                     <div style="font-size:11px;color:#888;">${state.hint}</div>
                 </div>
+                ${isAnimated ? '<span style="font-size:9px;padding:2px 6px;border-radius:4px;background:rgba(245,158,11,.2);color:#f59e0b;font-weight:700;">ANIM</span>' : ''}
                 <button class="small-button danger cursor-remove-btn" style="padding:6px 10px;">✕</button>
             </div>
             <div style="display:flex;gap:10px;align-items:center;">
@@ -2954,10 +2987,11 @@ function renderCursorStatesEditor() {
                 ">
                     ${val ? "" : '<span style="color:#555;font-size:9px;">vazio</span>'}
                 </div>
-                <input class="input cursor-url-input" placeholder="URL do PNG"
+                <input class="input cursor-url-input" placeholder="URL (png/gif/webp)"
                     value="${val && val.startsWith('http') ? escapeHTML(val) : ''}"
                     style="margin:0;flex:1;min-width:0;">
-                <input class="file-input cursor-file-input" type="file" accept="image/*"
+                <input class="file-input cursor-file-input" type="file"
+                    accept="image/*,image/gif,image/apng,image/webp,.gif,.apng,.webp"
                     style="margin:0;width:150px;flex-shrink:0;">
             </div>
         `;
@@ -2967,8 +3001,9 @@ function renderCursorStatesEditor() {
         const fileIn  = item.querySelector(".cursor-file-input");
         const removeBtn = item.querySelector(".cursor-remove-btn");
 
-        const update = (newVal) => {
+        const update = (newVal, animated = false) => {
             profile.cursors[state.key] = newVal || "";
+            profile.cursors[state.key + "_anim"] = !!animated;
             if (newVal) {
                 preview.style.backgroundImage = `url("${newVal}")`;
                 preview.innerHTML = "";
@@ -2982,25 +3017,36 @@ function renderCursorStatesEditor() {
 
         urlIn.oninput = () => {
             const v = urlIn.value.trim();
-            if (v) update(v);
+            if (v) {
+                const isAnim = /\.(gif|apng|webp)(\?|$)/i.test(v);
+                update(v, isAnim);
+            }
         };
+
         fileIn.onchange = async () => {
             const f = fileIn.files[0];
             if (!f) return;
-            if (f.size > 2 * 1024 * 1024) {
-                toast("PNG muito grande (máx 2MB). Use uma URL.", "error");
+            const isAnimated = /\.(gif|apng|webp)$/i.test(f.name) ||
+                ["image/gif","image/apng","image/webp"].includes(f.type);
+            const maxSize = isAnimated ? 5 * 1024 * 1024 : 2 * 1024 * 1024;
+            if (f.size > maxSize) {
+                toast(`${isAnimated ? "Animação" : "Imagem"} muito grande (máx ${isAnimated ? "5MB" : "2MB"})`, "error");
                 return;
             }
             const data = await fileToDataURL(f);
-            update(data);
-            toast(`PNG carregado: ${state.label}`, "success");
+            update(data, isAnimated);
+            toast(`${isAnimated ? "🎞️ Animação" : "🖼️ Imagem"} carregada: ${state.label}`, "success");
+            setTimeout(() => renderCursorStatesEditor(), 100);
         };
+
         removeBtn.onclick = () => {
             urlIn.value = "";
             fileIn.value = "";
             update("");
             toast(`Removido: ${state.label}`, "info");
+            setTimeout(() => renderCursorStatesEditor(), 100);
         };
+
         container.appendChild(item);
     });
 
@@ -3014,8 +3060,16 @@ function renderCursorStatesEditor() {
         $("trailSizeVal").textContent = profile.trailSize + "px";
         applyCursorSizes();
     };
+    $("trailDurationSlider").oninput = () => {
+        profile.trailDuration = Number($("trailDurationSlider").value);
+        $("trailDurationVal").textContent = profile.trailDuration + "s";
+    };
+    $("cursorPixelated").onchange = () => {
+        profile.cursorPixelated = $("cursorPixelated").checked;
+        applyCursorSizes();
+    };
     $("resetCursorsBtn").onclick = () => {
-        if (!confirm("Remover todos os PNGs do cursor?")) return;
+        if (!confirm("Remover todos os PNGs/GIFs do cursor?")) return;
         profile.cursors = {};
         renderCursorStatesEditor();
         applyCursorSizes();
@@ -3090,6 +3144,8 @@ async function saveProfile() {
         profile.cursors = profile.cursors || {};
         profile.cursorSize = Number($("cursorSizeSlider").value) || 22;
         profile.trailSize = Number($("trailSizeSlider").value) || 8;
+        profile.trailDuration = Number($("trailDurationSlider").value) || 0.8;
+        profile.cursorPixelated = $("cursorPixelated").checked;
 
         profile.glow = $("effectGlow").checked;
         profile.effectParticles = $("effectParticles").checked;
