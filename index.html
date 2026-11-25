@@ -23,6 +23,8 @@
     --particle-color: 139,92,246;
     --entry-speed: .8s;
     --anim-speed: 1;
+    --cursor-size: 22px;
+    --trail-size: 8px;
 }
 
 html, body { width: 100%; min-height: 100%; }
@@ -56,7 +58,6 @@ body.no-cursor-custom * { cursor: auto !important; }
 #background.blur { filter: blur(8px); transform: scale(1.05); }
 #background.hidden { opacity: 0 !important; }
 
-/* ============ VIDEO FUNDO ============ */
 #backgroundVideo {
     position: fixed; inset: 0;
     width: 100%; height: 100%;
@@ -108,23 +109,74 @@ body.no-cursor-custom * { cursor: auto !important; }
     box-shadow: 0 0 12px var(--primary);
 }
 
-/* ============ CURSOR ============ */
+/* ============ CURSOR CUSTOMIZÁVEL ============ */
 .custom-cursor {
-    position: fixed; width: 22px; height: 22px;
+    position: fixed;
+    width: var(--cursor-size, 22px);
+    height: var(--cursor-size, 22px);
     border: 2px solid var(--primary); border-radius: 50%;
     pointer-events: none; z-index: 9999;
     transform: translate(-50%, -50%);
-    transition: width .2s, height .2s, background .2s, opacity .2s;
+    transition: width .2s, height .2s, background .2s, opacity .2s, transform .1s;
     mix-blend-mode: difference; opacity: 0;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 .custom-cursor.active { opacity: 1; }
-.custom-cursor.hover { width: 44px; height: 44px; background: rgba(var(--particle-color),.3); }
-.cursor-trail {
-    position: fixed; width: 8px; height: 8px; border-radius: 50%;
-    background: var(--primary); pointer-events: none; z-index: 9998;
-    opacity: .55; transform: translate(-50%, -50%);
-    filter: blur(1px); transition: opacity .4s ease;
+.custom-cursor.hover {
+    width: calc(var(--cursor-size, 22px) * 1.8);
+    height: calc(var(--cursor-size, 22px) * 1.8);
+    background-color: rgba(var(--particle-color),.3);
 }
+.custom-cursor.has-image {
+    border: none;
+    background-color: transparent;
+    background-image: var(--cursor-img);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    mix-blend-mode: normal;
+}
+.custom-cursor.has-image.hover {
+    width: calc(var(--cursor-size, 32px) * 1.2);
+    height: calc(var(--cursor-size, 32px) * 1.2);
+    background-color: transparent;
+}
+.custom-cursor.has-image.clicking {
+    transform: translate(-50%, -50%) scale(0.82);
+}
+.custom-cursor.loading {
+    animation: cursorSpin 1s linear infinite;
+}
+@keyframes cursorSpin {
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.cursor-trail {
+    position: fixed;
+    width: var(--trail-size, 8px);
+    height: var(--trail-size, 8px);
+    border-radius: 50%;
+    background: var(--primary);
+    pointer-events: none; z-index: 9998;
+    opacity: .55; transform: translate(-50%, -50%);
+    filter: blur(1px);
+    transition: opacity .4s ease;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.cursor-trail.has-image {
+    background: transparent;
+    background-image: var(--trail-img);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: none;
+    border-radius: 0;
+}
+
 .click-ripple {
     position: fixed; border: 2px solid var(--primary); border-radius: 50%;
     pointer-events: none; z-index: 9997; transform: translate(-50%, -50%);
@@ -559,16 +611,10 @@ body.no-cursor-custom * { cursor: auto !important; }
     box-shadow: 0 10px 30px rgba(0,0,0,.5);
 }
 .mini-player.hidden { display: none; }
-.mini-info {
-    min-width: 0;
-    flex: 1;
-}
+.mini-info { min-width: 0; flex: 1; }
 .mini-title {
-    font-size: 12px;
-    font-weight: 700;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    font-size: 12px; font-weight: 700;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
     color: var(--accent);
 }
 .mini-progress {
@@ -585,19 +631,11 @@ body.no-cursor-custom * { cursor: auto !important; }
     transition: width .3s;
 }
 .mini-btn {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    border: none;
-    background: var(--primary);
-    color: white;
-    cursor: pointer;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    transition: .2s;
+    width: 32px; height: 32px; border-radius: 50%;
+    border: none; background: var(--primary);
+    color: white; cursor: pointer; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; transition: .2s;
 }
 .mini-btn:hover { transform: scale(1.1); }
 @keyframes slideIn {
@@ -1330,6 +1368,29 @@ textarea.input { min-height: 120px; resize: vertical; }
         </div>
 
         <div class="admin-section">
+            <h3>🖱️ Cursor Customizável</h3>
+            <p style="font-size:12px;color:#888;margin-bottom:12px;line-height:1.5;">
+                Envie um <b>PNG</b> para cada estado do cursor. Se não enviar, usa o círculo padrão.
+                Recomendado: 64×64 ou 96×96 com fundo transparente.
+            </p>
+
+            <div class="slider-row">
+                <label>Tamanho do cursor <span id="cursorSizeVal">32px</span></label>
+                <input id="cursorSizeSlider" type="range" min="16" max="96" value="32">
+            </div>
+            <div class="slider-row">
+                <label>Tamanho do rastro <span id="trailSizeVal">16px</span></label>
+                <input id="trailSizeSlider" type="range" min="4" max="64" value="16">
+            </div>
+
+            <div id="cursorStatesEditor" class="admin-list" style="margin-top:12px;"></div>
+
+            <button id="resetCursorsBtn" class="small-button danger" style="width:100%;margin-top:10px;">
+                🗑️ Remover todos os PNGs do cursor
+            </button>
+        </div>
+
+        <div class="admin-section">
             <h3>✨ Efeitos</h3>
             <label class="checkbox-row">
                 <input id="effectGlow" type="checkbox" checked> Glow no nome
@@ -1356,7 +1417,7 @@ textarea.input { min-height: 120px; resize: vertical; }
         <button id="logoutButton" class="small-button" style="width:100%">Sair</button>
 
         <div class="admin-footer">
-            <span>v2.3.0</span>
+            <span>v2.4.0</span>
             <span>·</span>
             <span>Painel Administrativo</span>
             <span>·</span>
@@ -1554,6 +1615,18 @@ let friendRefreshTimer = null;
 let videoBgData = null;
 let videoBgEnabled = false;
 
+/* CURSOR CUSTOMIZÁVEL */
+let cursorCurrentState = "normal";
+let isClicking = false;
+const CURSOR_STATES = [
+    { key: "normal",  label: "Normal",               icon: "🖱️", hint: "Estado padrão" },
+    { key: "hover",   label: "Hover (links/botões)", icon: "👆", hint: "Sobre elementos clicáveis" },
+    { key: "click",   label: "Clique",               icon: "👊", hint: "Ao pressionar o mouse" },
+    { key: "loading", label: "Carregando",           icon: "⏳", hint: "Durante salvamento/carregamento" },
+    { key: "text",    label: "Texto",                icon: "✏️", hint: "Sobre campos de texto" },
+    { key: "trail",   label: "Rastro",               icon: "✨", hint: "Partícula que segue o mouse" }
+];
+
 /* =========================================================
    SETTINGS
 ========================================================= */
@@ -1586,13 +1659,9 @@ function loadSettings() {
         if (saved) settings = { ...DEFAULT_SETTINGS, ...JSON.parse(saved) };
     } catch(e) { console.warn(e); }
 }
-
 function saveSettings() {
-    try {
-        localStorage.setItem("profile_settings", JSON.stringify(settings));
-    } catch(e) { console.warn(e); }
+    try { localStorage.setItem("profile_settings", JSON.stringify(settings)); } catch(e) { console.warn(e); }
 }
-
 loadSettings();
 
 const $ = id => document.getElementById(id);
@@ -1630,7 +1699,6 @@ function escapeHTML(str) {
         "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
     }[c]));
 }
-
 function fileToDataURL(file) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -1641,7 +1709,7 @@ function fileToDataURL(file) {
 }
 
 /* =========================================================
-   PÁGINAS / NAVEGAÇÃO
+   PÁGINAS
 ========================================================= */
 function switchPage(page) {
     currentPage = page;
@@ -1668,7 +1736,6 @@ function updateMiniPlayer() {
     $("miniTitle").textContent = playlist[currentSong]?.name || "Música";
     $("miniPlayBtn").textContent = isPlaying ? "⏸" : "▶";
 }
-
 function updateMiniProgress() {
     if (currentPage === "home" || !isPlaying) return;
     if (isYouTubeCurrent()) {
@@ -1722,7 +1789,6 @@ function applyTheme(themeName, silent = false) {
     initParticles();
     if (!silent) toast(`Tema: ${themeName}`, "success");
 }
-
 function updateThemeChips() {
     document.querySelectorAll(".theme-chip").forEach(c => {
         c.classList.toggle("selected", c.dataset.theme === settings.theme);
@@ -1730,10 +1796,36 @@ function updateThemeChips() {
 }
 
 /* =========================================================
-   CURSOR
+   CURSOR CUSTOMIZÁVEL
 ========================================================= */
 const cursor = $("cursor");
 let lastTrailTime = 0;
+
+function setCursorState(state) {
+    if (!cursor) return;
+    cursorCurrentState = state;
+    const cursors = profile?.cursors || {};
+    const img = cursors[state];
+
+    cursor.classList.remove("hover", "clicking", "loading", "has-image");
+    if (state === "hover")   cursor.classList.add("hover");
+    if (state === "click")   cursor.classList.add("clicking");
+    if (state === "loading") cursor.classList.add("loading");
+
+    if (img) {
+        cursor.classList.add("has-image");
+        cursor.style.setProperty("--cursor-img", `url("${img}")`);
+    } else {
+        cursor.style.removeProperty("--cursor-img");
+    }
+}
+
+function applyCursorSizes() {
+    const size = Number(profile?.cursorSize || 22);
+    const trailSize = Number(profile?.trailSize || 8);
+    document.documentElement.style.setProperty("--cursor-size", size + "px");
+    document.documentElement.style.setProperty("--trail-size", trailSize + "px");
+}
 
 function attachCursorListeners() {
     if (cursorListenersAttached) return;
@@ -1743,6 +1835,19 @@ function attachCursorListeners() {
         if (!settings.cursor) return;
         cursor.style.left = e.clientX + "px";
         cursor.style.top = e.clientY + "px";
+
+        let state = "normal";
+        if (document.body.classList.contains("busy")) {
+            state = "loading";
+        } else if (e.target.closest("input, textarea, [contenteditable='true']")) {
+            state = "text";
+        } else if (isClicking) {
+            state = "click";
+        } else if (e.target.closest("a, button, .vinyl, .playlist-item, .social-link, .badge, .theme-chip, .mode-chip, .float-btn, .art-card, .friend-card, .page-tab")) {
+            state = "hover";
+        }
+        setCursorState(state);
+
         if (settings.cursorTrail) {
             const now = Date.now();
             if (now - lastTrailTime > 40) {
@@ -1751,11 +1856,22 @@ function attachCursorListeners() {
                 t.className = "cursor-trail";
                 t.style.left = e.clientX + "px";
                 t.style.top = e.clientY + "px";
+                const trailImg = profile?.cursors?.trail;
+                if (trailImg) {
+                    t.classList.add("has-image");
+                    t.style.setProperty("--trail-img", `url("${trailImg}")`);
+                }
                 document.body.appendChild(t);
                 setTimeout(() => t.remove(), 500);
             }
         }
     });
+
+    document.addEventListener("mousedown", () => {
+        isClicking = true;
+        if (settings.cursor) setCursorState("click");
+    });
+    document.addEventListener("mouseup", () => { isClicking = false; });
 
     document.addEventListener("click", e => {
         if (settings.clickRipple) {
@@ -1781,24 +1897,16 @@ function attachCursorListeners() {
         }
         if (settings.clickSound) playClickSound();
     });
-
-    const hoverSelector = "a, button, .vinyl, .playlist-item, .social-link, .badge, .theme-chip, .mode-chip, .float-btn, .art-card, .friend-card, .page-tab";
-    document.addEventListener("mouseover", e => {
-        if (!settings.cursor) return;
-        if (e.target.closest(hoverSelector)) cursor.classList.add("hover");
-    });
-    document.addEventListener("mouseout", e => {
-        if (!settings.cursor) return;
-        if (e.target.closest(hoverSelector)) cursor.classList.remove("hover");
-    });
 }
 
 function initCursor() {
     if (window.innerWidth <= 650) return;
     attachCursorListeners();
+    applyCursorSizes();
     cursor.classList.toggle("active", settings.cursor);
     cursor.style.display = settings.cursor ? "block" : "none";
     document.body.classList.toggle("no-cursor-custom", !settings.cursor);
+    setCursorState("normal");
 }
 
 /* =========================================================
@@ -1885,7 +1993,6 @@ function animateParticles() {
     }
     particleAnimId = requestAnimationFrame(animateParticles);
 }
-
 window.addEventListener("resize", initParticles);
 
 /* =========================================================
@@ -1903,7 +2010,6 @@ function updateAmbient() {
 function applyVideoBackground() {
     const vid = $("backgroundVideo");
     if (!vid) return;
-
     if (videoBgEnabled && videoBgData) {
         if (vid.src !== videoBgData) vid.src = videoBgData;
         vid.classList.add("active");
@@ -1918,7 +2024,6 @@ function applyVideoBackground() {
         try { vid.load(); } catch(e) {}
         $("background").classList.remove("hidden");
     }
-
     const blurVal = Number(profile?.videoBlur || 0);
     vid.style.filter = blurVal > 0 ? `blur(${blurVal}px)` : "none";
     vid.style.transform = blurVal > 0 ? "scale(1.05)" : "scale(1)";
@@ -1933,7 +2038,6 @@ function initVideoBgInputs() {
     const loopIn = $("videoLoop");
     const mutedIn = $("videoMuted");
     const removeBtn = $("removeVideoBg");
-
     if (!en) return;
 
     en.checked = !!videoBgEnabled;
@@ -1948,7 +2052,6 @@ function initVideoBgInputs() {
         applyVideoBackground();
         toast(en.checked ? "Vídeo de fundo ativado" : "Vídeo de fundo desativado", "info");
     };
-
     urlIn.oninput = () => {
         const v = urlIn.value.trim();
         if (v) {
@@ -1957,7 +2060,6 @@ function initVideoBgInputs() {
             applyVideoBackground();
         }
     };
-
     fileIn.onchange = async () => {
         const file = fileIn.files[0];
         if (!file) return;
@@ -1972,7 +2074,6 @@ function initVideoBgInputs() {
         applyVideoBackground();
         toast("Vídeo carregado (não esqueça de Salvar!)", "success");
     };
-
     blurIn.oninput = () => {
         blurVal.textContent = blurIn.value + "px";
         const v = Number(blurIn.value);
@@ -1980,10 +2081,8 @@ function initVideoBgInputs() {
         $("backgroundVideo").style.transform = v > 0 ? "scale(1.05)" : "scale(1)";
         if (profile) profile.videoBlur = v;
     };
-
     loopIn.onchange = () => { $("backgroundVideo").loop = loopIn.checked; if (profile) profile.videoLoop = loopIn.checked; };
     mutedIn.onchange = () => { $("backgroundVideo").muted = mutedIn.checked; if (profile) profile.videoMuted = mutedIn.checked; };
-
     removeBtn.onclick = () => {
         videoBgData = null;
         videoBgEnabled = false;
@@ -1999,6 +2098,7 @@ function initVideoBgInputs() {
    CARREGAR PERFIL
 ========================================================= */
 async function loadProfile() {
+    document.body.classList.add("busy");
     try {
         const snapshot = await db.ref(PROFILE_PATH).once("value");
         profile = snapshot.val();
@@ -2034,7 +2134,10 @@ async function loadProfile() {
                 videoBgEnabled: false,
                 videoBlur: 0,
                 videoLoop: true,
-                videoMuted: true
+                videoMuted: true,
+                cursors: {},
+                cursorSize: 22,
+                trailSize: 8
             };
         }
         if (!Array.isArray(profile.arts)) profile.arts = [];
@@ -2043,6 +2146,9 @@ async function loadProfile() {
         if (!Array.isArray(profile.playlist)) profile.playlist = [];
         if (!Array.isArray(profile.links)) profile.links = [];
         if (!Array.isArray(profile.badges)) profile.badges = [];
+        if (!profile.cursors) profile.cursors = {};
+        if (profile.cursorSize === undefined) profile.cursorSize = 22;
+        if (profile.trailSize === undefined) profile.trailSize = 8;
 
         if (profile.videoBg) videoBgData = profile.videoBg;
         videoBgEnabled = !!profile.videoBgEnabled;
@@ -2052,6 +2158,7 @@ async function loadProfile() {
         console.error(error);
         toast("Erro ao carregar o perfil.", "error");
     }
+    document.body.classList.remove("busy");
     setTimeout(() => $("loading").classList.add("hide"), 400);
 }
 
@@ -2108,6 +2215,7 @@ function applyProfile() {
     document.documentElement.style.setProperty("--entry-speed", settings.entrySpeed + "s");
 
     applyVideoBackground();
+    applyCursorSizes();
 
     renderLinks();
     renderBadges();
@@ -2141,7 +2249,6 @@ function renderLinks() {
         container.appendChild(a);
     });
 }
-
 function renderBadges() {
     const container = $("badges");
     container.innerHTML = "";
@@ -2162,13 +2269,8 @@ function renderArtes() {
     const empty = $("artesEmpty");
     grid.innerHTML = "";
     const arts = profile.arts || [];
-
-    if (!arts.length) {
-        empty.style.display = "block";
-        return;
-    }
+    if (!arts.length) { empty.style.display = "block"; return; }
     empty.style.display = "none";
-
     arts.forEach((art, i) => {
         const card = document.createElement("div");
         card.className = "art-card";
@@ -2184,23 +2286,18 @@ function renderArtes() {
         grid.appendChild(card);
     });
 }
-
 function openArtLightbox(art) {
     $("lightboxImg").src = art.image || "";
     $("lightboxTitle").textContent = art.title || "Sem título";
     $("lightboxDesc").textContent = art.description || "";
     const linkEl = $("lightboxLink");
-    if (art.link) {
-        linkEl.href = art.link;
-        linkEl.style.display = "inline-block";
-    } else {
-        linkEl.style.display = "none";
-    }
+    if (art.link) { linkEl.href = art.link; linkEl.style.display = "inline-block"; }
+    else { linkEl.style.display = "none"; }
     openModal("artLightbox");
 }
 
 /* =========================================================
-   AMIGOS + LANYARD
+   AMIGOS
 ========================================================= */
 async function fetchLanyard(discordId) {
     if (!discordId) return null;
@@ -2216,7 +2313,6 @@ async function fetchLanyard(discordId) {
     } catch(e) {}
     return null;
 }
-
 async function refreshFriendStatuses() {
     const friends = profile?.friends || [];
     const withDiscord = friends.filter(f => f.discordId);
@@ -2224,7 +2320,6 @@ async function refreshFriendStatuses() {
     await Promise.all(withDiscord.map(f => fetchLanyard(f.discordId)));
     renderFriends();
 }
-
 function activityEmoji(type) {
     if (type === 0) return "🎮";
     if (type === 1) return "📺";
@@ -2233,35 +2328,25 @@ function activityEmoji(type) {
     if (type === 4) return "✨";
     return "💬";
 }
-
 function getDiscordAvatar(id, hash) {
     if (!hash) return `https://cdn.discordapp.com/embed/avatars/${Number(id) % 5}.png`;
     const ext = hash.startsWith("a_") ? "gif" : "png";
     return `https://cdn.discordapp.com/avatars/${id}/${hash}.${ext}?size=128`;
 }
-
 function renderFriends() {
     const grid = $("friendsGrid");
     const empty = $("friendsEmpty");
     grid.innerHTML = "";
     const friends = profile.friends || [];
-
-    if (!friends.length) {
-        empty.style.display = "block";
-        return;
-    }
+    if (!friends.length) { empty.style.display = "block"; return; }
     empty.style.display = "none";
 
     friends.forEach((friend, i) => {
         const lanyard = friend.discordId ? friendStatusCache[friend.discordId]?.data : null;
         const status = lanyard?.discord_status || "unknown";
-
         let avatar = friend.avatar;
-        if (lanyard?.discord_user) {
-            avatar = getDiscordAvatar(friend.discordId, lanyard.discord_user.avatar);
-        } else if (!avatar && friend.discordId) {
-            avatar = `https://cdn.discordapp.com/embed/avatars/${Number(friend.discordId) % 5}.png`;
-        }
+        if (lanyard?.discord_user) avatar = getDiscordAvatar(friend.discordId, lanyard.discord_user.avatar);
+        else if (!avatar && friend.discordId) avatar = `https://cdn.discordapp.com/embed/avatars/${Number(friend.discordId) % 5}.png`;
         if (!avatar) avatar = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(
             `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100%" height="100%" fill="#333"/><text x="50%" y="55%" text-anchor="middle" fill="#fff" font-size="40">${(friend.name || "?")[0].toUpperCase()}</text></svg>`
         );
@@ -2275,9 +2360,7 @@ function renderFriends() {
             const act = lanyard.activities.find(a => a.type !== 4) || lanyard.activities[0];
             if (act) {
                 const actName = act.name || act.state || act.details || "";
-                if (actName) {
-                    activityHtml = `<div class="friend-activity">${activityEmoji(act.type)} ${escapeHTML(actName)}</div>`;
-                }
+                if (actName) activityHtml = `<div class="friend-activity">${activityEmoji(act.type)} ${escapeHTML(actName)}</div>`;
             }
         }
 
@@ -2292,7 +2375,6 @@ function renderFriends() {
                 ${activityHtml}
             </div>
         `;
-
         if (friend.link || friend.discordId) {
             card.style.cursor = "pointer";
             card.onclick = () => {
@@ -2306,16 +2388,12 @@ function renderFriends() {
                 }
             };
         }
-
         grid.appendChild(card);
     });
 }
-
 if (!friendRefreshTimer) {
     friendRefreshTimer = setInterval(() => {
-        if (profile && profile.friends && profile.friends.some(f => f.discordId)) {
-            refreshFriendStatuses();
-        }
+        if (profile && profile.friends && profile.friends.some(f => f.discordId)) refreshFriendStatuses();
     }, 30000);
 }
 
@@ -2324,18 +2402,12 @@ if (!friendRefreshTimer) {
 ========================================================= */
 function startBackgrounds() {
     clearInterval(backgroundTimer);
-    if (!backgrounds.length) {
-        $("background").style.backgroundImage = "";
-        return;
-    }
+    if (!backgrounds.length) { $("background").style.backgroundImage = ""; return; }
     backgroundIndex = 0;
     changeBackground();
     const interval = Math.max(1, Number(profile.backgroundInterval || 8)) * 1000;
-    if (backgrounds.length > 1) {
-        backgroundTimer = setInterval(changeBackground, interval);
-    }
+    if (backgrounds.length > 1) backgroundTimer = setInterval(changeBackground, interval);
 }
-
 function changeBackground() {
     if (!backgrounds.length) return;
     const bg = backgrounds[backgroundIndex];
@@ -2356,7 +2428,6 @@ function savePlaylistLocal() {
     profile.playlist = playlist;
     try { db.ref(PROFILE_PATH + "/playlist").set(playlist); } catch(e) { console.warn(e); }
 }
-
 function renderPlaylist() {
     const container = $("playlist");
     container.innerHTML = "";
@@ -2406,7 +2477,6 @@ function renderPlaylist() {
                 loadSong();
                 playMusic();
             };
-
             item.ondragstart = (e) => {
                 e.dataTransfer.setData("text/plain", index);
                 item.classList.add("dragging");
@@ -2425,7 +2495,6 @@ function renderPlaylist() {
                 renderPlaylist();
                 savePlaylistLocal();
             };
-
             container.appendChild(item);
         });
     }
@@ -2443,11 +2512,9 @@ function setupMusic() {
     $("volume").value = .7;
     loadSong();
 }
-
 function loadSong() {
     if (!playlist.length) return;
     const song = playlist[currentSong];
-
     if (song.source === "youtube") {
         audio.pause();
         stopYouTube();
@@ -2469,19 +2536,15 @@ function loadSong() {
         }, 300);
     }
 }
-
 function updatePlaylistUI() {
     document.querySelectorAll(".playlist-item").forEach((el, index) => {
         el.classList.toggle("active", index === currentSong);
     });
 }
-
 function getFadeDuration() { return (profile.fadeDuration || 3) * 1000; }
-
 function isYouTubeCurrent() {
     return playlist[currentSong] && playlist[currentSong].source === "youtube";
 }
-
 function updatePlayUI(playing) {
     $("playBtn").textContent = playing ? "⏸" : "▶";
     $("vinyl").classList.toggle("spinning", playing);
@@ -2489,21 +2552,17 @@ function updatePlayUI(playing) {
     $("miniPlayBtn").textContent = playing ? "⏸" : "▶";
     updateMiniPlayer();
 }
-
 function playMusic() {
     clearInterval(fadeInterval);
     fadeInterval = null;
-
     if (isYouTubeCurrent()) {
         playYouTube();
         isPlaying = true;
         updatePlayUI(true);
         return;
     }
-
     const targetVolume = Number($("volume").value);
     audio.volume = profile.musicFadeIn ? 0 : targetVolume;
-
     audio.play().then(() => {
         isPlaying = true;
         updatePlayUI(true);
@@ -2523,20 +2582,13 @@ function playMusic() {
         toast("Clique para iniciar a música", "info");
     });
 }
-
 function pauseMusic() {
     if (!isPlaying) return;
     isPlaying = false;
     updatePlayUI(false);
-
     clearInterval(fadeInterval);
     fadeInterval = null;
-
-    if (isYouTubeCurrent()) {
-        pauseYouTube();
-        return;
-    }
-
+    if (isYouTubeCurrent()) { pauseYouTube(); return; }
     const targetVolume = Number($("volume").value);
     if (profile.musicFadeIn && audio.volume > 0.02) {
         const startVolume = audio.volume;
@@ -2559,12 +2611,7 @@ function pauseMusic() {
         audio.volume = targetVolume;
     }
 }
-
-function togglePlay() {
-    if (isPlaying) pauseMusic();
-    else playMusic();
-}
-
+function togglePlay() { if (isPlaying) pauseMusic(); else playMusic(); }
 function nextSong() {
     if (!playlist.length) return;
     if (profile.shuffle) {
@@ -2582,16 +2629,13 @@ function nextSong() {
     loadSong();
     playMusic();
 }
-
 audio.addEventListener("ended", nextSong);
-
 audio.addEventListener("timeupdate", () => {
     if (!audio.duration) return;
     $("progress").value = (audio.currentTime / audio.duration) * 100;
     $("currentTime").textContent = formatTime(audio.currentTime);
     $("duration").textContent = formatTime(audio.duration);
 });
-
 function formatTime(seconds) {
     if (!Number.isFinite(seconds)) return "0:00";
     const minutes = Math.floor(seconds / 60);
@@ -2615,28 +2659,22 @@ function loadYouTubeAPI() {
     document.body.appendChild(tag);
     window.onYouTubeIframeAPIReady = () => {
         ytReady = true;
-        if (playlist[currentSong] && playlist[currentSong].source === "youtube") {
-            loadYouTube(playlist[currentSong]);
-        }
+        if (playlist[currentSong] && playlist[currentSong].source === "youtube") loadYouTube(playlist[currentSong]);
     };
 }
-
 function extractYouTubeId(url) {
     const match = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
     return match ? match[1] : null;
 }
-
 function loadYouTube(song) {
     loadYouTubeAPI();
     const videoId = song.videoId || extractYouTubeId(song.data);
     if (!videoId) { toast("Link YouTube inválido", "error"); return; }
-
     if (ytPlayer && ytReady && ytPlayer.loadVideoById) {
         ytPlayer.loadVideoById(videoId);
         if (ytPlayer.setVolume) ytPlayer.setVolume(Number($("volume").value) * 100);
         return;
     }
-
     $("youtubeContainer").innerHTML = '<div id="ytPlayerDiv"></div>';
     ytPlayer = new YT.Player("ytPlayerDiv", {
         height: "0",
@@ -2656,7 +2694,6 @@ function loadYouTube(song) {
         }
     });
 }
-
 function playYouTube() {
     if (!ytPlayer || !ytReady) {
         pendingYouTubePlay = true;
@@ -2667,14 +2704,8 @@ function playYouTube() {
     isPlaying = true;
     updatePlayUI(true);
 }
-
-function pauseYouTube() {
-    if (ytPlayer && ytPlayer.pauseVideo) ytPlayer.pauseVideo();
-}
-
-function stopYouTube() {
-    if (ytPlayer && ytPlayer.stopVideo) ytPlayer.stopVideo();
-}
+function pauseYouTube() { if (ytPlayer && ytPlayer.pauseVideo) ytPlayer.pauseVideo(); }
+function stopYouTube() { if (ytPlayer && ytPlayer.stopVideo) ytPlayer.stopVideo(); }
 
 setInterval(() => {
     if (currentPage === "home" && isYouTubeCurrent() && isPlaying && ytPlayer && ytReady && ytPlayer.getCurrentTime) {
@@ -2693,7 +2724,6 @@ setInterval(() => {
 ========================================================= */
 function applySettingsToUI() {
     if (!profile) return;
-
     $("optParticles").checked = settings.particles;
     $("optParticleCount").value = settings.particleCount;
     $("valParticleCount").textContent = settings.particleCount;
@@ -2703,68 +2733,53 @@ function applySettingsToUI() {
     $("valParticleSize").textContent = settings.particleSize;
     $("optParticleOpacity").value = settings.particleOpacity;
     $("valParticleOpacity").textContent = settings.particleOpacity;
-
     $("optCursor").checked = settings.cursor;
     $("optCursorTrail").checked = settings.cursorTrail;
     $("optClickRipple").checked = settings.clickRipple;
     $("optClickParticles").checked = settings.clickParticles;
-
     $("optEntryAnim").value = settings.entryAnim;
     $("optEntrySpeed").value = settings.entrySpeed;
     $("valEntrySpeed").textContent = settings.entrySpeed + "s";
-
     $("optAmbientFog").checked = settings.ambientFog;
     $("optAmbientAurora").checked = settings.ambientAurora;
     $("optAmbientWaves").checked = settings.ambientWaves;
-
     $("optClickSound").checked = settings.clickSound;
     $("optSoundVolume").value = settings.soundVolume;
     $("valSoundVolume").textContent = settings.soundVolume;
-
     $("optGlow").value = settings.glowIntensity;
     $("valGlow").textContent = settings.glowIntensity;
     document.documentElement.style.setProperty("--glow-intensity", settings.glowIntensity);
-
     updateThemeChips();
 }
-
 function applyMode(mode) {
     switch(mode) {
         case "light":
             settings.particles = true; settings.particleCount = 30; settings.particleSpeed = 1; settings.particleSize = .8;
             settings.ambientFog = false; settings.ambientAurora = false; settings.ambientWaves = false;
-            settings.entryAnim = "fade"; settings.entrySpeed = .5;
-            break;
+            settings.entryAnim = "fade"; settings.entrySpeed = .5; break;
         case "immersive":
             settings.particles = true; settings.particleCount = 100; settings.particleSpeed = 1.2;
             settings.ambientFog = true; settings.ambientAurora = true; settings.ambientWaves = true;
-            settings.cursorTrail = true;
-            break;
+            settings.cursorTrail = true; break;
         case "cinematic":
             settings.particles = false; settings.ambientFog = true; settings.ambientAurora = true; settings.ambientWaves = false;
-            settings.entryAnim = "blur"; settings.entrySpeed = 1.2;
-            break;
+            settings.entryAnim = "blur"; settings.entrySpeed = 1.2; break;
         case "galaxy":
             settings.particles = true; settings.particleCount = 200; settings.particleSpeed = .5; settings.particleSize = 1.2;
-            settings.ambientFog = false; settings.ambientAurora = true; settings.ambientWaves = true;
-            break;
+            settings.ambientFog = false; settings.ambientAurora = true; settings.ambientWaves = true; break;
         case "aurora":
             settings.ambientAurora = true; settings.ambientFog = true; settings.ambientWaves = true;
-            settings.particles = true; settings.particleCount = 50;
-            break;
+            settings.particles = true; settings.particleCount = 50; break;
         case "performance":
             settings.particles = false; settings.cursorTrail = false; settings.clickParticles = false;
-            settings.ambientFog = false; settings.ambientAurora = false; settings.ambientWaves = false;
-            break;
+            settings.ambientFog = false; settings.ambientAurora = false; settings.ambientWaves = false; break;
         case "minimal":
             settings.particles = false; settings.cursor = true; settings.cursorTrail = false;
             settings.clickRipple = false; settings.clickParticles = false;
-            settings.ambientFog = false; settings.ambientAurora = false; settings.ambientWaves = false;
-            break;
+            settings.ambientFog = false; settings.ambientAurora = false; settings.ambientWaves = false; break;
         case "allOff":
             settings.particles = false; settings.cursor = false;
-            settings.ambientFog = false; settings.ambientAurora = false; settings.ambientWaves = false;
-            break;
+            settings.ambientFog = false; settings.ambientAurora = false; settings.ambientWaves = false; break;
     }
     saveSettings();
     applySettingsToUI();
@@ -2775,7 +2790,7 @@ function applyMode(mode) {
 }
 
 /* =========================================================
-   ADMIN EDITORS
+   ADMIN EDITORES
 ========================================================= */
 function addLinkRow(name = "", url = "") {
     const container = $("linksEditor");
@@ -2789,7 +2804,6 @@ function addLinkRow(name = "", url = "") {
     row.querySelector("button").onclick = () => row.remove();
     container.appendChild(row);
 }
-
 function addBadgeRow(value = "") {
     const container = $("badgesEditor");
     const row = document.createElement("div");
@@ -2801,7 +2815,6 @@ function addBadgeRow(value = "") {
     row.querySelector("button").onclick = () => row.remove();
     container.appendChild(row);
 }
-
 function collectLinks() {
     const links = [];
     document.querySelectorAll("#linksEditor .admin-item").forEach(item => {
@@ -2811,7 +2824,6 @@ function collectLinks() {
     });
     return links;
 }
-
 function collectBadges() {
     const badges = [];
     document.querySelectorAll("#badgesEditor .admin-item input").forEach(input => {
@@ -2820,7 +2832,6 @@ function collectBadges() {
     });
     return badges;
 }
-
 function renderBackgroundList() {
     const list = $("backgroundList");
     list.innerHTML = "";
@@ -2841,7 +2852,6 @@ function renderBackgroundList() {
         list.appendChild(item);
     });
 }
-
 function renderMusicEditor() {
     const list = $("musicEditor");
     list.innerHTML = "";
@@ -2853,9 +2863,7 @@ function renderMusicEditor() {
             <input class="input music-name-input" value="${escapeHTML(song.name)}" style="margin:0;flex:1">
             <button class="small-button danger">✕</button>
         `;
-        item.querySelector(".music-name-input").oninput = (e) => {
-            playlist[i].name = e.target.value;
-        };
+        item.querySelector(".music-name-input").oninput = (e) => { playlist[i].name = e.target.value; };
         item.querySelector("button").onclick = () => {
             playlist.splice(i, 1);
             if (currentSong >= playlist.length) currentSong = Math.max(0, playlist.length - 1);
@@ -2865,7 +2873,6 @@ function renderMusicEditor() {
         list.appendChild(item);
     });
 }
-
 function renderArtsEditor() {
     const list = $("artesEditor");
     list.innerHTML = "";
@@ -2886,7 +2893,6 @@ function renderArtsEditor() {
         list.appendChild(item);
     });
 }
-
 function renderFriendsEditor() {
     const list = $("friendsEditor");
     list.innerHTML = "";
@@ -2907,6 +2913,115 @@ function renderFriendsEditor() {
         };
         list.appendChild(item);
     });
+}
+
+/* =========================================================
+   CURSOR STATES EDITOR
+========================================================= */
+function renderCursorStatesEditor() {
+    const container = $("cursorStatesEditor");
+    if (!container) return;
+    container.innerHTML = "";
+    if (!profile.cursors) profile.cursors = {};
+
+    $("cursorSizeSlider").value = profile.cursorSize || 22;
+    $("cursorSizeVal").textContent = (profile.cursorSize || 22) + "px";
+    $("trailSizeSlider").value = profile.trailSize || 8;
+    $("trailSizeVal").textContent = (profile.trailSize || 8) + "px";
+
+    CURSOR_STATES.forEach(state => {
+        const val = profile.cursors[state.key] || "";
+        const item = document.createElement("div");
+        item.className = "admin-item-col";
+        item.style.cssText = "gap:8px;padding:12px;";
+
+        item.innerHTML = `
+            <div style="display:flex;gap:10px;align-items:center;">
+                <span style="font-size:20px;">${state.icon}</span>
+                <div style="flex:1;min-width:0;">
+                    <div style="font-weight:700;font-size:13px;">${state.label}</div>
+                    <div style="font-size:11px;color:#888;">${state.hint}</div>
+                </div>
+                <button class="small-button danger cursor-remove-btn" style="padding:6px 10px;">✕</button>
+            </div>
+            <div style="display:flex;gap:10px;align-items:center;">
+                <div class="cursor-preview" style="
+                    width:56px;height:56px;border-radius:8px;
+                    background:rgba(0,0,0,.4) center/contain no-repeat;
+                    display:flex;align-items:center;justify-content:center;
+                    border:1px dashed rgba(255,255,255,.12);flex-shrink:0;
+                    ${val ? `background-image:url('${val}');` : ''}
+                ">
+                    ${val ? "" : '<span style="color:#555;font-size:9px;">vazio</span>'}
+                </div>
+                <input class="input cursor-url-input" placeholder="URL do PNG"
+                    value="${val && val.startsWith('http') ? escapeHTML(val) : ''}"
+                    style="margin:0;flex:1;min-width:0;">
+                <input class="file-input cursor-file-input" type="file" accept="image/*"
+                    style="margin:0;width:150px;flex-shrink:0;">
+            </div>
+        `;
+
+        const preview = item.querySelector(".cursor-preview");
+        const urlIn   = item.querySelector(".cursor-url-input");
+        const fileIn  = item.querySelector(".cursor-file-input");
+        const removeBtn = item.querySelector(".cursor-remove-btn");
+
+        const update = (newVal) => {
+            profile.cursors[state.key] = newVal || "";
+            if (newVal) {
+                preview.style.backgroundImage = `url("${newVal}")`;
+                preview.innerHTML = "";
+            } else {
+                preview.style.backgroundImage = "";
+                preview.innerHTML = '<span style="color:#555;font-size:9px;">vazio</span>';
+            }
+            applyCursorSizes();
+            setCursorState(cursorCurrentState);
+        };
+
+        urlIn.oninput = () => {
+            const v = urlIn.value.trim();
+            if (v) update(v);
+        };
+        fileIn.onchange = async () => {
+            const f = fileIn.files[0];
+            if (!f) return;
+            if (f.size > 2 * 1024 * 1024) {
+                toast("PNG muito grande (máx 2MB). Use uma URL.", "error");
+                return;
+            }
+            const data = await fileToDataURL(f);
+            update(data);
+            toast(`PNG carregado: ${state.label}`, "success");
+        };
+        removeBtn.onclick = () => {
+            urlIn.value = "";
+            fileIn.value = "";
+            update("");
+            toast(`Removido: ${state.label}`, "info");
+        };
+        container.appendChild(item);
+    });
+
+    $("cursorSizeSlider").oninput = () => {
+        profile.cursorSize = Number($("cursorSizeSlider").value);
+        $("cursorSizeVal").textContent = profile.cursorSize + "px";
+        applyCursorSizes();
+    };
+    $("trailSizeSlider").oninput = () => {
+        profile.trailSize = Number($("trailSizeSlider").value);
+        $("trailSizeVal").textContent = profile.trailSize + "px";
+        applyCursorSizes();
+    };
+    $("resetCursorsBtn").onclick = () => {
+        if (!confirm("Remover todos os PNGs do cursor?")) return;
+        profile.cursors = {};
+        renderCursorStatesEditor();
+        applyCursorSizes();
+        setCursorState("normal");
+        toast("Cursors resetados", "info");
+    };
 }
 
 function openAdminPanel() {
@@ -2936,7 +3051,6 @@ function openAdminPanel() {
 
     $("linksEditor").innerHTML = "";
     (profile.links || []).forEach(l => addLinkRow(l.name, l.url));
-
     $("badgesEditor").innerHTML = "";
     (profile.badges || []).forEach(b => addBadgeRow(b));
 
@@ -2944,6 +3058,7 @@ function openAdminPanel() {
     renderMusicEditor();
     renderArtsEditor();
     renderFriendsEditor();
+    renderCursorStatesEditor();
     initVideoBgInputs();
 
     $("statSongs").textContent = playlist.length;
@@ -2956,7 +3071,7 @@ function openAdminPanel() {
 
 async function saveProfile() {
     if (!auth.currentUser) { toast("Faça login primeiro", "error"); return; }
-
+    document.body.classList.add("busy");
     try {
         profile.name = $("editName").value.trim() || profile.name;
         profile.title = $("editTitle").value.trim();
@@ -2971,6 +3086,10 @@ async function saveProfile() {
         profile.videoBlur = Number($("videoBlur").value) || 0;
         profile.videoLoop = $("videoLoop").checked;
         profile.videoMuted = $("videoMuted").checked;
+
+        profile.cursors = profile.cursors || {};
+        profile.cursorSize = Number($("cursorSizeSlider").value) || 22;
+        profile.trailSize = Number($("trailSizeSlider").value) || 8;
 
         profile.glow = $("effectGlow").checked;
         profile.effectParticles = $("effectParticles").checked;
@@ -2997,6 +3116,8 @@ async function saveProfile() {
     } catch(e) {
         console.error(e);
         toast("Erro ao salvar: " + e.message, "error");
+    } finally {
+        document.body.classList.remove("busy");
     }
 }
 
@@ -3004,15 +3125,11 @@ async function saveProfile() {
    INICIALIZAÇÃO
 ========================================================= */
 document.addEventListener("DOMContentLoaded", () => {
-    // Tabs de página
     document.querySelectorAll(".page-tab").forEach(tab => {
         tab.onclick = () => switchPage(tab.dataset.page);
     });
 
-    // Mini player
     $("miniPlayBtn").onclick = () => togglePlay();
-
-    // Player
     $("playBtn").onclick = togglePlay;
     $("vinyl").onclick = togglePlay;
     $("prevBtn").onclick = () => {
@@ -3058,7 +3175,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (ytPlayer && ytPlayer.setVolume) ytPlayer.setVolume(v * 100);
     };
 
-    // Theme grid
     const themeGrid = $("themeGrid");
     Object.keys(THEMES).forEach(theme => {
         const chip = document.createElement("div");
@@ -3069,7 +3185,6 @@ document.addEventListener("DOMContentLoaded", () => {
         themeGrid.appendChild(chip);
     });
 
-    // Float buttons
     $("adminButton").onclick = () => {
         if (auth.currentUser) openAdminPanel();
         else openModal("loginModal");
@@ -3089,12 +3204,10 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     $("themeReset").onclick = () => applyTheme("default");
 
-    // Mode chips
     document.querySelectorAll(".mode-chip").forEach(chip => {
         chip.onclick = () => applyMode(chip.dataset.mode);
     });
 
-    // Settings - helpers
     function bindToggle(id, key, cb) {
         $(id).onchange = () => {
             settings[key] = $(id).checked;
@@ -3164,7 +3277,6 @@ document.addEventListener("DOMContentLoaded", () => {
         toast("Configurações restauradas", "success");
     };
 
-    // Login
     $("loginButton").onclick = async () => {
         const email = $("loginEmail").value.trim();
         const password = $("loginPassword").value;
@@ -3173,16 +3285,10 @@ document.addEventListener("DOMContentLoaded", () => {
             await auth.signInWithEmailAndPassword(email, password);
             closeModal("loginModal");
             toast("Bem-vindo!", "success");
-        } catch (e) {
-            toast("Erro: " + e.message, "error");
-        }
+        } catch (e) { toast("Erro: " + e.message, "error"); }
     };
+    auth.onAuthStateChanged(user => { if (user) $("adminUserEmail").textContent = user.email; });
 
-    auth.onAuthStateChanged(user => {
-        if (user) $("adminUserEmail").textContent = user.email;
-    });
-
-    // Admin save/logout
     $("saveButton").onclick = saveProfile;
     $("logoutButton").onclick = () => {
         auth.signOut();
@@ -3190,7 +3296,6 @@ document.addEventListener("DOMContentLoaded", () => {
         toast("Sessão encerrada", "info");
     };
 
-    // Add link / badge
     $("addLink").onclick = () => addLinkRow("", "");
     $("addBadge").onclick = () => {
         const v = $("badgeInput").value.trim();
@@ -3199,7 +3304,6 @@ document.addEventListener("DOMContentLoaded", () => {
         $("badgeInput").value = "";
     };
 
-    // Avatar file
     $("avatarFile").onchange = async () => {
         const file = $("avatarFile").files[0];
         if (!file) return;
@@ -3210,7 +3314,6 @@ document.addEventListener("DOMContentLoaded", () => {
         toast("Avatar carregado (salve para confirmar)", "info");
     };
 
-    // Backgrounds
     $("backgroundFiles").onchange = async () => {
         const files = $("backgroundFiles").files;
         if (!files.length) return;
@@ -3225,7 +3328,6 @@ document.addEventListener("DOMContentLoaded", () => {
         toast(`${files.length} fundo(s) adicionado(s)`, "info");
     };
 
-    // YouTube
     $("addYoutubeBtn").onclick = () => {
         const url = $("youtubeUrlInput").value.trim();
         if (!url) return;
@@ -3238,7 +3340,6 @@ document.addEventListener("DOMContentLoaded", () => {
         toast("Música adicionada", "success");
     };
 
-    // Music files
     $("musicFiles").onchange = async () => {
         const files = $("musicFiles").files;
         if (!files.length) return;
@@ -3251,7 +3352,6 @@ document.addEventListener("DOMContentLoaded", () => {
         toast(`${files.length} música(s) adicionada(s)`, "info");
     };
 
-    // Music settings
     $("musicAutoplay").onchange = () => { if (profile) profile.autoplay = $("musicAutoplay").checked; };
     $("musicLoop").onchange = () => { if (profile) profile.loop = $("musicLoop").checked; };
     $("musicShuffle").onchange = () => { if (profile) profile.shuffle = $("musicShuffle").checked; };
@@ -3262,7 +3362,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (profile) profile.fadeDuration = Number($("fadeDuration").value);
     };
 
-    // Add art
     $("addArtBtn").onclick = async () => {
         let image = $("artImageUrl").value.trim();
         const file = $("artImageFile").files[0];
@@ -3286,7 +3385,6 @@ document.addEventListener("DOMContentLoaded", () => {
         toast("Arte adicionada", "success");
     };
 
-    // Add friend
     $("addFriendBtn").onclick = () => {
         const friend = {
             name: $("friendNameInput").value.trim(),
@@ -3309,29 +3407,18 @@ document.addEventListener("DOMContentLoaded", () => {
         toast("Amigo adicionado", "success");
     };
 
-    // Modal close outside click
     document.querySelectorAll(".modal").forEach(modal => {
-        modal.onclick = (e) => {
-            if (e.target === modal) modal.classList.remove("show");
-        };
+        modal.onclick = (e) => { if (e.target === modal) modal.classList.remove("show"); };
     });
-
-    // ESC fecha modais
     document.addEventListener("keydown", e => {
-        if (e.key === "Escape") {
-            document.querySelectorAll(".modal.show").forEach(m => m.classList.remove("show"));
-        }
+        if (e.key === "Escape") document.querySelectorAll(".modal.show").forEach(m => m.classList.remove("show"));
     });
 
-    // Restaura página
     const savedPage = localStorage.getItem("current_page");
     if (savedPage) switchPage(savedPage);
 
-    // Inicializa vídeo
     initVideoBgInputs();
     applyVideoBackground();
-
-    // Carrega perfil
     loadProfile();
 });
 </script>
