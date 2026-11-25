@@ -54,6 +54,19 @@ body.no-cursor-custom * { cursor: auto !important; }
     pointer-events: none;
 }
 #background.blur { filter: blur(8px); transform: scale(1.05); }
+#background.hidden { opacity: 0 !important; }
+
+/* ============ VIDEO FUNDO ============ */
+#backgroundVideo {
+    position: fixed; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: -10;
+    display: none;
+    pointer-events: none;
+    transition: opacity 1s ease, filter .5s ease;
+}
+#backgroundVideo.active { display: block !important; opacity: 1; }
 
 .ambient-layer {
     position: fixed; inset: 0; z-index: -9; pointer-events: none;
@@ -825,10 +838,11 @@ textarea.input { min-height: 120px; resize: vertical; }
 }
 .admin-decor span {
     position: absolute;
-    color: rgba(var(--particle-color),.4);
+    color: rgba(var(--particle-color),.45);
     font-size: 14px;
     animation: decorFloat var(--d, 8s) ease-in-out infinite;
     left: var(--x); top: var(--y);
+    text-shadow: 0 0 10px rgba(var(--particle-color),.6);
 }
 @keyframes decorFloat {
     0%, 100% { transform: translateY(0) rotate(0); opacity: .3; }
@@ -1006,6 +1020,7 @@ textarea.input { min-height: 120px; resize: vertical; }
 <body>
 
 <div id="background"></div>
+<video id="backgroundVideo" autoplay muted loop playsinline></video>
 <div class="ambient-layer ambient-fog" id="ambientFog"></div>
 <div class="ambient-layer ambient-aurora" id="ambientAurora"></div>
 <div class="ambient-layer ambient-waves" id="ambientWaves"></div>
@@ -1026,14 +1041,12 @@ textarea.input { min-height: 120px; resize: vertical; }
         <h1 id="profileName" class="profile-name">Carregando...</h1>
         <p id="profileDescription" class="profile-description"></p>
 
-        <!-- NAVEGAÇÃO -->
         <nav class="page-nav">
             <button class="page-tab active" data-page="home">🏠 Perfil</button>
             <button class="page-tab" data-page="artes">🎨 Artes</button>
             <button class="page-tab" data-page="amigos">👥 Amigos</button>
         </nav>
 
-        <!-- PÁGINA: HOME -->
         <div id="pageHome" class="page-content active">
             <div id="badges" class="badges"></div>
             <div id="links" class="links"></div>
@@ -1070,7 +1083,6 @@ textarea.input { min-height: 120px; resize: vertical; }
             </div>
         </div>
 
-        <!-- PÁGINA: ARTES -->
         <div id="pageArtes" class="page-content">
             <div id="artesGrid" class="artes-grid"></div>
             <div id="artesEmpty" class="empty-state" style="display:none">
@@ -1079,7 +1091,6 @@ textarea.input { min-height: 120px; resize: vertical; }
             </div>
         </div>
 
-        <!-- PÁGINA: AMIGOS -->
         <div id="pageAmigos" class="page-content">
             <div id="friendsGrid" class="friends-grid"></div>
             <div id="friendsEmpty" class="empty-state" style="display:none">
@@ -1090,7 +1101,6 @@ textarea.input { min-height: 120px; resize: vertical; }
     </section>
 </main>
 
-<!-- MINI PLAYER -->
 <div id="miniPlayer" class="mini-player hidden">
     <div class="mini-info">
         <div class="mini-title" id="miniTitle">Música</div>
@@ -1114,7 +1124,6 @@ textarea.input { min-height: 120px; resize: vertical; }
     </button>
 </div>
 
-<!-- LOGIN -->
 <div id="loginModal" class="modal">
     <div class="modal-box login-box">
         <div class="modal-header">
@@ -1127,16 +1136,27 @@ textarea.input { min-height: 120px; resize: vertical; }
     </div>
 </div>
 
-<!-- ADMIN PANEL -->
 <div id="adminModal" class="modal">
     <div class="modal-box admin-box">
         <div class="admin-decor" aria-hidden="true">
-            <span style="--x: 5%; --y: 15%; --d: 7s;">✦</span>
-            <span style="--x: 92%; --y: 8%; --d: 9s;">✧</span>
+            <span style="--x: 5%;  --y: 15%; --d: 7s;">✦</span>
+            <span style="--x: 92%; --y: 8%;  --d: 9s;">✧</span>
             <span style="--x: 15%; --y: 85%; --d: 6s;">✦</span>
             <span style="--x: 85%; --y: 75%; --d: 8s;">✧</span>
-            <span style="--x: 45%; --y: 5%; --d: 10s;">⋆</span>
+            <span style="--x: 45%; --y: 5%;  --d: 10s;">⋆</span>
             <span style="--x: 70%; --y: 92%; --d: 5s;">✦</span>
+            <span style="--x: 30%; --y: 45%; --d: 11s;">✺</span>
+            <span style="--x: 60%; --y: 25%; --d: 7.5s;">❋</span>
+            <span style="--x: 8%;  --y: 55%; --d: 9.5s;">✿</span>
+            <span style="--x: 95%; --y: 45%; --d: 6.5s;">✾</span>
+            <span style="--x: 50%; --y: 70%; --d: 12s;">✦</span>
+            <span style="--x: 22%; --y: 20%; --d: 8.5s;">✧</span>
+            <span style="--x: 78%; --y: 55%; --d: 10.5s;">⋆</span>
+            <span style="--x: 40%; --y: 88%; --d: 7s;">✺</span>
+            <span style="--x: 65%; --y: 12%; --d: 9s;">❋</span>
+            <span style="--x: 3%;  --y: 92%; --d: 13s;">✦</span>
+            <span style="--x: 97%; --y: 22%; --d: 11.5s;">✧</span>
+            <span style="--x: 33%; --y: 65%; --d: 6s;">⋆</span>
         </div>
 
         <div class="admin-hero">
@@ -1210,6 +1230,28 @@ textarea.input { min-height: 120px; resize: vertical; }
                 <input id="backgroundInterval" class="input" type="number" min="1" placeholder="Tempo do fundo (segundos)">
                 <input id="blurAmount" class="input" type="number" min="0" max="30" placeholder="Blur">
             </div>
+
+            <hr style="border:none;border-top:1px dashed rgba(255,255,255,.1);margin:16px 0;">
+
+            <h4 style="font-size:13px;color:var(--accent);margin-bottom:10px;">🎬 Fundo em Vídeo</h4>
+            <label class="checkbox-row">
+                <input id="videoBgEnabled" type="checkbox"> Ativar fundo em vídeo
+            </label>
+            <div class="grid" style="margin-bottom:10px;">
+                <input id="videoBgUrl" class="input" placeholder="URL do vídeo (MP4/WebM)" style="margin:0">
+                <input id="videoBgFile" class="file-input" type="file" accept="video/mp4,video/webm,video/ogg" style="margin:0">
+            </div>
+            <div class="slider-row">
+                <label>Desfoque do vídeo <span id="videoBlurVal">0px</span></label>
+                <input id="videoBlur" type="range" min="0" max="30" value="0">
+            </div>
+            <label class="checkbox-row">
+                <input id="videoLoop" type="checkbox" checked> Repetir vídeo
+            </label>
+            <label class="checkbox-row">
+                <input id="videoMuted" type="checkbox" checked> Vídeo sem som
+            </label>
+            <button id="removeVideoBg" class="small-button danger" style="width:100%;margin-top:6px;">🗑️ Remover vídeo de fundo</button>
         </div>
 
         <div class="admin-section">
@@ -1225,7 +1267,6 @@ textarea.input { min-height: 120px; resize: vertical; }
             <div id="badgesEditor" class="admin-list"></div>
         </div>
 
-        <!-- NOVO: ARTES -->
         <div class="admin-section">
             <h3>🎨 Artes</h3>
             <div class="grid" style="margin-bottom:10px;">
@@ -1241,7 +1282,6 @@ textarea.input { min-height: 120px; resize: vertical; }
             <div id="artesEditor" class="admin-list" style="margin-top:12px;"></div>
         </div>
 
-        <!-- NOVO: AMIGOS -->
         <div class="admin-section">
             <h3>👥 Amigos do Discord</h3>
             <div class="lanyard-note">
@@ -1252,7 +1292,7 @@ textarea.input { min-height: 120px; resize: vertical; }
                 <input id="friendDiscordIdInput" class="input" placeholder="Discord ID (opcional)" style="margin:0">
             </div>
             <div class="grid" style="margin-bottom:10px;">
-                <input id="friendAvatarInput" class="input" placeholder="URL do avatar (opcional se tiver ID)" style="margin:0">
+                <input id="friendAvatarInput" class="input" placeholder="URL do avatar (opcional)" style="margin:0">
                 <input id="friendLinkInput" class="input" placeholder="Link do perfil (opcional)" style="margin:0">
             </div>
             <input id="friendDescInput" class="input" placeholder="Descrição curta (opcional)">
@@ -1316,7 +1356,7 @@ textarea.input { min-height: 120px; resize: vertical; }
         <button id="logoutButton" class="small-button" style="width:100%">Sair</button>
 
         <div class="admin-footer">
-            <span>v2.2.0</span>
+            <span>v2.3.0</span>
             <span>·</span>
             <span>Painel Administrativo</span>
             <span>·</span>
@@ -1325,7 +1365,6 @@ textarea.input { min-height: 120px; resize: vertical; }
     </div>
 </div>
 
-<!-- PAINEL DE PERSONALIZAÇÃO -->
 <div id="effectsModal" class="modal">
     <div class="modal-box">
         <div class="modal-header">
@@ -1447,7 +1486,6 @@ textarea.input { min-height: 120px; resize: vertical; }
     </div>
 </div>
 
-<!-- LIGHTBOX DE ARTE -->
 <div id="artLightbox" class="modal">
     <div class="modal-box art-lightbox-box">
         <div class="modal-header">
@@ -1511,6 +1549,10 @@ let cursorListenersAttached = false;
 let currentPage = "home";
 let friendStatusCache = {};
 let friendRefreshTimer = null;
+
+/* VÍDEO DE FUNDO */
+let videoBgData = null;
+let videoBgEnabled = false;
 
 /* =========================================================
    SETTINGS
@@ -1580,6 +1622,25 @@ function openModal(id) { $(id).classList.add("show"); }
 function closeModal(id) { $(id).classList.remove("show"); }
 
 /* =========================================================
+   UTIL
+========================================================= */
+function escapeHTML(str) {
+    if (str === null || str === undefined) return "";
+    return String(str).replace(/[&<>"']/g, c => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    }[c]));
+}
+
+function fileToDataURL(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
+}
+
+/* =========================================================
    PÁGINAS / NAVEGAÇÃO
 ========================================================= */
 function switchPage(page) {
@@ -1594,12 +1655,8 @@ function switchPage(page) {
     updateMiniPlayer();
 }
 
-document.querySelectorAll(".page-tab").forEach(tab => {
-    tab.onclick = () => switchPage(tab.dataset.page);
-});
-
 /* =========================================================
-   MINI PLAYER (visível fora do home quando tocando)
+   MINI PLAYER
 ========================================================= */
 function updateMiniPlayer() {
     const mp = $("miniPlayer");
@@ -1611,8 +1668,6 @@ function updateMiniPlayer() {
     $("miniTitle").textContent = playlist[currentSong]?.name || "Música";
     $("miniPlayBtn").textContent = isPlaying ? "⏸" : "▶";
 }
-
-$("miniPlayBtn").onclick = () => togglePlay();
 
 function updateMiniProgress() {
     if (currentPage === "home" || !isPlaying) return;
@@ -1843,15 +1898,101 @@ function updateAmbient() {
 }
 
 /* =========================================================
-   FILE TO DATA URL
+   VÍDEO DE FUNDO
 ========================================================= */
-function fileToDataURL(file) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-    });
+function applyVideoBackground() {
+    const vid = $("backgroundVideo");
+    if (!vid) return;
+
+    if (videoBgEnabled && videoBgData) {
+        if (vid.src !== videoBgData) vid.src = videoBgData;
+        vid.classList.add("active");
+        vid.loop = (profile?.videoLoop !== false);
+        vid.muted = (profile?.videoMuted !== false);
+        vid.play().catch(() => {});
+        $("background").classList.add("hidden");
+    } else {
+        vid.pause();
+        vid.classList.remove("active");
+        vid.removeAttribute("src");
+        try { vid.load(); } catch(e) {}
+        $("background").classList.remove("hidden");
+    }
+
+    const blurVal = Number(profile?.videoBlur || 0);
+    vid.style.filter = blurVal > 0 ? `blur(${blurVal}px)` : "none";
+    vid.style.transform = blurVal > 0 ? "scale(1.05)" : "scale(1)";
+}
+
+function initVideoBgInputs() {
+    const en = $("videoBgEnabled");
+    const urlIn = $("videoBgUrl");
+    const fileIn = $("videoBgFile");
+    const blurIn = $("videoBlur");
+    const blurVal = $("videoBlurVal");
+    const loopIn = $("videoLoop");
+    const mutedIn = $("videoMuted");
+    const removeBtn = $("removeVideoBg");
+
+    if (!en) return;
+
+    en.checked = !!videoBgEnabled;
+    urlIn.value = (videoBgData && videoBgData.startsWith("http")) ? videoBgData : "";
+    blurIn.value = Number(profile?.videoBlur || 0);
+    blurVal.textContent = blurIn.value + "px";
+    loopIn.checked = profile?.videoLoop !== false;
+    mutedIn.checked = profile?.videoMuted !== false;
+
+    en.onchange = () => {
+        videoBgEnabled = en.checked;
+        applyVideoBackground();
+        toast(en.checked ? "Vídeo de fundo ativado" : "Vídeo de fundo desativado", "info");
+    };
+
+    urlIn.oninput = () => {
+        const v = urlIn.value.trim();
+        if (v) {
+            videoBgData = v;
+            if (!videoBgEnabled) { videoBgEnabled = true; en.checked = true; }
+            applyVideoBackground();
+        }
+    };
+
+    fileIn.onchange = async () => {
+        const file = fileIn.files[0];
+        if (!file) return;
+        if (file.size > 25 * 1024 * 1024) {
+            toast("Vídeo muito grande (máx ~25MB). Use URL.", "error");
+            return;
+        }
+        toast("Carregando vídeo...", "info");
+        videoBgData = await fileToDataURL(file);
+        videoBgEnabled = true;
+        en.checked = true;
+        applyVideoBackground();
+        toast("Vídeo carregado (não esqueça de Salvar!)", "success");
+    };
+
+    blurIn.oninput = () => {
+        blurVal.textContent = blurIn.value + "px";
+        const v = Number(blurIn.value);
+        $("backgroundVideo").style.filter = v > 0 ? `blur(${v}px)` : "none";
+        $("backgroundVideo").style.transform = v > 0 ? "scale(1.05)" : "scale(1)";
+        if (profile) profile.videoBlur = v;
+    };
+
+    loopIn.onchange = () => { $("backgroundVideo").loop = loopIn.checked; if (profile) profile.videoLoop = loopIn.checked; };
+    mutedIn.onchange = () => { $("backgroundVideo").muted = mutedIn.checked; if (profile) profile.videoMuted = mutedIn.checked; };
+
+    removeBtn.onclick = () => {
+        videoBgData = null;
+        videoBgEnabled = false;
+        en.checked = false;
+        urlIn.value = "";
+        fileIn.value = "";
+        applyVideoBackground();
+        toast("Vídeo removido", "info");
+    };
 }
 
 /* =========================================================
@@ -1888,12 +2029,24 @@ async function loadProfile() {
                 effectCursor: true,
                 effectRing: true,
                 effectAmbient: false,
-                fadeDuration: 3
+                fadeDuration: 3,
+                videoBg: "",
+                videoBgEnabled: false,
+                videoBlur: 0,
+                videoLoop: true,
+                videoMuted: true
             };
         }
-        // compatibilidade com perfis antigos
         if (!Array.isArray(profile.arts)) profile.arts = [];
         if (!Array.isArray(profile.friends)) profile.friends = [];
+        if (!Array.isArray(profile.backgrounds)) profile.backgrounds = [];
+        if (!Array.isArray(profile.playlist)) profile.playlist = [];
+        if (!Array.isArray(profile.links)) profile.links = [];
+        if (!Array.isArray(profile.badges)) profile.badges = [];
+
+        if (profile.videoBg) videoBgData = profile.videoBg;
+        videoBgEnabled = !!profile.videoBgEnabled;
+
         applyProfile();
     } catch (error) {
         console.error(error);
@@ -1954,6 +2107,8 @@ function applyProfile() {
     card.className = "profile-card " + (settings.entryAnim === "card" ? "" : "entry-" + settings.entryAnim);
     document.documentElement.style.setProperty("--entry-speed", settings.entrySpeed + "s");
 
+    applyVideoBackground();
+
     renderLinks();
     renderBadges();
     renderPlaylist();
@@ -1965,6 +2120,7 @@ function applyProfile() {
     initParticles();
     initCursor();
     applySettingsToUI();
+    initVideoBgInputs();
     refreshFriendStatuses();
 }
 
@@ -2195,6 +2351,12 @@ function changeBackground() {
 /* =========================================================
    PLAYLIST
 ========================================================= */
+function savePlaylistLocal() {
+    if (!profile) return;
+    profile.playlist = playlist;
+    try { db.ref(PROFILE_PATH + "/playlist").set(playlist); } catch(e) { console.warn(e); }
+}
+
 function renderPlaylist() {
     const container = $("playlist");
     container.innerHTML = "";
@@ -2403,40 +2565,6 @@ function togglePlay() {
     else playMusic();
 }
 
-$("playBtn").onclick = togglePlay;
-$("vinyl").onclick = togglePlay;
-
-$("prevBtn").onclick = () => {
-    if (!playlist.length) return;
-    currentSong--;
-    if (currentSong < 0) currentSong = playlist.length - 1;
-    loadSong();
-    playMusic();
-};
-
-$("nextBtn").onclick = () => nextSong();
-
-$("shuffleBtn").onclick = () => {
-    profile.shuffle = !profile.shuffle;
-    $("shuffleBtn").classList.toggle("active", profile.shuffle);
-    savePlaylistLocal();
-    toast(profile.shuffle ? "Shuffle ON" : "Shuffle OFF", "info");
-};
-
-$("repeatBtn").onclick = () => {
-    profile.loop = !profile.loop;
-    $("repeatBtn").classList.toggle("active", profile.loop);
-    savePlaylistLocal();
-    toast(profile.loop ? "Repetir playlist" : "Repetir OFF", "info");
-};
-
-$("muteBtn").onclick = () => {
-    isMuted = !isMuted;
-    audio.muted = isMuted;
-    if (ytPlayer && ytPlayer.setVolume) ytPlayer.setVolume(isMuted ? 0 : Number($("volume").value) * 100);
-    $("muteBtn").textContent = isMuted ? "🔇" : "🔊";
-};
-
 function nextSong() {
     if (!playlist.length) return;
     if (profile.shuffle) {
@@ -2463,24 +2591,6 @@ audio.addEventListener("timeupdate", () => {
     $("currentTime").textContent = formatTime(audio.currentTime);
     $("duration").textContent = formatTime(audio.duration);
 });
-
-$("progress").oninput = () => {
-    if (isYouTubeCurrent()) {
-        if (ytPlayer && ytPlayer.seekTo) {
-            const dur = ytPlayer.getDuration ? ytPlayer.getDuration() : 0;
-            if (dur) ytPlayer.seekTo((Number($("progress").value) / 100) * dur, true);
-        }
-        return;
-    }
-    if (!audio.duration) return;
-    audio.currentTime = (Number($("progress").value) / 100) * audio.duration;
-};
-
-$("volume").oninput = () => {
-    const v = Number($("volume").value);
-    if (!fadeInterval) audio.volume = v;
-    if (ytPlayer && ytPlayer.setVolume) ytPlayer.setVolume(v * 100);
-};
 
 function formatTime(seconds) {
     if (!Number.isFinite(seconds)) return "0:00";
@@ -2529,34 +2639,45 @@ function loadYouTube(song) {
 
     $("youtubeContainer").innerHTML = '<div id="ytPlayerDiv"></div>';
     ytPlayer = new YT.Player("ytPlayerDiv", {
-        height: "1", width: "1", videoId: videoId,
-        playerVars: { autoplay: 0, loop: profile.loop ? 1 : 0, playlist: videoId, controls: 0, modestbranding: 1 },
+        height: "0",
+        width: "0",
+        videoId: videoId,
+        playerVars: { autoplay: 0, controls: 0, disablekb: 1, origin: window.location.origin },
         events: {
-            onReady: () => {
-                ytReady = true;
-                if (ytPlayer.setVolume) ytPlayer.setVolume(Number($("volume").value) * 100);
-                if (pendingYouTubePlay) { ytPlayer.playVideo(); pendingYouTubePlay = false; }
+            onReady: (e) => {
+                e.target.setVolume(Number($("volume").value) * 100);
+                if (pendingYouTubePlay) { e.target.playVideo(); pendingYouTubePlay = false; }
             },
-            onStateChange: (e) => { if (e.data === 0) nextSong(); },
-            onError: () => { toast("Vídeo indisponível. Pulando...", "error"); setTimeout(nextSong, 1000); }
+            onStateChange: (e) => {
+                if (e.data === YT.PlayerState.ENDED) nextSong();
+                else if (e.data === YT.PlayerState.PLAYING) { isPlaying = true; updatePlayUI(true); }
+                else if (e.data === YT.PlayerState.PAUSED) { isPlaying = false; updatePlayUI(false); }
+            }
         }
     });
 }
 
 function playYouTube() {
-    if (ytPlayer && ytReady && ytPlayer.playVideo) ytPlayer.playVideo();
-    else pendingYouTubePlay = true;
+    if (!ytPlayer || !ytReady) {
+        pendingYouTubePlay = true;
+        loadYouTube(playlist[currentSong]);
+        return;
+    }
+    ytPlayer.playVideo();
+    isPlaying = true;
+    updatePlayUI(true);
 }
+
 function pauseYouTube() {
-    pendingYouTubePlay = false;
     if (ytPlayer && ytPlayer.pauseVideo) ytPlayer.pauseVideo();
 }
+
 function stopYouTube() {
     if (ytPlayer && ytPlayer.stopVideo) ytPlayer.stopVideo();
 }
 
 setInterval(() => {
-    if (isYouTubeCurrent() && ytPlayer && ytPlayer.getCurrentTime && ytReady) {
+    if (currentPage === "home" && isYouTubeCurrent() && isPlaying && ytPlayer && ytReady && ytPlayer.getCurrentTime) {
         const cur = ytPlayer.getCurrentTime();
         const dur = ytPlayer.getDuration();
         if (dur) {
@@ -2568,61 +2689,11 @@ setInterval(() => {
 }, 500);
 
 /* =========================================================
-   LOCAL PLAYLIST SAVE
-========================================================= */
-function savePlaylistLocal() {
-    try {
-        const toSave = playlist.map(s => ({
-            name: s.name, source: s.source || "local", videoId: s.videoId || null
-        }));
-        localStorage.setItem("playlist_meta", JSON.stringify({
-            list: toSave, volume: $("volume").value, current: currentSong,
-            shuffle: profile ? profile.shuffle : false,
-            loop: profile ? profile.loop : true
-        }));
-    } catch(e) {}
-}
-
-function restorePlaylistLocal() {
-    try {
-        const saved = localStorage.getItem("playlist_meta");
-        if (!saved) return;
-        const data = JSON.parse(saved);
-        if (data.volume) { $("volume").value = data.volume; audio.volume = Number(data.volume); }
-        if (typeof data.current === "number") currentSong = data.current;
-        if (data.shuffle !== undefined && profile) { profile.shuffle = data.shuffle; $("shuffleBtn").classList.toggle("active", profile.shuffle); }
-        if (data.loop !== undefined && profile) { profile.loop = data.loop; $("repeatBtn").classList.toggle("active", profile.loop); }
-    } catch(e) {}
-}
-
-/* =========================================================
-   MODOS
-========================================================= */
-const MODES = {
-    light: { particles: true, particleCount: 30, ambientFog: false, ambientAurora: false, ambientWaves: false, cursorTrail: false, clickRipple: true, clickParticles: false },
-    immersive: { particles: true, particleCount: 120, ambientFog: true, ambientAurora: true, ambientWaves: true, cursorTrail: true, clickRipple: true, clickParticles: true },
-    cinematic: { particles: true, particleCount: 50, ambientFog: true, ambientAurora: true, ambientWaves: true, cursorTrail: true, entrySpeed: 1.5, clickParticles: true },
-    galaxy: { particles: true, particleCount: 200, particleSpeed: 0.5, ambientAurora: true, ambientFog: false, ambientWaves: false },
-    aurora: { particles: true, particleCount: 80, ambientAurora: true, ambientWaves: true, ambientFog: false },
-    performance: { particles: false, ambientFog: false, ambientAurora: false, ambientWaves: false, cursorTrail: false, clickParticles: false, clickRipple: false },
-    minimal: { particles: false, ambientFog: false, ambientAurora: false, ambientWaves: false, cursorTrail: false, clickParticles: false, clickRipple: false, cursor: true },
-    allOff: { particles: false, ambientFog: false, ambientAurora: false, ambientWaves: false, cursor: false, cursorTrail: false, clickRipple: false, clickParticles: false, clickSound: false }
-};
-
-function applyMode(modeName) {
-    const mode = MODES[modeName];
-    if (!mode) return;
-    Object.assign(settings, mode);
-    saveSettings();
-    applySettingsToUI();
-    refreshAllEffects();
-    toast(`Modo: ${modeName}`, "success");
-}
-
-/* =========================================================
-   APLICAR SETTINGS
+   SETTINGS UI
 ========================================================= */
 function applySettingsToUI() {
+    if (!profile) return;
+
     $("optParticles").checked = settings.particles;
     $("optParticleCount").value = settings.particleCount;
     $("valParticleCount").textContent = settings.particleCount;
@@ -2632,106 +2703,214 @@ function applySettingsToUI() {
     $("valParticleSize").textContent = settings.particleSize;
     $("optParticleOpacity").value = settings.particleOpacity;
     $("valParticleOpacity").textContent = settings.particleOpacity;
+
     $("optCursor").checked = settings.cursor;
     $("optCursorTrail").checked = settings.cursorTrail;
     $("optClickRipple").checked = settings.clickRipple;
     $("optClickParticles").checked = settings.clickParticles;
+
     $("optEntryAnim").value = settings.entryAnim;
     $("optEntrySpeed").value = settings.entrySpeed;
     $("valEntrySpeed").textContent = settings.entrySpeed + "s";
+
     $("optAmbientFog").checked = settings.ambientFog;
     $("optAmbientAurora").checked = settings.ambientAurora;
     $("optAmbientWaves").checked = settings.ambientWaves;
+
     $("optClickSound").checked = settings.clickSound;
     $("optSoundVolume").value = settings.soundVolume;
     $("valSoundVolume").textContent = settings.soundVolume;
+
     $("optGlow").value = settings.glowIntensity;
     $("valGlow").textContent = settings.glowIntensity;
-
     document.documentElement.style.setProperty("--glow-intensity", settings.glowIntensity);
-    document.documentElement.style.setProperty("--entry-speed", settings.entrySpeed + "s");
 
-    canvas.style.opacity = settings.particleOpacity;
-    initCursor();
     updateThemeChips();
 }
 
-function refreshAllEffects() {
-    initParticles();
-    updateAmbient();
-    initCursor();
-    $("profileCard").className = "profile-card " + (settings.entryAnim === "card" ? "" : "entry-" + settings.entryAnim);
-}
-
-/* =========================================================
-   ADMIN STATS
-========================================================= */
-function updateAdminStats() {
-    $("statSongs").textContent = playlist.length;
-    $("statArts").textContent = (profile && profile.arts) ? profile.arts.length : 0;
-    $("statFriends").textContent = (profile && profile.friends) ? profile.friends.length : 0;
-    $("statBackgrounds").textContent = backgrounds.length;
-    $("adminUserEmail").textContent = auth.currentUser ? auth.currentUser.email : "Autenticado";
-}
-
-/* =========================================================
-   BOTÕES
-========================================================= */
-$("adminButton").onclick = () => {
-    if (auth.currentUser) openAdmin();
-    else openModal("loginModal");
-};
-
-$("effectsPanelBtn").onclick = () => {
-    applySettingsToUI();
-    openModal("effectsModal");
-};
-
-$("closeEffectsBtn").onclick = () => closeModal("effectsModal");
-
-$("themeToggle").onclick = () => {
-    const isDark = settings.theme !== "minimal";
-    applyTheme(isDark ? "minimal" : "default");
-};
-
-$("randomThemeBtn").onclick = () => {
-    const keys = Object.keys(THEMES);
-    applyTheme(keys[Math.floor(Math.random() * keys.length)]);
-};
-
-/* =========================================================
-   LOGIN
-========================================================= */
-$("loginButton").onclick = async () => {
-    const email = $("loginEmail").value.trim();
-    const password = $("loginPassword").value;
-    if (!email || !password) { toast("Preencha e-mail e senha.", "error"); return; }
-    try {
-        await auth.signInWithEmailAndPassword(email, password);
-        closeModal("loginModal");
-        openAdmin();
-        toast("Administrador conectado.", "success");
-    } catch (error) {
-        console.error(error);
-        toast("Login inválido.", "error");
+function applyMode(mode) {
+    switch(mode) {
+        case "light":
+            settings.particles = true; settings.particleCount = 30; settings.particleSpeed = 1; settings.particleSize = .8;
+            settings.ambientFog = false; settings.ambientAurora = false; settings.ambientWaves = false;
+            settings.entryAnim = "fade"; settings.entrySpeed = .5;
+            break;
+        case "immersive":
+            settings.particles = true; settings.particleCount = 100; settings.particleSpeed = 1.2;
+            settings.ambientFog = true; settings.ambientAurora = true; settings.ambientWaves = true;
+            settings.cursorTrail = true;
+            break;
+        case "cinematic":
+            settings.particles = false; settings.ambientFog = true; settings.ambientAurora = true; settings.ambientWaves = false;
+            settings.entryAnim = "blur"; settings.entrySpeed = 1.2;
+            break;
+        case "galaxy":
+            settings.particles = true; settings.particleCount = 200; settings.particleSpeed = .5; settings.particleSize = 1.2;
+            settings.ambientFog = false; settings.ambientAurora = true; settings.ambientWaves = true;
+            break;
+        case "aurora":
+            settings.ambientAurora = true; settings.ambientFog = true; settings.ambientWaves = true;
+            settings.particles = true; settings.particleCount = 50;
+            break;
+        case "performance":
+            settings.particles = false; settings.cursorTrail = false; settings.clickParticles = false;
+            settings.ambientFog = false; settings.ambientAurora = false; settings.ambientWaves = false;
+            break;
+        case "minimal":
+            settings.particles = false; settings.cursor = true; settings.cursorTrail = false;
+            settings.clickRipple = false; settings.clickParticles = false;
+            settings.ambientFog = false; settings.ambientAurora = false; settings.ambientWaves = false;
+            break;
+        case "allOff":
+            settings.particles = false; settings.cursor = false;
+            settings.ambientFog = false; settings.ambientAurora = false; settings.ambientWaves = false;
+            break;
     }
-};
-
-auth.onAuthStateChanged(user => {
-    console.log("Auth:", user ? user.email : "não conectado");
-    if (user) updateAdminStats();
-});
-
-/* =========================================================
-   ADMIN
-========================================================= */
-function openAdmin() {
-    loadAdminValues();
-    updateAdminStats();
-    openModal("adminModal");
+    saveSettings();
+    applySettingsToUI();
+    initParticles();
+    initCursor();
+    updateAmbient();
+    toast("Modo: " + mode, "success");
 }
 
-function loadAdminValues() {
+/* =========================================================
+   ADMIN EDITORS
+========================================================= */
+function addLinkRow(name = "", url = "") {
+    const container = $("linksEditor");
+    const row = document.createElement("div");
+    row.className = "admin-item";
+    row.innerHTML = `
+        <input class="input link-name" placeholder="Nome" value="${escapeHTML(name)}" style="margin:0;flex:1">
+        <input class="input link-url" placeholder="URL" value="${escapeHTML(url)}" style="margin:0;flex:1">
+        <button class="small-button danger">✕</button>
+    `;
+    row.querySelector("button").onclick = () => row.remove();
+    container.appendChild(row);
+}
+
+function addBadgeRow(value = "") {
+    const container = $("badgesEditor");
+    const row = document.createElement("div");
+    row.className = "admin-item";
+    row.innerHTML = `
+        <input class="input" placeholder="Badge" value="${escapeHTML(value)}" style="margin:0;flex:1">
+        <button class="small-button danger">✕</button>
+    `;
+    row.querySelector("button").onclick = () => row.remove();
+    container.appendChild(row);
+}
+
+function collectLinks() {
+    const links = [];
+    document.querySelectorAll("#linksEditor .admin-item").forEach(item => {
+        const name = item.querySelector(".link-name")?.value.trim();
+        const url = item.querySelector(".link-url")?.value.trim();
+        if (url) links.push({ name: name || url, url });
+    });
+    return links;
+}
+
+function collectBadges() {
+    const badges = [];
+    document.querySelectorAll("#badgesEditor .admin-item input").forEach(input => {
+        const v = input.value.trim();
+        if (v) badges.push(v);
+    });
+    return badges;
+}
+
+function renderBackgroundList() {
+    const list = $("backgroundList");
+    list.innerHTML = "";
+    (profile.backgrounds || []).forEach((bg, i) => {
+        const item = document.createElement("div");
+        item.className = "admin-item";
+        item.innerHTML = `
+            <div style="width:60px;height:40px;border-radius:6px;background-image:url('${bg}');background-size:cover;background-position:center;flex-shrink:0"></div>
+            <input class="input" value="Fundo ${i+1}" disabled style="margin:0;flex:1;opacity:.6">
+            <button class="small-button danger">✕</button>
+        `;
+        item.querySelector("button").onclick = () => {
+            profile.backgrounds.splice(i, 1);
+            backgrounds = profile.backgrounds;
+            renderBackgroundList();
+            startBackgrounds();
+        };
+        list.appendChild(item);
+    });
+}
+
+function renderMusicEditor() {
+    const list = $("musicEditor");
+    list.innerHTML = "";
+    playlist.forEach((song, i) => {
+        const item = document.createElement("div");
+        item.className = "admin-item";
+        item.innerHTML = `
+            <span class="src-badge" style="font-size:10px;padding:2px 6px;border-radius:4px;background:rgba(255,255,255,.08);color:#bbb;flex-shrink:0">${song.source === "youtube" ? "YT" : "MP3"}</span>
+            <input class="input music-name-input" value="${escapeHTML(song.name)}" style="margin:0;flex:1">
+            <button class="small-button danger">✕</button>
+        `;
+        item.querySelector(".music-name-input").oninput = (e) => {
+            playlist[i].name = e.target.value;
+        };
+        item.querySelector("button").onclick = () => {
+            playlist.splice(i, 1);
+            if (currentSong >= playlist.length) currentSong = Math.max(0, playlist.length - 1);
+            renderPlaylist();
+            renderMusicEditor();
+        };
+        list.appendChild(item);
+    });
+}
+
+function renderArtsEditor() {
+    const list = $("artesEditor");
+    list.innerHTML = "";
+    (profile.arts || []).forEach((art, i) => {
+        const item = document.createElement("div");
+        item.className = "admin-item";
+        item.innerHTML = `
+            <img src="${art.image || ''}" style="width:40px;height:40px;border-radius:6px;object-fit:cover">
+            <input class="input art-title-input" value="${escapeHTML(art.title || '')}" placeholder="Título" style="margin:0;flex:1">
+            <button class="small-button danger">✕</button>
+        `;
+        item.querySelector(".art-title-input").oninput = (e) => { art.title = e.target.value; };
+        item.querySelector("button").onclick = () => {
+            profile.arts.splice(i, 1);
+            renderArtes();
+            renderArtsEditor();
+        };
+        list.appendChild(item);
+    });
+}
+
+function renderFriendsEditor() {
+    const list = $("friendsEditor");
+    list.innerHTML = "";
+    (profile.friends || []).forEach((friend, i) => {
+        const item = document.createElement("div");
+        item.className = "admin-item";
+        item.innerHTML = `
+            <input class="input friend-name-input" value="${escapeHTML(friend.name || '')}" placeholder="Nome" style="margin:0;flex:1">
+            <input class="input friend-id-input" value="${escapeHTML(friend.discordId || '')}" placeholder="Discord ID" style="margin:0;flex:1">
+            <button class="small-button danger">✕</button>
+        `;
+        item.querySelector(".friend-name-input").oninput = (e) => { friend.name = e.target.value; };
+        item.querySelector(".friend-id-input").oninput = (e) => { friend.discordId = e.target.value; };
+        item.querySelector("button").onclick = () => {
+            profile.friends.splice(i, 1);
+            renderFriends();
+            renderFriendsEditor();
+        };
+        list.appendChild(item);
+    });
+}
+
+function openAdminPanel() {
+    if (!profile) return;
     $("editName").value = profile.name || "";
     $("editTitle").value = profile.title || "";
     $("editDescription").value = profile.description || "";
@@ -2739,535 +2918,421 @@ function loadAdminValues() {
     $("secondaryColor").value = profile.secondary || "#06b6d4";
     $("backgroundInterval").value = profile.backgroundInterval || 8;
     $("blurAmount").value = profile.blur || 0;
+
     $("musicAutoplay").checked = !!profile.autoplay;
     $("musicLoop").checked = profile.loop !== false;
     $("musicShuffle").checked = !!profile.shuffle;
     $("musicChangeBackground").checked = !!profile.musicChangeBackground;
     $("musicFadeIn").checked = profile.musicFadeIn !== false;
+    $("fadeDuration").value = profile.fadeDuration || 3;
+    $("fadeDurationVal").textContent = (profile.fadeDuration || 3) + "s";
+
     $("effectGlow").checked = profile.glow !== false;
     $("effectParticles").checked = profile.effectParticles !== false;
     $("effectVinyl").checked = profile.effectVinyl !== false;
     $("effectCursor").checked = profile.effectCursor !== false;
     $("effectRing").checked = profile.effectRing !== false;
     $("effectAmbient").checked = !!profile.effectAmbient;
-    $("fadeDuration").value = profile.fadeDuration || 3;
-    $("fadeDurationVal").textContent = (profile.fadeDuration || 3) + "s";
 
-    renderBackgroundEditor();
-    renderLinksEditor();
-    renderBadgesEditor();
+    $("linksEditor").innerHTML = "";
+    (profile.links || []).forEach(l => addLinkRow(l.name, l.url));
+
+    $("badgesEditor").innerHTML = "";
+    (profile.badges || []).forEach(b => addBadgeRow(b));
+
+    renderBackgroundList();
     renderMusicEditor();
-    renderArtesEditor();
+    renderArtsEditor();
     renderFriendsEditor();
+    initVideoBgInputs();
+
+    $("statSongs").textContent = playlist.length;
+    $("statArts").textContent = (profile.arts || []).length;
+    $("statFriends").textContent = (profile.friends || []).length;
+    $("statBackgrounds").textContent = (profile.backgrounds || []).length;
+
+    openModal("adminModal");
 }
 
-/* AVATAR */
-$("avatarFile").onchange = async event => {
-    const file = event.target.files[0];
-    if (!file) return;
-    if (file.size > 2 * 1024 * 1024) { toast("Avatar máximo: 2 MB.", "error"); return; }
-    profile.avatar = await fileToDataURL(file);
-    toast("Avatar carregado.", "success");
-};
+async function saveProfile() {
+    if (!auth.currentUser) { toast("Faça login primeiro", "error"); return; }
 
-/* FUNDOS */
-$("backgroundFiles").onchange = async event => {
-    const files = Array.from(event.target.files);
-    for (const file of files) {
-        if (file.size > 3 * 1024 * 1024) { toast(`${file.name} é grande demais.`, "error"); continue; }
-        backgrounds.push(await fileToDataURL(file));
-    }
-    renderBackgroundEditor();
-    updateAdminStats();
-};
-
-function renderBackgroundEditor() {
-    const container = $("backgroundList");
-    container.innerHTML = "";
-    backgrounds.forEach((bg, index) => {
-        const row = document.createElement("div");
-        row.className = "admin-item";
-        row.innerHTML = `
-            <img src="${bg}" style="width:70px;height:45px;object-fit:cover;border-radius:8px;">
-            <span style="flex:1">Fundo ${index + 1}</span>
-            <button class="small-button danger" onclick="removeBackground(${index})">Remover</button>
-        `;
-        container.appendChild(row);
-    });
-}
-function removeBackground(index) { backgrounds.splice(index, 1); renderBackgroundEditor(); updateAdminStats(); }
-
-/* LINKS */
-function renderLinksEditor() {
-    const container = $("linksEditor");
-    container.innerHTML = "";
-    (profile.links || []).forEach((link, index) => {
-        const row = document.createElement("div");
-        row.className = "admin-item";
-        row.innerHTML = `
-            <input class="input" value="${escapeHTML(link.name || "")}" placeholder="Nome" data-link-name="${index}">
-            <input class="input" value="${escapeHTML(link.url || "")}" placeholder="URL" data-link-url="${index}">
-            <button class="small-button danger" onclick="removeLink(${index})">×</button>
-        `;
-        container.appendChild(row);
-    });
-}
-$("addLink").onclick = () => {
-    if (!profile.links) profile.links = [];
-    profile.links.push({ name: "Novo link", url: "https://" });
-    renderLinksEditor();
-};
-function removeLink(index) { profile.links.splice(index, 1); renderLinksEditor(); }
-
-/* BADGES */
-$("addBadge").onclick = () => {
-    const value = $("badgeInput").value.trim();
-    if (!value) return;
-    if (!profile.badges) profile.badges = [];
-    profile.badges.push(value);
-    $("badgeInput").value = "";
-    renderBadgesEditor();
-};
-function renderBadgesEditor() {
-    const container = $("badgesEditor");
-    container.innerHTML = "";
-    (profile.badges || []).forEach((badge, index) => {
-        const row = document.createElement("div");
-        row.className = "admin-item";
-        row.innerHTML = `
-            <input class="input" value="${escapeHTML(badge)}" data-badge="${index}">
-            <button class="small-button danger" onclick="removeBadge(${index})">×</button>
-        `;
-        container.appendChild(row);
-    });
-}
-function removeBadge(index) { profile.badges.splice(index, 1); renderBadgesEditor(); }
-
-/* ARTES EDITOR */
-let pendingArtImage = null;
-
-$("artImageFile").onchange = async e => {
-    const file = e.target.files[0];
-    if (!file) return;
-    if (file.size > 1024 * 1024) { toast("Imagem máx: 1 MB. Use URL para imagens grandes.", "error"); e.target.value = ""; return; }
-    pendingArtImage = await fileToDataURL(file);
-    toast("Imagem pronta (clique + Adicionar arte).", "success");
-};
-
-$("addArtBtn").onclick = () => {
-    const title = $("artTitleInput").value.trim();
-    const imageUrl = $("artImageUrl").value.trim();
-    const desc = $("artDescInput").value.trim();
-    const link = $("artLinkInput").value.trim();
-    const image = pendingArtImage || imageUrl;
-
-    if (!image) { toast("Adicione uma imagem ou URL.", "error"); return; }
-    if (!title) { toast("Dê um título à arte.", "error"); return; }
-
-    if (!profile.arts) profile.arts = [];
-    profile.arts.push({ title, description: desc, image, link });
-    pendingArtImage = null;
-    $("artTitleInput").value = "";
-    $("artImageUrl").value = "";
-    $("artDescInput").value = "";
-    $("artLinkInput").value = "";
-    $("artImageFile").value = "";
-    renderArtesEditor();
-    updateAdminStats();
-    toast("Arte adicionada.", "success");
-};
-
-function renderArtesEditor() {
-    const container = $("artesEditor");
-    container.innerHTML = "";
-    (profile.arts || []).forEach((art, index) => {
-        const row = document.createElement("div");
-        row.className = "admin-item-col";
-        row.innerHTML = `
-            <div style="display:flex;gap:10px;align-items:flex-start;">
-                <img src="${art.image || ''}" style="width:70px;height:70px;object-fit:cover;border-radius:8px;flex-shrink:0;">
-                <div style="flex:1;display:flex;flex-direction:column;gap:6px;">
-                    <input class="input" style="margin:0" value="${escapeHTML(art.title || '')}" placeholder="Título" data-art-title="${index}">
-                    <input class="input" style="margin:0" value="${escapeHTML(art.description || '')}" placeholder="Descrição" data-art-desc="${index}">
-                    <input class="input" style="margin:0" value="${escapeHTML(art.link || '')}" placeholder="Link (opcional)" data-art-link="${index}">
-                </div>
-                <button class="small-button danger" onclick="removeArt(${index})" style="align-self:flex-start;">×</button>
-            </div>
-        `;
-        container.appendChild(row);
-    });
-}
-function removeArt(index) {
-    profile.arts.splice(index, 1);
-    renderArtesEditor();
-    updateAdminStats();
-}
-
-/* AMIGOS EDITOR */
-$("addFriendBtn").onclick = () => {
-    const name = $("friendNameInput").value.trim();
-    const discordId = $("friendDiscordIdInput").value.trim();
-    const avatar = $("friendAvatarInput").value.trim();
-    const link = $("friendLinkInput").value.trim();
-    const desc = $("friendDescInput").value.trim();
-
-    if (!name) { toast("Preencha o nome do amigo.", "error"); return; }
-    if (!discordId && !avatar) { toast("Adicione Discord ID ou URL do avatar.", "error"); return; }
-
-    if (!profile.friends) profile.friends = [];
-    profile.friends.push({ name, discordId, avatar, link, description: desc });
-
-    $("friendNameInput").value = "";
-    $("friendDiscordIdInput").value = "";
-    $("friendAvatarInput").value = "";
-    $("friendLinkInput").value = "";
-    $("friendDescInput").value = "";
-
-    renderFriendsEditor();
-    updateAdminStats();
-    refreshFriendStatuses();
-    toast("Amigo adicionado.", "success");
-};
-
-function renderFriendsEditor() {
-    const container = $("friendsEditor");
-    container.innerHTML = "";
-    (profile.friends || []).forEach((friend, index) => {
-        const lanyard = friend.discordId ? friendStatusCache[friend.discordId]?.data : null;
-        const status = lanyard?.discord_status;
-        let avatar = friend.avatar;
-        if (lanyard?.discord_user) avatar = getDiscordAvatar(friend.discordId, lanyard.discord_user.avatar);
-        if (!avatar && friend.discordId) avatar = `https://cdn.discordapp.com/embed/avatars/${Number(friend.discordId) % 5}.png`;
-
-        const row = document.createElement("div");
-        row.className = "admin-item-col";
-        row.innerHTML = `
-            <div style="display:flex;gap:10px;align-items:flex-start;">
-                <div style="position:relative;flex-shrink:0;">
-                    <img src="${avatar || ''}" style="width:50px;height:50px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.1);">
-                    ${status ? `<span class="status-dot ${status}" style="bottom:-2px;right:-2px;"></span>` : ""}
-                </div>
-                <div style="flex:1;display:flex;flex-direction:column;gap:6px;">
-                    <input class="input" style="margin:0" value="${escapeHTML(friend.name || '')}" placeholder="Nome" data-friend-name="${index}">
-                    <input class="input" style="margin:0" value="${escapeHTML(friend.discordId || '')}" placeholder="Discord ID (opcional)" data-friend-id="${index}">
-                    <input class="input" style="margin:0" value="${escapeHTML(friend.avatar || '')}" placeholder="URL do avatar (opcional)" data-friend-avatar="${index}">
-                    <input class="input" style="margin:0" value="${escapeHTML(friend.description || '')}" placeholder="Descrição" data-friend-desc="${index}">
-                    <input class="input" style="margin:0" value="${escapeHTML(friend.link || '')}" placeholder="Link (opcional)" data-friend-link="${index}">
-                </div>
-                <button class="small-button danger" onclick="removeFriend(${index})" style="align-self:flex-start;">×</button>
-            </div>
-        `;
-        container.appendChild(row);
-    });
-}
-
-function removeFriend(index) {
-    profile.friends.splice(index, 1);
-    renderFriendsEditor();
-    updateAdminStats();
-    renderFriends();
-}
-
-/* MÚSICAS */
-$("musicFiles").onchange = async event => {
-    const files = Array.from(event.target.files);
-    for (const file of files) {
-        if (file.size > 8 * 1024 * 1024) { toast(`${file.name} excede 8 MB.`, "error"); continue; }
-        toast(`Carregando ${file.name}...`, "info");
-        const data = await fileToDataURL(file);
-        playlist.push({ name: file.name.replace(/\.[^/.]+$/, ""), data, source: "local" });
-    }
-    renderMusicEditor();
-    renderPlaylist();
-    updateAdminStats();
-};
-
-$("addYoutubeBtn").onclick = () => {
-    const url = $("youtubeUrlInput").value.trim();
-    if (!url) return;
-    const videoId = extractYouTubeId(url);
-    if (!videoId) { toast("Link inválido.", "error"); return; }
-    playlist.push({ name: "YouTube: " + videoId, data: url, videoId, source: "youtube" });
-    $("youtubeUrlInput").value = "";
-    renderMusicEditor();
-    renderPlaylist();
-    updateAdminStats();
-    toast("Vídeo adicionado.", "success");
-};
-
-function renderMusicEditor() {
-    const container = $("musicEditor");
-    container.innerHTML = "";
-    playlist.forEach((song, index) => {
-        const row = document.createElement("div");
-        row.className = "admin-item";
-        row.innerHTML = `
-            <input class="input" value="${escapeHTML(song.name)}" data-song-name="${index}">
-            <button class="small-button danger" onclick="removeSong(${index})">Remover</button>
-        `;
-        container.appendChild(row);
-    });
-}
-function removeSong(index) {
-    playlist.splice(index, 1);
-    if (currentSong >= playlist.length) currentSong = Math.max(0, playlist.length - 1);
-    renderMusicEditor();
-    renderPlaylist();
-    updateAdminStats();
-}
-
-$("fadeDuration").oninput = () => {
-    $("fadeDurationVal").textContent = $("fadeDuration").value + "s";
-};
-
-/* SALVAR */
-$("saveButton").onclick = async () => {
-    if (!auth.currentUser) { toast("Você precisa estar logado.", "error"); return; }
     try {
-        // Links
-        const links = [];
-        document.querySelectorAll("[data-link-name]").forEach(input => {
-            const i = input.dataset.linkName;
-            const urlInput = document.querySelector(`[data-link-url="${i}"]`);
-            links.push({ name: input.value, url: urlInput ? urlInput.value : "" });
-        });
-
-        // Badges
-        const badges = [];
-        document.querySelectorAll("[data-badge]").forEach(input => badges.push(input.value));
-
-        // Artes (dados existentes + edits do input)
-        document.querySelectorAll("[data-art-title]").forEach(input => {
-            const i = parseInt(input.dataset.artTitle);
-            if (profile.arts[i]) {
-                profile.arts[i].title = input.value;
-                const d = document.querySelector(`[data-art-desc="${i}"]`);
-                const l = document.querySelector(`[data-art-link="${i}"]`);
-                if (d) profile.arts[i].description = d.value;
-                if (l) profile.arts[i].link = l.value;
-            }
-        });
-
-        // Amigos (dados existentes + edits)
-        document.querySelectorAll("[data-friend-name]").forEach(input => {
-            const i = parseInt(input.dataset.friendName);
-            if (profile.friends[i]) {
-                profile.friends[i].name = input.value;
-                const id = document.querySelector(`[data-friend-id="${i}"]`);
-                const av = document.querySelector(`[data-friend-avatar="${i}"]`);
-                const d = document.querySelector(`[data-friend-desc="${i}"]`);
-                const l = document.querySelector(`[data-friend-link="${i}"]`);
-                if (id) profile.friends[i].discordId = id.value.trim();
-                if (av) profile.friends[i].avatar = av.value.trim();
-                if (d) profile.friends[i].description = d.value;
-                if (l) profile.friends[i].link = l.value.trim();
-            }
-        });
-
-        // Músicas (nomes)
-        playlist.forEach((song, i) => {
-            const input = document.querySelector(`[data-song-name="${i}"]`);
-            if (input) song.name = input.value;
-        });
-
-        // Perfil
-        profile.name = $("editName").value;
-        profile.title = $("editTitle").value;
-        profile.description = $("editDescription").value;
+        profile.name = $("editName").value.trim() || profile.name;
+        profile.title = $("editTitle").value.trim();
+        profile.description = $("editDescription").value.trim();
         profile.primary = $("primaryColor").value;
         profile.secondary = $("secondaryColor").value;
-        profile.backgrounds = backgrounds;
         profile.backgroundInterval = Number($("backgroundInterval").value) || 8;
         profile.blur = Number($("blurAmount").value) || 0;
-        profile.links = links;
-        profile.badges = badges;
-        profile.playlist = playlist;
-        profile.autoplay = $("musicAutoplay").checked;
-        profile.loop = $("musicLoop").checked;
-        profile.shuffle = $("musicShuffle").checked;
-        profile.musicChangeBackground = $("musicChangeBackground").checked;
-        profile.musicFadeIn = $("musicFadeIn").checked;
+
+        profile.videoBg = videoBgData || "";
+        profile.videoBgEnabled = !!videoBgEnabled;
+        profile.videoBlur = Number($("videoBlur").value) || 0;
+        profile.videoLoop = $("videoLoop").checked;
+        profile.videoMuted = $("videoMuted").checked;
+
         profile.glow = $("effectGlow").checked;
         profile.effectParticles = $("effectParticles").checked;
         profile.effectVinyl = $("effectVinyl").checked;
         profile.effectCursor = $("effectCursor").checked;
         profile.effectRing = $("effectRing").checked;
         profile.effectAmbient = $("effectAmbient").checked;
-        profile.fadeDuration = Number($("fadeDuration").value);
 
-        settings.particles = profile.effectParticles;
-        settings.cursor = profile.effectCursor;
-        settings.ambientFog = settings.ambientAurora = settings.ambientWaves = profile.effectAmbient;
-        saveSettings();
+        profile.playlist = playlist;
+        profile.autoplay = $("musicAutoplay").checked;
+        profile.loop = $("musicLoop").checked;
+        profile.shuffle = $("musicShuffle").checked;
+        profile.musicChangeBackground = $("musicChangeBackground").checked;
+        profile.musicFadeIn = $("musicFadeIn").checked;
+        profile.fadeDuration = Number($("fadeDuration").value) || 3;
+
+        profile.links = collectLinks();
+        profile.badges = collectBadges();
 
         await db.ref(PROFILE_PATH).set(profile);
+        toast("Perfil salvo com sucesso!", "success");
         applyProfile();
-        savePlaylistLocal();
         closeModal("adminModal");
-        toast("👑 Perfil atualizado.", "success");
-    } catch (error) {
-        console.error(error);
-        toast("Erro ao salvar.", "error");
+    } catch(e) {
+        console.error(e);
+        toast("Erro ao salvar: " + e.message, "error");
     }
-};
-
-$("logoutButton").onclick = async () => {
-    await auth.signOut();
-    closeModal("adminModal");
-    toast("Administrador desconectado.", "info");
-};
-
-/* ESCAPE */
-function escapeHTML(value) {
-    return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
 }
 
-/* SETTINGS CONTROLS */
-function bindSettingsControls() {
-    $("optParticles").onchange = e => { settings.particles = e.target.checked; saveSettings(); initParticles(); };
-    $("optParticleCount").oninput = e => {
-        settings.particleCount = Number(e.target.value);
-        $("valParticleCount").textContent = settings.particleCount;
-        saveSettings(); initParticles();
+/* =========================================================
+   INICIALIZAÇÃO
+========================================================= */
+document.addEventListener("DOMContentLoaded", () => {
+    // Tabs de página
+    document.querySelectorAll(".page-tab").forEach(tab => {
+        tab.onclick = () => switchPage(tab.dataset.page);
+    });
+
+    // Mini player
+    $("miniPlayBtn").onclick = () => togglePlay();
+
+    // Player
+    $("playBtn").onclick = togglePlay;
+    $("vinyl").onclick = togglePlay;
+    $("prevBtn").onclick = () => {
+        if (!playlist.length) return;
+        currentSong--;
+        if (currentSong < 0) currentSong = playlist.length - 1;
+        loadSong();
+        playMusic();
     };
-    $("optParticleSpeed").oninput = e => {
-        settings.particleSpeed = Number(e.target.value);
-        $("valParticleSpeed").textContent = settings.particleSpeed;
-        saveSettings(); initParticles();
+    $("nextBtn").onclick = () => nextSong();
+    $("shuffleBtn").onclick = () => {
+        profile.shuffle = !profile.shuffle;
+        $("shuffleBtn").classList.toggle("active", profile.shuffle);
+        savePlaylistLocal();
+        toast(profile.shuffle ? "Shuffle ON" : "Shuffle OFF", "info");
     };
-    $("optParticleSize").oninput = e => {
-        settings.particleSize = Number(e.target.value);
-        $("valParticleSize").textContent = settings.particleSize;
-        saveSettings(); initParticles();
+    $("repeatBtn").onclick = () => {
+        profile.loop = !profile.loop;
+        $("repeatBtn").classList.toggle("active", profile.loop);
+        savePlaylistLocal();
+        toast(profile.loop ? "Repetir playlist" : "Repetir OFF", "info");
     };
-    $("optParticleOpacity").oninput = e => {
-        settings.particleOpacity = Number(e.target.value);
-        $("valParticleOpacity").textContent = settings.particleOpacity;
-        canvas.style.opacity = settings.particleOpacity;
+    $("muteBtn").onclick = () => {
+        isMuted = !isMuted;
+        audio.muted = isMuted;
+        if (ytPlayer && ytPlayer.setVolume) ytPlayer.setVolume(isMuted ? 0 : Number($("volume").value) * 100);
+        $("muteBtn").textContent = isMuted ? "🔇" : "🔊";
+    };
+    $("progress").oninput = () => {
+        if (isYouTubeCurrent()) {
+            if (ytPlayer && ytPlayer.seekTo) {
+                const dur = ytPlayer.getDuration ? ytPlayer.getDuration() : 0;
+                if (dur) ytPlayer.seekTo((Number($("progress").value) / 100) * dur, true);
+            }
+            return;
+        }
+        if (!audio.duration) return;
+        audio.currentTime = (Number($("progress").value) / 100) * audio.duration;
+    };
+    $("volume").oninput = () => {
+        const v = Number($("volume").value);
+        if (!fadeInterval) audio.volume = v;
+        if (ytPlayer && ytPlayer.setVolume) ytPlayer.setVolume(v * 100);
+    };
+
+    // Theme grid
+    const themeGrid = $("themeGrid");
+    Object.keys(THEMES).forEach(theme => {
+        const chip = document.createElement("div");
+        chip.className = "theme-chip " + theme;
+        chip.dataset.theme = theme;
+        chip.textContent = theme.charAt(0).toUpperCase() + theme.slice(1);
+        chip.onclick = () => applyTheme(theme);
+        themeGrid.appendChild(chip);
+    });
+
+    // Float buttons
+    $("adminButton").onclick = () => {
+        if (auth.currentUser) openAdminPanel();
+        else openModal("loginModal");
+    };
+    $("themeToggle").onclick = () => {
+        const dark = ["default","dark","midnight","celestial","gothic","cherry"].includes(settings.theme);
+        applyTheme(dark ? "minimal" : "default");
+    };
+    $("effectsPanelBtn").onclick = () => { openModal("effectsModal"); applySettingsToUI(); };
+    $("randomThemeBtn").onclick = () => {
+        const keys = Object.keys(THEMES);
+        applyTheme(keys[Math.floor(Math.random() * keys.length)]);
+    };
+    $("themeRandom").onclick = () => {
+        const keys = Object.keys(THEMES);
+        applyTheme(keys[Math.floor(Math.random() * keys.length)]);
+    };
+    $("themeReset").onclick = () => applyTheme("default");
+
+    // Mode chips
+    document.querySelectorAll(".mode-chip").forEach(chip => {
+        chip.onclick = () => applyMode(chip.dataset.mode);
+    });
+
+    // Settings - helpers
+    function bindToggle(id, key, cb) {
+        $(id).onchange = () => {
+            settings[key] = $(id).checked;
+            saveSettings();
+            if (cb) cb();
+        };
+    }
+    function bindRange(id, key, valId, cb) {
+        $(id).oninput = () => {
+            settings[key] = Number($(id).value);
+            if (valId) $(valId).textContent = settings[key];
+            saveSettings();
+            if (cb) cb();
+        };
+    }
+
+    bindToggle("optParticles", "particles", () => initParticles());
+    bindRange("optParticleCount", "particleCount", "valParticleCount", () => initParticles());
+    bindRange("optParticleSpeed", "particleSpeed", "valParticleSpeed", () => initParticles());
+    bindRange("optParticleSize", "particleSize", "valParticleSize", () => initParticles());
+    bindRange("optParticleOpacity", "particleOpacity", "valParticleOpacity", () => initParticles());
+
+    bindToggle("optCursor", "cursor", () => initCursor());
+    bindToggle("optCursorTrail", "cursorTrail");
+    bindToggle("optClickRipple", "clickRipple");
+    bindToggle("optClickParticles", "clickParticles");
+
+    $("optEntryAnim").onchange = () => {
+        settings.entryAnim = $("optEntryAnim").value;
         saveSettings();
+        applyProfile();
     };
-    $("optCursor").onchange = e => { settings.cursor = e.target.checked; saveSettings(); initCursor(); };
-    $("optCursorTrail").onchange = e => { settings.cursorTrail = e.target.checked; saveSettings(); };
-    $("optClickRipple").onchange = e => { settings.clickRipple = e.target.checked; saveSettings(); };
-    $("optClickParticles").onchange = e => { settings.clickParticles = e.target.checked; saveSettings(); };
-    $("optEntryAnim").onchange = e => {
-        settings.entryAnim = e.target.value;
-        saveSettings();
-        $("profileCard").className = "profile-card " + (settings.entryAnim === "card" ? "" : "entry-" + settings.entryAnim);
-    };
-    $("optEntrySpeed").oninput = e => {
-        settings.entrySpeed = Number(e.target.value);
+    $("optEntrySpeed").oninput = () => {
+        settings.entrySpeed = Number($("optEntrySpeed").value);
         $("valEntrySpeed").textContent = settings.entrySpeed + "s";
         document.documentElement.style.setProperty("--entry-speed", settings.entrySpeed + "s");
         saveSettings();
     };
-    $("optAmbientFog").onchange = e => { settings.ambientFog = e.target.checked; saveSettings(); updateAmbient(); };
-    $("optAmbientAurora").onchange = e => { settings.ambientAurora = e.target.checked; saveSettings(); updateAmbient(); };
-    $("optAmbientWaves").onchange = e => { settings.ambientWaves = e.target.checked; saveSettings(); updateAmbient(); };
-    $("optClickSound").onchange = e => { settings.clickSound = e.target.checked; saveSettings(); };
-    $("optSoundVolume").oninput = e => {
-        settings.soundVolume = Number(e.target.value);
+
+    bindToggle("optAmbientFog", "ambientFog", () => updateAmbient());
+    bindToggle("optAmbientAurora", "ambientAurora", () => updateAmbient());
+    bindToggle("optAmbientWaves", "ambientWaves", () => updateAmbient());
+
+    bindToggle("optClickSound", "clickSound");
+    $("optSoundVolume").oninput = () => {
+        settings.soundVolume = Number($("optSoundVolume").value);
         $("valSoundVolume").textContent = settings.soundVolume;
         saveSettings();
     };
-    $("optGlow").oninput = e => {
-        settings.glowIntensity = Number(e.target.value);
+
+    $("optGlow").oninput = () => {
+        settings.glowIntensity = Number($("optGlow").value);
         $("valGlow").textContent = settings.glowIntensity;
         document.documentElement.style.setProperty("--glow-intensity", settings.glowIntensity);
         saveSettings();
     };
+
+    $("closeEffectsBtn").onclick = () => closeModal("effectsModal");
     $("resetAll").onclick = () => {
         settings = { ...DEFAULT_SETTINGS };
         saveSettings();
         applySettingsToUI();
-        refreshAllEffects();
-        toast("Configurações restauradas.", "success");
+        applyTheme("default");
+        initParticles();
+        initCursor();
+        updateAmbient();
+        toast("Configurações restauradas", "success");
     };
-    document.querySelectorAll(".mode-chip").forEach(btn => {
-        btn.onclick = () => applyMode(btn.dataset.mode);
+
+    // Login
+    $("loginButton").onclick = async () => {
+        const email = $("loginEmail").value.trim();
+        const password = $("loginPassword").value;
+        if (!email || !password) { toast("Preencha todos os campos", "error"); return; }
+        try {
+            await auth.signInWithEmailAndPassword(email, password);
+            closeModal("loginModal");
+            toast("Bem-vindo!", "success");
+        } catch (e) {
+            toast("Erro: " + e.message, "error");
+        }
+    };
+
+    auth.onAuthStateChanged(user => {
+        if (user) $("adminUserEmail").textContent = user.email;
     });
-    $("themeRandom").onclick = () => $("randomThemeBtn").click();
-    $("themeReset").onclick = () => applyTheme("default");
-}
 
-/* SCROLL */
-window.addEventListener("scroll", () => {
-    const scroll = window.scrollY;
-    const height = document.documentElement.scrollHeight - window.innerHeight;
-    const pct = height > 0 ? (scroll / height) * 100 : 0;
-    $("scrollProgress").style.width = pct + "%";
-});
+    // Admin save/logout
+    $("saveButton").onclick = saveProfile;
+    $("logoutButton").onclick = () => {
+        auth.signOut();
+        closeModal("adminModal");
+        toast("Sessão encerrada", "info");
+    };
 
-/* THEME CHIPS */
-function buildThemeChips() {
-    const grid = $("themeGrid");
-    grid.innerHTML = "";
-    Object.keys(THEMES).forEach(name => {
-        const chip = document.createElement("div");
-        chip.className = "theme-chip " + name;
-        chip.dataset.theme = name;
-        chip.textContent = name;
-        chip.onclick = () => applyTheme(name);
-        grid.appendChild(chip);
+    // Add link / badge
+    $("addLink").onclick = () => addLinkRow("", "");
+    $("addBadge").onclick = () => {
+        const v = $("badgeInput").value.trim();
+        if (!v) return;
+        addBadgeRow(v);
+        $("badgeInput").value = "";
+    };
+
+    // Avatar file
+    $("avatarFile").onchange = async () => {
+        const file = $("avatarFile").files[0];
+        if (!file) return;
+        profile.avatar = await fileToDataURL(file);
+        $("avatar").src = profile.avatar;
+        $("vinylCover").src = profile.avatar;
+        $("avatar").classList.add("loaded");
+        toast("Avatar carregado (salve para confirmar)", "info");
+    };
+
+    // Backgrounds
+    $("backgroundFiles").onchange = async () => {
+        const files = $("backgroundFiles").files;
+        if (!files.length) return;
+        for (const f of files) {
+            const data = await fileToDataURL(f);
+            profile.backgrounds = profile.backgrounds || [];
+            profile.backgrounds.push(data);
+        }
+        backgrounds = profile.backgrounds;
+        renderBackgroundList();
+        startBackgrounds();
+        toast(`${files.length} fundo(s) adicionado(s)`, "info");
+    };
+
+    // YouTube
+    $("addYoutubeBtn").onclick = () => {
+        const url = $("youtubeUrlInput").value.trim();
+        if (!url) return;
+        const id = extractYouTubeId(url);
+        if (!id) { toast("Link inválido", "error"); return; }
+        playlist.push({ name: "YouTube " + id, source: "youtube", data: url, videoId: id });
+        $("youtubeUrlInput").value = "";
+        renderPlaylist();
+        renderMusicEditor();
+        toast("Música adicionada", "success");
+    };
+
+    // Music files
+    $("musicFiles").onchange = async () => {
+        const files = $("musicFiles").files;
+        if (!files.length) return;
+        for (const f of files) {
+            const data = await fileToDataURL(f);
+            playlist.push({ name: f.name, source: "file", data });
+        }
+        renderPlaylist();
+        renderMusicEditor();
+        toast(`${files.length} música(s) adicionada(s)`, "info");
+    };
+
+    // Music settings
+    $("musicAutoplay").onchange = () => { if (profile) profile.autoplay = $("musicAutoplay").checked; };
+    $("musicLoop").onchange = () => { if (profile) profile.loop = $("musicLoop").checked; };
+    $("musicShuffle").onchange = () => { if (profile) profile.shuffle = $("musicShuffle").checked; };
+    $("musicChangeBackground").onchange = () => { if (profile) profile.musicChangeBackground = $("musicChangeBackground").checked; };
+    $("musicFadeIn").onchange = () => { if (profile) profile.musicFadeIn = $("musicFadeIn").checked; };
+    $("fadeDuration").oninput = () => {
+        $("fadeDurationVal").textContent = $("fadeDuration").value + "s";
+        if (profile) profile.fadeDuration = Number($("fadeDuration").value);
+    };
+
+    // Add art
+    $("addArtBtn").onclick = async () => {
+        let image = $("artImageUrl").value.trim();
+        const file = $("artImageFile").files[0];
+        if (file) image = await fileToDataURL(file);
+        if (!image) { toast("Selecione uma imagem", "error"); return; }
+        const art = {
+            image,
+            title: $("artTitleInput").value.trim(),
+            description: $("artDescInput").value.trim(),
+            link: $("artLinkInput").value.trim()
+        };
+        profile.arts = profile.arts || [];
+        profile.arts.push(art);
+        $("artImageUrl").value = "";
+        $("artImageFile").value = "";
+        $("artTitleInput").value = "";
+        $("artDescInput").value = "";
+        $("artLinkInput").value = "";
+        renderArtes();
+        renderArtsEditor();
+        toast("Arte adicionada", "success");
+    };
+
+    // Add friend
+    $("addFriendBtn").onclick = () => {
+        const friend = {
+            name: $("friendNameInput").value.trim(),
+            discordId: $("friendDiscordIdInput").value.trim(),
+            avatar: $("friendAvatarInput").value.trim(),
+            link: $("friendLinkInput").value.trim(),
+            description: $("friendDescInput").value.trim()
+        };
+        if (!friend.name && !friend.discordId) { toast("Preencha nome ou ID", "error"); return; }
+        profile.friends = profile.friends || [];
+        profile.friends.push(friend);
+        $("friendNameInput").value = "";
+        $("friendDiscordIdInput").value = "";
+        $("friendAvatarInput").value = "";
+        $("friendLinkInput").value = "";
+        $("friendDescInput").value = "";
+        renderFriends();
+        renderFriendsEditor();
+        refreshFriendStatuses();
+        toast("Amigo adicionado", "success");
+    };
+
+    // Modal close outside click
+    document.querySelectorAll(".modal").forEach(modal => {
+        modal.onclick = (e) => {
+            if (e.target === modal) modal.classList.remove("show");
+        };
     });
-    updateThemeChips();
-}
 
-/* INICIALIZAÇÃO */
-buildThemeChips();
-bindSettingsControls();
-initCursor();
-initParticles();
-applySettingsToUI();
+    // ESC fecha modais
+    document.addEventListener("keydown", e => {
+        if (e.key === "Escape") {
+            document.querySelectorAll(".modal.show").forEach(m => m.classList.remove("show"));
+        }
+    });
 
-if (settings.theme) applyTheme(settings.theme, true);
-
-// Restaurar página atual
-try {
+    // Restaura página
     const savedPage = localStorage.getItem("current_page");
-    if (savedPage && ["home", "artes", "amigos"].includes(savedPage)) {
-        switchPage(savedPage);
-    }
-} catch(e) {}
+    if (savedPage) switchPage(savedPage);
 
-document.addEventListener("click", function onFirstClick() {
-    if (profile && profile.autoplay && playlist.length && !isPlaying) playMusic();
-    document.removeEventListener("click", onFirstClick);
-}, { once: true });
+    // Inicializa vídeo
+    initVideoBgInputs();
+    applyVideoBackground();
 
-document.addEventListener("keydown", e => {
-    if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
-    if (e.code === "Space") { e.preventDefault(); togglePlay(); }
-    if (e.code === "ArrowRight") nextSong();
-    if (e.code === "ArrowLeft") $("prevBtn").click();
-});
-
-loadProfile().then(() => {
-    restorePlaylistLocal();
-    if (profile && profile.fadeDuration) {
-        $("fadeDuration").value = profile.fadeDuration;
-        $("fadeDurationVal").textContent = profile.fadeDuration + "s";
-    }
-    $("shuffleBtn").classList.toggle("active", !!profile.shuffle);
-    $("repeatBtn").classList.toggle("active", profile.loop !== false);
-});
-
-window.addEventListener("resize", () => {
-    if (window.innerWidth <= 650) cursor.style.display = "none";
-    else if (settings.cursor) cursor.style.display = "block";
-});
-
-document.addEventListener("visibilitychange", () => {
-    if (document.hidden) {
-        if (particleAnimId) { cancelAnimationFrame(particleAnimId); particleAnimId = null; }
-    } else {
-        if (settings.particles && !particleAnimId) initParticles();
-    }
+    // Carrega perfil
+    loadProfile();
 });
 </script>
 
