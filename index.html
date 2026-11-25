@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>My pfp</title>
-
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -32,23 +31,20 @@ html, body { width: 100%; min-height: 100%; }
 body {
     background: var(--bg-base);
     color: var(--text);
-    font-family: 'Segoe UI', Arial, sans-serif;
+    font-family: 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
     overflow-x: hidden;
     transition: background .6s ease, color .4s ease;
     cursor: default;
+    -webkit-font-smoothing: antialiased;
 }
 
-/* ============ CURSOR NATIVO ============ */
+/* Cursor nativo */
 body.no-cursor-custom { cursor: auto; }
 body.no-cursor-custom * { cursor: auto !important; }
-
-/* Esconde cursor nativo quando o custom está ativo */
 body.hide-native-cursor,
-body.hide-native-cursor * {
-    cursor: none !important;
-}
+body.hide-native-cursor * { cursor: none !important; }
 
-/* ============ FUNDO / AMBIENT ============ */
+/* Fundo / Ambient */
 #background {
     position: fixed; inset: 0; z-index: -10;
     background:
@@ -56,6 +52,7 @@ body.hide-native-cursor * {
         var(--bg-base);
     background-size: cover; background-position: center; background-repeat: no-repeat;
     transition: background-image 1.2s ease, opacity 1s ease, filter .5s ease;
+    will-change: opacity, filter;
 }
 #background::after {
     content: ""; position: absolute; inset: 0;
@@ -116,7 +113,7 @@ body.hide-native-cursor * {
     box-shadow: 0 0 12px var(--primary);
 }
 
-/* ============ CURSOR CUSTOMIZÁVEL ============ */
+/* Cursor customizável */
 .custom-cursor {
     position: fixed;
     width: var(--cursor-size, 22px);
@@ -129,6 +126,7 @@ body.hide-native-cursor * {
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
+    will-change: transform, width, height;
 }
 .custom-cursor.active { opacity: 1; }
 .custom-cursor.hover {
@@ -155,13 +153,9 @@ body.hide-native-cursor * {
     transform: translate(-50%, -50%) scale(0.88);
     opacity: 0.85;
 }
-.custom-cursor.loading {
-    animation: cursorSpin 1s linear infinite;
-}
+.custom-cursor.loading { animation: cursorSpin 1s linear infinite; }
 .custom-cursor.has-image.loading { animation: none; }
-@keyframes cursorSpin {
-    to { transform: translate(-50%, -50%) rotate(360deg); }
-}
+@keyframes cursorSpin { to { transform: translate(-50%, -50%) rotate(360deg); } }
 .custom-cursor.pixelated {
     image-rendering: pixelated;
     image-rendering: crisp-edges;
@@ -180,6 +174,7 @@ body.hide-native-cursor * {
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
+    will-change: opacity, transform;
 }
 .cursor-trail.has-image {
     background: transparent;
@@ -215,7 +210,7 @@ body.hide-native-cursor * {
     to   { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(.2); }
 }
 
-/* ============ PERFIL ============ */
+/* Perfil */
 .profile-wrapper {
     width: 100%; min-height: 100vh;
     display: flex; justify-content: center; align-items: center;
@@ -261,7 +256,7 @@ body.hide-native-cursor * {
 .profile-card.entry-blur { animation: entryBlur var(--entry-speed) ease; }
 @keyframes entryBlur { from { opacity: 0; filter: blur(12px); } to { opacity: 1; filter: blur(0); } }
 
-/* ============ AVATAR ============ */
+/* Avatar */
 .avatar-container { display: flex; justify-content: center; margin-bottom: 20px; position: relative; }
 .avatar-ring {
     position: absolute; width: 145px; height: 145px; border-radius: 50%;
@@ -280,7 +275,7 @@ body.hide-native-cursor * {
 .avatar.loaded { opacity: 1; }
 .avatar:hover { transform: scale(1.06) rotate(3deg); }
 
-/* ============ NOME ============ */
+/* Nome */
 .profile-name {
     text-align: center; font-size: clamp(30px, 6vw, 48px); font-weight: 900;
     letter-spacing: -1px; margin-bottom: 8px;
@@ -294,7 +289,7 @@ body.hide-native-cursor * {
     max-width: 600px; margin: auto; white-space: pre-wrap;
 }
 
-/* ============ PAGE NAV ============ */
+/* Page Nav */
 .page-nav {
     display: flex; justify-content: center; gap: 6px;
     margin: 22px auto 18px; padding: 6px;
@@ -325,7 +320,7 @@ body.hide-native-cursor * {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* ============ HOME ============ */
+/* Home */
 .badges { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-top: 18px; }
 .badge {
     padding: 7px 12px; border-radius: 999px;
@@ -357,7 +352,7 @@ body.hide-native-cursor * {
 }
 .social-link:active { transform: translateY(-1px) scale(.98); }
 
-/* ============ VINIL ============ */
+/* Vinil */
 .vinyl-container { display: flex; justify-content: center; margin: 25px 0; perspective: 1000px; }
 .vinyl {
     width: 140px; height: 140px; border-radius: 50%;
@@ -401,7 +396,7 @@ body.hide-native-cursor * {
     background: #000; z-index: 3;
 }
 
-/* ============ PLAYER ============ */
+/* Player */
 .music-player {
     margin-top: 20px; padding: 18px; border-radius: 20px;
     background: rgba(0,0,0,.25); border: 1px solid rgba(255,255,255,.08);
@@ -473,7 +468,7 @@ body.hide-native-cursor * {
 .playlist-item:hover .remove-btn { opacity: 1; }
 .playlist-empty { text-align: center; color: #666; padding: 20px; font-size: 13px; font-style: italic; }
 
-/* ============ ARTES ============ */
+/* Artes */
 .artes-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
@@ -526,7 +521,7 @@ body.hide-native-cursor * {
     color: white; text-decoration: none; font-weight: 700; font-size: 13px;
 }
 
-/* ============ AMIGOS ============ */
+/* Amigos */
 .friends-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -596,7 +591,7 @@ body.hide-native-cursor * {
     margin-top: 4px;
 }
 
-/* ============ EMPTY STATE ============ */
+/* Empty State */
 .empty-state {
     text-align: center;
     padding: 40px 20px;
@@ -610,7 +605,7 @@ body.hide-native-cursor * {
     opacity: .6;
 }
 
-/* ============ MINI PLAYER ============ */
+/* Mini Player */
 .mini-player {
     position: fixed;
     bottom: 76px;
@@ -661,7 +656,7 @@ body.hide-native-cursor * {
     to { opacity: 1; transform: translateX(0); }
 }
 
-/* ============ BOTÕES FLUTUANTES ============ */
+/* Botões flutuantes */
 .float-buttons {
     position: fixed; right: 18px; bottom: 18px;
     display: flex; flex-direction: column; gap: 10px; z-index: 100;
@@ -690,7 +685,7 @@ body.hide-native-cursor * {
 }
 .float-btn:hover .tooltip { opacity: 1; }
 
-/* ============ MODAL ============ */
+/* Modal */
 .modal {
     position: fixed; inset: 0; z-index: 500;
     display: none; align-items: center; justify-content: center;
@@ -717,7 +712,7 @@ body.hide-native-cursor * {
 }
 .close:hover { background: rgba(239,68,68,.3); transform: rotate(90deg); }
 
-/* ============ LOGIN / INPUTS ============ */
+/* Login / Inputs */
 .login-box { width: min(420px, 100%); }
 .input {
     width: 100%; padding: 13px 14px; margin-bottom: 12px;
@@ -739,7 +734,7 @@ textarea.input { min-height: 120px; resize: vertical; }
 }
 .primary-button:active { transform: translateY(0) scale(.98); }
 
-/* ============ ADMIN ============ */
+/* Admin */
 .admin-section {
     padding: 18px; margin-bottom: 14px; border-radius: 17px;
     background: rgba(255,255,255,.035);
@@ -867,7 +862,7 @@ textarea.input { min-height: 120px; resize: vertical; }
 .mode-chip:hover { background: rgba(var(--particle-color),.2); transform: translateY(-2px); }
 .mode-chip:active { transform: scale(.96); }
 
-/* ============ ADMIN DECORATIONS ============ */
+/* Admin decorations */
 .admin-box {
     background: linear-gradient(135deg, #0c0c13 0%, #100820 50%, #0c1320 100%);
     position: relative;
@@ -1010,7 +1005,7 @@ textarea.input { min-height: 120px; resize: vertical; }
 }
 .lanyard-note a { color: var(--primary); }
 
-/* ============ LOADING / TOAST ============ */
+/* Loading / Toast */
 #loading {
     position: fixed; inset: 0; z-index: 1000;
     display: flex; align-items: center; justify-content: center;
@@ -1049,7 +1044,7 @@ textarea.input { min-height: 120px; resize: vertical; }
 #toast.info .toast-icon { color: #3b82f6; }
 #toast.info .toast-bar { background: #3b82f6; }
 
-/* ============ MOBILE ============ */
+/* Mobile */
 @media(max-width:650px) {
     .grid { grid-template-columns: 1fr; }
     .profile-card { padding: 22px; }
@@ -1062,11 +1057,8 @@ textarea.input { min-height: 120px; resize: vertical; }
     .artes-grid { grid-template-columns: repeat(2, 1fr); }
     .friends-grid { grid-template-columns: 1fr; }
     .mini-player { bottom: 72px; right: 12px; max-width: 240px; }
-    /* Em mobile, garante que o cursor nativo volte */
     body.hide-native-cursor,
-    body.hide-native-cursor * {
-        cursor: auto !important;
-    }
+    body.hide-native-cursor * { cursor: auto !important; }
 }
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
@@ -1077,7 +1069,6 @@ textarea.input { min-height: 120px; resize: vertical; }
 }
 </style>
 </head>
-
 <body>
 
 <div id="background"></div>
@@ -1448,7 +1439,7 @@ textarea.input { min-height: 120px; resize: vertical; }
         <button id="logoutButton" class="small-button" style="width:100%">Sair</button>
 
         <div class="admin-footer">
-            <span>v2.6.0</span>
+            <span>v2.6.1</span>
             <span>·</span>
             <span>Painel Administrativo</span>
             <span>·</span>
@@ -1625,15 +1616,52 @@ const db = firebase.database();
 const PROFILE_PATH = "profile";
 
 /* =========================================================
-   ESTADO
+   ESTADO + CACHE DE DOM
 ========================================================= */
+const $ = id => document.getElementById(id);
+
+const els = {
+    background: $("background"),
+    backgroundVideo: $("backgroundVideo"),
+    ambientFog: $("ambientFog"),
+    ambientAurora: $("ambientAurora"),
+    ambientWaves: $("ambientWaves"),
+    particles: $("particles"),
+    cursor: $("cursor"),
+    loading: $("loading"),
+    profileCard: $("profileCard"),
+    avatar: $("avatar"),
+    avatarRing: $("avatarRing"),
+    profileName: $("profileName"),
+    profileDescription: $("profileDescription"),
+    badges: $("badges"),
+    links: $("links"),
+    vinylContainer: $("vinylContainer"),
+    vinyl: $("vinyl"),
+    vinylCover: $("vinylCover"),
+    musicPlayer: $("musicPlayer"),
+    musicTitleText: $("musicTitleText"),
+    eq: $("eq"),
+    playBtn: $("playBtn"),
+    progress: $("progress"),
+    volume: $("volume"),
+    currentTime: $("currentTime"),
+    duration: $("duration"),
+    playlist: $("playlist"),
+    miniPlayer: $("miniPlayer"),
+    miniTitle: $("miniTitle"),
+    miniProgressBar: $("miniProgressBar"),
+    miniPlayBtn: $("miniPlayBtn"),
+    toast: $("toast")
+};
+
 let profile = null;
 let backgrounds = [];
 let backgroundIndex = 0;
 let backgroundTimer = null;
 let playlist = [];
 let currentSong = 0;
-let audio = document.getElementById("audio");
+let audio = $("audio");
 let isPlaying = false;
 let fadeInterval = null;
 let isMuted = false;
@@ -1695,14 +1723,12 @@ function saveSettings() {
 }
 loadSettings();
 
-const $ = id => document.getElementById(id);
-
 /* =========================================================
    TOAST
 ========================================================= */
 let toastTimeout = null;
 function toast(message, type = "info") {
-    const el = $("toast");
+    const el = els.toast;
     el.className = "show " + type;
     el.querySelector(".toast-text").textContent = message;
     const icon = type === "success" ? "✓" : type === "error" ? "✕" : "ℹ";
@@ -1758,14 +1784,14 @@ function switchPage(page) {
    MINI PLAYER
 ========================================================= */
 function updateMiniPlayer() {
-    const mp = $("miniPlayer");
+    const mp = els.miniPlayer;
     if (currentPage === "home" || !isPlaying || !playlist.length) {
         mp.classList.add("hidden");
         return;
     }
     mp.classList.remove("hidden");
-    $("miniTitle").textContent = playlist[currentSong]?.name || "Música";
-    $("miniPlayBtn").textContent = isPlaying ? "⏸" : "▶";
+    els.miniTitle.textContent = playlist[currentSong]?.name || "Música";
+    els.miniPlayBtn.textContent = isPlaying ? "⏸" : "▶";
 }
 function updateMiniProgress() {
     if (currentPage === "home" || !isPlaying) return;
@@ -1773,13 +1799,13 @@ function updateMiniProgress() {
         if (ytPlayer && ytPlayer.getCurrentTime && ytReady) {
             const cur = ytPlayer.getCurrentTime();
             const dur = ytPlayer.getDuration();
-            if (dur) $("miniProgressBar").style.width = ((cur / dur) * 100) + "%";
+            if (dur) els.miniProgressBar.style.width = ((cur / dur) * 100) + "%";
         }
     } else if (audio.duration) {
-        $("miniProgressBar").style.width = ((audio.currentTime / audio.duration) * 100) + "%";
+        els.miniProgressBar.style.width = ((audio.currentTime / audio.duration) * 100) + "%";
     }
 }
-setInterval(updateMiniProgress, 300);
+setInterval(updateMiniProgress, 400);
 
 /* =========================================================
    TEMAS
@@ -1806,13 +1832,14 @@ const THEMES = {
 
 function applyTheme(themeName, silent = false) {
     const t = THEMES[themeName] || THEMES.default;
-    document.documentElement.style.setProperty("--primary", t.primary);
-    document.documentElement.style.setProperty("--secondary", t.secondary);
-    document.documentElement.style.setProperty("--bg-base", t.bg);
-    document.documentElement.style.setProperty("--particle-color", t.particle);
+    const root = document.documentElement.style;
+    root.setProperty("--primary", t.primary);
+    root.setProperty("--secondary", t.secondary);
+    root.setProperty("--bg-base", t.bg);
+    root.setProperty("--particle-color", t.particle);
     document.body.style.background = t.bg;
-    if (t.text) document.documentElement.style.setProperty("--text", t.text);
-    else document.documentElement.style.setProperty("--text", "#ffffff");
+    if (t.text) root.setProperty("--text", t.text);
+    else root.setProperty("--text", "#ffffff");
 
     settings.theme = themeName;
     saveSettings();
@@ -1829,25 +1856,25 @@ function updateThemeChips() {
 /* =========================================================
    CURSOR CUSTOMIZÁVEL
 ========================================================= */
-const cursor = $("cursor");
 let lastTrailTime = 0;
+const TRAIL_THROTTLE = 50; // ms
 
 function setCursorState(state) {
-    if (!cursor) return;
+    if (!els.cursor) return;
     cursorCurrentState = state;
     const cursors = profile?.cursors || {};
     const img = cursors[state];
 
-    cursor.classList.remove("hover", "clicking", "loading", "has-image");
-    if (state === "hover")   cursor.classList.add("hover");
-    if (state === "click")   cursor.classList.add("clicking");
-    if (state === "loading") cursor.classList.add("loading");
+    els.cursor.classList.remove("hover", "clicking", "loading", "has-image");
+    if (state === "hover")   els.cursor.classList.add("hover");
+    if (state === "click")   els.cursor.classList.add("clicking");
+    if (state === "loading") els.cursor.classList.add("loading");
 
     if (img) {
-        cursor.classList.add("has-image");
-        cursor.style.setProperty("--cursor-img", `url("${img}")`);
+        els.cursor.classList.add("has-image");
+        els.cursor.style.setProperty("--cursor-img", `url("${img}")`);
     } else {
-        cursor.style.removeProperty("--cursor-img");
+        els.cursor.style.removeProperty("--cursor-img");
     }
 }
 
@@ -1856,7 +1883,7 @@ function applyCursorSizes() {
     const trailSize = Number(profile?.trailSize || 8);
     document.documentElement.style.setProperty("--cursor-size", size + "px");
     document.documentElement.style.setProperty("--trail-size", trailSize + "px");
-    cursor.classList.toggle("pixelated", !!profile?.cursorPixelated);
+    els.cursor.classList.toggle("pixelated", !!profile?.cursorPixelated);
 }
 
 function attachCursorListeners() {
@@ -1865,8 +1892,8 @@ function attachCursorListeners() {
 
     document.addEventListener("mousemove", e => {
         if (!settings.cursor) return;
-        cursor.style.left = e.clientX + "px";
-        cursor.style.top = e.clientY + "px";
+        els.cursor.style.left = e.clientX + "px";
+        els.cursor.style.top = e.clientY + "px";
 
         let state = "normal";
         if (document.body.classList.contains("busy")) {
@@ -1881,8 +1908,8 @@ function attachCursorListeners() {
         setCursorState(state);
 
         if (settings.cursorTrail) {
-            const now = Date.now();
-            if (now - lastTrailTime > 40) {
+            const now = performance.now();
+            if (now - lastTrailTime > TRAIL_THROTTLE) {
                 lastTrailTime = now;
                 const t = document.createElement("div");
                 t.className = "cursor-trail";
@@ -1899,7 +1926,7 @@ function attachCursorListeners() {
                 setTimeout(() => t.remove(), trailDuration);
             }
         }
-    });
+    }, { passive: true });
 
     document.addEventListener("mousedown", () => {
         isClicking = true;
@@ -1935,17 +1962,16 @@ function attachCursorListeners() {
 
 function initCursor() {
     if (window.innerWidth <= 650) {
-        // Mobile: sem cursor customizado, mantém nativo
-        cursor.classList.remove("active");
-        cursor.style.display = "none";
+        els.cursor.classList.remove("active");
+        els.cursor.style.display = "none";
         document.body.classList.remove("hide-native-cursor");
         document.body.classList.remove("no-cursor-custom");
         return;
     }
     attachCursorListeners();
     applyCursorSizes();
-    cursor.classList.toggle("active", settings.cursor);
-    cursor.style.display = settings.cursor ? "block" : "none";
+    els.cursor.classList.toggle("active", settings.cursor);
+    els.cursor.style.display = settings.cursor ? "block" : "none";
     document.body.classList.toggle("no-cursor-custom", !settings.cursor);
     document.body.classList.toggle("hide-native-cursor", settings.cursor);
     setCursorState("normal");
@@ -1972,12 +1998,13 @@ function playClickSound() {
 }
 
 /* =========================================================
-   PARTÍCULAS
+   PARTÍCULAS (otimizado)
 ========================================================= */
-const canvas = $("particles");
-const ctx = canvas.getContext("2d");
+const canvas = els.particles;
+const ctx = canvas.getContext("2d", { alpha: true });
 let particles = [];
 let particleAnimId = null;
+let lastParticleTime = 0;
 
 function initParticles() {
     if (particleAnimId) {
@@ -1991,7 +2018,7 @@ function initParticles() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     particles = [];
-    const count = settings.particleCount;
+    const count = Math.min(settings.particleCount, 180); // limite de segurança
     const color = getComputedStyle(document.documentElement).getPropertyValue("--particle-color").trim() || "139,92,246";
     for (let i = 0; i < count; i++) {
         particles.push({
@@ -2004,13 +2031,23 @@ function initParticles() {
             color
         });
     }
+    lastParticleTime = performance.now();
     animateParticles();
 }
 
-function animateParticles() {
+function animateParticles(now = performance.now()) {
     if (!settings.particles) return;
+    // throttle ~60fps
+    if (now - lastParticleTime < 16) {
+        particleAnimId = requestAnimationFrame(animateParticles);
+        return;
+    }
+    lastParticleTime = now;
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles.forEach(p => {
+    const len = particles.length;
+    for (let i = 0; i < len; i++) {
+        const p = particles[i];
         p.x += p.vx; p.y += p.vy;
         if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
         if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
@@ -2018,42 +2055,50 @@ function animateParticles() {
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(${p.color},${p.opacity})`;
         ctx.fill();
-    });
-    for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-            const dx = particles[i].x - particles[j].x;
-            const dy = particles[i].y - particles[j].y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < 120) {
-                ctx.beginPath();
-                ctx.moveTo(particles[i].x, particles[i].y);
-                ctx.lineTo(particles[j].x, particles[j].y);
-                ctx.strokeStyle = `rgba(${particles[i].color},${0.15 * (1 - dist / 120) * settings.particleOpacity})`;
-                ctx.stroke();
+    }
+    // conexões apenas se poucas partículas (performance)
+    if (len <= 80) {
+        for (let i = 0; i < len; i++) {
+            for (let j = i + 1; j < len; j++) {
+                const dx = particles[i].x - particles[j].x;
+                const dy = particles[i].y - particles[j].y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 110) {
+                    ctx.beginPath();
+                    ctx.moveTo(particles[i].x, particles[i].y);
+                    ctx.lineTo(particles[j].x, particles[j].y);
+                    ctx.strokeStyle = `rgba(${particles[i].color},${0.12 * (1 - dist / 110) * settings.particleOpacity})`;
+                    ctx.stroke();
+                }
             }
         }
     }
     particleAnimId = requestAnimationFrame(animateParticles);
 }
+
+let resizeTimeout;
 window.addEventListener("resize", () => {
-    initParticles();
-    initCursor();
-});
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+        initParticles();
+        initCursor();
+    }, 150);
+}, { passive: true });
 
 /* =========================================================
    AMBIENT
 ========================================================= */
 function updateAmbient() {
-    $("ambientFog").classList.toggle("active", settings.ambientFog);
-    $("ambientAurora").classList.toggle("active", settings.ambientAurora);
-    $("ambientWaves").classList.toggle("active", settings.ambientWaves);
+    els.ambientFog.classList.toggle("active", settings.ambientFog);
+    els.ambientAurora.classList.toggle("active", settings.ambientAurora);
+    els.ambientWaves.classList.toggle("active", settings.ambientWaves);
 }
 
 /* =========================================================
    VÍDEO DE FUNDO
 ========================================================= */
 function applyVideoBackground() {
-    const vid = $("backgroundVideo");
+    const vid = els.backgroundVideo;
     if (!vid) return;
     if (videoBgEnabled && videoBgData) {
         if (vid.src !== videoBgData) vid.src = videoBgData;
@@ -2061,13 +2106,13 @@ function applyVideoBackground() {
         vid.loop = (profile?.videoLoop !== false);
         vid.muted = (profile?.videoMuted !== false);
         vid.play().catch(() => {});
-        $("background").classList.add("hidden");
+        els.background.classList.add("hidden");
     } else {
         vid.pause();
         vid.classList.remove("active");
         vid.removeAttribute("src");
         try { vid.load(); } catch(e) {}
-        $("background").classList.remove("hidden");
+        els.background.classList.remove("hidden");
     }
     const blurVal = Number(profile?.videoBlur || 0);
     vid.style.filter = blurVal > 0 ? `blur(${blurVal}px)` : "none";
@@ -2122,12 +2167,12 @@ function initVideoBgInputs() {
     blurIn.oninput = () => {
         blurVal.textContent = blurIn.value + "px";
         const v = Number(blurIn.value);
-        $("backgroundVideo").style.filter = v > 0 ? `blur(${v}px)` : "none";
-        $("backgroundVideo").style.transform = v > 0 ? "scale(1.05)" : "scale(1)";
+        els.backgroundVideo.style.filter = v > 0 ? `blur(${v}px)` : "none";
+        els.backgroundVideo.style.transform = v > 0 ? "scale(1.05)" : "scale(1)";
         if (profile) profile.videoBlur = v;
     };
-    loopIn.onchange = () => { $("backgroundVideo").loop = loopIn.checked; if (profile) profile.videoLoop = loopIn.checked; };
-    mutedIn.onchange = () => { $("backgroundVideo").muted = mutedIn.checked; if (profile) profile.videoMuted = mutedIn.checked; };
+    loopIn.onchange = () => { els.backgroundVideo.loop = loopIn.checked; if (profile) profile.videoLoop = loopIn.checked; };
+    mutedIn.onchange = () => { els.backgroundVideo.muted = mutedIn.checked; if (profile) profile.videoMuted = mutedIn.checked; };
     removeBtn.onclick = () => {
         videoBgData = null;
         videoBgEnabled = false;
@@ -2187,12 +2232,10 @@ async function loadProfile() {
                 cursorPixelated: false
             };
         }
-        if (!Array.isArray(profile.arts)) profile.arts = [];
-        if (!Array.isArray(profile.friends)) profile.friends = [];
-        if (!Array.isArray(profile.backgrounds)) profile.backgrounds = [];
-        if (!Array.isArray(profile.playlist)) profile.playlist = [];
-        if (!Array.isArray(profile.links)) profile.links = [];
-        if (!Array.isArray(profile.badges)) profile.badges = [];
+        // Normalização defensiva
+        ["arts","friends","backgrounds","playlist","links","badges"].forEach(k => {
+            if (!Array.isArray(profile[k])) profile[k] = [];
+        });
         if (!profile.cursors) profile.cursors = {};
         if (profile.cursorSize === undefined) profile.cursorSize = 22;
         if (profile.trailSize === undefined) profile.trailSize = 8;
@@ -2208,7 +2251,7 @@ async function loadProfile() {
         toast("Erro ao carregar o perfil.", "error");
     }
     document.body.classList.remove("busy");
-    setTimeout(() => $("loading").classList.add("hide"), 400);
+    setTimeout(() => els.loading.classList.add("hide"), 400);
 }
 
 /* =========================================================
@@ -2217,16 +2260,15 @@ async function loadProfile() {
 function applyProfile() {
     if (!profile) return;
 
-    $("profileName").textContent = profile.name || "Meu Perfil";
-    $("profileDescription").textContent = profile.description || "";
+    els.profileName.textContent = profile.name || "Meu Perfil";
+    els.profileDescription.textContent = profile.description || "";
 
-    const avatar = $("avatar");
-    avatar.onload = () => avatar.classList.add("loaded");
+    els.avatar.onload = () => els.avatar.classList.add("loaded");
     if (profile.avatar) {
-        avatar.src = profile.avatar;
-        $("vinylCover").src = profile.avatar;
+        els.avatar.src = profile.avatar;
+        els.vinylCover.src = profile.avatar;
     } else {
-        avatar.src = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(
+        els.avatar.src = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(
             `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300">
                 <rect width="100%" height="100%" fill="#111"/>
                 <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="white" font-size="80">?</text>
@@ -2242,8 +2284,8 @@ function applyProfile() {
     backgrounds = Array.isArray(profile.backgrounds) ? profile.backgrounds : [];
     playlist = Array.isArray(profile.playlist) ? profile.playlist : [];
 
-    if (profile.blur > 0) $("background").style.filter = `blur(${profile.blur}px)`;
-    else $("background").style.filter = "none";
+    if (profile.blur > 0) els.background.style.filter = `blur(${profile.blur}px)`;
+    else els.background.style.filter = "none";
 
     if (profile.effectParticles !== undefined) settings.particles = profile.effectParticles;
     if (profile.effectCursor !== undefined) settings.cursor = profile.effectCursor;
@@ -2254,12 +2296,12 @@ function applyProfile() {
     }
     saveSettings();
 
-    $("avatarRing").classList.toggle("disabled", profile.effectRing === false);
-    $("profileName").classList.toggle("glowing", profile.glow !== false);
-    $("vinylContainer").style.display = (profile.effectVinyl !== false && playlist.length) ? "flex" : "none";
-    $("eq").classList.toggle("playing", isPlaying);
+    els.avatarRing.classList.toggle("disabled", profile.effectRing === false);
+    els.profileName.classList.toggle("glowing", profile.glow !== false);
+    els.vinylContainer.style.display = (profile.effectVinyl !== false && playlist.length) ? "flex" : "none";
+    els.eq.classList.toggle("playing", isPlaying);
 
-    const card = $("profileCard");
+    const card = els.profileCard;
     card.className = "profile-card " + (settings.entryAnim === "card" ? "" : "entry-" + settings.entryAnim);
     document.documentElement.style.setProperty("--entry-speed", settings.entrySpeed + "s");
 
@@ -2285,7 +2327,7 @@ function applyProfile() {
    LINKS / BADGES
 ========================================================= */
 function renderLinks() {
-    const container = $("links");
+    const container = els.links;
     container.innerHTML = "";
     (profile.links || []).forEach(link => {
         if (!link.url) return;
@@ -2299,7 +2341,7 @@ function renderLinks() {
     });
 }
 function renderBadges() {
-    const container = $("badges");
+    const container = els.badges;
     container.innerHTML = "";
     (profile.badges || []).forEach((badge, i) => {
         const el = document.createElement("div");
@@ -2451,7 +2493,7 @@ if (!friendRefreshTimer) {
 ========================================================= */
 function startBackgrounds() {
     clearInterval(backgroundTimer);
-    if (!backgrounds.length) { $("background").style.backgroundImage = ""; return; }
+    if (!backgrounds.length) { els.background.style.backgroundImage = ""; return; }
     backgroundIndex = 0;
     changeBackground();
     const interval = Math.max(1, Number(profile.backgroundInterval || 8)) * 1000;
@@ -2460,10 +2502,10 @@ function startBackgrounds() {
 function changeBackground() {
     if (!backgrounds.length) return;
     const bg = backgrounds[backgroundIndex];
-    $("background").style.opacity = "0";
+    els.background.style.opacity = "0";
     setTimeout(() => {
-        $("background").style.backgroundImage = `url("${bg}")`;
-        $("background").style.opacity = "1";
+        els.background.style.backgroundImage = `url("${bg}")`;
+        els.background.style.opacity = "1";
     }, 300);
     backgroundIndex++;
     if (backgroundIndex >= backgrounds.length) backgroundIndex = 0;
@@ -2478,7 +2520,7 @@ function savePlaylistLocal() {
     try { db.ref(PROFILE_PATH + "/playlist").set(playlist); } catch(e) { console.warn(e); }
 }
 function renderPlaylist() {
-    const container = $("playlist");
+    const container = els.playlist;
     container.innerHTML = "";
     if (!playlist.length) {
         container.innerHTML = '<div class="playlist-empty">Playlist vazia</div>';
@@ -2547,8 +2589,8 @@ function renderPlaylist() {
             container.appendChild(item);
         });
     }
-    $("musicPlayer").style.display = playlist.length ? "block" : "none";
-    $("vinylContainer").style.display = (playlist.length && profile.effectVinyl !== false) ? "flex" : "none";
+    els.musicPlayer.style.display = playlist.length ? "block" : "none";
+    els.vinylContainer.style.display = (playlist.length && profile.effectVinyl !== false) ? "flex" : "none";
 }
 
 /* =========================================================
@@ -2558,7 +2600,7 @@ function setupMusic() {
     if (!playlist.length) return;
     if (currentSong >= playlist.length) currentSong = 0;
     audio.volume = .7;
-    $("volume").value = .7;
+    els.volume.value = .7;
     loadSong();
 }
 function loadSong() {
@@ -2572,16 +2614,16 @@ function loadSong() {
         stopYouTube();
         audio.src = song.data;
     }
-    $("musicTitleText").textContent = song.name;
+    els.musicTitleText.textContent = song.name;
     updatePlaylistUI();
     updateMiniPlayer();
 
     if (profile.musicChangeBackground && backgrounds.length) {
         const idx = currentSong % backgrounds.length;
-        $("background").style.opacity = "0";
+        els.background.style.opacity = "0";
         setTimeout(() => {
-            $("background").style.backgroundImage = `url("${backgrounds[idx]}")`;
-            $("background").style.opacity = "1";
+            els.background.style.backgroundImage = `url("${backgrounds[idx]}")`;
+            els.background.style.opacity = "1";
         }, 300);
     }
 }
@@ -2595,10 +2637,10 @@ function isYouTubeCurrent() {
     return playlist[currentSong] && playlist[currentSong].source === "youtube";
 }
 function updatePlayUI(playing) {
-    $("playBtn").textContent = playing ? "⏸" : "▶";
-    $("vinyl").classList.toggle("spinning", playing);
-    $("eq").classList.toggle("playing", playing);
-    $("miniPlayBtn").textContent = playing ? "⏸" : "▶";
+    els.playBtn.textContent = playing ? "⏸" : "▶";
+    els.vinyl.classList.toggle("spinning", playing);
+    els.eq.classList.toggle("playing", playing);
+    els.miniPlayBtn.textContent = playing ? "⏸" : "▶";
     updateMiniPlayer();
 }
 function playMusic() {
@@ -2610,7 +2652,7 @@ function playMusic() {
         updatePlayUI(true);
         return;
     }
-    const targetVolume = Number($("volume").value);
+    const targetVolume = Number(els.volume.value);
     audio.volume = profile.musicFadeIn ? 0 : targetVolume;
     audio.play().then(() => {
         isPlaying = true;
@@ -2638,7 +2680,7 @@ function pauseMusic() {
     clearInterval(fadeInterval);
     fadeInterval = null;
     if (isYouTubeCurrent()) { pauseYouTube(); return; }
-    const targetVolume = Number($("volume").value);
+    const targetVolume = Number(els.volume.value);
     if (profile.musicFadeIn && audio.volume > 0.02) {
         const startVolume = audio.volume;
         const duration = Math.min(getFadeDuration(), 1200);
@@ -2681,9 +2723,9 @@ function nextSong() {
 audio.addEventListener("ended", nextSong);
 audio.addEventListener("timeupdate", () => {
     if (!audio.duration) return;
-    $("progress").value = (audio.currentTime / audio.duration) * 100;
-    $("currentTime").textContent = formatTime(audio.currentTime);
-    $("duration").textContent = formatTime(audio.duration);
+    els.progress.value = (audio.currentTime / audio.duration) * 100;
+    els.currentTime.textContent = formatTime(audio.currentTime);
+    els.duration.textContent = formatTime(audio.duration);
 });
 function formatTime(seconds) {
     if (!Number.isFinite(seconds)) return "0:00";
@@ -2721,7 +2763,7 @@ function loadYouTube(song) {
     if (!videoId) { toast("Link YouTube inválido", "error"); return; }
     if (ytPlayer && ytReady && ytPlayer.loadVideoById) {
         ytPlayer.loadVideoById(videoId);
-        if (ytPlayer.setVolume) ytPlayer.setVolume(Number($("volume").value) * 100);
+        if (ytPlayer.setVolume) ytPlayer.setVolume(Number(els.volume.value) * 100);
         return;
     }
     $("youtubeContainer").innerHTML = '<div id="ytPlayerDiv"></div>';
@@ -2732,7 +2774,7 @@ function loadYouTube(song) {
         playerVars: { autoplay: 0, controls: 0, disablekb: 1, origin: window.location.origin },
         events: {
             onReady: (e) => {
-                e.target.setVolume(Number($("volume").value) * 100);
+                e.target.setVolume(Number(els.volume.value) * 100);
                 if (pendingYouTubePlay) { e.target.playVideo(); pendingYouTubePlay = false; }
             },
             onStateChange: (e) => {
@@ -2761,9 +2803,9 @@ setInterval(() => {
         const cur = ytPlayer.getCurrentTime();
         const dur = ytPlayer.getDuration();
         if (dur) {
-            $("progress").value = (cur / dur) * 100;
-            $("currentTime").textContent = formatTime(cur);
-            $("duration").textContent = formatTime(dur);
+            els.progress.value = (cur / dur) * 100;
+            els.currentTime.textContent = formatTime(cur);
+            els.duration.textContent = formatTime(dur);
         }
     }
 }, 500);
@@ -3233,22 +3275,22 @@ document.addEventListener("DOMContentLoaded", () => {
     $("muteBtn").onclick = () => {
         isMuted = !isMuted;
         audio.muted = isMuted;
-        if (ytPlayer && ytPlayer.setVolume) ytPlayer.setVolume(isMuted ? 0 : Number($("volume").value) * 100);
+        if (ytPlayer && ytPlayer.setVolume) ytPlayer.setVolume(isMuted ? 0 : Number(els.volume.value) * 100);
         $("muteBtn").textContent = isMuted ? "🔇" : "🔊";
     };
     $("progress").oninput = () => {
         if (isYouTubeCurrent()) {
             if (ytPlayer && ytPlayer.seekTo) {
                 const dur = ytPlayer.getDuration ? ytPlayer.getDuration() : 0;
-                if (dur) ytPlayer.seekTo((Number($("progress").value) / 100) * dur, true);
+                if (dur) ytPlayer.seekTo((Number(els.progress.value) / 100) * dur, true);
             }
             return;
         }
         if (!audio.duration) return;
-        audio.currentTime = (Number($("progress").value) / 100) * audio.duration;
+        audio.currentTime = (Number(els.progress.value) / 100) * audio.duration;
     };
     $("volume").oninput = () => {
-        const v = Number($("volume").value);
+        const v = Number(els.volume.value);
         if (!fadeInterval) audio.volume = v;
         if (ytPlayer && ytPlayer.setVolume) ytPlayer.setVolume(v * 100);
     };
@@ -3386,9 +3428,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const file = $("avatarFile").files[0];
         if (!file) return;
         profile.avatar = await fileToDataURL(file);
-        $("avatar").src = profile.avatar;
-        $("vinylCover").src = profile.avatar;
-        $("avatar").classList.add("loaded");
+        els.avatar.src = profile.avatar;
+        els.vinylCover.src = profile.avatar;
+        els.avatar.classList.add("loaded");
         toast("Avatar carregado (salve para confirmar)", "info");
     };
 
