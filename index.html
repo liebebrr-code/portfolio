@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Profile</title>
+<title>Meu Perfil • Experiência</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--primary:#8b5cf6;--secondary:#06b6d4;--pc:139,92,246;--bg:#050509;--muted:#a1a1aa;--card:rgba(15,15,25,.72);--border:rgba(255,255,255,.12);--radius:24px;--blur:18px;--card-w:760px;--dim:.5;--av:125px;--av-r:50%}
@@ -213,6 +213,46 @@ body.light #loading{background:#f3f1fb}
 @keyframes flt{50%{transform:translateY(-18px) rotate(6deg)}}
 @keyframes run{to{transform:translate(120vw,-40vh) rotate(60deg);opacity:0}}
 @keyframes gl{0%,90%,100%{text-shadow:none;transform:none}92%{text-shadow:3px 0 #f0f,-3px 0 #0ff;transform:translateX(3px)}96%{text-shadow:-3px 0 #f0f,3px 0 #0ff;transform:translateX(-3px)}}
+
+/* ===== EDIÇÃO AURORA: camada visual premium ===== */
+:root{--glass:rgba(13,16,29,.76);--line:rgba(255,255,255,.13);--soft-shadow:0 24px 80px rgba(0,0,0,.42)}
+html{scroll-behavior:smooth;scroll-padding-top:24px}
+body{background-image:radial-gradient(ellipse at 12% 12%,rgba(var(--pc),.14),transparent 34%),radial-gradient(ellipse at 88% 82%,rgba(6,182,212,.10),transparent 32%)}
+.wrap{padding:clamp(18px,4vw,58px) 16px;position:relative;isolation:isolate}
+.wrap:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opacity:.22;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:46px 46px;mask-image:linear-gradient(to bottom,black,transparent 88%)}
+.card{position:relative;overflow:hidden;background:linear-gradient(145deg,rgba(255,255,255,.075),transparent 38%),rgba(var(--card-rgb,15,15,25),var(--card-a,.76));border:1px solid rgba(255,255,255,.15);box-shadow:var(--soft-shadow),inset 0 1px rgba(255,255,255,.09),0 0 90px rgba(var(--pc),.09);padding:clamp(22px,4vw,42px)}
+.card:before{content:"";position:absolute;inset:0 12% auto;height:1px;background:linear-gradient(90deg,transparent,var(--secondary),var(--primary),transparent);opacity:.8}
+.card:after{content:"";position:absolute;width:260px;height:260px;right:-160px;top:-170px;border-radius:50%;background:var(--primary);filter:blur(110px);opacity:.18;pointer-events:none}
+h1{font-size:clamp(34px,7vw,58px);letter-spacing:-1.8px;line-height:1.04;margin:8px 0 12px;text-shadow:0 8px 35px rgba(var(--pc),.12)}
+.sub{letter-spacing:.13em;text-transform:uppercase;font-size:11px}
+.desc{font-size:14px;max-width:58ch}
+.av-wrap{margin:8px auto 20px}.ring{opacity:.9;filter:blur(2px);box-shadow:0 0 36px rgba(var(--pc),.22)}
+#av{box-shadow:0 12px 34px rgba(0,0,0,.35);border-color:rgba(255,255,255,.28)}
+nav{max-width:560px;margin:28px auto 22px;padding:6px;background:rgba(0,0,0,.28);border-color:rgba(255,255,255,.09);backdrop-filter:blur(16px)}
+.tab{padding:12px 14px;border-radius:12px;letter-spacing:.01em}.tab.on{box-shadow:0 8px 22px rgba(var(--pc),.25),inset 0 1px rgba(255,255,255,.22)}
+.badge{background:linear-gradient(135deg,rgba(var(--pc),.18),rgba(6,182,212,.08));border-color:rgba(var(--pc),.28);box-shadow:inset 0 1px rgba(255,255,255,.06)}
+.lnk{position:relative;overflow:hidden;padding:17px 20px;background:linear-gradient(115deg,rgba(255,255,255,.085),rgba(255,255,255,.025));border-color:rgba(255,255,255,.12);box-shadow:inset 0 1px rgba(255,255,255,.06);letter-spacing:.01em}
+.lnk:after{content:"↗";position:absolute;right:18px;opacity:.55;transition:transform .25s,opacity .25s}.lnk:hover:after{transform:translate(3px,-3px);opacity:1}
+.player,.th,.fr,.sec,.ibox,.box{box-shadow:0 14px 40px rgba(0,0,0,.18),inset 0 1px rgba(255,255,255,.045)}
+.player{background:linear-gradient(145deg,rgba(var(--pc),.10),rgba(0,0,0,.24));border-color:rgba(var(--pc),.18)}
+.vinyl{box-shadow:0 18px 45px rgba(0,0,0,.55),inset 0 0 24px rgba(0,0,0,.85)}
+.th,.fr{background:linear-gradient(140deg,rgba(255,255,255,.055),rgba(0,0,0,.24));border-color:rgba(255,255,255,.09)}
+.th:hover,.fr:hover{transform:translateY(-4px);box-shadow:0 18px 36px rgba(0,0,0,.25),0 0 26px rgba(var(--pc),.10)}
+#mini{border-color:rgba(var(--pc),.25);box-shadow:0 14px 40px rgba(0,0,0,.45),0 0 24px rgba(var(--pc),.10)}
+.fb{box-shadow:0 10px 28px rgba(0,0,0,.3)}
+.modal{background:rgba(3,4,10,.78)}.box,.ibox{background:linear-gradient(145deg,rgba(255,255,255,.055),transparent 40%),rgba(12,14,24,.97);border-color:rgba(255,255,255,.14);box-shadow:0 32px 100px rgba(0,0,0,.65)}
+.sec{background:linear-gradient(135deg,rgba(var(--pc),.055),rgba(255,255,255,.018));border-color:rgba(255,255,255,.09);padding:20px}
+.sec h3{font-size:15px;letter-spacing:.02em}.inp{background:rgba(7,9,17,.72);border-color:rgba(255,255,255,.13);min-height:44px}.inp:focus{border-color:var(--secondary);box-shadow:0 0 0 3px rgba(var(--pc),.13)}
+.pb{background:linear-gradient(110deg,var(--primary),var(--secondary));box-shadow:0 10px 28px rgba(var(--pc),.2),inset 0 1px rgba(255,255,255,.22);letter-spacing:.045em}.pb:hover{transform:translateY(-1px);box-shadow:0 14px 34px rgba(var(--pc),.3)}
+.sb,.mb,.fb,.x{border:1px solid rgba(255,255,255,.10)}
+:focus-visible{outline:2px solid var(--secondary)!important;outline-offset:3px}
+button,a,input,textarea,select{-webkit-tap-highlight-color:transparent}
+::selection{background:rgba(var(--pc),.38);color:#fff}
+body.light .card,body.light .box,body.light .ibox{background:rgba(248,249,255,.88);color:#181827;border-color:rgba(30,30,60,.14)}
+body.light .desc,body.light .fd,body.light .ia{color:#55566b}body.light .lnk{color:#24243a;background:rgba(255,255,255,.65)}body.light .th,body.light .fr,body.light .sec{background:rgba(255,255,255,.62);border-color:rgba(30,30,60,.12)}body.light .inp{background:rgba(255,255,255,.8);color:#171727;border-color:rgba(30,30,60,.16)}
+@media(max-width:620px){.wrap{align-items:flex-start;padding:16px 10px}.card{border-radius:22px;padding:23px 16px}.tab{font-size:11px;padding:10px 5px}.th{gap:10px;padding:11px}.th img,.th .ni{width:66px;height:66px}.friends{grid-template-columns:1fr}.box{padding:18px}.sec{padding:15px}.fl{right:12px;bottom:12px}.fb{width:44px;height:44px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
 </style>
 </head>
 <body>
@@ -233,7 +273,7 @@ body.light #loading{background:#f3f1fb}
       <div class="ctrls">
         <button class="mb" id="prev" title="Anterior">⏮</button><button class="mb" id="pp" title="Play/Pause">▶</button><button class="mb" id="nxt" title="Próxima">⏭</button>
         <button class="mb" id="shuf" title="Aleatório">🔀</button><button class="mb" id="rep" title="Repetir">🔁</button><button class="mb" id="mute" title="Mudo">🔊</button>
-        <input id="prg" type="range" min="0" max="100" value="0" aria-label="Progresso"><input id="vol" type="range" min="0" max="1" step=".01" value=".7" aria-label="Volume">
+        <input id="prg" type="range" min="0" max="100" value="0" aria-label="Progresso"><input id="vol" type="range" min="0" max="1" step=".01" value=".3" aria-label="Volume">
       </div>
       <div class="times"><span id="t1">0:00</span><span id="t2">0:00</span></div><div class="pl" id="pl"></div>
     </div>
@@ -263,11 +303,18 @@ body.light #loading{background:#f3f1fb}
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
 <script>
 firebase.initializeApp({apiKey:"AIzaSyB35ktkxiS_MPTrSflfHhBe5snYAV0iV6Q",authDomain:"myprofile-7db79.firebaseapp.com",databaseURL:"https://myprofile-7db79-default-rtdb.firebaseio.com",projectId:"myprofile-7db79",storageBucket:"myprofile-7db79.firebasestorage.app",messagingSenderId:"947862565874",appId:"1:947862565874:web:3116335ff6f1822f0df16b",measurementId:"G-KC2ZXS400D"});
-const auth=firebase.auth(),db=firebase.database(),PATH="profile";
+const auth=firebase.auth(),db=firebase.database(),storage=firebase.storage(),PATH="profile";
+/* IMPORTANTE: regras recomendadas (ajuste e publique no Firebase Console):
+Realtime Database: leitura pública somente se o perfil for público; escrita apenas auth.uid === UID_ADMIN.
+Storage: match /profile-media/{uid}/{allPaths=**} { allow read: if true; allow write: if request.auth != null && request.auth.uid == UID_ADMIN && request.resource.size < 30 * 1024 * 1024; }
+O HTML não consegue impor essas regras no servidor. Nunca use allow read, write: if true.
+*/
 const $=id=>document.getElementById(id),root=document.documentElement.style;
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const safeUrl=value=>{try{const u=new URL(String(value||""),location.href);return ["http:","https:"].includes(u.protocol)?u.href:""}catch(e){return ""}};
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
 const fmtDate=t=>t?new Date(t).toLocaleString("pt-BR"):"";
 const fmtTime=s=>Number.isFinite(s)?Math.floor(s/60)+":"+String(Math.floor(s%60)).padStart(2,"0"):"0:00";
@@ -282,12 +329,27 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape")document.querySelect
 
 /* imagens: reduz antes de guardar (GIF fica intacto) */
 function shrink(src,max){return new Promise(ok=>{const im=new Image();im.onload=()=>{const r=Math.min(1,max/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=im.width*r;c.height=im.height*r;c.getContext("2d").drawImage(im,0,0,c.width,c.height);ok(c.toDataURL("image/jpeg",.82))};im.onerror=()=>ok("");im.src=src})}
-async function readImg(f,max=600){if(f.size>3*1024*1024){toast("Imagem muito grande (máx 3MB)","error");return""}const d=await toDataURL(f);return f.type==="image/gif"?d:shrink(d,max)}
+async function uploadMedia(file,folder="media"){
+  if(!auth.currentUser)throw new Error("Entre como administrador para enviar arquivos.");
+  if(!file)throw new Error("Arquivo não selecionado.");
+  const allowed=/^(image\/(png|jpeg|webp|gif)|audio\/(mpeg|mp3|wav|x-wav|ogg|mp4|aac|m4a|webm|x-m4a)|video\/(mp4|webm|ogg))$/i;
+  if(!allowed.test(file.type))throw new Error("Formato de arquivo não permitido.");
+  const limit=file.type.startsWith("video/")?30:file.type.startsWith("audio/")?15:5;
+  if(file.size>limit*1024*1024)throw new Error(`Arquivo acima do limite de ${limit} MB.`);
+  const clean=(file.name||"arquivo").normalize("NFKD").replace(/[^a-zA-Z0-9._-]/g,"_").slice(-70);
+  const ref=storage.ref(`profile-media/${auth.currentUser.uid}/${folder}/${Date.now()}_${uid()}_${clean}`);
+  const snap=await ref.put(file,{contentType:file.type,cacheControl:"public,max-age=3600"});
+  return await snap.ref.getDownloadURL();
+}
+async function readImg(f,max=600){
+  if(!f||!f.type.startsWith("image/")){toast("Selecione uma imagem válida","error");return""}
+  try{return await uploadMedia(f,"images")}catch(e){toast(e.message||"Falha ao enviar imagem","error");return""}
+}
 
 /* ================= DADOS ================= */
 const UI0=()=>({cardWidth:760,radius:24,cardOpacity:.72,cardBlur:18,dim:.5,avatarSize:125,avatarShape:"circle",font:"system",linkStyle:"glass",trigger:"both",moreLabel:"✦ ver mais",showForumTab:true,showFriendsTab:true,showScroll:true,showFloat:true,customCSS:""});
 const INFO0=()=>({enabled:true,statusEmoji:"💜",statusText:"",about:"",tags:"",anim:"pop",showFriends:true,friendsMax:6,showNow:true,showLinks:false,fields:[],stats:[]});
-const DEF=()=>({name:"Meu Perfil",title:"",description:"Bem-vindo ao meu perfil.",avatar:"",primary:"#8b5cf6",secondary:"#06b6d4",theme:"default",backgrounds:[],backgroundInterval:8,blur:0,links:[],badges:[],playlist:[],forumCategories:[],forumThreads:[],friends:[],autoplay:false,loop:true,shuffle:false,musicFadeIn:true,fadeDuration:3,effectParticles:true,particleCount:60,effectVinyl:true,effectCursor:true,cursorTrail:true,clickRipple:true,effectRing:true,glow:true,videoBg:"",videoBgEnabled:false,videoBlur:0,defaultMode:"dark",cursorStyle:"ring",cursorSize:22,cursorEmoji:"✨",cursorImg:""});
+const DEF=()=>({name:"Meu Perfil",title:"",description:"Bem-vindo ao meu perfil.",avatar:"",primary:"#8b5cf6",secondary:"#06b6d4",theme:"default",backgrounds:[],backgroundInterval:8,blur:0,links:[],badges:[],playlist:[],forumCategories:[],forumThreads:[],friends:[],autoplay:false,loop:true,shuffle:false,musicFadeIn:true,fadeDuration:4,musicVolume:.30,effectParticles:true,particleCount:60,effectVinyl:true,effectCursor:true,cursorTrail:true,clickRipple:true,effectRing:true,glow:true,videoBg:"",videoBgEnabled:false,videoBlur:0,defaultMode:"dark",cursorStyle:"ring",cursorSize:22,cursorEmoji:"✨",cursorImg:""});
 const TH={default:["","","#050509"],cyberpunk:["#ff00ff","#00ffff","#0a0014"],dreamcore:["#ffb3d9","#b3e0ff","#1a1025"],celestial:["#8e2de2","#4a00e0","#0a0520"],gothic:["#b00020","#6a0050","#0a0505"],dark:["#888888","#444444","#000000"],aurora:["#00ffa3","#00c6ff","#001a1a"],sakura:["#ffb7c5","#ffc0cb","#2a1a1f"],ocean:["#00b4d8","#006994","#001220"],sunset:["#ff512f","#f09819","#1a0a00"],neon:["#ff00ff","#00ff00","#000000"],vintage:["#c9a26a","#8b6f47","#1a1410"],cherry:["#ff0040","#ff6b9d","#1a0008"],midnight:["#2c5364","#4a7a90","#050a10"],forest:["#71b280","#134e5e","#051010"],vaporwave:["#ff71ce","#01cdfe","#0a0014"]};
 const FONTS={system:"",serif:"Georgia,'Times New Roman',serif",mono:"ui-monospace,Consolas,monospace",rounded:"ui-rounded,'Trebuchet MS',sans-serif",hand:"'Segoe Script','Bradley Hand','Comic Sans MS',cursive"};
 let P=null,page="home",forumCat="all",friendCache={};
@@ -325,7 +387,7 @@ function renderMain(){
   av.src=P.avatar||"data:image/svg+xml,"+encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><rect width='100%' height='100%' fill='#111'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='#fff' font-size='80'>?</text></svg>");
   $("ring").classList.toggle("off",P.effectRing===false);
   $("badges").innerHTML=P.badges.map(b=>`<span class="badge">${esc(b)}</span>`).join("");
-  $("links").innerHTML=P.links.filter(l=>l.url).map(l=>`<a class="lnk" href="${esc(l.url)}" target="_blank" rel="noopener noreferrer">${esc(l.name||l.url)}</a>`).join("");
+  $("links").innerHTML=P.links.map(l=>({l,u:safeUrl(l.url)})).filter(x=>x.u).map(({l,u})=>`<a class="lnk" href="${esc(u)}" target="_blank" rel="noopener noreferrer">${esc(l.name||u)}</a>`).join("");
   const has=P.playlist.length;$("player").style.display=has?"block":"none";$("vwrap").style.display=has&&P.effectVinyl!==false?"flex":"none";
 }
 function renderForum(){
@@ -349,7 +411,7 @@ function renderFriends(){
   g.innerHTML="";
   P.friends.forEach(f=>{const l=f.discordId&&friendCache[f.discordId]?.data,a=l?.activities?.find(x=>x.type!==4)||l?.activities?.[0],an=a&&(a.name||a.state||a.details),s=frStatus(f),d=document.createElement("div");d.className="fr";
     d.innerHTML=`<div class="fav"><img src="${esc(frAvatar(f))}" alt="" loading="lazy">${s?`<span class="dot ${s}" title="${s}"></span>`:""}</div><div class="fi"><div class="fn">${esc(f.name||"Sem nome")}</div>${f.description?`<div class="fd">${esc(f.description)}</div>`:""}${an?`<div class="act">${["🎮","📺","🎵","👁️","✨"][a.type]||"💬"} ${esc(an)}</div>`:""}</div>`;
-    if(f.link||f.discordId){d.style.cursor="pointer";d.onclick=()=>f.link?window.open(f.link,"_blank","noopener"):navigator.clipboard.writeText(f.discordId).then(()=>toast("Discord ID copiado!","success"))}
+    if(safeUrl(f.link)||f.discordId){d.style.cursor="pointer";d.onclick=()=>safeUrl(f.link)?window.open(safeUrl(f.link),"_blank","noopener,noreferrer"):navigator.clipboard.writeText(f.discordId).then(()=>toast("Discord ID copiado!","success"))}
     g.appendChild(d)});
 }
 async function refreshFriends(){
@@ -388,18 +450,21 @@ addEventListener("resize",debounce(()=>{if(P){initParticles();initCursor()}},150
 
 /* ================= CURSOR ================= */
 const cur=$("cur");let curOn=false,lastTrail=0;
-function initCursor(){applyCursor();curOn=P.effectCursor!==false&&innerWidth>650;cur.style.opacity=0;document.body.classList.toggle("nc",curOn)}
-document.addEventListener("mousemove",e=>{
-  if(!curOn)return;cur.style.opacity=1;cur.style.left=e.clientX+"px";cur.style.top=e.clientY+"px";
+function initCursor(){applyCursor();curOn=P.effectCursor!==false&&innerWidth>650&&matchMedia("(hover: hover) and (pointer: fine)").matches;cur.style.opacity=0;document.body.classList.toggle("nc",curOn)}
+document.addEventListener("pointermove",e=>{
+  if(!curOn||!(e.pointerType==="mouse"||e.pointerType==="pen"))return;
+  cur.style.opacity=1;cur.style.left=e.clientX+"px";cur.style.top=e.clientY+"px";
   cur.classList.toggle("hover",!!e.target.closest("a,button,.vinyl,.pi,.th,.fr,.chip,[data-c]"));
-  const n=performance.now();if(P.cursorTrail&&n-lastTrail>50){lastTrail=n;const t=document.createElement("div");t.className="trail";t.style.left=e.clientX+"px";t.style.top=e.clientY+"px";document.body.appendChild(t);requestAnimationFrame(()=>t.style.opacity=0);setTimeout(()=>t.remove(),700)}
+  const n=performance.now();if(P.cursorTrail&&n-lastTrail>75&&document.querySelectorAll(".trail").length<12){lastTrail=n;const t=document.createElement("div");t.className="trail";t.style.left=e.clientX+"px";t.style.top=e.clientY+"px";document.body.appendChild(t);requestAnimationFrame(()=>t.style.opacity=0);setTimeout(()=>t.remove(),700)}
 },{passive:true});
+document.addEventListener("pointerleave",e=>{if(e.pointerType==="mouse")cur.style.opacity=0});
+document.addEventListener("pointerenter",e=>{if(curOn&&e.pointerType==="mouse")cur.style.opacity=1});
 document.addEventListener("click",e=>{if(!curOn||!P.clickRipple)return;const r=document.createElement("div");r.className="rip";r.style.left=e.clientX+"px";r.style.top=e.clientY+"px";document.body.appendChild(r);setTimeout(()=>r.remove(),700)});
 addEventListener("scroll",()=>{const h=document.documentElement.scrollHeight-innerHeight;$("prog").style.width=(h>0?scrollY/h*100:0)+"%"},{passive:true});
 
 /* ================= MÚSICA ================= */
 const au=$("au"),ytThumb=id=>`https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
-let cur_=0,playing=false,vol=.7,loaded=null,fadeT=null,ytp=null,ytWant=false;
+let cur_=0,playing=false,vol=.30,loaded=null,fadeT=null,ytp=null,ytWant=false;
 const song=()=>P.playlist[cur_],isYT=()=>song()?.source==="youtube";
 const coverOf=()=>{const s=song();return(s&&(s.cover||(s.videoId&&ytThumb(s.videoId))))||P.avatar||""};
 function dominant(url){return new Promise(ok=>{const im=new Image();im.crossOrigin="anonymous";im.onload=()=>{try{const c=document.createElement("canvas");c.width=c.height=1;const x=c.getContext("2d");x.drawImage(im,0,0,1,1);const[r,g,b]=x.getImageData(0,0,1,1).data;ok(`rgb(${r},${g},${b})`)}catch(e){ok(null)}};im.onerror=()=>ok(null);im.src=url})}
@@ -461,7 +526,7 @@ $("pp").onclick=$("mpp").onclick=toggle;$("vinyl").onclick=toggle;$("nxt").oncli
 $("shuf").onclick=()=>{P.shuffle=!P.shuffle;$("shuf").classList.toggle("on",P.shuffle)};
 $("rep").onclick=()=>{P.loop=!P.loop;$("rep").classList.toggle("on",P.loop)};
 $("mute").onclick=()=>{au.muted=!au.muted;$("mute").textContent=au.muted?"🔇":"🔊";if(ytp&&ytp.mute)au.muted?ytp.mute():ytp.unMute()};
-$("vol").oninput=e=>{vol=+e.target.value;au.volume=vol;if(ytp&&ytp.setVolume)ytp.setVolume(vol*100)};
+$("vol").oninput=e=>{vol=+e.target.value;P.musicVolume=vol;au.volume=vol;if(ytp&&ytp.setVolume)ytp.setVolume(vol*100)};
 $("prg").oninput=e=>{const p=e.target.value/100;if(isYT()){if(ytp&&ytp.getDuration)ytp.seekTo(p*ytp.getDuration(),true)}else if(au.duration)au.currentTime=p*au.duration};
 let autoTried=false;document.addEventListener("pointerdown",()=>{if(P?.autoplay&&!autoTried&&!playing&&P.playlist.length){autoTried=true;play()}},{passive:true});
 async function id3Cover(f){
@@ -490,7 +555,7 @@ function renderInfo(anim=true){
   const tg=(i.tags||"").split(",").map(x=>x.trim()).filter(Boolean);if(tg.length)h+=S("Interesses",`<div class="badges" style="justify-content:flex-start;margin:0">${tg.map(x=>`<span class="badge">${esc(x)}</span>`).join("")}</div>`);
   if(i.showFriends&&P.friends.length)h+=S(`Amigos (${P.friends.length})`,`<div class="ifr">${P.friends.slice(0,i.friendsMax).map(x=>{const t=frStatus(x);return`<div class="fav" title="${esc(x.name)}"><img src="${esc(frAvatar(x))}" alt="${esc(x.name)}" loading="lazy">${t?`<span class="dot ${t}"></span>`:""}</div>`}).join("")}</div><button class="sb" id="iAll">Ver todos</button>`);
   if(i.showNow&&P.playlist.length)h+=S("Tocando agora",'<div class="inow" id="iNow"></div>');
-  if(i.showLinks&&P.links.length)h+=S("",`<div class="links" style="margin:0">${P.links.filter(l=>l.url).map(l=>`<a class="lnk" href="${esc(l.url)}" target="_blank" rel="noopener noreferrer">${esc(l.name||l.url)}</a>`).join("")}</div>`);
+  if(i.showLinks&&P.links.length)h+=S("",`<div class="links" style="margin:0">${P.links.map(l=>({l,u:safeUrl(l.url)})).filter(x=>x.u).map(({l,u})=>`<a class="lnk" href="${esc(u)}" target="_blank" rel="noopener noreferrer">${esc(l.name||u)}</a>`).join("")}</div>`);
   $("iBody").className=anim?"":"noanim";$("iBody").innerHTML=h||'<div class="empty"><b>🪪</b>Preencha a caixa no painel Admin.</div>';
   if($("iAll"))$("iAll").onclick=()=>{closeM("mInfo");switchPage("friends")};nowPaint();
 }
@@ -509,7 +574,7 @@ const LOOK=[["backgroundInterval","range","Tempo de cada fundo",1,60,1,"s"],["bl
 const UIDEF=[["trigger","select","Abrir a caixa ao clicar em",{both:"Foto e texto",avatar:"Só a foto",text:"Só o texto"}],["moreLabel","text","Texto do botão"],["cardWidth","range","Largura do card",480,1100,10,"px"],["radius","range","Arredondamento",0,48,1,"px"],["cardOpacity","range","Opacidade do card",.2,1,.02,""],["cardBlur","range","Desfoque do card",0,40,1,"px"],["dim","range","Escurecer o fundo",0,1,.05,""],["avatarSize","range","Tamanho da foto",80,200,5,"px"],["avatarShape","select","Formato da foto",{circle:"Círculo",squircle:"Arredondado",square:"Quadrado"}],["font","select","Fonte",{system:"Padrão",serif:"Serifada",mono:"Monoespaçada",rounded:"Arredondada",hand:"Manuscrita"}],["linkStyle","select","Estilo dos links",{glass:"Vidro",solid:"Sólido",outline:"Contorno"}],["showForumTab","check","Mostrar aba Fóruns"],["showFriendsTab","check","Mostrar aba Amigos"],["showScroll","check","Barra de progresso do scroll"],["showFloat","check","Botões flutuantes de tema"],["customCSS","area","CSS personalizado (avançado)"]];
 const INFODEF=[["enabled","check","Ativar caixa de informações"],["statusEmoji","text","Emoji do status"],["statusText","text","Texto do status"],["about","area","Sobre mim"],["tags","text","Interesses (separe por vírgula)"],["anim","select","Animação de abertura",{pop:"Pop (sai da foto)",slide:"Deslizar",flip:"Virar",blur:"Desfocar"}],["showFriends","check","Mostrar amigos"],["friendsMax","range","Máximo de amigos",1,12,1,""],["showNow","check","Mostrar música tocando"],["showLinks","check","Mostrar links"]];
 const FX=[["effectParticles","check","Partículas"],["particleCount","range","Quantidade de partículas",10,180,5,""],["effectCursor","check","Cursor personalizado"],["cursorTrail","check","Rastro do cursor"],["clickRipple","check","Onda ao clicar"],["effectRing","check","Anel giratório no avatar"],["glow","check","Brilho no nome"],["effectVinyl","check","Disco de vinil"]];
-const MUSIC=[["autoplay","check","Reprodução automática (no primeiro clique)"],["loop","check","Repetir playlist"],["shuffle","check","Embaralhar"],["musicFadeIn","check","Fade-in"],["fadeDuration","range","Duração do fade",1,15,1,"s"]];
+const MUSIC=[["autoplay","check","Reprodução automática (no primeiro clique)"],["loop","check","Repetir playlist"],["shuffle","check","Embaralhar"],["musicFadeIn","check","Fade-in"],["fadeDuration","range","Duração do fade",1,15,1,"s"],["musicVolume","range","Volume inicial da música",0,1,.05,""]];
 const LINK=[["name","text","Nome"],["url","text","URL"]];
 const FRIEND=[["name","text","Nome"],["discordId","text","Discord ID (status ao vivo via Lanyard)"],["avatar","img","Avatar (opcional)",160],["link","text","Link do perfil"],["description","text","Descrição curta"]];
 const CATD=[["icon","text","Ícone"],["name","text","Nome"]];
@@ -529,7 +594,7 @@ function ctl(el,defs,obj,cb=applyAll){
     else if(t==="img"){w.innerHTML=`<label class="cap">${l}</label><div class="imgf"><input class="inp" placeholder="https://..." value="${obj[k]&&!String(obj[k]).startsWith("data:")?esc(obj[k]):""}"><input type="file" accept="image/*" hidden><button class="sb" type="button">📁</button><button class="sb dn" type="button">✕</button></div>`;
       const[i,f,up,rm]=w.querySelectorAll("input,input+input+button,button:last-child");const[ti,fi]=w.querySelectorAll("input"),[ub,rb]=w.querySelectorAll("button");
       ti.oninput=()=>set(ti.value.trim());ub.onclick=()=>fi.click();rb.onclick=()=>{ti.value="";set("")};fi.onchange=async()=>{if(fi.files[0]){const d=await readImg(fi.files[0],a||600);if(d){set(d);ti.value="";toast("Imagem carregada","success")}}}}
-    else{w.innerHTML=`<label class="cap">${l}</label>`;const i=document.createElement(t==="area"?"textarea":"input");i.className="inp";if(t==="color")i.type="color";i.value=obj[k]??"";i.oninput=()=>set(i.value);w.appendChild(i)}
+    else{w.innerHTML=`<label class="cap">${l}</label>`;const i=document.createElement(t==="area"?"textarea":"input");i.className="inp";if(t==="color")i.type="color";i.value=obj[k]??"";i.oninput=()=>set(i.value);if(k==="url"||k==="link"){i.placeholder="https://...";i.onblur=()=>{if(i.value&&!safeUrl(i.value)){i.setCustomValidity("Use um endereço http ou https válido.");i.reportValidity()}else i.setCustomValidity("")}}w.appendChild(i)}
     el.appendChild(w)});
 }
 function listEd(el,arr,defs,mk,btn,cb=applyAll,after){
@@ -542,12 +607,12 @@ function bgList(){
   const t=$("a-bgs");t.innerHTML=P.backgrounds.map((b,i)=>`<div><img src="${esc(b)}" alt=""><button data-i="${i}" type="button">✕</button></div>`).join("");
   t.querySelectorAll("button").forEach(b=>b.onclick=()=>{P.backgrounds.splice(+b.dataset.i,1);bgList();applyAll()});
 }
-const SECS=[["👤 Perfil","a-prof"],["🎨 Aparência","a-look",'<label class="cap">Fundos (imagens)</label><input id="a-bgf" class="inp" type="file" accept="image/*" multiple><div class="thumbs" id="a-bgs"></div><div id="a-lookc"></div><label class="cap">Arquivo de vídeo (até ~20MB)</label><input id="a-vf" class="inp" type="file" accept="video/mp4,video/webm">'],
+const SECS=[["👤 Perfil","a-prof"],["🎨 Aparência","a-look",'<label class="cap">Fundos (imagens)</label><input id="a-bgf" class="inp" type="file" accept="image/*" multiple><div class="thumbs" id="a-bgs"></div><div id="a-lookc"></div><label class="cap">Arquivo de vídeo (até 30MB)</label><input id="a-vf" class="inp" type="file" accept="video/mp4,video/webm">'],
  ["🧩 Personalização do site","a-ui",'<button class="sb" id="a-uirs" type="button" style="width:100%">↺ Restaurar padrão</button>'],["🪪 Caixa de informações","a-info",'<h4>📋 Campos</h4><div id="a-fields"></div><h4>📊 Estatísticas</h4><div id="a-stats"></div>'],
  ["🔗 Links","a-links"],["🏷️ Badges","a-badges",'<label class="cap">Um badge por linha</label><textarea class="inp" id="a-bt"></textarea>'],["💬 Fóruns","a-forum",'<h4>📁 Categorias</h4><div id="a-cats"></div><h4>📝 Tópicos</h4><div id="a-threads"></div>'],
  ["👥 Amigos","a-friends"],["🎵 Playlist","a-music",'<input id="a-mf" class="inp" type="file" accept="audio/*" multiple><div class="imgf"><input id="a-yt" class="inp" placeholder="Link do YouTube"><button class="sb" id="a-yb" type="button">+ YouTube</button></div><div id="a-songs"></div><div id="a-mopt"></div>'],
  ["✨ Efeitos","a-fx"],["🖱️ Cursor","a-cur"],["📡 Status ao vivo","a-live"],["🌗 Modo e música ambiente","a-mode","<div id=\"a-amb\"></div>"],["🕵️ Modo secreto e easter eggs","a-secret","<h4>🥚 Mensagens escondidas</h4><div id=\"a-eggs\"></div>"],["🏆 Conquistas","a-ach","<button class=\"sb dn\" id=\"a-achr\" type=\"button\">Limpar meu progresso local</button>"]];
-$("aBody").innerHTML=SECS.map(([t,id,x=""])=>`<div class="sec"><h3>${t}</h3><div id="${id}"></div>${x}</div>`).join("");
+$("aBody").innerHTML=`<div class="sec" style="border-color:rgba(6,182,212,.3)"><h3>🛡️ Segurança e armazenamento</h3><p class="fd">Os arquivos novos são enviados ao Firebase Storage em vez de serem gravados como Base64 no Realtime Database. A proteção real depende também das regras do Firebase: restrinja gravação ao UID administrador e valide tamanho/tipo no Storage. Não publique regras de escrita abertas.</p></div>`+SECS.map(([t,id,x=""])=>`<div class="sec"><h3>${t}</h3><div id="${id}"></div>${x}</div>`).join("");
 function fillAdmin(){
   ctl($("a-prof"),PROF,P);ctl($("a-lookc"),LOOK,P);bgList();ctl($("a-ui"),UIDEF,P.ui);ctl($("a-info"),INFODEF,P.info,applyAll);
   listEd($("a-fields"),P.info.fields,FIELD,()=>({icon:"📍",label:"",value:""}),"Campo");listEd($("a-stats"),P.info.stats,STAT,()=>({value:"",label:""}),"Estatística");
@@ -555,16 +620,16 @@ function fillAdmin(){
   const bt=$("a-bt");bt.value=P.badges.join("\n");bt.oninput=()=>{P.badges=bt.value.split("\n").map(s=>s.trim()).filter(Boolean);applyAll()};
   listEd($("a-cats"),P.forumCategories,CATD,()=>({id:uid(),icon:"💬",name:"Nova categoria"}),"Categoria",applyAll,fillThreads);fillThreads();
   listEd($("a-friends"),P.friends,FRIEND,()=>({name:"",discordId:"",avatar:"",link:"",description:""}),"Amigo");
-  listSongs();ctl($("a-mopt"),MUSIC,P);ctl($("a-fx"),FX,P);ctl($("a-cur"),CURDEF,P);ctl($("a-live"),LIVEDEF,P.live,()=>{paintExtras();refreshFriends()});ctl($("a-mode"),MODEDEF,P,()=>{});ctl($("a-amb"),AMBDEF,P.ambient,()=>{paintExtras();if(amb){ambStop();ambStart()}});ctl($("a-secret"),SECDEF,P.secret,paintExtras);ctl($("a-eggs"),EGGDEF,P.eggs,()=>{});ctl($("a-ach"),[["enabled","check","Ativar sistema de conquistas"]],P.ach,paintExtras);
+  listSongs();ctl($("a-mopt"),MUSIC,P,()=>{vol=Math.max(0,Math.min(1,Number(P.musicVolume)||0));au.volume=vol;if(ytp&&ytp.setVolume)ytp.setVolume(vol*100);applyAll()});ctl($("a-fx"),FX,P);ctl($("a-cur"),CURDEF,P);ctl($("a-live"),LIVEDEF,P.live,()=>{paintExtras();refreshFriends()});ctl($("a-mode"),MODEDEF,P,()=>{});ctl($("a-amb"),AMBDEF,P.ambient,()=>{paintExtras();if(amb){ambStop();ambStart()}});ctl($("a-secret"),SECDEF,P.secret,paintExtras);ctl($("a-eggs"),EGGDEF,P.eggs,()=>{});ctl($("a-ach"),[["enabled","check","Ativar sistema de conquistas"]],P.ach,paintExtras);
 }
 const fillThreads=()=>listEd($("a-threads"),P.forumThreads,THREAD,()=>({id:uid(),categoryId:P.forumCategories[0]?.id||"",title:"Novo tópico",content:"",image:"",pinned:false,createdAt:Date.now()}),"Tópico");
 const listSongs=()=>listEd($("a-songs"),P.playlist,SONG,()=>({name:"",source:"local",data:""}),"(use os campos acima)",()=>{applyAll()},()=>{if(cur_>=P.playlist.length)cur_=Math.max(0,P.playlist.length-1);load()});
 $("a-uirs").onclick=()=>{P.ui=UI0();fillAdmin();applyAll()};
 $("a-bgf").onchange=async e=>{for(const f of e.target.files){const d=await readImg(f,1920);if(d)P.backgrounds.push(d)}e.target.value="";bgList();applyAll()};
-$("a-vf").onchange=async e=>{const f=e.target.files[0];if(!f)return;if(f.size>20*1024*1024){toast("Vídeo muito grande","error");return}P.videoBg=await toDataURL(f);P.videoBgEnabled=true;fillAdmin();applyAll()};
+$("a-vf").onchange=async e=>{const f=e.target.files[0];if(!f)return;if(f.size>30*1024*1024){toast("Vídeo muito grande (máx 30MB)","error");return}try{P.videoBg=await uploadMedia(f,"videos");P.videoBgEnabled=true;fillAdmin();applyAll();toast("Vídeo enviado para o armazenamento","success")}catch(err){toast(err.message,"error")}};
 $("a-mf").onchange=async e=>{
-  for(const f of e.target.files){if(f.size>5*1024*1024){toast(`"${f.name}" muito grande (máx 5MB)`,"error");continue}
-    P.playlist.push({name:f.name.replace(/\.[^.]+$/,""),source:"local",data:await toDataURL(f),cover:await id3Cover(f)})}
+  for(const f of e.target.files){if(f.size>15*1024*1024){toast(`"${f.name}" muito grande (máx 15MB)`,"error");continue}
+    try{const url=await uploadMedia(f,"audio");P.playlist.push({name:f.name.replace(/\.[^.]+$/,""),source:"local",data:url,cover:""})}catch(err){toast(`${f.name}: ${err.message}`,"error")}}
   e.target.value="";listSongs();renderMain();load();listPaint();toast("Música(s) adicionada(s)","success");
 };
 $("a-yb").onclick=()=>{
@@ -573,9 +638,25 @@ $("a-yb").onclick=()=>{
   ytTitle(id).then(t=>{if(t){s.name=t;listSongs();listPaint()}});
 };
 
+async function migrateLegacyMedia(){
+  const migrate=async(value,folder)=>{
+    if(typeof value!=="string"||!value.startsWith("data:"))return value;
+    const blob=await (await fetch(value)).blob();
+    const ext=(blob.type.split("/")[1]||"bin").replace(/[^a-z0-9]/gi,"").slice(0,8)||"bin";
+    const file=new File([blob],`migrado.${ext}`,{type:blob.type||"application/octet-stream"});
+    return await uploadMedia(file,folder);
+  };
+  P.avatar=await migrate(P.avatar,"images");P.videoBg=await migrate(P.videoBg,"videos");
+  for(let i=0;i<P.backgrounds.length;i++)P.backgrounds[i]=await migrate(P.backgrounds[i],"images");
+  for(const song of P.playlist){song.data=await migrate(song.data,"audio");song.cover=await migrate(song.cover,"images")}
+  for(const friend of P.friends)friend.avatar=await migrate(friend.avatar,"images");
+  for(const thread of P.forumThreads)thread.image=await migrate(thread.image,"images");
+  P.secret.image=await migrate(P.secret.image,"images");P.cursorImg=await migrate(P.cursorImg,"images");
+}
 async function save(){
+  if(!auth.currentUser){toast("Sessão administrativa necessária para salvar.","error");return}
   const b=$("save");b.disabled=true;b.textContent="💾 Salvando...";
-  try{await db.ref(PATH).set(P);toast("Salvo com sucesso!","success")}catch(e){toast("Erro ao salvar: "+e.message,"error")}
+  try{b.textContent="☁️ Preparando arquivos...";await migrateLegacyMedia();b.textContent="💾 Salvando perfil...";await db.ref(PATH).set(P);toast("Salvo com sucesso!","success")}catch(e){toast("Erro ao salvar: "+(e.message||"verifique as regras do Firebase"),"error")}
   b.disabled=false;b.textContent="💾 SALVAR TUDO";
 }
 $("save").onclick=save;
@@ -598,7 +679,7 @@ const jget=(k,d)=>{try{return JSON.parse(ls.get(k))||d}catch(e){return d}};
 const LIVE0=()=>({enabled:true,emoji:"💻",text:"Atualmente desenvolvendo um projeto",useDiscord:false,discordId:""});
 const SEC0=()=>({enabled:true,word:"segredo",title:"🔓 Área secreta",content:"Você encontrou a página escondida! Obrigado por explorar.",image:"",link:"",linkText:"Abrir"});
 const EGG0=()=>({name:"Você clicou tanto no meu nome que ele ficou tímido 🙈",hole:"Ei! Isso é o furo do disco, não um botão 😅",dot:"Você achou o ponto secreto!",console:"👀 Curioso(a), hein? Procure por segredos na página..."});
-const AMB0=()=>({enabled:true,type:"rain",volume:.5});
+const AMB0=()=>({enabled:true,type:"rain",volume:.15});
 const ACH=[["hello","👋","Bem-vindo","Visitou o site"],["info","🪪","Curioso","Abriu a caixa de informações"],["music","🎵","DJ","Tocou uma música"],["explore","🧭","Explorador","Visitou Fóruns e Amigos"],["modes","🌗","Duas faces","Trocou entre claro e escuro"],["ambient","🎧","Zen","Ligou a música ambiente"],["secret","🕵️","Hacker","Desbloqueou a página secreta"],["egg","🥚","Caçador de ovos","Achou um easter egg"],["eggs","🐣","Mestre dos ovos","Achou todos os easter eggs"],["lost","👻","Perdido","Encontrou a página 404"],["night","🦉","Coruja","Visitou de madrugada"]];
 
 /* conquistas */
@@ -622,9 +703,9 @@ let amb=null,ambTried=false;
 function ambStart(){
   const AC=window.AudioContext||window.webkitAudioContext;if(!AC||amb)return;const c=new AC(),g=c.createGain(),t=P.ambient.type;g.gain.value=0;g.connect(c.destination);
   if(t==="pad")[130.81,196,246.94,329.63].forEach((f,i)=>{const o=c.createOscillator(),og=c.createGain(),l=c.createOscillator(),lg=c.createGain();o.frequency.value=f;og.gain.value=.12;l.frequency.value=.07+i*.03;lg.gain.value=.08;l.connect(lg);lg.connect(og.gain);o.connect(og);og.connect(g);o.start();l.start()});
-  else{const n=c.sampleRate*2,b=c.createBuffer(1,n,c.sampleRate),d=b.getChannelData(0);let l=0;for(let i=0;i<n;i++){const w=Math.random()*2-1;l=(l+.02*w)/1.02;d[i]=t==="rain"?w*.5:l*3.5}
-    const s=c.createBufferSource(),f=c.createBiquadFilter();s.buffer=b;s.loop=true;f.type=t==="rain"?"highpass":"lowpass";f.frequency.value=t==="rain"?1200:500;s.connect(f);f.connect(g);s.start()}
-  g.gain.linearRampToValueAtTime(P.ambient.volume*.5,c.currentTime+2);amb={c,g};$("bAmb").classList.add("on");
+  else{const n=c.sampleRate*2,b=c.createBuffer(1,n,c.sampleRate),d=b.getChannelData(0);let l=0;for(let i=0;i<n;i++){const w=Math.random()*2-1;l=(l+.02*w)/1.02;d[i]=t==="rain"?l*2.2:l*2.5}
+    const s=c.createBufferSource(),f=c.createBiquadFilter();s.buffer=b;s.loop=true;f.type="lowpass";f.frequency.value=t==="rain"?850:500;s.connect(f);f.connect(g);s.start()}
+  g.gain.linearRampToValueAtTime(Math.min(.12,Number(P.ambient.volume||.15)*.22),c.currentTime+3);amb={c,g};$("bAmb").classList.add("on");
 }
 function ambStop(){if(!amb)return;const{c,g}=amb;g.gain.linearRampToValueAtTime(0,c.currentTime+.8);setTimeout(()=>c.close(),900);amb=null;$("bAmb").classList.remove("on")}
 $("bAmb").onclick=()=>{if(amb){ambStop();ls.set("amb","0")}else{ambStart();ls.set("amb","1");unlock("ambient")}};
@@ -650,7 +731,7 @@ function applyCursor(){
 function paintSecret(){
   const s=P.secret,ok=s.enabled&&(ls.get("secret")||auth.currentUser);$("tabSecret").style.display=ok?"":"none";if(!ok&&page==="secret")switchPage("home");
   $("sTitle").textContent=s.title;$("sTxt").textContent=s.content;const i=$("sImg");i.style.display=s.image?"block":"none";if(s.image)i.src=s.image;
-  const a=$("sLink");a.style.display=s.link?"block":"none";a.href=s.link||"#";a.textContent=s.linkText||"Abrir";
+  const a=$("sLink");a.style.display=s.link?"block":"none";a.href=safeUrl(s.link)||"#";a.style.pointerEvents=safeUrl(s.link)?"auto":"none";a.textContent=s.linkText||"Abrir";
 }
 function openSecret(){if(!P.secret.enabled)return;ls.set("secret","1");paintSecret();switchPage("secret");unlock("secret");toast("🔓 Modo secreto desbloqueado!","success")}
 const KON=["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"];let kb=[],tb="";
@@ -703,7 +784,7 @@ async function init(){
     ["fields","stats"].forEach(k=>{if(!Array.isArray(P.info[k]))P.info[k]=[]});
     document.title=P.name;
     applyTheme();applyUI();renderMain();renderForum();renderFriends();startBg();initParticles();initCursor();
-    $("shuf").classList.toggle("on",!!P.shuffle);$("rep").classList.toggle("on",P.loop!==false);au.volume=vol;
+    $("shuf").classList.toggle("on",!!P.shuffle);$("rep").classList.toggle("on",P.loop!==false);vol=Number.isFinite(+P.musicVolume)?Math.max(0,Math.min(1,+P.musicVolume)):.30;$("vol").value=vol;au.volume=vol;
     load();refreshFriends();postInit();
   }catch(e){console.error(e);toast("Erro ao carregar o perfil.","error")}
   setTimeout(()=>$("loading").classList.add("hide"),400);
