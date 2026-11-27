@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My pfp</title>
+<title>My Profile</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -21,7 +21,6 @@
     --glow-intensity: 1;
     --particle-color: 139,92,246;
     --entry-speed: .8s;
-    --anim-speed: 1;
     --cursor-size: 22px;
     --trail-size: 8px;
 }
@@ -38,18 +37,15 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-/* Cursor nativo */
 body.no-cursor-custom { cursor: auto; }
 body.no-cursor-custom * { cursor: auto !important; }
 body.hide-native-cursor,
 body.hide-native-cursor * { cursor: none !important; }
 
-/* Fundo / Ambient */
+/* ===== BACKGROUND ===== */
 #background {
     position: fixed; inset: 0; z-index: -10;
-    background:
-        radial-gradient(circle at center, rgba(var(--particle-color),.15), transparent 55%),
-        var(--bg-base);
+    background: radial-gradient(circle at center, rgba(var(--particle-color),.15), transparent 55%), var(--bg-base);
     background-size: cover; background-position: center; background-repeat: no-repeat;
     transition: background-image 1.2s ease, opacity 1s ease, filter .5s ease;
     will-change: opacity, filter;
@@ -59,7 +55,6 @@ body.hide-native-cursor * { cursor: none !important; }
     background: linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.7));
     pointer-events: none;
 }
-#background.blur { filter: blur(8px); transform: scale(1.05); }
 #background.hidden { opacity: 0 !important; }
 
 #backgroundVideo {
@@ -73,21 +68,14 @@ body.hide-native-cursor * { cursor: none !important; }
 }
 #backgroundVideo.active { display: block !important; opacity: 1; }
 
-.ambient-layer {
-    position: fixed; inset: 0; z-index: -9; pointer-events: none;
-    opacity: 0; transition: opacity 1s ease;
-}
+.ambient-layer { position: fixed; inset: 0; z-index: -9; pointer-events: none; opacity: 0; transition: opacity 1s ease; }
 .ambient-layer.active { opacity: 1; }
 .ambient-fog {
-    background:
-        radial-gradient(circle at 20% 30%, rgba(139,92,246,.18), transparent 40%),
-        radial-gradient(circle at 80% 70%, rgba(6,182,212,.15), transparent 45%);
+    background: radial-gradient(circle at 20% 30%, rgba(139,92,246,.18), transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(6,182,212,.15), transparent 45%);
     animation: fogMove 25s ease-in-out infinite alternate;
 }
-@keyframes fogMove {
-    from { transform: translate(-3%, 2%) scale(1.1); }
-    to   { transform: translate(3%, -2%) scale(1.2); }
-}
+@keyframes fogMove { from { transform: translate(-3%, 2%) scale(1.1); } to { transform: translate(3%, -2%) scale(1.2); } }
 .ambient-aurora {
     background: linear-gradient(120deg, transparent 0%, rgba(139,92,246,.10) 25%, rgba(6,182,212,.14) 50%, rgba(167,139,250,.10) 75%, transparent 100%);
     background-size: 200% 200%;
@@ -113,19 +101,15 @@ body.hide-native-cursor * { cursor: none !important; }
     box-shadow: 0 0 12px var(--primary);
 }
 
-/* Cursor customizável */
+/* ===== CURSOR ===== */
 .custom-cursor {
-    position: fixed;
-    width: var(--cursor-size, 22px);
-    height: var(--cursor-size, 22px);
+    position: fixed; width: var(--cursor-size, 22px); height: var(--cursor-size, 22px);
     border: 2px solid var(--primary); border-radius: 50%;
     pointer-events: none; z-index: 9999;
     transform: translate(-50%, -50%);
     transition: width .2s, height .2s, background .2s, opacity .2s, transform .1s;
     mix-blend-mode: difference; opacity: 0;
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
+    background-size: contain; background-position: center; background-repeat: no-repeat;
     will-change: transform, width, height;
 }
 .custom-cursor.active { opacity: 1; }
@@ -135,12 +119,9 @@ body.hide-native-cursor * { cursor: none !important; }
     background-color: rgba(var(--particle-color),.3);
 }
 .custom-cursor.has-image {
-    border: none;
-    background-color: transparent;
+    border: none; background-color: transparent;
     background-image: var(--cursor-img);
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
+    background-size: contain; background-position: center; background-repeat: no-repeat;
     mix-blend-mode: normal;
     transition: width .15s ease, height .15s ease, opacity .2s ease;
 }
@@ -149,46 +130,28 @@ body.hide-native-cursor * { cursor: none !important; }
     height: calc(var(--cursor-size, 32px) * 1.2);
     background-color: transparent;
 }
-.custom-cursor.has-image.clicking {
-    transform: translate(-50%, -50%) scale(0.88);
-    opacity: 0.85;
-}
+.custom-cursor.has-image.clicking { transform: translate(-50%, -50%) scale(0.88); opacity: 0.85; }
 .custom-cursor.loading { animation: cursorSpin 1s linear infinite; }
 .custom-cursor.has-image.loading { animation: none; }
 @keyframes cursorSpin { to { transform: translate(-50%, -50%) rotate(360deg); } }
-.custom-cursor.pixelated {
-    image-rendering: pixelated;
-    image-rendering: crisp-edges;
-}
+.custom-cursor.pixelated { image-rendering: pixelated; image-rendering: crisp-edges; }
 
 .cursor-trail {
-    position: fixed;
-    width: var(--trail-size, 8px);
-    height: var(--trail-size, 8px);
-    border-radius: 50%;
-    background: var(--primary);
+    position: fixed; width: var(--trail-size, 8px); height: var(--trail-size, 8px);
+    border-radius: 50%; background: var(--primary);
     pointer-events: none; z-index: 9998;
     opacity: .55; transform: translate(-50%, -50%);
-    filter: blur(1px);
-    transition: opacity .4s ease;
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
+    filter: blur(1px); transition: opacity .4s ease;
+    background-size: contain; background-position: center; background-repeat: no-repeat;
     will-change: opacity, transform;
 }
 .cursor-trail.has-image {
     background: transparent;
     background-image: var(--trail-img);
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    filter: none;
-    border-radius: 0;
+    background-size: contain; background-position: center; background-repeat: no-repeat;
+    filter: none; border-radius: 0;
 }
-.cursor-trail.pixelated {
-    image-rendering: pixelated;
-    image-rendering: crisp-edges;
-}
+.cursor-trail.pixelated { image-rendering: pixelated; image-rendering: crisp-edges; }
 
 .click-ripple {
     position: fixed; border: 2px solid var(--primary); border-radius: 50%;
@@ -210,7 +173,7 @@ body.hide-native-cursor * { cursor: none !important; }
     to   { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(.2); }
 }
 
-/* Perfil */
+/* ===== PROFILE ===== */
 .profile-wrapper {
     width: 100%; min-height: 100vh;
     display: flex; justify-content: center; align-items: center;
@@ -226,7 +189,6 @@ body.hide-native-cursor * { cursor: none !important; }
     animation: cardIn var(--entry-speed) ease;
     transition: transform .3s ease, box-shadow .4s ease;
 }
-.profile-card.tilt:hover { box-shadow: 0 40px 120px rgba(0,0,0,.6), 0 0 100px rgba(var(--particle-color),.18); }
 .profile-card::before {
     content: ""; position: absolute; top: -50%; left: -50%;
     width: 200%; height: 200%;
@@ -256,7 +218,6 @@ body.hide-native-cursor * { cursor: none !important; }
 .profile-card.entry-blur { animation: entryBlur var(--entry-speed) ease; }
 @keyframes entryBlur { from { opacity: 0; filter: blur(12px); } to { opacity: 1; filter: blur(0); } }
 
-/* Avatar */
 .avatar-container { display: flex; justify-content: center; margin-bottom: 20px; position: relative; }
 .avatar-ring {
     position: absolute; width: 145px; height: 145px; border-radius: 50%;
@@ -275,7 +236,6 @@ body.hide-native-cursor * { cursor: none !important; }
 .avatar.loaded { opacity: 1; }
 .avatar:hover { transform: scale(1.06) rotate(3deg); }
 
-/* Nome */
 .profile-name {
     text-align: center; font-size: clamp(30px, 6vw, 48px); font-weight: 900;
     letter-spacing: -1px; margin-bottom: 8px;
@@ -289,7 +249,7 @@ body.hide-native-cursor * { cursor: none !important; }
     max-width: 600px; margin: auto; white-space: pre-wrap;
 }
 
-/* Page Nav */
+/* ===== NAV ===== */
 .page-nav {
     display: flex; justify-content: center; gap: 6px;
     margin: 22px auto 18px; padding: 6px;
@@ -320,7 +280,7 @@ body.hide-native-cursor * { cursor: none !important; }
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Home */
+/* ===== HOME ===== */
 .badges { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-top: 18px; }
 .badge {
     padding: 7px 12px; border-radius: 999px;
@@ -352,25 +312,21 @@ body.hide-native-cursor * { cursor: none !important; }
 }
 .social-link:active { transform: translateY(-1px) scale(.98); }
 
-/* Vinil */
+/* ===== VINYL ===== */
 .vinyl-container { display: flex; justify-content: center; margin: 25px 0; perspective: 1000px; }
 .vinyl {
     width: 140px; height: 140px; border-radius: 50%;
     background: radial-gradient(circle,
-        #1a1a1a 0%, #0a0a0a 30%, #111 31%, #0a0a0a 32%, #111 33%,
-        #0a0a0a 34%, #111 35%, #0a0a0a 36%, #111 37%, #0a0a0a 38%,
-        #111 39%, #0a0a0a 40%, #111 41%, #0a0a0a 42%, #111 43%,
-        #0a0a0a 44%, #111 45%, #0a0a0a 46%, #111 47%, #0a0a0a 48%,
-        #111 49%, #0a0a0a 50%, #111 51%, #0a0a0a 52%, #111 53%,
-        #0a0a0a 54%, #111 55%, #0a0a0a 56%, #111 57%, #0a0a0a 58%,
-        #111 59%, #0a0a0a 60%, #111 61%, #0a0a0a 62%, #111 63%,
-        #0a0a0a 64%, #111 65%, #0a0a0a 66%, #111 67%, #0a0a0a 68%,
-        #111 69%, #0a0a0a 70%, #111 71%, #0a0a0a 72%, #111 73%,
-        #0a0a0a 74%, #111 75%, #0a0a0a 76%, #111 77%, #0a0a0a 78%,
-        #111 79%, #0a0a0a 80%, #111 81%, #0a0a0a 82%, #111 83%,
-        #0a0a0a 84%, #111 85%, #0a0a0a 86%, #111 87%, #0a0a0a 88%,
-        #111 89%, #0a0a0a 90%, #111 91%, #0a0a0a 92%, #111 93%,
-        #0a0a0a 94%, #111 95%, #0a0a0a 96%, #111 97%, #0a0a0a 98%,
+        #1a1a1a 0%, #0a0a0a 30%, #111 31%, #0a0a0a 32%, #111 33%, #0a0a0a 34%, #111 35%,
+        #0a0a0a 36%, #111 37%, #0a0a0a 38%, #111 39%, #0a0a0a 40%, #111 41%, #0a0a0a 42%,
+        #111 43%, #0a0a0a 44%, #111 45%, #0a0a0a 46%, #111 47%, #0a0a0a 48%, #111 49%,
+        #0a0a0a 50%, #111 51%, #0a0a0a 52%, #111 53%, #0a0a0a 54%, #111 55%, #0a0a0a 56%,
+        #111 57%, #0a0a0a 58%, #111 59%, #0a0a0a 60%, #111 61%, #0a0a0a 62%, #111 63%,
+        #0a0a0a 64%, #111 65%, #0a0a0a 66%, #111 67%, #0a0a0a 68%, #111 69%, #0a0a0a 70%,
+        #111 71%, #0a0a0a 72%, #111 73%, #0a0a0a 74%, #111 75%, #0a0a0a 76%, #111 77%,
+        #0a0a0a 78%, #111 79%, #0a0a0a 80%, #111 81%, #0a0a0a 82%, #111 83%, #0a0a0a 84%,
+        #111 85%, #0a0a0a 86%, #111 87%, #0a0a0a 88%, #111 89%, #0a0a0a 90%, #111 91%,
+        #0a0a0a 92%, #111 93%, #0a0a0a 94%, #111 95%, #0a0a0a 96%, #111 97%, #0a0a0a 98%,
         #111 99%, #0a0a0a 100%);
     box-shadow: 0 10px 40px rgba(0,0,0,.6), inset 0 0 20px rgba(0,0,0,.8);
     position: relative; display: flex; align-items: center; justify-content: center;
@@ -396,7 +352,7 @@ body.hide-native-cursor * { cursor: none !important; }
     background: #000; z-index: 3;
 }
 
-/* Player */
+/* ===== PLAYER ===== */
 .music-player {
     margin-top: 20px; padding: 18px; border-radius: 20px;
     background: rgba(0,0,0,.25); border: 1px solid rgba(255,255,255,.08);
@@ -438,19 +394,13 @@ body.hide-native-cursor * { cursor: none !important; }
 }
 .volume { width: 90px; }
 .music-time { display: flex; justify-content: space-between; color: #a1a1aa; font-size: 12px; margin-top: 8px; }
-
-.playlist {
-    margin-top: 14px; display: flex; flex-direction: column; gap: 7px;
-    max-height: 180px; overflow-y: auto;
-}
+.playlist { margin-top: 14px; display: flex; flex-direction: column; gap: 7px; max-height: 180px; overflow-y: auto; }
 .playlist-item {
     padding: 10px 12px; border-radius: 10px; cursor: pointer; color: #aaa;
     transition: .2s; font-size: 13px;
     display: flex; align-items: center; gap: 8px; user-select: none;
 }
-.playlist-item:hover, .playlist-item.active {
-    background: rgba(var(--particle-color),.14); color: white;
-}
+.playlist-item:hover, .playlist-item.active { background: rgba(var(--particle-color),.14); color: white; }
 .playlist-item.active { box-shadow: inset 3px 0 0 var(--primary); }
 .playlist-item .src-badge {
     font-size: 10px; padding: 2px 6px; border-radius: 4px;
@@ -468,76 +418,101 @@ body.hide-native-cursor * { cursor: none !important; }
 .playlist-item:hover .remove-btn { opacity: 1; }
 .playlist-empty { text-align: center; color: #666; padding: 20px; font-size: 13px; font-style: italic; }
 
-/* Artes */
-.artes-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-    gap: 12px;
-    margin-top: 12px;
+/* ===== FORUM ===== */
+.forum-categories {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    margin-bottom: 16px; padding: 8px;
+    background: rgba(0,0,0,.2);
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,.05);
 }
-.art-card {
-    border-radius: 14px;
-    overflow: hidden;
+.forum-cat-tab {
+    padding: 8px 14px; border: none; border-radius: 8px;
+    background: rgba(255,255,255,.05);
+    color: var(--muted); cursor: pointer;
+    font-weight: 700; font-size: 12px; transition: .2s;
+    font-family: inherit;
+}
+.forum-cat-tab:hover { background: rgba(255,255,255,.1); color: white; }
+.forum-cat-tab.active {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    box-shadow: 0 4px 12px rgba(var(--particle-color),.3);
+}
+.forum-threads { display: flex; flex-direction: column; gap: 12px; }
+.forum-thread-card {
+    display: flex; gap: 14px; padding: 14px;
     background: rgba(0,0,0,.3);
     border: 1px solid rgba(255,255,255,.08);
-    cursor: pointer;
+    border-radius: 14px; cursor: pointer;
     transition: .3s;
-    position: relative;
     animation: pageIn .4s ease both;
 }
-.art-card:hover {
-    transform: translateY(-4px) scale(1.02);
-    border-color: rgba(var(--particle-color),.5);
-    box-shadow: 0 15px 40px rgba(var(--particle-color),.25);
+.forum-thread-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(var(--particle-color),.4);
+    box-shadow: 0 10px 30px rgba(var(--particle-color),.15);
 }
-.art-image {
-    width: 100%;
-    aspect-ratio: 1;
-    object-fit: cover;
-    transition: .4s;
-    display: block;
+.forum-thread-thumb {
+    width: 84px; height: 84px; object-fit: cover;
+    border-radius: 10px; flex-shrink: 0;
     background: #111;
 }
-.art-card:hover .art-image { transform: scale(1.05); }
-.art-info { padding: 10px 12px; }
-.art-info h4 { font-size: 14px; margin-bottom: 4px; }
-.art-info p {
-    font-size: 12px; color: var(--muted);
-    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+.forum-thread-noimg {
+    width: 84px; height: 84px; border-radius: 10px;
+    background: rgba(var(--particle-color),.15);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px; flex-shrink: 0;
 }
-.art-lightbox-box { width: min(700px, 95vw); text-align: center; }
-.art-lightbox-box img {
-    max-width: 100%;
-    max-height: 65vh;
-    border-radius: 14px;
-    margin-bottom: 15px;
+.forum-thread-info { flex: 1; min-width: 0; }
+.forum-thread-head {
+    display: flex; gap: 8px; align-items: center;
+    flex-wrap: wrap; margin-bottom: 6px; font-size: 11px;
+}
+.forum-thread-cat {
+    padding: 3px 8px; border-radius: 6px;
+    background: rgba(var(--particle-color),.15);
+    color: var(--accent); font-weight: 700;
+}
+.forum-thread-date { color: var(--muted); margin-left: auto; }
+.pin-badge {
+    padding: 3px 8px; border-radius: 6px;
+    background: rgba(251,191,36,.15);
+    color: #fbbf24; font-weight: 700;
+}
+.forum-thread-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; line-height: 1.3; }
+.forum-thread-excerpt {
+    font-size: 12px; color: var(--muted); line-height: 1.4;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.thread-view-box { width: min(800px, 95vw); }
+.thread-meta {
+    display: flex; gap: 12px; align-items: center;
+    margin-bottom: 16px; flex-wrap: wrap; font-size: 12px;
+}
+.thread-view-image {
+    width: 100%; max-height: 60vh; object-fit: contain;
+    border-radius: 14px; margin-bottom: 16px;
     background: #111;
 }
-.art-lightbox-box h3 { font-size: 20px; margin-bottom: 8px; }
-.art-lightbox-box p { color: var(--muted); font-size: 14px; line-height: 1.5; margin-bottom: 12px; }
-.art-lightbox-box .art-link-btn {
-    display: inline-block; padding: 10px 20px; border-radius: 10px;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    color: white; text-decoration: none; font-weight: 700; font-size: 13px;
+.thread-view-content {
+    font-size: 14px; line-height: 1.7; color: #ddd;
+    white-space: pre-wrap; word-break: break-word;
 }
 
-/* Amigos */
+/* ===== FRIENDS ===== */
 .friends-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 12px;
-    margin-top: 12px;
+    gap: 12px; margin-top: 12px;
 }
 .friend-card {
-    display: flex;
-    gap: 12px;
-    padding: 14px;
+    display: flex; gap: 12px; padding: 14px;
     background: rgba(0,0,0,.3);
     border: 1px solid rgba(255,255,255,.08);
-    border-radius: 14px;
-    transition: .3s;
-    position: relative;
-    animation: pageIn .4s ease both;
+    border-radius: 14px; transition: .3s;
+    position: relative; animation: pageIn .4s ease both;
 }
 .friend-card:hover {
     border-color: rgba(var(--particle-color),.4);
@@ -552,8 +527,7 @@ body.hide-native-cursor * { cursor: none !important; }
 .status-dot {
     position: absolute; bottom: 2px; right: 2px;
     width: 14px; height: 14px; border-radius: 50%;
-    border: 2px solid #0c0c13;
-    transition: background .3s;
+    border: 2px solid #0c0c13; transition: background .3s;
 }
 .status-dot.online { background: #23a55a; box-shadow: 0 0 8px #23a55a; }
 .status-dot.idle { background: #f0b232; box-shadow: 0 0 8px #f0b232; }
@@ -575,51 +549,30 @@ body.hide-native-cursor * { cursor: none !important; }
     display: flex; align-items: center; gap: 4px;
     overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
     background: rgba(var(--particle-color),.1);
-    padding: 3px 8px;
-    border-radius: 6px;
-    margin-top: 4px;
-    width: fit-content;
-    max-width: 100%;
-}
-.friend-badge {
-    display: inline-block;
-    font-size: 10px;
-    padding: 2px 6px;
-    border-radius: 4px;
-    background: rgba(255,255,255,.06);
-    color: #aaa;
-    margin-top: 4px;
+    padding: 3px 8px; border-radius: 6px;
+    margin-top: 4px; width: fit-content; max-width: 100%;
 }
 
-/* Empty State */
+/* ===== EMPTY ===== */
 .empty-state {
-    text-align: center;
-    padding: 40px 20px;
-    color: var(--muted);
-    font-size: 14px;
+    text-align: center; padding: 40px 20px;
+    color: var(--muted); font-size: 14px;
 }
 .empty-state .emoji {
-    font-size: 42px;
-    display: block;
-    margin-bottom: 12px;
-    opacity: .6;
+    font-size: 42px; display: block;
+    margin-bottom: 12px; opacity: .6;
 }
 
-/* Mini Player */
+/* ===== MINI PLAYER ===== */
 .mini-player {
-    position: fixed;
-    bottom: 76px;
-    right: 18px;
+    position: fixed; bottom: 76px; right: 18px;
     background: rgba(10,10,15,.92);
     backdrop-filter: blur(14px);
     border: 1px solid rgba(255,255,255,.12);
     border-radius: 999px;
     padding: 6px 6px 6px 16px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    z-index: 99;
-    max-width: 280px;
+    display: flex; align-items: center; gap: 10px;
+    z-index: 99; max-width: 280px;
     animation: slideIn .3s ease;
     box-shadow: 0 10px 30px rgba(0,0,0,.5);
 }
@@ -631,17 +584,13 @@ body.hide-native-cursor * { cursor: none !important; }
     color: var(--accent);
 }
 .mini-progress {
-    height: 3px;
-    background: rgba(255,255,255,.1);
-    border-radius: 2px;
-    margin-top: 3px;
-    overflow: hidden;
+    height: 3px; background: rgba(255,255,255,.1);
+    border-radius: 2px; margin-top: 3px; overflow: hidden;
 }
 .mini-progress-bar {
     height: 100%;
     background: linear-gradient(90deg, var(--primary), var(--secondary));
-    width: 0%;
-    transition: width .3s;
+    width: 0%; transition: width .3s;
 }
 .mini-btn {
     width: 32px; height: 32px; border-radius: 50%;
@@ -656,7 +605,7 @@ body.hide-native-cursor * { cursor: none !important; }
     to { opacity: 1; transform: translateX(0); }
 }
 
-/* Botões flutuantes */
+/* ===== FLOAT ===== */
 .float-buttons {
     position: fixed; right: 18px; bottom: 18px;
     display: flex; flex-direction: column; gap: 10px; z-index: 100;
@@ -685,7 +634,7 @@ body.hide-native-cursor * { cursor: none !important; }
 }
 .float-btn:hover .tooltip { opacity: 1; }
 
-/* Modal */
+/* ===== MODAL ===== */
 .modal {
     position: fixed; inset: 0; z-index: 500;
     display: none; align-items: center; justify-content: center;
@@ -712,7 +661,7 @@ body.hide-native-cursor * { cursor: none !important; }
 }
 .close:hover { background: rgba(239,68,68,.3); transform: rotate(90deg); }
 
-/* Login / Inputs */
+/* ===== FORM ===== */
 .login-box { width: min(420px, 100%); }
 .input {
     width: 100%; padding: 13px 14px; margin-bottom: 12px;
@@ -722,19 +671,21 @@ body.hide-native-cursor * { cursor: none !important; }
 }
 .input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(var(--particle-color),.15); }
 textarea.input { min-height: 120px; resize: vertical; }
+select.input { cursor: pointer; }
 .primary-button {
     width: 100%; padding: 13px; border: none; border-radius: 12px;
     background: linear-gradient(135deg, var(--primary), var(--secondary));
     color: white; font-weight: 800; cursor: pointer; transition: .2s;
-    position: relative; overflow: hidden;
+    position: relative; overflow: hidden; font-family: inherit;
 }
 .primary-button:hover {
     transform: translateY(-2px); filter: brightness(1.1);
     box-shadow: 0 8px 25px rgba(var(--particle-color),.3);
 }
 .primary-button:active { transform: translateY(0) scale(.98); }
+.primary-button:disabled { opacity: .6; cursor: not-allowed; transform: none; }
 
-/* Admin */
+/* ===== ADMIN ===== */
 .admin-section {
     padding: 18px; margin-bottom: 14px; border-radius: 17px;
     background: rgba(255,255,255,.035);
@@ -757,10 +708,9 @@ textarea.input { min-height: 120px; resize: vertical; }
     border-radius: 2px 2px 0 0;
 }
 .admin-section:hover::before { opacity: 1; }
-.admin-section:hover {
-    background: rgba(255,255,255,.05);
-    border-color: rgba(var(--particle-color),.2);
-}
+.admin-section:hover { background: rgba(255,255,255,.05); border-color: rgba(var(--particle-color),.2); }
+.admin-section h4 { font-size: 13px; color: var(--accent); margin-bottom: 10px; margin-top: 8px; }
+.admin-section h4:first-child { margin-top: 0; }
 .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .file-input {
     width: 100%; padding: 12px; border-radius: 12px;
@@ -788,11 +738,13 @@ textarea.input { min-height: 120px; resize: vertical; }
     font-family: inherit;
 }
 .small-button:hover { background: rgba(255,255,255,.15); }
+.small-button:disabled { opacity: .4; cursor: not-allowed; }
 .danger { background: rgba(239,68,68,.15); }
 .danger:hover { background: rgba(239,68,68,.3); }
 .checkbox-row {
     display: flex; align-items: center; gap: 10px;
     margin: 10px 0; color: #ccc; cursor: pointer;
+    user-select: none;
 }
 .checkbox-row input[type="checkbox"] {
     width: 18px; height: 18px; accent-color: var(--primary); cursor: pointer;
@@ -825,6 +777,7 @@ textarea.input { min-height: 120px; resize: vertical; }
     border: 2px solid transparent; cursor: pointer; text-align: center;
     font-size: 11px; font-weight: 700; color: white;
     transition: .2s; position: relative; overflow: hidden;
+    font-family: inherit;
 }
 .theme-chip:hover { transform: translateY(-2px); }
 .theme-chip.selected { border-color: white; box-shadow: 0 0 15px rgba(255,255,255,.4); }
@@ -846,11 +799,7 @@ textarea.input { min-height: 120px; resize: vertical; }
 .theme-chip.vaporwave { background: linear-gradient(135deg, #ff71ce, #01cdfe); }
 .theme-chip.default { background: linear-gradient(135deg, #8b5cf6, #06b6d4); }
 
-.mode-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-    gap: 8px;
-}
+.mode-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; }
 .mode-chip {
     padding: 12px 8px; border-radius: 10px;
     background: rgba(255,255,255,.06);
@@ -862,12 +811,10 @@ textarea.input { min-height: 120px; resize: vertical; }
 .mode-chip:hover { background: rgba(var(--particle-color),.2); transform: translateY(-2px); }
 .mode-chip:active { transform: scale(.96); }
 
-/* Admin decorations */
+/* Admin deco */
 .admin-box {
     background: linear-gradient(135deg, #0c0c13 0%, #100820 50%, #0c1320 100%);
-    position: relative;
-    overflow-x: hidden;
-    overflow-y: auto;
+    position: relative; overflow-x: hidden; overflow-y: auto;
 }
 .admin-box::before {
     content: "";
@@ -879,18 +826,10 @@ textarea.input { min-height: 120px; resize: vertical; }
     animation: adminBgShift 15s ease-in-out infinite alternate;
     z-index: 0;
 }
-@keyframes adminBgShift {
-    from { opacity: .5; transform: scale(1); }
-    to { opacity: 1; transform: scale(1.05); }
-}
-.admin-decor {
-    position: absolute; inset: 0; pointer-events: none; overflow: hidden;
-    z-index: 0;
-}
+@keyframes adminBgShift { from { opacity: .5; transform: scale(1); } to { opacity: 1; transform: scale(1.05); } }
+.admin-decor { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
 .admin-decor span {
-    position: absolute;
-    color: rgba(var(--particle-color),.45);
-    font-size: 14px;
+    position: absolute; color: rgba(var(--particle-color),.45); font-size: 14px;
     animation: decorFloat var(--d, 8s) ease-in-out infinite;
     left: var(--x); top: var(--y);
     text-shadow: 0 0 10px rgba(var(--particle-color),.6);
@@ -906,8 +845,7 @@ textarea.input { min-height: 120px; resize: vertical; }
     position: relative; overflow: hidden;
 }
 .admin-hero::before {
-    content: "";
-    position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+    content: ""; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
     background: linear-gradient(90deg, transparent, rgba(255,255,255,.06), transparent);
     animation: heroShine 5s ease-in-out infinite;
 }
@@ -923,20 +861,14 @@ textarea.input { min-height: 120px; resize: vertical; }
     -webkit-text-fill-color: transparent;
     filter: drop-shadow(0 0 20px rgba(var(--particle-color),.5));
 }
-.admin-status {
-    display: flex; align-items: center; gap: 8px;
-    font-size: 12px; color: #aaa; margin-top: 4px;
-}
+.admin-status { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #aaa; margin-top: 4px; }
 .status-dot-green {
     width: 8px; height: 8px; border-radius: 50%;
     background: #22c55e;
     box-shadow: 0 0 10px #22c55e;
     animation: pulseDot 2s ease-in-out infinite;
 }
-@keyframes pulseDot {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: .5; transform: scale(1.3); }
-}
+@keyframes pulseDot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .5; transform: scale(1.3); } }
 .pro-badge {
     padding: 4px 10px; border-radius: 6px;
     background: linear-gradient(135deg, #fbbf24, #f59e0b);
@@ -958,33 +890,18 @@ textarea.input { min-height: 120px; resize: vertical; }
     display: flex; align-items: center; gap: 10px;
     transition: .3s; position: relative; overflow: hidden;
 }
-.stat-card::before {
-    content: "";
-    position: absolute; inset: 0;
-    background: linear-gradient(135deg, rgba(var(--particle-color),.15), transparent);
-    opacity: 0; transition: opacity .3s;
-}
-.stat-card:hover {
-    transform: translateY(-3px);
-    border-color: rgba(var(--particle-color),.4);
-    box-shadow: 0 8px 25px rgba(var(--particle-color),.2);
-}
-.stat-card:hover::before { opacity: 1; }
+.stat-card:hover { transform: translateY(-3px); border-color: rgba(var(--particle-color),.4); box-shadow: 0 8px 25px rgba(var(--particle-color),.2); }
 .stat-icon { font-size: 22px; position: relative; z-index: 1; transition: transform .3s; }
 .stat-card:hover .stat-icon { transform: scale(1.2) rotate(-8deg); }
 .stat-info { position: relative; z-index: 1; }
 .stat-value { font-size: 18px; font-weight: 900; color: var(--primary); line-height: 1; }
-.stat-label {
-    font-size: 10px; color: #888; text-transform: uppercase;
-    letter-spacing: .5px; margin-top: 3px;
-}
+.stat-label { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: .5px; margin-top: 3px; }
 .admin-footer {
     text-align: center; margin-top: 18px;
     padding-top: 18px; border-top: 1px solid rgba(255,255,255,.06);
     font-size: 11px; color: #666;
     display: flex; justify-content: center; align-items: center; gap: 12px;
-    flex-wrap: wrap;
-    position: relative; z-index: 1;
+    flex-wrap: wrap; position: relative; z-index: 1;
 }
 .admin-footer .version-tag {
     padding: 3px 8px; border-radius: 5px;
@@ -994,18 +911,15 @@ textarea.input { min-height: 120px; resize: vertical; }
 .admin-list > *, .admin-hero, .admin-section { position: relative; z-index: 1; }
 
 .lanyard-note {
-    font-size: 11px;
-    color: #888;
+    font-size: 11px; color: #888;
     background: rgba(var(--particle-color),.08);
     border: 1px dashed rgba(var(--particle-color),.3);
-    padding: 8px 10px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    line-height: 1.5;
+    padding: 8px 10px; border-radius: 8px;
+    margin-bottom: 10px; line-height: 1.5;
 }
 .lanyard-note a { color: var(--primary); }
 
-/* Loading / Toast */
+/* ===== LOADING / TOAST ===== */
 #loading {
     position: fixed; inset: 0; z-index: 1000;
     display: flex; align-items: center; justify-content: center;
@@ -1044,7 +958,7 @@ textarea.input { min-height: 120px; resize: vertical; }
 #toast.info .toast-icon { color: #3b82f6; }
 #toast.info .toast-bar { background: #3b82f6; }
 
-/* Mobile */
+/* ===== RESPONSIVE ===== */
 @media(max-width:650px) {
     .grid { grid-template-columns: 1fr; }
     .profile-card { padding: 22px; }
@@ -1054,11 +968,10 @@ textarea.input { min-height: 120px; resize: vertical; }
     .float-btn { width: 44px; height: 44px; font-size: 16px; }
     .admin-hero-content { flex-direction: column; align-items: flex-start; }
     .page-tab { padding: 8px 10px; font-size: 12px; }
-    .artes-grid { grid-template-columns: repeat(2, 1fr); }
     .friends-grid { grid-template-columns: 1fr; }
     .mini-player { bottom: 72px; right: 12px; max-width: 240px; }
-    body.hide-native-cursor,
-    body.hide-native-cursor * { cursor: auto !important; }
+    body.hide-native-cursor, body.hide-native-cursor * { cursor: auto !important; }
+    .forum-thread-thumb, .forum-thread-noimg { width: 64px; height: 64px; font-size: 24px; }
 }
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
@@ -1095,7 +1008,7 @@ textarea.input { min-height: 120px; resize: vertical; }
 
         <nav class="page-nav">
             <button class="page-tab active" data-page="home">🏠 Perfil</button>
-            <button class="page-tab" data-page="artes">🎨 Artes</button>
+            <button class="page-tab" data-page="foruns">💬 Fóruns</button>
             <button class="page-tab" data-page="amigos">👥 Amigos</button>
         </nav>
 
@@ -1135,11 +1048,12 @@ textarea.input { min-height: 120px; resize: vertical; }
             </div>
         </div>
 
-        <div id="pageArtes" class="page-content">
-            <div id="artesGrid" class="artes-grid"></div>
-            <div id="artesEmpty" class="empty-state" style="display:none">
-                <span class="emoji">🎨</span>
-                Nenhuma arte publicada ainda.
+        <div id="pageForuns" class="page-content">
+            <div id="forumCategories" class="forum-categories"></div>
+            <div id="forumThreads" class="forum-threads"></div>
+            <div id="forumEmpty" class="empty-state" style="display:none">
+                <span class="emoji">💬</span>
+                Nenhum tópico publicado ainda.
             </div>
         </div>
 
@@ -1165,11 +1079,8 @@ textarea.input { min-height: 120px; resize: vertical; }
     <button id="adminButton" class="float-btn" title="Administrador">
         ⚙ <span class="tooltip">Admin</span>
     </button>
-    <button id="themeToggle" class="float-btn" title="Alternar tema">
+    <button id="themeToggle" class="float-btn" title="Tema">
         🌙 <span class="tooltip">Tema</span>
-    </button>
-    <button id="effectsPanelBtn" class="float-btn" title="Personalização">
-        ✨ <span class="tooltip">Efeitos</span>
     </button>
     <button id="randomThemeBtn" class="float-btn" title="Tema aleatório">
         🎲 <span class="tooltip">Aleatório</span>
@@ -1188,6 +1099,20 @@ textarea.input { min-height: 120px; resize: vertical; }
     </div>
 </div>
 
+<div id="themePickerModal" class="modal">
+    <div class="modal-box" style="width:min(520px,95vw)">
+        <div class="modal-header">
+            <h2>🎨 Tema</h2>
+            <button class="close" onclick="closeModal('themePickerModal')">×</button>
+        </div>
+        <div class="theme-grid" id="themeGrid"></div>
+        <div class="grid" style="margin-top:12px">
+            <button class="small-button" id="themeRandom">🎲 Aleatório</button>
+            <button class="small-button" id="themeReset">↺ Padrão</button>
+        </div>
+    </div>
+</div>
+
 <div id="adminModal" class="modal">
     <div class="modal-box admin-box">
         <div class="admin-decor" aria-hidden="true">
@@ -1202,13 +1127,6 @@ textarea.input { min-height: 120px; resize: vertical; }
             <span style="--x: 8%;  --y: 55%; --d: 9.5s;">✿</span>
             <span style="--x: 95%; --y: 45%; --d: 6.5s;">✾</span>
             <span style="--x: 50%; --y: 70%; --d: 12s;">✦</span>
-            <span style="--x: 22%; --y: 20%; --d: 8.5s;">✧</span>
-            <span style="--x: 78%; --y: 55%; --d: 10.5s;">⋆</span>
-            <span style="--x: 40%; --y: 88%; --d: 7s;">✺</span>
-            <span style="--x: 65%; --y: 12%; --d: 9s;">❋</span>
-            <span style="--x: 3%;  --y: 92%; --d: 13s;">✦</span>
-            <span style="--x: 97%; --y: 22%; --d: 11.5s;">✧</span>
-            <span style="--x: 33%; --y: 65%; --d: 6s;">⋆</span>
         </div>
 
         <div class="admin-hero">
@@ -1236,10 +1154,10 @@ textarea.input { min-height: 120px; resize: vertical; }
                 </div>
             </div>
             <div class="stat-card">
-                <div class="stat-icon">🎨</div>
+                <div class="stat-icon">💬</div>
                 <div class="stat-info">
-                    <div class="stat-value" id="statArts">0</div>
-                    <div class="stat-label">Artes</div>
+                    <div class="stat-value" id="statThreads">0</div>
+                    <div class="stat-label">Tópicos</div>
                 </div>
             </div>
             <div class="stat-card">
@@ -1283,9 +1201,12 @@ textarea.input { min-height: 120px; resize: vertical; }
                 <input id="blurAmount" class="input" type="number" min="0" max="30" placeholder="Blur">
             </div>
 
+            <h4>🎨 Tema Padrão</h4>
+            <div class="theme-grid" id="adminThemeGrid"></div>
+
             <hr style="border:none;border-top:1px dashed rgba(255,255,255,.1);margin:16px 0;">
 
-            <h4 style="font-size:13px;color:var(--accent);margin-bottom:10px;">🎬 Fundo em Vídeo</h4>
+            <h4>🎬 Fundo em Vídeo</h4>
             <label class="checkbox-row">
                 <input id="videoBgEnabled" type="checkbox"> Ativar fundo em vídeo
             </label>
@@ -1320,18 +1241,30 @@ textarea.input { min-height: 120px; resize: vertical; }
         </div>
 
         <div class="admin-section">
-            <h3>🎨 Artes</h3>
+            <h3>💬 Fóruns</h3>
+            <h4>📁 Categorias</h4>
             <div class="grid" style="margin-bottom:10px;">
-                <input id="artImageUrl" class="input" placeholder="URL da imagem" style="margin:0">
-                <input id="artImageFile" class="file-input" type="file" accept="image/*" style="margin:0">
+                <input id="forumCatName" class="input" placeholder="Nome da categoria" style="margin:0">
+                <input id="forumCatIcon" class="input" placeholder="Ícone (ex: 🎨)" style="margin:0">
             </div>
+            <button id="addForumCat" class="small-button">+ Adicionar categoria</button>
+            <div id="forumCatEditor" class="admin-list" style="margin-top:12px;"></div>
+
+            <hr style="border:none;border-top:1px dashed rgba(255,255,255,.1);margin:16px 0;">
+
+            <h4>📝 Novo Tópico (Arte / Informação)</h4>
+            <select id="forumThreadCategory" class="input"></select>
+            <input id="forumThreadTitle" class="input" placeholder="Título do tópico">
+            <textarea id="forumThreadContent" class="input" placeholder="Conteúdo do tópico (texto/descrição)"></textarea>
             <div class="grid" style="margin-bottom:10px;">
-                <input id="artTitleInput" class="input" placeholder="Título da arte" style="margin:0">
-                <input id="artLinkInput" class="input" placeholder="Link (opcional)" style="margin:0">
+                <input id="forumThreadImageUrl" class="input" placeholder="URL da imagem (opcional)" style="margin:0">
+                <input id="forumThreadImageFile" class="file-input" type="file" accept="image/*" style="margin:0">
             </div>
-            <input id="artDescInput" class="input" placeholder="Descrição (opcional)">
-            <button id="addArtBtn" class="small-button">+ Adicionar arte</button>
-            <div id="artesEditor" class="admin-list" style="margin-top:12px;"></div>
+            <label class="checkbox-row">
+                <input id="forumThreadPinned" type="checkbox"> 📌 Fixar no topo
+            </label>
+            <button id="addForumThread" class="small-button">+ Publicar tópico</button>
+            <div id="forumThreadEditor" class="admin-list" style="margin-top:12px;"></div>
         </div>
 
         <div class="admin-section">
@@ -1387,7 +1320,6 @@ textarea.input { min-height: 120px; resize: vertical; }
                 Aceita <b>PNG, GIF, APNG e WebP animado</b>. Animações tocam automaticamente.<br>
                 <span style="color:#f59e0b;">⚠️ .ani e .cur (cursores do Windows) não são suportados por navegadores web.</span>
             </p>
-
             <div class="slider-row">
                 <label>Tamanho do cursor <span id="cursorSizeVal">32px</span></label>
                 <input id="cursorSizeSlider" type="range" min="16" max="96" value="32">
@@ -1400,20 +1332,17 @@ textarea.input { min-height: 120px; resize: vertical; }
                 <label>Duração do rastro <span id="trailDurationVal">0.8s</span></label>
                 <input id="trailDurationSlider" type="range" min="0.3" max="3" step="0.1" value="0.8">
             </div>
-
             <label class="checkbox-row">
                 <input id="cursorPixelated" type="checkbox"> Estilo pixel art (image-rendering)
             </label>
-
             <div id="cursorStatesEditor" class="admin-list" style="margin-top:12px;"></div>
-
             <button id="resetCursorsBtn" class="small-button danger" style="width:100%;margin-top:10px;">
                 🗑️ Remover todos os PNGs/GIFs do cursor
             </button>
         </div>
 
         <div class="admin-section">
-            <h3>✨ Efeitos</h3>
+            <h3>✨ Efeitos Visuais</h3>
             <label class="checkbox-row">
                 <input id="effectGlow" type="checkbox" checked> Glow no nome
             </label>
@@ -1432,57 +1361,8 @@ textarea.input { min-height: 120px; resize: vertical; }
             <label class="checkbox-row">
                 <input id="effectAmbient" type="checkbox"> Camadas ambientais
             </label>
-        </div>
 
-        <button id="saveButton" class="primary-button">💾 SALVAR TUDO</button>
-        <br><br>
-        <button id="logoutButton" class="small-button" style="width:100%">Sair</button>
-
-        <div class="admin-footer">
-            <span>v2.6.1</span>
-            <span>·</span>
-            <span>Painel Administrativo</span>
-            <span>·</span>
-            <span class="version-tag">PRO</span>
-        </div>
-    </div>
-</div>
-
-<div id="effectsModal" class="modal">
-    <div class="modal-box">
-        <div class="modal-header">
-            <h2>✨ Personalização</h2>
-            <button class="close" onclick="closeModal('effectsModal')">×</button>
-        </div>
-
-        <div class="admin-section">
-            <h3>🎨 Tema</h3>
-            <div class="theme-grid" id="themeGrid"></div>
-            <div class="grid" style="margin-top:12px;">
-                <button class="small-button" id="themeRandom">🎲 Aleatório</button>
-                <button class="small-button" id="themeReset">↺ Padrão</button>
-            </div>
-        </div>
-
-        <div class="admin-section">
-            <h3>⚡ Modos rápidos</h3>
-            <div class="mode-grid">
-                <button class="mode-chip" data-mode="light">🌿 Leve</button>
-                <button class="mode-chip" data-mode="immersive">🌊 Imersivo</button>
-                <button class="mode-chip" data-mode="cinematic">🎬 Cinemático</button>
-                <button class="mode-chip" data-mode="galaxy">🌌 Galáxia</button>
-                <button class="mode-chip" data-mode="aurora">🌠 Aurora</button>
-                <button class="mode-chip" data-mode="performance">⚡ Performance</button>
-                <button class="mode-chip" data-mode="minimal">◻ Minimalista</button>
-                <button class="mode-chip" data-mode="allOff">🔇 Tudo off</button>
-            </div>
-        </div>
-
-        <div class="admin-section">
-            <h3>✨ Partículas</h3>
-            <label class="checkbox-row">
-                <input id="optParticles" type="checkbox" checked> Ativar partículas
-            </label>
+            <h4>✨ Partículas</h4>
             <div class="slider-row">
                 <label>Quantidade <span id="valParticleCount">60</span></label>
                 <input id="optParticleCount" type="range" min="10" max="200" value="60">
@@ -1499,13 +1379,8 @@ textarea.input { min-height: 120px; resize: vertical; }
                 <label>Opacidade <span id="valParticleOpacity">.7</span></label>
                 <input id="optParticleOpacity" type="range" min=".1" max="1" step=".05" value=".7">
             </div>
-        </div>
 
-        <div class="admin-section">
-            <h3>🖱️ Cursor</h3>
-            <label class="checkbox-row">
-                <input id="optCursor" type="checkbox" checked> Cursor personalizado
-            </label>
+            <h4>🖱️ Cursor</h4>
             <label class="checkbox-row">
                 <input id="optCursorTrail" type="checkbox" checked> Rastro de cursor
             </label>
@@ -1515,10 +1390,8 @@ textarea.input { min-height: 120px; resize: vertical; }
             <label class="checkbox-row">
                 <input id="optClickParticles" type="checkbox" checked> Partículas ao clicar
             </label>
-        </div>
 
-        <div class="admin-section">
-            <h3>🎬 Entrada</h3>
+            <h4>🎬 Entrada</h4>
             <select id="optEntryAnim" class="input">
                 <option value="card">Padrão (scale)</option>
                 <option value="fade">Fade-in</option>
@@ -1530,10 +1403,8 @@ textarea.input { min-height: 120px; resize: vertical; }
                 <label>Velocidade <span id="valEntrySpeed">.8s</span></label>
                 <input id="optEntrySpeed" type="range" min=".2" max="2" step=".1" value=".8">
             </div>
-        </div>
 
-        <div class="admin-section">
-            <h3>🌫️ Ambiental</h3>
+            <h4>🌫️ Ambiental</h4>
             <label class="checkbox-row">
                 <input id="optAmbientFog" type="checkbox"> Neblina
             </label>
@@ -1543,10 +1414,8 @@ textarea.input { min-height: 120px; resize: vertical; }
             <label class="checkbox-row">
                 <input id="optAmbientWaves" type="checkbox"> Ondas de luz
             </label>
-        </div>
 
-        <div class="admin-section">
-            <h3>🔊 Áudio</h3>
+            <h4>🔊 Áudio</h4>
             <label class="checkbox-row">
                 <input id="optClickSound" type="checkbox"> Sons de clique
             </label>
@@ -1554,31 +1423,52 @@ textarea.input { min-height: 120px; resize: vertical; }
                 <label>Volume dos efeitos <span id="valSoundVolume">.3</span></label>
                 <input id="optSoundVolume" type="range" min="0" max="1" step=".05" value=".3">
             </div>
-        </div>
 
-        <div class="admin-section">
-            <h3>🎯 Global</h3>
+            <h4>🎯 Global</h4>
             <div class="slider-row">
                 <label>Intensidade do glow <span id="valGlow">1</span></label>
                 <input id="optGlow" type="range" min="0" max="2" step=".1" value="1">
             </div>
-            <button class="small-button" id="resetAll" style="width:100%;margin-top:10px;">↺ Restaurar padrão</button>
+            <button class="small-button" id="resetAllEffects" style="width:100%;margin-top:10px;">↺ Restaurar efeitos padrão</button>
         </div>
 
-        <button id="closeEffectsBtn" class="primary-button">✓ Fechar</button>
+        <div class="admin-section">
+            <h3>⚡ Modos Rápidos</h3>
+            <div class="mode-grid">
+                <button class="mode-chip" data-mode="light">🌿 Leve</button>
+                <button class="mode-chip" data-mode="immersive">🌊 Imersivo</button>
+                <button class="mode-chip" data-mode="cinematic">🎬 Cinemático</button>
+                <button class="mode-chip" data-mode="galaxy">🌌 Galáxia</button>
+                <button class="mode-chip" data-mode="aurora">🌠 Aurora</button>
+                <button class="mode-chip" data-mode="performance">⚡ Performance</button>
+                <button class="mode-chip" data-mode="minimal">◻ Minimalista</button>
+                <button class="mode-chip" data-mode="allOff">🔇 Tudo off</button>
+            </div>
+        </div>
+
+        <button id="saveButton" class="primary-button">💾 SALVAR TUDO</button>
+        <br><br>
+        <button id="logoutButton" class="small-button" style="width:100%">Sair</button>
+
+        <div class="admin-footer">
+            <span>v3.0.0</span>
+            <span>·</span>
+            <span>Painel Administrativo</span>
+            <span>·</span>
+            <span class="version-tag">PRO</span>
+        </div>
     </div>
 </div>
 
-<div id="artLightbox" class="modal">
-    <div class="modal-box art-lightbox-box">
+<div id="threadModal" class="modal">
+    <div class="modal-box thread-view-box">
         <div class="modal-header">
-            <h2>🎨 Arte</h2>
-            <button class="close" onclick="closeModal('artLightbox')">×</button>
+            <h2 id="threadViewTitle">Tópico</h2>
+            <button class="close" onclick="closeModal('threadModal')">×</button>
         </div>
-        <img id="lightboxImg" src="" alt="">
-        <h3 id="lightboxTitle"></h3>
-        <p id="lightboxDesc"></p>
-        <a id="lightboxLink" class="art-link-btn" href="#" target="_blank" style="display:none">Abrir link ↗</a>
+        <div class="thread-meta" id="threadViewMeta"></div>
+        <img id="threadViewImage" class="thread-view-image" src="" alt="" style="display:none">
+        <div id="threadViewContent" class="thread-view-content"></div>
     </div>
 </div>
 
@@ -1616,7 +1506,7 @@ const db = firebase.database();
 const PROFILE_PATH = "profile";
 
 /* =========================================================
-   ESTADO + CACHE DE DOM
+   HELPERS
 ========================================================= */
 const $ = id => document.getElementById(id);
 
@@ -1664,24 +1554,25 @@ let currentSong = 0;
 let audio = $("audio");
 let isPlaying = false;
 let fadeInterval = null;
-let isMuted = false;
 let cursorListenersAttached = false;
 let currentPage = "home";
+let currentForumCat = "all";
 let friendStatusCache = {};
 let friendRefreshTimer = null;
+let pendingThreadImage = "";
+let pendingAvatar = "";
+let pendingBackgrounds = [];
 
-/* VÍDEO DE FUNDO */
 let videoBgData = null;
 let videoBgEnabled = false;
 
-/* CURSOR CUSTOMIZÁVEL */
 let cursorCurrentState = "normal";
 let isClicking = false;
 const CURSOR_STATES = [
     { key: "normal",  label: "Normal",               icon: "🖱️", hint: "Estado padrão" },
     { key: "hover",   label: "Hover (links/botões)", icon: "👆", hint: "Sobre elementos clicáveis" },
     { key: "click",   label: "Clique",               icon: "👊", hint: "Ao pressionar o mouse" },
-    { key: "loading", label: "Carregando",           icon: "⏳", hint: "Durante salvamento/carregamento" },
+    { key: "loading", label: "Carregando",           icon: "⏳", hint: "Durante salvamento" },
     { key: "text",    label: "Texto",                icon: "✏️", hint: "Sobre campos de texto" },
     { key: "trail",   label: "Rastro",               icon: "✨", hint: "Partícula que segue o mouse" }
 ];
@@ -1764,6 +1655,8 @@ function fileToDataURL(file) {
         reader.readAsDataURL(file);
     });
 }
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
+function formatDate(ts) { return ts ? new Date(ts).toLocaleString("pt-BR") : ""; }
 
 /* =========================================================
    PÁGINAS
@@ -1840,7 +1733,6 @@ function applyTheme(themeName, silent = false) {
     document.body.style.background = t.bg;
     if (t.text) root.setProperty("--text", t.text);
     else root.setProperty("--text", "#ffffff");
-
     settings.theme = themeName;
     saveSettings();
     updateThemeChips();
@@ -1852,24 +1744,35 @@ function updateThemeChips() {
         c.classList.toggle("selected", c.dataset.theme === settings.theme);
     });
 }
+function buildThemeGrids() {
+    const html = Object.keys(THEMES).map(name => 
+        `<div class="theme-chip ${name}" data-theme="${name}">${name}</div>`
+    ).join("");
+    const grid = $("themeGrid");
+    const adminGrid = $("adminThemeGrid");
+    if (grid) grid.innerHTML = html;
+    if (adminGrid) adminGrid.innerHTML = html;
+    document.querySelectorAll(".theme-chip").forEach(chip => {
+        chip.onclick = () => applyTheme(chip.dataset.theme);
+    });
+    updateThemeChips();
+}
 
 /* =========================================================
-   CURSOR CUSTOMIZÁVEL
+   CURSOR
 ========================================================= */
 let lastTrailTime = 0;
-const TRAIL_THROTTLE = 50; // ms
+const TRAIL_THROTTLE = 50;
 
 function setCursorState(state) {
     if (!els.cursor) return;
     cursorCurrentState = state;
     const cursors = profile?.cursors || {};
     const img = cursors[state];
-
     els.cursor.classList.remove("hover", "clicking", "loading", "has-image");
     if (state === "hover")   els.cursor.classList.add("hover");
     if (state === "click")   els.cursor.classList.add("clicking");
     if (state === "loading") els.cursor.classList.add("loading");
-
     if (img) {
         els.cursor.classList.add("has-image");
         els.cursor.style.setProperty("--cursor-img", `url("${img}")`);
@@ -1877,7 +1780,6 @@ function setCursorState(state) {
         els.cursor.style.removeProperty("--cursor-img");
     }
 }
-
 function applyCursorSizes() {
     const size = Number(profile?.cursorSize || 22);
     const trailSize = Number(profile?.trailSize || 8);
@@ -1885,7 +1787,6 @@ function applyCursorSizes() {
     document.documentElement.style.setProperty("--trail-size", trailSize + "px");
     els.cursor.classList.toggle("pixelated", !!profile?.cursorPixelated);
 }
-
 function attachCursorListeners() {
     if (cursorListenersAttached) return;
     cursorListenersAttached = true;
@@ -1902,7 +1803,7 @@ function attachCursorListeners() {
             state = "text";
         } else if (isClicking) {
             state = "click";
-        } else if (e.target.closest("a, button, .vinyl, .playlist-item, .social-link, .badge, .theme-chip, .mode-chip, .float-btn, .art-card, .friend-card, .page-tab")) {
+        } else if (e.target.closest("a, button, .vinyl, .playlist-item, .social-link, .badge, .theme-chip, .mode-chip, .float-btn, .forum-thread-card, .friend-card, .page-tab, .forum-cat-tab")) {
             state = "hover";
         }
         setCursorState(state);
@@ -1959,7 +1860,6 @@ function attachCursorListeners() {
         if (settings.clickSound) playClickSound();
     });
 }
-
 function initCursor() {
     if (window.innerWidth <= 650) {
         els.cursor.classList.remove("active");
@@ -1978,7 +1878,7 @@ function initCursor() {
 }
 
 /* =========================================================
-   SOM DE CLIQUE
+   SOM
 ========================================================= */
 let audioCtx = null;
 function playClickSound() {
@@ -1998,7 +1898,7 @@ function playClickSound() {
 }
 
 /* =========================================================
-   PARTÍCULAS (otimizado)
+   PARTÍCULAS
 ========================================================= */
 const canvas = els.particles;
 const ctx = canvas.getContext("2d", { alpha: true });
@@ -2018,7 +1918,7 @@ function initParticles() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     particles = [];
-    const count = Math.min(settings.particleCount, 180); // limite de segurança
+    const count = Math.min(settings.particleCount, 180);
     const color = getComputedStyle(document.documentElement).getPropertyValue("--particle-color").trim() || "139,92,246";
     for (let i = 0; i < count; i++) {
         particles.push({
@@ -2034,16 +1934,13 @@ function initParticles() {
     lastParticleTime = performance.now();
     animateParticles();
 }
-
 function animateParticles(now = performance.now()) {
     if (!settings.particles) return;
-    // throttle ~60fps
     if (now - lastParticleTime < 16) {
         particleAnimId = requestAnimationFrame(animateParticles);
         return;
     }
     lastParticleTime = now;
-
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const len = particles.length;
     for (let i = 0; i < len; i++) {
@@ -2056,7 +1953,6 @@ function animateParticles(now = performance.now()) {
         ctx.fillStyle = `rgba(${p.color},${p.opacity})`;
         ctx.fill();
     }
-    // conexões apenas se poucas partículas (performance)
     if (len <= 80) {
         for (let i = 0; i < len; i++) {
             for (let j = i + 1; j < len; j++) {
@@ -2075,7 +1971,6 @@ function animateParticles(now = performance.now()) {
     }
     particleAnimId = requestAnimationFrame(animateParticles);
 }
-
 let resizeTimeout;
 window.addEventListener("resize", () => {
     clearTimeout(resizeTimeout);
@@ -2095,7 +1990,7 @@ function updateAmbient() {
 }
 
 /* =========================================================
-   VÍDEO DE FUNDO
+   VÍDEO
 ========================================================= */
 function applyVideoBackground() {
     const vid = els.backgroundVideo;
@@ -2118,7 +2013,6 @@ function applyVideoBackground() {
     vid.style.filter = blurVal > 0 ? `blur(${blurVal}px)` : "none";
     vid.style.transform = blurVal > 0 ? "scale(1.05)" : "scale(1)";
 }
-
 function initVideoBgInputs() {
     const en = $("videoBgEnabled");
     const urlIn = $("videoBgUrl");
@@ -2129,7 +2023,6 @@ function initVideoBgInputs() {
     const mutedIn = $("videoMuted");
     const removeBtn = $("removeVideoBg");
     if (!en) return;
-
     en.checked = !!videoBgEnabled;
     urlIn.value = (videoBgData && videoBgData.startsWith("http")) ? videoBgData : "";
     blurIn.value = Number(profile?.videoBlur || 0);
@@ -2140,7 +2033,7 @@ function initVideoBgInputs() {
     en.onchange = () => {
         videoBgEnabled = en.checked;
         applyVideoBackground();
-        toast(en.checked ? "Vídeo de fundo ativado" : "Vídeo de fundo desativado", "info");
+        toast(en.checked ? "Vídeo ativado" : "Vídeo desativado", "info");
     };
     urlIn.oninput = () => {
         const v = urlIn.value.trim();
@@ -2153,16 +2046,13 @@ function initVideoBgInputs() {
     fileIn.onchange = async () => {
         const file = fileIn.files[0];
         if (!file) return;
-        if (file.size > 25 * 1024 * 1024) {
-            toast("Vídeo muito grande (máx ~25MB). Use URL.", "error");
-            return;
-        }
+        if (file.size > 25 * 1024 * 1024) { toast("Vídeo muito grande (máx ~25MB)", "error"); return; }
         toast("Carregando vídeo...", "info");
         videoBgData = await fileToDataURL(file);
         videoBgEnabled = true;
         en.checked = true;
         applyVideoBackground();
-        toast("Vídeo carregado (não esqueça de Salvar!)", "success");
+        toast("Vídeo carregado", "success");
     };
     blurIn.oninput = () => {
         blurVal.textContent = blurIn.value + "px";
@@ -2174,18 +2064,15 @@ function initVideoBgInputs() {
     loopIn.onchange = () => { els.backgroundVideo.loop = loopIn.checked; if (profile) profile.videoLoop = loopIn.checked; };
     mutedIn.onchange = () => { els.backgroundVideo.muted = mutedIn.checked; if (profile) profile.videoMuted = mutedIn.checked; };
     removeBtn.onclick = () => {
-        videoBgData = null;
-        videoBgEnabled = false;
-        en.checked = false;
-        urlIn.value = "";
-        fileIn.value = "";
+        videoBgData = null; videoBgEnabled = false;
+        en.checked = false; urlIn.value = ""; fileIn.value = "";
         applyVideoBackground();
         toast("Vídeo removido", "info");
     };
 }
 
 /* =========================================================
-   CARREGAR PERFIL
+   LOAD PROFILE
 ========================================================= */
 async function loadProfile() {
     document.body.classList.add("busy");
@@ -2194,46 +2081,21 @@ async function loadProfile() {
         profile = snapshot.val();
         if (!profile) {
             profile = {
-                name: "Liebebrr",
-                title: "",
-                description: "Meu perfil.",
-                avatar: "",
-                backgrounds: [],
-                backgroundInterval: 8,
-                blur: 0,
-                primary: "#8b5cf6",
-                secondary: "#06b6d4",
-                links: [],
-                badges: [],
-                playlist: [],
-                arts: [],
-                friends: [],
-                autoplay: false,
-                loop: true,
-                shuffle: false,
-                musicChangeBackground: false,
-                musicFadeIn: true,
-                glow: true,
-                effectParticles: true,
-                effectVinyl: true,
-                effectCursor: true,
-                effectRing: true,
-                effectAmbient: false,
-                fadeDuration: 3,
-                videoBg: "",
-                videoBgEnabled: false,
-                videoBlur: 0,
-                videoLoop: true,
-                videoMuted: true,
-                cursors: {},
-                cursorSize: 22,
-                trailSize: 8,
-                trailDuration: 0.8,
-                cursorPixelated: false
+                name: "Meu Perfil", title: "", description: "Bem-vindo ao meu perfil.",
+                avatar: "", backgrounds: [], backgroundInterval: 8, blur: 0,
+                primary: "#8b5cf6", secondary: "#06b6d4",
+                links: [], badges: [], playlist: [],
+                forumCategories: [], forumThreads: [],
+                friends: [], autoplay: false, loop: true, shuffle: false,
+                musicChangeBackground: false, musicFadeIn: true, glow: true,
+                effectParticles: true, effectVinyl: true, effectCursor: true,
+                effectRing: true, effectAmbient: false, fadeDuration: 3,
+                videoBg: "", videoBgEnabled: false, videoBlur: 0,
+                videoLoop: true, videoMuted: true,
+                cursors: {}, cursorSize: 22, trailSize: 8, trailDuration: 0.8, cursorPixelated: false
             };
         }
-        // Normalização defensiva
-        ["arts","friends","backgrounds","playlist","links","badges"].forEach(k => {
+        ["forumCategories","forumThreads","friends","backgrounds","playlist","links","badges"].forEach(k => {
             if (!Array.isArray(profile[k])) profile[k] = [];
         });
         if (!profile.cursors) profile.cursors = {};
@@ -2244,7 +2106,6 @@ async function loadProfile() {
 
         if (profile.videoBg) videoBgData = profile.videoBg;
         videoBgEnabled = !!profile.videoBgEnabled;
-
         applyProfile();
     } catch (error) {
         console.error(error);
@@ -2255,11 +2116,10 @@ async function loadProfile() {
 }
 
 /* =========================================================
-   APLICAR PERFIL
+   APPLY PROFILE
 ========================================================= */
 function applyProfile() {
     if (!profile) return;
-
     els.profileName.textContent = profile.name || "Meu Perfil";
     els.profileDescription.textContent = profile.description || "";
 
@@ -2311,7 +2171,7 @@ function applyProfile() {
     renderLinks();
     renderBadges();
     renderPlaylist();
-    renderArtes();
+    renderForum();
     renderFriends();
     startBackgrounds();
     setupMusic();
@@ -2353,42 +2213,105 @@ function renderBadges() {
 }
 
 /* =========================================================
-   ARTES
+   FORUM
 ========================================================= */
-function renderArtes() {
-    const grid = $("artesGrid");
-    const empty = $("artesEmpty");
-    grid.innerHTML = "";
-    const arts = profile.arts || [];
-    if (!arts.length) { empty.style.display = "block"; return; }
+function renderForum() {
+    const categories = profile.forumCategories || [];
+    const threads = profile.forumThreads || [];
+    const catContainer = $("forumCategories");
+    const threadContainer = $("forumThreads");
+    const empty = $("forumEmpty");
+    
+    catContainer.innerHTML = "";
+    threadContainer.innerHTML = "";
+    
+    if (!categories.length && !threads.length) {
+        catContainer.style.display = "none";
+        empty.style.display = "block";
+        return;
+    }
+    catContainer.style.display = "flex";
     empty.style.display = "none";
-    arts.forEach((art, i) => {
+    
+    // Category tabs
+    const allBtn = document.createElement("button");
+    allBtn.className = "forum-cat-tab" + (currentForumCat === "all" ? " active" : "");
+    allBtn.textContent = `📋 Todos (${threads.length})`;
+    allBtn.onclick = () => { currentForumCat = "all"; renderForum(); };
+    catContainer.appendChild(allBtn);
+    
+    categories.forEach(cat => {
+        const count = threads.filter(t => t.categoryId === cat.id).length;
+        const btn = document.createElement("button");
+        btn.className = "forum-cat-tab" + (currentForumCat === cat.id ? " active" : "");
+        btn.textContent = `${cat.icon || "💬"} ${cat.name} (${count})`;
+        btn.onclick = () => { currentForumCat = cat.id; renderForum(); };
+        catContainer.appendChild(btn);
+    });
+    
+    // Filtered threads
+    let filtered = currentForumCat === "all" 
+        ? [...threads] 
+        : threads.filter(t => t.categoryId === currentForumCat);
+    
+    filtered.sort((a, b) => {
+        if (!!a.pinned !== !!b.pinned) return a.pinned ? -1 : 1;
+        return (b.createdAt || 0) - (a.createdAt || 0);
+    });
+    
+    if (!filtered.length) {
+        threadContainer.innerHTML = '<div class="empty-state"><span class="emoji">📭</span>Nenhum tópico nesta categoria.</div>';
+        return;
+    }
+    
+    filtered.forEach((thread, i) => {
+        const cat = categories.find(c => c.id === thread.categoryId);
         const card = document.createElement("div");
-        card.className = "art-card";
-        card.style.animationDelay = (i * 0.06) + "s";
+        card.className = "forum-thread-card";
+        card.style.animationDelay = (i * 0.05) + "s";
+        
+        const content = thread.content || "";
+        const excerpt = content.substring(0, 150);
+        
         card.innerHTML = `
-            <img class="art-image" src="${art.image || ''}" alt="${escapeHTML(art.title || 'Arte')}" loading="lazy">
-            <div class="art-info">
-                <h4>${escapeHTML(art.title || 'Sem título')}</h4>
-                ${art.description ? `<p>${escapeHTML(art.description)}</p>` : ""}
+            ${thread.image ? `<img class="forum-thread-thumb" src="${thread.image}" alt="" loading="lazy" onerror="this.style.display='none'">` : '<div class="forum-thread-noimg">💬</div>'}
+            <div class="forum-thread-info">
+                <div class="forum-thread-head">
+                    ${thread.pinned ? '<span class="pin-badge">📌 Fixado</span>' : ''}
+                    ${cat ? `<span class="forum-thread-cat">${escapeHTML(cat.icon || "💬")} ${escapeHTML(cat.name)}</span>` : ''}
+                    <span class="forum-thread-date">${formatDate(thread.createdAt)}</span>
+                </div>
+                <h3 class="forum-thread-title">${escapeHTML(thread.title)}</h3>
+                <p class="forum-thread-excerpt">${escapeHTML(excerpt)}${content.length > 150 ? "..." : ""}</p>
             </div>
         `;
-        card.onclick = () => openArtLightbox(art);
-        grid.appendChild(card);
+        card.onclick = () => openThreadView(thread);
+        threadContainer.appendChild(card);
     });
 }
-function openArtLightbox(art) {
-    $("lightboxImg").src = art.image || "";
-    $("lightboxTitle").textContent = art.title || "Sem título";
-    $("lightboxDesc").textContent = art.description || "";
-    const linkEl = $("lightboxLink");
-    if (art.link) { linkEl.href = art.link; linkEl.style.display = "inline-block"; }
-    else { linkEl.style.display = "none"; }
-    openModal("artLightbox");
+
+function openThreadView(thread) {
+    const categories = profile.forumCategories || [];
+    const cat = categories.find(c => c.id === thread.categoryId);
+    $("threadViewTitle").textContent = thread.title || "Tópico";
+    $("threadViewMeta").innerHTML = `
+        ${cat ? `<span class="forum-thread-cat">${escapeHTML(cat.icon || "💬")} ${escapeHTML(cat.name)}</span>` : ''}
+        ${thread.pinned ? '<span class="pin-badge">📌 Fixado</span>' : ''}
+        <span class="forum-thread-date">${formatDate(thread.createdAt)}</span>
+    `;
+    const img = $("threadViewImage");
+    if (thread.image) {
+        img.src = thread.image;
+        img.style.display = "block";
+    } else {
+        img.style.display = "none";
+    }
+    $("threadViewContent").textContent = thread.content || "";
+    openModal("threadModal");
 }
 
 /* =========================================================
-   AMIGOS
+   FRIENDS
 ========================================================= */
 async function fetchLanyard(discordId) {
     if (!discordId) return null;
@@ -2412,12 +2335,7 @@ async function refreshFriendStatuses() {
     renderFriends();
 }
 function activityEmoji(type) {
-    if (type === 0) return "🎮";
-    if (type === 1) return "📺";
-    if (type === 2) return "🎵";
-    if (type === 3) return "👁️";
-    if (type === 4) return "✨";
-    return "💬";
+    return ["🎮","📺","🎵","👁️","✨"][type] || "💬";
 }
 function getDiscordAvatar(id, hash) {
     if (!hash) return `https://cdn.discordapp.com/embed/avatars/${Number(id) % 5}.png`;
@@ -2482,11 +2400,9 @@ function renderFriends() {
         grid.appendChild(card);
     });
 }
-if (!friendRefreshTimer) {
-    friendRefreshTimer = setInterval(() => {
-        if (profile && profile.friends && profile.friends.some(f => f.discordId)) refreshFriendStatuses();
-    }, 30000);
-}
+friendRefreshTimer = setInterval(() => {
+    if (profile && profile.friends && profile.friends.some(f => f.discordId)) refreshFriendStatuses();
+}, 30000);
 
 /* =========================================================
    FUNDOS
@@ -2507,8 +2423,7 @@ function changeBackground() {
         els.background.style.backgroundImage = `url("${bg}")`;
         els.background.style.opacity = "1";
     }, 300);
-    backgroundIndex++;
-    if (backgroundIndex >= backgrounds.length) backgroundIndex = 0;
+    backgroundIndex = (backgroundIndex + 1) % backgrounds.length;
 }
 
 /* =========================================================
@@ -2546,6 +2461,9 @@ function renderPlaylist() {
             const nameSpan = document.createElement("span");
             nameSpan.textContent = `${index + 1}. ${song.name}`;
             nameSpan.style.flex = "1";
+            nameSpan.style.overflow = "hidden";
+            nameSpan.style.textOverflow = "ellipsis";
+            nameSpan.style.whiteSpace = "nowrap";
             item.appendChild(nameSpan);
 
             const removeBtn = document.createElement("button");
@@ -2768,9 +2686,7 @@ function loadYouTube(song) {
     }
     $("youtubeContainer").innerHTML = '<div id="ytPlayerDiv"></div>';
     ytPlayer = new YT.Player("ytPlayerDiv", {
-        height: "0",
-        width: "0",
-        videoId: videoId,
+        height: "0", width: "0", videoId: videoId,
         playerVars: { autoplay: 0, controls: 0, disablekb: 1, origin: window.location.origin },
         events: {
             onReady: (e) => {
@@ -2815,7 +2731,6 @@ setInterval(() => {
 ========================================================= */
 function applySettingsToUI() {
     if (!profile) return;
-    $("optParticles").checked = settings.particles;
     $("optParticleCount").value = settings.particleCount;
     $("valParticleCount").textContent = settings.particleCount;
     $("optParticleSpeed").value = settings.particleSpeed;
@@ -2824,7 +2739,6 @@ function applySettingsToUI() {
     $("valParticleSize").textContent = settings.particleSize;
     $("optParticleOpacity").value = settings.particleOpacity;
     $("valParticleOpacity").textContent = settings.particleOpacity;
-    $("optCursor").checked = settings.cursor;
     $("optCursorTrail").checked = settings.cursorTrail;
     $("optClickRipple").checked = settings.clickRipple;
     $("optClickParticles").checked = settings.clickParticles;
@@ -2839,17 +2753,31 @@ function applySettingsToUI() {
     $("valSoundVolume").textContent = settings.soundVolume;
     $("optGlow").value = settings.glowIntensity;
     $("valGlow").textContent = settings.glowIntensity;
+    $("effectGlow").checked = profile.glow !== false;
+    $("effectParticles").checked = profile.effectParticles !== false;
+    $("effectVinyl").checked = profile.effectVinyl !== false;
+    $("effectCursor").checked = profile.effectCursor !== false;
+    $("effectRing").checked = profile.effectRing !== false;
+    $("effectAmbient").checked = profile.effectAmbient === true;
+    $("cursorSizeSlider").value = profile.cursorSize || 22;
+    $("cursorSizeVal").textContent = (profile.cursorSize || 22) + "px";
+    $("trailSizeSlider").value = profile.trailSize || 8;
+    $("trailSizeVal").textContent = (profile.trailSize || 8) + "px";
+    $("trailDurationSlider").value = profile.trailDuration || 0.8;
+    $("trailDurationVal").textContent = (profile.trailDuration || 0.8) + "s";
+    $("cursorPixelated").checked = !!profile.cursorPixelated;
     document.documentElement.style.setProperty("--glow-intensity", settings.glowIntensity);
     updateThemeChips();
 }
+
 function applyMode(mode) {
     switch(mode) {
         case "light":
-            settings.particles = true; settings.particleCount = 30; settings.particleSpeed = 1; settings.particleSize = .8;
+            settings.particleCount = 30; settings.particleSpeed = 1; settings.particleSize = .8;
             settings.ambientFog = false; settings.ambientAurora = false; settings.ambientWaves = false;
             settings.entryAnim = "fade"; settings.entrySpeed = .5; break;
         case "immersive":
-            settings.particles = true; settings.particleCount = 100; settings.particleSpeed = 1.2;
+            settings.particleCount = 100; settings.particleSpeed = 1.2;
             settings.ambientFog = true; settings.ambientAurora = true; settings.ambientWaves = true;
             settings.cursorTrail = true; break;
         case "cinematic":
@@ -2865,11 +2793,11 @@ function applyMode(mode) {
             settings.particles = false; settings.cursorTrail = false; settings.clickParticles = false;
             settings.ambientFog = false; settings.ambientAurora = false; settings.ambientWaves = false; break;
         case "minimal":
-            settings.particles = false; settings.cursor = true; settings.cursorTrail = false;
+            settings.particles = false; settings.cursorTrail = false;
             settings.clickRipple = false; settings.clickParticles = false;
             settings.ambientFog = false; settings.ambientAurora = false; settings.ambientWaves = false; break;
         case "allOff":
-            settings.particles = false; settings.cursor = false;
+            settings.particles = false;
             settings.ambientFog = false; settings.ambientAurora = false; settings.ambientWaves = false; break;
     }
     saveSettings();
@@ -2881,268 +2809,200 @@ function applyMode(mode) {
 }
 
 /* =========================================================
-   ADMIN EDITORES
+   ADMIN EDITORS
 ========================================================= */
 function addLinkRow(name = "", url = "") {
     const container = $("linksEditor");
     const row = document.createElement("div");
     row.className = "admin-item";
     row.innerHTML = `
-        <input class="input link-name" placeholder="Nome" value="${escapeHTML(name)}" style="margin:0;flex:1">
-        <input class="input link-url" placeholder="URL" value="${escapeHTML(url)}" style="margin:0;flex:1">
-        <button class="small-button danger">✕</button>
+        <input class="input link-name" placeholder="Nome" value="${escapeHTML(name)}">
+        <input class="input link-url" placeholder="URL" value="${escapeHTML(url)}">
+        <button class="small-button danger" type="button">✕</button>
     `;
-    row.querySelector("button").onclick = () => row.remove();
+    row.querySelector(".danger").onclick = () => row.remove();
     container.appendChild(row);
 }
-function addBadgeRow(value = "") {
+
+function addBadgeRow(text = "") {
     const container = $("badgesEditor");
     const row = document.createElement("div");
     row.className = "admin-item";
     row.innerHTML = `
-        <input class="input" placeholder="Badge" value="${escapeHTML(value)}" style="margin:0;flex:1">
-        <button class="small-button danger">✕</button>
+        <input class="input badge-text" value="${escapeHTML(text)}">
+        <button class="small-button danger" type="button">✕</button>
     `;
-    row.querySelector("button").onclick = () => row.remove();
+    row.querySelector(".danger").onclick = () => row.remove();
     container.appendChild(row);
 }
-function collectLinks() {
-    const links = [];
-    document.querySelectorAll("#linksEditor .admin-item").forEach(item => {
-        const name = item.querySelector(".link-name")?.value.trim();
-        const url = item.querySelector(".link-url")?.value.trim();
-        if (url) links.push({ name: name || url, url });
-    });
-    return links;
+
+function addMusicRow(song) {
+    const container = $("musicEditor");
+    const row = document.createElement("div");
+    row.className = "admin-item";
+    const sourceTag = song.source === "youtube" ? '<span style="color:#ff4444;font-size:10px;font-weight:700">▶ YT</span>' : '<span style="color:#666;font-size:10px">MP3</span>';
+    row.innerHTML = `
+        <span style="font-size:12px">${sourceTag}</span>
+        <input class="input music-name" value="${escapeHTML(song.name || "")}">
+        <button class="small-button danger" type="button">✕</button>
+    `;
+    row.querySelector(".danger").onclick = () => {
+        const idx = playlist.indexOf(song);
+        if (idx >= 0) { playlist.splice(idx, 1); row.remove(); savePlaylistLocal(); renderPlaylist(); }
+    };
+    container.appendChild(row);
 }
-function collectBadges() {
-    const badges = [];
-    document.querySelectorAll("#badgesEditor .admin-item input").forEach(input => {
-        const v = input.value.trim();
-        if (v) badges.push(v);
-    });
-    return badges;
+
+function addFriendRow(friend) {
+    const container = $("friendsEditor");
+    const row = document.createElement("div");
+    row.className = "admin-item-col";
+    row.innerHTML = `
+        <div style="display:flex;gap:8px;align-items:center">
+            <input class="input friend-row-name" value="${escapeHTML(friend.name || "")}" placeholder="Nome" style="flex:1">
+            <button class="small-button danger" type="button">✕</button>
+        </div>
+        <input class="input friend-row-desc" value="${escapeHTML(friend.description || "")}" placeholder="Descrição">
+        <input class="input friend-row-avatar" value="${escapeHTML(friend.avatar || "")}" placeholder="URL avatar">
+        <input class="input friend-row-discord" value="${escapeHTML(friend.discordId || "")}" placeholder="Discord ID">
+        <input class="input friend-row-link" value="${escapeHTML(friend.link || "")}" placeholder="Link do perfil">
+    `;
+    const btn = row.querySelector(".danger");
+    btn.onclick = () => {
+        const idx = profile.friends.indexOf(friend);
+        if (idx >= 0) { profile.friends.splice(idx, 1); row.remove(); renderFriends(); }
+    };
+    row.querySelector(".friend-row-name").oninput = e => friend.name = e.target.value;
+    row.querySelector(".friend-row-desc").oninput = e => friend.description = e.target.value;
+    row.querySelector(".friend-row-avatar").oninput = e => friend.avatar = e.target.value;
+    row.querySelector(".friend-row-discord").oninput = e => friend.discordId = e.target.value;
+    row.querySelector(".friend-row-link").oninput = e => friend.link = e.target.value;
+    container.appendChild(row);
 }
+
+function renderForumAdmin() {
+    // Categories
+    const catEditor = $("forumCatEditor");
+    catEditor.innerHTML = "";
+    (profile.forumCategories || []).forEach((cat, i) => {
+        const row = document.createElement("div");
+        row.className = "admin-item";
+        row.innerHTML = `
+            <input class="input" value="${escapeHTML(cat.icon || "💬")}" style="max-width:60px" placeholder="💬">
+            <input class="input cat-row-name" value="${escapeHTML(cat.name || "")}" placeholder="Nome" style="flex:1">
+            <button class="small-button danger" type="button">✕</button>
+        `;
+        const iconIn = row.querySelectorAll("input")[0];
+        iconIn.oninput = e => cat.icon = e.target.value;
+        row.querySelector(".cat-row-name").oninput = e => cat.name = e.target.value;
+        row.querySelector(".danger").onclick = () => {
+            profile.forumCategories.splice(i, 1);
+            renderForumAdmin();
+            renderForum();
+        };
+        catEditor.appendChild(row);
+    });
+    
+    // Select for new thread
+    const sel = $("forumThreadCategory");
+    sel.innerHTML = "";
+    if (!(profile.forumCategories || []).length) {
+        sel.innerHTML = '<option value="">⚠️ Crie uma categoria primeiro</option>';
+    } else {
+        (profile.forumCategories || []).forEach(cat => {
+            const opt = document.createElement("option");
+            opt.value = cat.id;
+            opt.textContent = `${cat.icon || "💬"} ${cat.name}`;
+            sel.appendChild(opt);
+        });
+    }
+    
+    // Threads
+    const threadEditor = $("forumThreadEditor");
+    threadEditor.innerHTML = "";
+    (profile.forumThreads || []).forEach((thread, i) => {
+        const cat = (profile.forumCategories || []).find(c => c.id === thread.categoryId);
+        const row = document.createElement("div");
+        row.className = "admin-item-col";
+        row.innerHTML = `
+            <div style="display:flex;gap:8px;align-items:center">
+                <input class="input thread-row-title" value="${escapeHTML(thread.title || "")}" placeholder="Título" style="flex:1">
+                <button class="small-button danger" type="button">✕</button>
+            </div>
+            <div style="font-size:11px;color:#888">📁 ${escapeHTML(cat?.name || "Sem categoria")} · ${formatDate(thread.createdAt)} ${thread.pinned ? '· 📌' : ''}</div>
+        `;
+        row.querySelector(".thread-row-title").oninput = e => thread.title = e.target.value;
+        row.querySelector(".danger").onclick = () => {
+            profile.forumThreads.splice(i, 1);
+            renderForumAdmin();
+            renderForum();
+        };
+        threadEditor.appendChild(row);
+    });
+}
+
+function renderCursorStatesAdmin() {
+    const editor = $("cursorStatesEditor");
+    editor.innerHTML = "";
+    CURSOR_STATES.forEach(state => {
+        const currentImg = profile.cursors?.[state.key] || "";
+        const row = document.createElement("div");
+        row.className = "admin-item-col";
+        row.innerHTML = `
+            <div style="display:flex;gap:8px;align-items:center">
+                <div style="flex:1">
+                    <strong style="font-size:12px">${state.icon} ${state.label}</strong>
+                    <div style="font-size:10px;color:#888">${state.hint}</div>
+                </div>
+                <input type="file" accept="image/png,image/gif,image/webp" class="cursor-file" style="display:none">
+                <button class="small-button cursor-upload" type="button">📁</button>
+                <button class="small-button danger cursor-clear" type="button" ${!currentImg ? 'disabled' : ''}>✕</button>
+            </div>
+            ${currentImg ? `<div style="text-align:center"><img src="${currentImg}" style="max-height:50px;max-width:100px;margin-top:8px;image-rendering:${profile.cursorPixelated?'pixelated':'auto'}"></div>` : ''}
+        `;
+        const fileInput = row.querySelector(".cursor-file");
+        fileInput.onchange = async () => {
+            const f = fileInput.files[0];
+            if (!f) return;
+            if (f.size > 500 * 1024) { toast("Arquivo muito grande (máx 500KB)", "error"); return; }
+            if (!profile.cursors) profile.cursors = {};
+            profile.cursors[state.key] = await fileToDataURL(f);
+            renderCursorStatesAdmin();
+            setCursorState(cursorCurrentState);
+        };
+        row.querySelector(".cursor-upload").onclick = () => fileInput.click();
+        row.querySelector(".cursor-clear").onclick = () => {
+            if (profile.cursors) delete profile.cursors[state.key];
+            renderCursorStatesAdmin();
+            setCursorState(cursorCurrentState);
+        };
+        editor.appendChild(row);
+    });
+}
+
 function renderBackgroundList() {
-    const list = $("backgroundList");
-    list.innerHTML = "";
-    (profile.backgrounds || []).forEach((bg, i) => {
-        const item = document.createElement("div");
-        item.className = "admin-item";
-        item.innerHTML = `
-            <div style="width:60px;height:40px;border-radius:6px;background-image:url('${bg}');background-size:cover;background-position:center;flex-shrink:0"></div>
-            <input class="input" value="Fundo ${i+1}" disabled style="margin:0;flex:1;opacity:.6">
-            <button class="small-button danger">✕</button>
+    const container = $("backgroundList");
+    container.innerHTML = "";
+    backgrounds.forEach((bg, i) => {
+        const row = document.createElement("div");
+        row.className = "admin-item";
+        row.innerHTML = `
+            <img src="${bg}" style="width:60px;height:36px;object-fit:cover;border-radius:6px">
+            <span style="flex:1;font-size:12px;color:#888">Fundo ${i+1}</span>
+            <button class="small-button danger" type="button">✕</button>
         `;
-        item.querySelector("button").onclick = () => {
-            profile.backgrounds.splice(i, 1);
-            backgrounds = profile.backgrounds;
+        row.querySelector(".danger").onclick = () => {
+            backgrounds.splice(i, 1);
             renderBackgroundList();
-            startBackgrounds();
         };
-        list.appendChild(item);
-    });
-}
-function renderMusicEditor() {
-    const list = $("musicEditor");
-    list.innerHTML = "";
-    playlist.forEach((song, i) => {
-        const item = document.createElement("div");
-        item.className = "admin-item";
-        item.innerHTML = `
-            <span class="src-badge" style="font-size:10px;padding:2px 6px;border-radius:4px;background:rgba(255,255,255,.08);color:#bbb;flex-shrink:0">${song.source === "youtube" ? "YT" : "MP3"}</span>
-            <input class="input music-name-input" value="${escapeHTML(song.name)}" style="margin:0;flex:1">
-            <button class="small-button danger">✕</button>
-        `;
-        item.querySelector(".music-name-input").oninput = (e) => { playlist[i].name = e.target.value; };
-        item.querySelector("button").onclick = () => {
-            playlist.splice(i, 1);
-            if (currentSong >= playlist.length) currentSong = Math.max(0, playlist.length - 1);
-            renderPlaylist();
-            renderMusicEditor();
-        };
-        list.appendChild(item);
-    });
-}
-function renderArtsEditor() {
-    const list = $("artesEditor");
-    list.innerHTML = "";
-    (profile.arts || []).forEach((art, i) => {
-        const item = document.createElement("div");
-        item.className = "admin-item";
-        item.innerHTML = `
-            <img src="${art.image || ''}" style="width:40px;height:40px;border-radius:6px;object-fit:cover">
-            <input class="input art-title-input" value="${escapeHTML(art.title || '')}" placeholder="Título" style="margin:0;flex:1">
-            <button class="small-button danger">✕</button>
-        `;
-        item.querySelector(".art-title-input").oninput = (e) => { art.title = e.target.value; };
-        item.querySelector("button").onclick = () => {
-            profile.arts.splice(i, 1);
-            renderArtes();
-            renderArtsEditor();
-        };
-        list.appendChild(item);
-    });
-}
-function renderFriendsEditor() {
-    const list = $("friendsEditor");
-    list.innerHTML = "";
-    (profile.friends || []).forEach((friend, i) => {
-        const item = document.createElement("div");
-        item.className = "admin-item";
-        item.innerHTML = `
-            <input class="input friend-name-input" value="${escapeHTML(friend.name || '')}" placeholder="Nome" style="margin:0;flex:1">
-            <input class="input friend-id-input" value="${escapeHTML(friend.discordId || '')}" placeholder="Discord ID" style="margin:0;flex:1">
-            <button class="small-button danger">✕</button>
-        `;
-        item.querySelector(".friend-name-input").oninput = (e) => { friend.name = e.target.value; };
-        item.querySelector(".friend-id-input").oninput = (e) => { friend.discordId = e.target.value; };
-        item.querySelector("button").onclick = () => {
-            profile.friends.splice(i, 1);
-            renderFriends();
-            renderFriendsEditor();
-        };
-        list.appendChild(item);
+        container.appendChild(row);
     });
 }
 
 /* =========================================================
-   CURSOR STATES EDITOR
+   ADMIN: LOAD / SAVE
 ========================================================= */
-function renderCursorStatesEditor() {
-    const container = $("cursorStatesEditor");
-    if (!container) return;
-    container.innerHTML = "";
-    if (!profile.cursors) profile.cursors = {};
-
-    $("cursorSizeSlider").value = profile.cursorSize || 22;
-    $("cursorSizeVal").textContent = (profile.cursorSize || 22) + "px";
-    $("trailSizeSlider").value = profile.trailSize || 8;
-    $("trailSizeVal").textContent = (profile.trailSize || 8) + "px";
-    $("trailDurationSlider").value = profile.trailDuration || 0.8;
-    $("trailDurationVal").textContent = (profile.trailDuration || 0.8) + "s";
-    $("cursorPixelated").checked = !!profile.cursorPixelated;
-
-    CURSOR_STATES.forEach(state => {
-        const val = profile.cursors[state.key] || "";
-        const isAnimated = profile.cursors[state.key + "_anim"] === true;
-
-        const item = document.createElement("div");
-        item.className = "admin-item-col";
-        item.style.cssText = "gap:8px;padding:12px;";
-
-        item.innerHTML = `
-            <div style="display:flex;gap:10px;align-items:center;">
-                <span style="font-size:20px;">${state.icon}</span>
-                <div style="flex:1;min-width:0;">
-                    <div style="font-weight:700;font-size:13px;">${state.label}</div>
-                    <div style="font-size:11px;color:#888;">${state.hint}</div>
-                </div>
-                ${isAnimated ? '<span style="font-size:9px;padding:2px 6px;border-radius:4px;background:rgba(245,158,11,.2);color:#f59e0b;font-weight:700;">ANIM</span>' : ''}
-                <button class="small-button danger cursor-remove-btn" style="padding:6px 10px;">✕</button>
-            </div>
-            <div style="display:flex;gap:10px;align-items:center;">
-                <div class="cursor-preview" style="
-                    width:56px;height:56px;border-radius:8px;
-                    background:rgba(0,0,0,.4) center/contain no-repeat;
-                    display:flex;align-items:center;justify-content:center;
-                    border:1px dashed rgba(255,255,255,.12);flex-shrink:0;
-                    ${val ? `background-image:url('${val}');` : ''}
-                ">
-                    ${val ? "" : '<span style="color:#555;font-size:9px;">vazio</span>'}
-                </div>
-                <input class="input cursor-url-input" placeholder="URL (png/gif/webp)"
-                    value="${val && val.startsWith('http') ? escapeHTML(val) : ''}"
-                    style="margin:0;flex:1;min-width:0;">
-                <input class="file-input cursor-file-input" type="file"
-                    accept="image/*,image/gif,image/apng,image/webp,.gif,.apng,.webp"
-                    style="margin:0;width:150px;flex-shrink:0;">
-            </div>
-        `;
-
-        const preview = item.querySelector(".cursor-preview");
-        const urlIn   = item.querySelector(".cursor-url-input");
-        const fileIn  = item.querySelector(".cursor-file-input");
-        const removeBtn = item.querySelector(".cursor-remove-btn");
-
-        const update = (newVal, animated = false) => {
-            profile.cursors[state.key] = newVal || "";
-            profile.cursors[state.key + "_anim"] = !!animated;
-            if (newVal) {
-                preview.style.backgroundImage = `url("${newVal}")`;
-                preview.innerHTML = "";
-            } else {
-                preview.style.backgroundImage = "";
-                preview.innerHTML = '<span style="color:#555;font-size:9px;">vazio</span>';
-            }
-            applyCursorSizes();
-            setCursorState(cursorCurrentState);
-        };
-
-        urlIn.oninput = () => {
-            const v = urlIn.value.trim();
-            if (v) {
-                const isAnim = /\.(gif|apng|webp)(\?|$)/i.test(v);
-                update(v, isAnim);
-            }
-        };
-
-        fileIn.onchange = async () => {
-            const f = fileIn.files[0];
-            if (!f) return;
-            const isAnimated = /\.(gif|apng|webp)$/i.test(f.name) ||
-                ["image/gif","image/apng","image/webp"].includes(f.type);
-            const maxSize = isAnimated ? 5 * 1024 * 1024 : 2 * 1024 * 1024;
-            if (f.size > maxSize) {
-                toast(`${isAnimated ? "Animação" : "Imagem"} muito grande (máx ${isAnimated ? "5MB" : "2MB"})`, "error");
-                return;
-            }
-            const data = await fileToDataURL(f);
-            update(data, isAnimated);
-            toast(`${isAnimated ? "🎞️ Animação" : "🖼️ Imagem"} carregada: ${state.label}`, "success");
-            setTimeout(() => renderCursorStatesEditor(), 100);
-        };
-
-        removeBtn.onclick = () => {
-            urlIn.value = "";
-            fileIn.value = "";
-            update("");
-            toast(`Removido: ${state.label}`, "info");
-            setTimeout(() => renderCursorStatesEditor(), 100);
-        };
-
-        container.appendChild(item);
-    });
-
-    $("cursorSizeSlider").oninput = () => {
-        profile.cursorSize = Number($("cursorSizeSlider").value);
-        $("cursorSizeVal").textContent = profile.cursorSize + "px";
-        applyCursorSizes();
-    };
-    $("trailSizeSlider").oninput = () => {
-        profile.trailSize = Number($("trailSizeSlider").value);
-        $("trailSizeVal").textContent = profile.trailSize + "px";
-        applyCursorSizes();
-    };
-    $("trailDurationSlider").oninput = () => {
-        profile.trailDuration = Number($("trailDurationSlider").value);
-        $("trailDurationVal").textContent = profile.trailDuration + "s";
-    };
-    $("cursorPixelated").onchange = () => {
-        profile.cursorPixelated = $("cursorPixelated").checked;
-        applyCursorSizes();
-    };
-    $("resetCursorsBtn").onclick = () => {
-        if (!confirm("Remover todos os PNGs/GIFs do cursor?")) return;
-        profile.cursors = {};
-        renderCursorStatesEditor();
-        applyCursorSizes();
-        setCursorState("normal");
-        toast("Cursors resetados", "info");
-    };
-}
-
-function openAdminPanel() {
+function loadAdminData() {
     if (!profile) return;
     $("editName").value = profile.name || "";
     $("editTitle").value = profile.title || "";
@@ -3151,7 +3011,28 @@ function openAdminPanel() {
     $("secondaryColor").value = profile.secondary || "#06b6d4";
     $("backgroundInterval").value = profile.backgroundInterval || 8;
     $("blurAmount").value = profile.blur || 0;
-
+    
+    // Backgrounds
+    renderBackgroundList();
+    
+    // Links
+    $("linksEditor").innerHTML = "";
+    (profile.links || []).forEach(link => addLinkRow(link.name, link.url));
+    
+    // Badges
+    $("badgesEditor").innerHTML = "";
+    (profile.badges || []).forEach(b => addBadgeRow(b));
+    
+    // Forum
+    renderForumAdmin();
+    
+    // Friends
+    $("friendsEditor").innerHTML = "";
+    (profile.friends || []).forEach(f => addFriendRow(f));
+    
+    // Music
+    $("musicEditor").innerHTML = "";
+    playlist.forEach(song => addMusicRow(song));
     $("musicAutoplay").checked = !!profile.autoplay;
     $("musicLoop").checked = profile.loop !== false;
     $("musicShuffle").checked = !!profile.shuffle;
@@ -3159,389 +3040,460 @@ function openAdminPanel() {
     $("musicFadeIn").checked = profile.musicFadeIn !== false;
     $("fadeDuration").value = profile.fadeDuration || 3;
     $("fadeDurationVal").textContent = (profile.fadeDuration || 3) + "s";
-
-    $("effectGlow").checked = profile.glow !== false;
-    $("effectParticles").checked = profile.effectParticles !== false;
-    $("effectVinyl").checked = profile.effectVinyl !== false;
-    $("effectCursor").checked = profile.effectCursor !== false;
-    $("effectRing").checked = profile.effectRing !== false;
-    $("effectAmbient").checked = !!profile.effectAmbient;
-
-    $("linksEditor").innerHTML = "";
-    (profile.links || []).forEach(l => addLinkRow(l.name, l.url));
-    $("badgesEditor").innerHTML = "";
-    (profile.badges || []).forEach(b => addBadgeRow(b));
-
-    renderBackgroundList();
-    renderMusicEditor();
-    renderArtsEditor();
-    renderFriendsEditor();
-    renderCursorStatesEditor();
+    
+    // Cursor states
+    renderCursorStatesAdmin();
+    
+    // Effects / settings
+    applySettingsToUI();
     initVideoBgInputs();
-
+    
+    // Stats
     $("statSongs").textContent = playlist.length;
-    $("statArts").textContent = (profile.arts || []).length;
+    $("statThreads").textContent = (profile.forumThreads || []).length;
     $("statFriends").textContent = (profile.friends || []).length;
-    $("statBackgrounds").textContent = (profile.backgrounds || []).length;
-
-    openModal("adminModal");
+    $("statBackgrounds").textContent = backgrounds.length;
 }
 
-async function saveProfile() {
-    if (!auth.currentUser) { toast("Faça login primeiro", "error"); return; }
+async function saveAdminData() {
     document.body.classList.add("busy");
+    $("saveButton").disabled = true;
+    $("saveButton").textContent = "💾 Salvando...";
     try {
-        profile.name = $("editName").value.trim() || profile.name;
+        profile.name = $("editName").value.trim() || "Meu Perfil";
         profile.title = $("editTitle").value.trim();
-        profile.description = $("editDescription").value.trim();
+        profile.description = $("editDescription").value;
         profile.primary = $("primaryColor").value;
         profile.secondary = $("secondaryColor").value;
         profile.backgroundInterval = Number($("backgroundInterval").value) || 8;
         profile.blur = Number($("blurAmount").value) || 0;
-
+        
+        // Backgrounds
+        profile.backgrounds = [...backgrounds];
+        
+        // Avatar
+        if (pendingAvatar) { profile.avatar = pendingAvatar; pendingAvatar = ""; }
+        
+        // Links
+        profile.links = [];
+        $("linksEditor").querySelectorAll(".admin-item").forEach(row => {
+            const name = row.querySelector(".link-name")?.value.trim();
+            const url = row.querySelector(".link-url")?.value.trim();
+            if (url) profile.links.push({ name: name || url, url });
+        });
+        
+        // Badges
+        profile.badges = [];
+        $("badgesEditor").querySelectorAll(".admin-item").forEach(row => {
+            const text = row.querySelector(".badge-text")?.value.trim();
+            if (text) profile.badges.push(text);
+        });
+        
+        // Forum categories & threads (already synced via object refs, but ensure arrays)
+        profile.forumCategories = profile.forumCategories || [];
+        profile.forumThreads = profile.forumThreads || [];
+        
+        // Friends (already synced via object refs)
+        profile.friends = profile.friends || [];
+        
+        // Music settings
+        profile.playlist = [...playlist];
+        profile.autoplay = $("musicAutoplay").checked;
+        profile.loop = $("musicLoop").checked;
+        profile.shuffle = $("musicShuffle").checked;
+        profile.musicChangeBackground = $("musicChangeBackground").checked;
+        profile.musicFadeIn = $("musicFadeIn").checked;
+        profile.fadeDuration = Number($("fadeDuration").value);
+        
+        // Video BG
         profile.videoBg = videoBgData || "";
-        profile.videoBgEnabled = !!videoBgEnabled;
-        profile.videoBlur = Number($("videoBlur").value) || 0;
+        profile.videoBgEnabled = videoBgEnabled;
+        profile.videoBlur = Number($("videoBlur").value);
         profile.videoLoop = $("videoLoop").checked;
         profile.videoMuted = $("videoMuted").checked;
-
-        profile.cursors = profile.cursors || {};
-        profile.cursorSize = Number($("cursorSizeSlider").value) || 22;
-        profile.trailSize = Number($("trailSizeSlider").value) || 8;
-        profile.trailDuration = Number($("trailDurationSlider").value) || 0.8;
+        
+        // Cursor
+        profile.cursorSize = Number($("cursorSizeSlider").value);
+        profile.trailSize = Number($("trailSizeSlider").value);
+        profile.trailDuration = Number($("trailDurationSlider").value);
         profile.cursorPixelated = $("cursorPixelated").checked;
-
+        
+        // Effects
         profile.glow = $("effectGlow").checked;
         profile.effectParticles = $("effectParticles").checked;
         profile.effectVinyl = $("effectVinyl").checked;
         profile.effectCursor = $("effectCursor").checked;
         profile.effectRing = $("effectRing").checked;
         profile.effectAmbient = $("effectAmbient").checked;
-
-        profile.playlist = playlist;
-        profile.autoplay = $("musicAutoplay").checked;
-        profile.loop = $("musicLoop").checked;
-        profile.shuffle = $("musicShuffle").checked;
-        profile.musicChangeBackground = $("musicChangeBackground").checked;
-        profile.musicFadeIn = $("musicFadeIn").checked;
-        profile.fadeDuration = Number($("fadeDuration").value) || 3;
-
-        profile.links = collectLinks();
-        profile.badges = collectBadges();
-
+        
+        settings.particleCount = Number($("optParticleCount").value);
+        settings.particleSpeed = Number($("optParticleSpeed").value);
+        settings.particleSize = Number($("optParticleSize").value);
+        settings.particleOpacity = Number($("optParticleOpacity").value);
+        settings.cursorTrail = $("optCursorTrail").checked;
+        settings.clickRipple = $("optClickRipple").checked;
+        settings.clickParticles = $("optClickParticles").checked;
+        settings.entryAnim = $("optEntryAnim").value;
+        settings.entrySpeed = Number($("optEntrySpeed").value);
+        settings.ambientFog = $("optAmbientFog").checked;
+        settings.ambientAurora = $("optAmbientAurora").checked;
+        settings.ambientWaves = $("optAmbientWaves").checked;
+        settings.clickSound = $("optClickSound").checked;
+        settings.soundVolume = Number($("optSoundVolume").value);
+        settings.glowIntensity = Number($("optGlow").value);
+        
+        saveSettings();
+        
         await db.ref(PROFILE_PATH).set(profile);
-        toast("Perfil salvo com sucesso!", "success");
+        
+        // Reapply
         applyProfile();
-        closeModal("adminModal");
-    } catch(e) {
+        toast("Salvo com sucesso!", "success");
+    } catch (e) {
         console.error(e);
         toast("Erro ao salvar: " + e.message, "error");
-    } finally {
-        document.body.classList.remove("busy");
     }
+    document.body.classList.remove("busy");
+    $("saveButton").disabled = false;
+    $("saveButton").textContent = "💾 SALVAR TUDO";
 }
 
 /* =========================================================
-   INICIALIZAÇÃO
+   ADMIN: BUTTONS
 ========================================================= */
-document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll(".page-tab").forEach(tab => {
-        tab.onclick = () => switchPage(tab.dataset.page);
+$("addLink").onclick = () => addLinkRow();
+$("addBadge").onclick = () => {
+    const v = $("badgeInput").value.trim();
+    if (v) { addBadgeRow(v); $("badgeInput").value = ""; }
+};
+$("addForumCat").onclick = () => {
+    const name = $("forumCatName").value.trim();
+    const icon = $("forumCatIcon").value.trim() || "💬";
+    if (!name) { toast("Digite um nome", "error"); return; }
+    if (!profile.forumCategories) profile.forumCategories = [];
+    profile.forumCategories.push({ id: uid(), name, icon });
+    $("forumCatName").value = "";
+    $("forumCatIcon").value = "";
+    renderForumAdmin();
+    renderForum();
+    toast("Categoria adicionada", "success");
+};
+$("addForumThread").onclick = () => {
+    const catId = $("forumThreadCategory").value;
+    const title = $("forumThreadTitle").value.trim();
+    const content = $("forumThreadContent").value.trim();
+    const imgUrl = $("forumThreadImageUrl").value.trim();
+    const pinned = $("forumThreadPinned").checked;
+    if (!catId) { toast("Crie/selecione uma categoria", "error"); return; }
+    if (!title) { toast("Digite um título", "error"); return; }
+    if (!profile.forumThreads) profile.forumThreads = [];
+    profile.forumThreads.push({
+        id: uid(),
+        categoryId: catId,
+        title,
+        content,
+        image: imgUrl || pendingThreadImage || "",
+        createdAt: Date.now(),
+        pinned
     });
-
-    $("miniPlayBtn").onclick = () => togglePlay();
-    $("playBtn").onclick = togglePlay;
-    $("vinyl").onclick = togglePlay;
-    $("prevBtn").onclick = () => {
-        if (!playlist.length) return;
-        currentSong--;
-        if (currentSong < 0) currentSong = playlist.length - 1;
-        loadSong();
-        playMusic();
+    $("forumThreadTitle").value = "";
+    $("forumThreadContent").value = "";
+    $("forumThreadImageUrl").value = "";
+    $("forumThreadImageFile").value = "";
+    $("forumThreadPinned").checked = false;
+    pendingThreadImage = "";
+    renderForumAdmin();
+    renderForum();
+    toast("Tópico publicado", "success");
+};
+$("forumThreadImageFile").onchange = async () => {
+    const f = $("forumThreadImageFile").files[0];
+    if (!f) return;
+    if (f.size > 2 * 1024 * 1024) { toast("Imagem muito grande (máx 2MB)", "error"); return; }
+    pendingThreadImage = await fileToDataURL(f);
+    toast("Imagem carregada", "success");
+};
+$("addFriendBtn").onclick = () => {
+    const name = $("friendNameInput").value.trim();
+    if (!name) { toast("Digite um nome", "error"); return; }
+    if (!profile.friends) profile.friends = [];
+    const friend = {
+        name,
+        description: $("friendDescInput").value.trim(),
+        avatar: $("friendAvatarInput").value.trim(),
+        discordId: $("friendDiscordIdInput").value.trim(),
+        link: $("friendLinkInput").value.trim()
     };
-    $("nextBtn").onclick = () => nextSong();
-    $("shuffleBtn").onclick = () => {
-        profile.shuffle = !profile.shuffle;
-        $("shuffleBtn").classList.toggle("active", profile.shuffle);
-        savePlaylistLocal();
-        toast(profile.shuffle ? "Shuffle ON" : "Shuffle OFF", "info");
-    };
-    $("repeatBtn").onclick = () => {
-        profile.loop = !profile.loop;
-        $("repeatBtn").classList.toggle("active", profile.loop);
-        savePlaylistLocal();
-        toast(profile.loop ? "Repetir playlist" : "Repetir OFF", "info");
-    };
-    $("muteBtn").onclick = () => {
-        isMuted = !isMuted;
-        audio.muted = isMuted;
-        if (ytPlayer && ytPlayer.setVolume) ytPlayer.setVolume(isMuted ? 0 : Number(els.volume.value) * 100);
-        $("muteBtn").textContent = isMuted ? "🔇" : "🔊";
-    };
-    $("progress").oninput = () => {
-        if (isYouTubeCurrent()) {
-            if (ytPlayer && ytPlayer.seekTo) {
-                const dur = ytPlayer.getDuration ? ytPlayer.getDuration() : 0;
-                if (dur) ytPlayer.seekTo((Number(els.progress.value) / 100) * dur, true);
-            }
-            return;
-        }
-        if (!audio.duration) return;
-        audio.currentTime = (Number(els.progress.value) / 100) * audio.duration;
-    };
-    $("volume").oninput = () => {
-        const v = Number(els.volume.value);
-        if (!fadeInterval) audio.volume = v;
-        if (ytPlayer && ytPlayer.setVolume) ytPlayer.setVolume(v * 100);
-    };
-
-    const themeGrid = $("themeGrid");
-    Object.keys(THEMES).forEach(theme => {
-        const chip = document.createElement("div");
-        chip.className = "theme-chip " + theme;
-        chip.dataset.theme = theme;
-        chip.textContent = theme.charAt(0).toUpperCase() + theme.slice(1);
-        chip.onclick = () => applyTheme(theme);
-        themeGrid.appendChild(chip);
-    });
-
-    $("adminButton").onclick = () => {
-        if (auth.currentUser) openAdminPanel();
-        else openModal("loginModal");
-    };
-    $("themeToggle").onclick = () => {
-        const dark = ["default","dark","midnight","celestial","gothic","cherry"].includes(settings.theme);
-        applyTheme(dark ? "minimal" : "default");
-    };
-    $("effectsPanelBtn").onclick = () => { openModal("effectsModal"); applySettingsToUI(); };
-    $("randomThemeBtn").onclick = () => {
-        const keys = Object.keys(THEMES);
-        applyTheme(keys[Math.floor(Math.random() * keys.length)]);
-    };
-    $("themeRandom").onclick = () => {
-        const keys = Object.keys(THEMES);
-        applyTheme(keys[Math.floor(Math.random() * keys.length)]);
-    };
-    $("themeReset").onclick = () => applyTheme("default");
-
-    document.querySelectorAll(".mode-chip").forEach(chip => {
-        chip.onclick = () => applyMode(chip.dataset.mode);
-    });
-
-    function bindToggle(id, key, cb) {
-        $(id).onchange = () => {
-            settings[key] = $(id).checked;
-            saveSettings();
-            if (cb) cb();
-        };
+    profile.friends.push(friend);
+    $("friendNameInput").value = "";
+    $("friendDescInput").value = "";
+    $("friendAvatarInput").value = "";
+    $("friendDiscordIdInput").value = "";
+    $("friendLinkInput").value = "";
+    addFriendRow(friend);
+    renderFriends();
+    toast("Amigo adicionado", "success");
+};
+$("musicFiles").onchange = async () => {
+    const files = [...$("musicFiles").files];
+    for (const f of files) {
+        if (f.size > 5 * 1024 * 1024) { toast(`"${f.name}" muito grande (máx 5MB)`, "error"); continue; }
+        const data = await fileToDataURL(f);
+        const song = { name: f.name.replace(/\.[^.]+$/, ""), source: "local", data };
+        playlist.push(song);
+        addMusicRow(song);
     }
-    function bindRange(id, key, valId, cb) {
-        $(id).oninput = () => {
-            settings[key] = Number($(id).value);
-            if (valId) $(valId).textContent = settings[key];
-            saveSettings();
-            if (cb) cb();
-        };
+    renderPlaylist();
+    savePlaylistLocal();
+    $("musicFiles").value = "";
+    toast(files.length + " música(s) adicionada(s)", "success");
+};
+$("addYoutubeBtn").onclick = () => {
+    const url = $("youtubeUrlInput").value.trim();
+    if (!url) return;
+    const id = extractYouTubeId(url);
+    if (!id) { toast("Link inválido", "error"); return; }
+    const song = { name: "YouTube: " + id, source: "youtube", data: url, videoId: id };
+    playlist.push(song);
+    addMusicRow(song);
+    $("youtubeUrlInput").value = "";
+    renderPlaylist();
+    savePlaylistLocal();
+    toast("Vídeo adicionado", "success");
+};
+$("avatarFile").onchange = async () => {
+    const f = $("avatarFile").files[0];
+    if (!f) return;
+    if (f.size > 2 * 1024 * 1024) { toast("Imagem muito grande (máx 2MB)", "error"); return; }
+    pendingAvatar = await fileToDataURL(f);
+    els.avatar.src = pendingAvatar;
+    toast("Avatar carregado", "success");
+};
+$("backgroundFiles").onchange = async () => {
+    const files = [...$("backgroundFiles").files];
+    for (const f of files) {
+        if (f.size > 3 * 1024 * 1024) { toast(`"${f.name}" muito grande (máx 3MB)`, "error"); continue; }
+        backgrounds.push(await fileToDataURL(f));
     }
-
-    bindToggle("optParticles", "particles", () => initParticles());
-    bindRange("optParticleCount", "particleCount", "valParticleCount", () => initParticles());
-    bindRange("optParticleSpeed", "particleSpeed", "valParticleSpeed", () => initParticles());
-    bindRange("optParticleSize", "particleSize", "valParticleSize", () => initParticles());
-    bindRange("optParticleOpacity", "particleOpacity", "valParticleOpacity", () => initParticles());
-
-    bindToggle("optCursor", "cursor", () => initCursor());
-    bindToggle("optCursorTrail", "cursorTrail");
-    bindToggle("optClickRipple", "clickRipple");
-    bindToggle("optClickParticles", "clickParticles");
-
-    $("optEntryAnim").onchange = () => {
-        settings.entryAnim = $("optEntryAnim").value;
+    renderBackgroundList();
+    $("backgroundFiles").value = "";
+    toast(files.length + " fundo(s) carregado(s)", "success");
+};
+$("resetCursorsBtn").onclick = () => {
+    if (!confirm("Remover todos os cursores personalizados?")) return;
+    profile.cursors = {};
+    renderCursorStatesAdmin();
+    setCursorState(cursorCurrentState);
+    toast("Cursores removidos", "info");
+};
+$("cursorSizeSlider").oninput = e => {
+    const v = Number(e.target.value);
+    $("cursorSizeVal").textContent = v + "px";
+    document.documentElement.style.setProperty("--cursor-size", v + "px");
+    if (profile) profile.cursorSize = v;
+};
+$("trailSizeSlider").oninput = e => {
+    const v = Number(e.target.value);
+    $("trailSizeVal").textContent = v + "px";
+    document.documentElement.style.setProperty("--trail-size", v + "px");
+    if (profile) profile.trailSize = v;
+};
+$("trailDurationSlider").oninput = e => {
+    const v = Number(e.target.value);
+    $("trailDurationVal").textContent = v + "s";
+    if (profile) profile.trailDuration = v;
+};
+$("cursorPixelated").onchange = e => {
+    if (profile) profile.cursorPixelated = e.target.checked;
+    els.cursor.classList.toggle("pixelated", e.target.checked);
+};
+$("optParticleCount").oninput = e => {
+    settings.particleCount = Number(e.target.value);
+    $("valParticleCount").textContent = e.target.value;
+    saveSettings();
+    initParticles();
+};
+$("optParticleSpeed").oninput = e => {
+    settings.particleSpeed = Number(e.target.value);
+    $("valParticleSpeed").textContent = e.target.value;
+    saveSettings();
+    initParticles();
+};
+$("optParticleSize").oninput = e => {
+    settings.particleSize = Number(e.target.value);
+    $("valParticleSize").textContent = e.target.value;
+    saveSettings();
+    initParticles();
+};
+$("optParticleOpacity").oninput = e => {
+    settings.particleOpacity = Number(e.target.value);
+    $("valParticleOpacity").textContent = e.target.value;
+    saveSettings();
+    initParticles();
+};
+$("optEntrySpeed").oninput = e => {
+    settings.entrySpeed = Number(e.target.value);
+    $("valEntrySpeed").textContent = e.target.value + "s";
+    saveSettings();
+    document.documentElement.style.setProperty("--entry-speed", settings.entrySpeed + "s");
+};
+$("optEntryAnim").onchange = e => {
+    settings.entryAnim = e.target.value;
+    saveSettings();
+    if (profile) applyProfile();
+};
+$("optGlow").oninput = e => {
+    settings.glowIntensity = Number(e.target.value);
+    $("valGlow").textContent = e.target.value;
+    document.documentElement.style.setProperty("--glow-intensity", e.target.value);
+    saveSettings();
+};
+$("optSoundVolume").oninput = e => {
+    settings.soundVolume = Number(e.target.value);
+    $("valSoundVolume").textContent = e.target.value;
+    saveSettings();
+};
+["optCursorTrail","optClickRipple","optClickParticles","optClickSound",
+ "optAmbientFog","optAmbientAurora","optAmbientWaves"].forEach(id => {
+    $(id).onchange = e => {
+        const key = id.replace("opt", "").replace(/^./, c => c.toLowerCase());
+        settings[key] = e.target.checked;
         saveSettings();
-        applyProfile();
-    };
-    $("optEntrySpeed").oninput = () => {
-        settings.entrySpeed = Number($("optEntrySpeed").value);
-        $("valEntrySpeed").textContent = settings.entrySpeed + "s";
-        document.documentElement.style.setProperty("--entry-speed", settings.entrySpeed + "s");
-        saveSettings();
-    };
-
-    bindToggle("optAmbientFog", "ambientFog", () => updateAmbient());
-    bindToggle("optAmbientAurora", "ambientAurora", () => updateAmbient());
-    bindToggle("optAmbientWaves", "ambientWaves", () => updateAmbient());
-
-    bindToggle("optClickSound", "clickSound");
-    $("optSoundVolume").oninput = () => {
-        settings.soundVolume = Number($("optSoundVolume").value);
-        $("valSoundVolume").textContent = settings.soundVolume;
-        saveSettings();
-    };
-
-    $("optGlow").oninput = () => {
-        settings.glowIntensity = Number($("optGlow").value);
-        $("valGlow").textContent = settings.glowIntensity;
-        document.documentElement.style.setProperty("--glow-intensity", settings.glowIntensity);
-        saveSettings();
-    };
-
-    $("closeEffectsBtn").onclick = () => closeModal("effectsModal");
-    $("resetAll").onclick = () => {
-        settings = { ...DEFAULT_SETTINGS };
-        saveSettings();
-        applySettingsToUI();
-        applyTheme("default");
-        initParticles();
-        initCursor();
         updateAmbient();
-        toast("Configurações restauradas", "success");
     };
-
-    $("loginButton").onclick = async () => {
-        const email = $("loginEmail").value.trim();
-        const password = $("loginPassword").value;
-        if (!email || !password) { toast("Preencha todos os campos", "error"); return; }
-        try {
-            await auth.signInWithEmailAndPassword(email, password);
-            closeModal("loginModal");
-            toast("Bem-vindo!", "success");
-        } catch (e) { toast("Erro: " + e.message, "error"); }
-    };
-    auth.onAuthStateChanged(user => { if (user) $("adminUserEmail").textContent = user.email; });
-
-    $("saveButton").onclick = saveProfile;
-    $("logoutButton").onclick = () => {
-        auth.signOut();
-        closeModal("adminModal");
-        toast("Sessão encerrada", "info");
-    };
-
-    $("addLink").onclick = () => addLinkRow("", "");
-    $("addBadge").onclick = () => {
-        const v = $("badgeInput").value.trim();
-        if (!v) return;
-        addBadgeRow(v);
-        $("badgeInput").value = "";
-    };
-
-    $("avatarFile").onchange = async () => {
-        const file = $("avatarFile").files[0];
-        if (!file) return;
-        profile.avatar = await fileToDataURL(file);
-        els.avatar.src = profile.avatar;
-        els.vinylCover.src = profile.avatar;
-        els.avatar.classList.add("loaded");
-        toast("Avatar carregado (salve para confirmar)", "info");
-    };
-
-    $("backgroundFiles").onchange = async () => {
-        const files = $("backgroundFiles").files;
-        if (!files.length) return;
-        for (const f of files) {
-            const data = await fileToDataURL(f);
-            profile.backgrounds = profile.backgrounds || [];
-            profile.backgrounds.push(data);
-        }
-        backgrounds = profile.backgrounds;
-        renderBackgroundList();
-        startBackgrounds();
-        toast(`${files.length} fundo(s) adicionado(s)`, "info");
-    };
-
-    $("addYoutubeBtn").onclick = () => {
-        const url = $("youtubeUrlInput").value.trim();
-        if (!url) return;
-        const id = extractYouTubeId(url);
-        if (!id) { toast("Link inválido", "error"); return; }
-        playlist.push({ name: "YouTube " + id, source: "youtube", data: url, videoId: id });
-        $("youtubeUrlInput").value = "";
-        renderPlaylist();
-        renderMusicEditor();
-        toast("Música adicionada", "success");
-    };
-
-    $("musicFiles").onchange = async () => {
-        const files = $("musicFiles").files;
-        if (!files.length) return;
-        for (const f of files) {
-            const data = await fileToDataURL(f);
-            playlist.push({ name: f.name, source: "file", data });
-        }
-        renderPlaylist();
-        renderMusicEditor();
-        toast(`${files.length} música(s) adicionada(s)`, "info");
-    };
-
-    $("musicAutoplay").onchange = () => { if (profile) profile.autoplay = $("musicAutoplay").checked; };
-    $("musicLoop").onchange = () => { if (profile) profile.loop = $("musicLoop").checked; };
-    $("musicShuffle").onchange = () => { if (profile) profile.shuffle = $("musicShuffle").checked; };
-    $("musicChangeBackground").onchange = () => { if (profile) profile.musicChangeBackground = $("musicChangeBackground").checked; };
-    $("musicFadeIn").onchange = () => { if (profile) profile.musicFadeIn = $("musicFadeIn").checked; };
-    $("fadeDuration").oninput = () => {
-        $("fadeDurationVal").textContent = $("fadeDuration").value + "s";
-        if (profile) profile.fadeDuration = Number($("fadeDuration").value);
-    };
-
-    $("addArtBtn").onclick = async () => {
-        let image = $("artImageUrl").value.trim();
-        const file = $("artImageFile").files[0];
-        if (file) image = await fileToDataURL(file);
-        if (!image) { toast("Selecione uma imagem", "error"); return; }
-        const art = {
-            image,
-            title: $("artTitleInput").value.trim(),
-            description: $("artDescInput").value.trim(),
-            link: $("artLinkInput").value.trim()
-        };
-        profile.arts = profile.arts || [];
-        profile.arts.push(art);
-        $("artImageUrl").value = "";
-        $("artImageFile").value = "";
-        $("artTitleInput").value = "";
-        $("artDescInput").value = "";
-        $("artLinkInput").value = "";
-        renderArtes();
-        renderArtsEditor();
-        toast("Arte adicionada", "success");
-    };
-
-    $("addFriendBtn").onclick = () => {
-        const friend = {
-            name: $("friendNameInput").value.trim(),
-            discordId: $("friendDiscordIdInput").value.trim(),
-            avatar: $("friendAvatarInput").value.trim(),
-            link: $("friendLinkInput").value.trim(),
-            description: $("friendDescInput").value.trim()
-        };
-        if (!friend.name && !friend.discordId) { toast("Preencha nome ou ID", "error"); return; }
-        profile.friends = profile.friends || [];
-        profile.friends.push(friend);
-        $("friendNameInput").value = "";
-        $("friendDiscordIdInput").value = "";
-        $("friendAvatarInput").value = "";
-        $("friendLinkInput").value = "";
-        $("friendDescInput").value = "";
-        renderFriends();
-        renderFriendsEditor();
-        refreshFriendStatuses();
-        toast("Amigo adicionado", "success");
-    };
-
-    document.querySelectorAll(".modal").forEach(modal => {
-        modal.onclick = (e) => { if (e.target === modal) modal.classList.remove("show"); };
-    });
-    document.addEventListener("keydown", e => {
-        if (e.key === "Escape") document.querySelectorAll(".modal.show").forEach(m => m.classList.remove("show"));
-    });
-
-    const savedPage = localStorage.getItem("current_page");
-    if (savedPage) switchPage(savedPage);
-
-    initVideoBgInputs();
-    applyVideoBackground();
-    loadProfile();
 });
-</script>
+$("resetAllEffects").onclick = () => {
+    Object.assign(settings, DEFAULT_SETTINGS);
+    saveSettings();
+    applySettingsToUI();
+    initParticles();
+    initCursor();
+    updateAmbient();
+    toast("Efeitos restaurados", "info");
+};
+document.querySelectorAll(".mode-chip").forEach(chip => {
+    chip.onclick = () => applyMode(chip.dataset.mode);
+});
+$("fadeDuration").oninput = e => {
+    $("fadeDurationVal").textContent = e.target.value + "s";
+    if (profile) profile.fadeDuration = Number(e.target.value);
+};
+$("saveButton").onclick = saveAdminData;
 
+/* =========================================================
+   AUTH
+========================================================= */
+function openAdminModal() {
+    if (auth.currentUser) {
+        loadAdminData();
+        openModal("adminModal");
+    } else {
+        openModal("loginModal");
+    }
+}
+$("adminButton").onclick = openAdminModal;
+$("loginButton").onclick = async () => {
+    const email = $("loginEmail").value.trim();
+    const password = $("loginPassword").value;
+    if (!email || !password) { toast("Preencha e-mail e senha", "error"); return; }
+    try {
+        await auth.signInWithEmailAndPassword(email, password);
+        $("loginEmail").value = "";
+        $("loginPassword").value = "";
+        closeModal("loginModal");
+        loadAdminData();
+        openModal("adminModal");
+        toast("Login realizado", "success");
+    } catch (e) {
+        toast("Falha no login: " + e.message, "error");
+    }
+};
+$("loginPassword").onkeydown = e => { if (e.key === "Enter") $("loginButton").click(); };
+$("logoutButton").onclick = async () => {
+    await auth.signOut();
+    closeModal("adminModal");
+    toast("Logout realizado", "info");
+};
+auth.onAuthStateChanged(user => {
+    if (user) $("adminUserEmail").textContent = user.email;
+    else $("adminUserEmail").textContent = "Não autenticado";
+});
+
+/* =========================================================
+   THEME / NAV
+========================================================= */
+$("themeToggle").onclick = () => openModal("themePickerModal");
+$("randomThemeBtn").onclick = () => {
+    const keys = Object.keys(THEMES);
+    const theme = keys[Math.floor(Math.random() * keys.length)];
+    applyTheme(theme);
+};
+$("themeRandom").onclick = () => $("randomThemeBtn").click();
+$("themeReset").onclick = () => applyTheme("default");
+
+document.querySelectorAll(".page-tab").forEach(tab => {
+    tab.onclick = () => switchPage(tab.dataset.page);
+});
+
+/* =========================================================
+   PLAYER CONTROLS
+========================================================= */
+els.playBtn.onclick = togglePlay;
+els.miniPlayBtn.onclick = togglePlay;
+$("prevBtn").onclick = () => {
+    if (!playlist.length) return;
+    currentSong = (currentSong - 1 + playlist.length) % playlist.length;
+    loadSong();
+    playMusic();
+};
+$("nextBtn").onclick = () => nextSong();
+$("shuffleBtn").onclick = () => {
+    profile.shuffle = !profile.shuffle;
+    $("shuffleBtn").classList.toggle("active", profile.shuffle);
+    toast("Aleatório: " + (profile.shuffle ? "on" : "off"), "info");
+};
+$("repeatBtn").onclick = () => {
+    profile.loop = !profile.loop;
+    $("repeatBtn").classList.toggle("active", profile.loop);
+    toast("Repetir: " + (profile.loop ? "on" : "off"), "info");
+};
+$("muteBtn").onclick = () => {
+    if (audio.muted) { audio.muted = false; $("muteBtn").textContent = "🔊"; }
+    else { audio.muted = true; $("muteBtn").textContent = "🔇"; }
+};
+els.volume.oninput = e => {
+    audio.volume = Number(e.target.value);
+    if (ytPlayer && ytReady && ytPlayer.setVolume) ytPlayer.setVolume(Number(e.target.value) * 100);
+    if (Number(e.target.value) > 0) { audio.muted = false; $("muteBtn").textContent = "🔊"; }
+};
+els.progress.oninput = e => {
+    if (isYouTubeCurrent()) {
+        if (ytPlayer && ytReady && ytPlayer.getDuration) {
+            const dur = ytPlayer.getDuration();
+            ytPlayer.seekTo((Number(e.target.value) / 100) * dur, true);
+        }
+    } else if (audio.duration) {
+        audio.currentTime = (Number(e.target.value) / 100) * audio.duration;
+    }
+};
+els.vinyl.onclick = togglePlay;
+
+/* =========================================================
+   SCROLL PROGRESS
+========================================================= */
+window.addEventListener("scroll", () => {
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = h > 0 ? (window.scrollY / h) * 100 : 0;
+    $("scrollProgress").style.width = pct + "%";
+}, { passive: true });
+
+/* =========================================================
+   INIT
+========================================================= */
+buildThemeGrids();
+const savedPage = localStorage.getItem("current_page");
+if (savedPage && ["home","foruns","amigos"].includes(savedPage)) switchPage(savedPage);
+loadProfile();
+</script>
 </body>
 </html>
