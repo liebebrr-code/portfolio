@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Meu Perfil • Experiência</title>
-<meta name="theme-color" content="#050509">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--primary:#8b5cf6;--secondary:#06b6d4;--pc:139,92,246;--bg:#050509;--muted:#a1a1aa;--card:rgba(15,15,25,.72);--border:rgba(255,255,255,.12);--radius:24px;--blur:18px;--card-w:760px;--dim:.5;--av:125px;--av-r:50%}
@@ -251,13 +250,13 @@ button,a,input,textarea,select{-webkit-tap-highlight-color:transparent}
 ::selection{background:rgba(var(--pc),.38);color:#fff}
 body.light .card,body.light .box,body.light .ibox{background:rgba(248,249,255,.88);color:#181827;border-color:rgba(30,30,60,.14)}
 body.light .desc,body.light .fd,body.light .ia{color:#55566b}body.light .lnk{color:#24243a;background:rgba(255,255,255,.65)}body.light .th,body.light .fr,body.light .sec{background:rgba(255,255,255,.62);border-color:rgba(30,30,60,.12)}body.light .inp{background:rgba(255,255,255,.8);color:#171727;border-color:rgba(30,30,60,.16)}
-@media(max-width:620px){:root{--blur:7px}.card,.ibox,#mini,.fb,.modal{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}.ring{filter:none}.card{box-shadow:0 12px 35px rgba(0,0,0,.4)}.wrap{align-items:flex-start;padding:16px 10px}.card{border-radius:22px;padding:23px 16px}.tab{font-size:11px;padding:10px 5px}.th{gap:10px;padding:11px}.th img,.th .ni{width:66px;height:66px}.friends{grid-template-columns:1fr}.box{padding:18px}.sec{padding:15px}.fl{right:12px;bottom:12px}.fb{width:44px;height:44px}}
-@media(prefers-reduced-motion:reduce){#fx,.ring,.trail,.rip{display:none!important}*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+@media(max-width:620px){.wrap{align-items:flex-start;padding:16px 10px}.card{border-radius:22px;padding:23px 16px}.tab{font-size:11px;padding:10px 5px}.th{gap:10px;padding:11px}.th img,.th .ni{width:66px;height:66px}.friends{grid-template-columns:1fr}.box{padding:18px}.sec{padding:15px}.fl{right:12px;bottom:12px}.fb{width:44px;height:44px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 
 </style>
 </head>
 <body>
-<div id="bg"></div><video id="bgv" muted loop playsinline preload="none"></video><canvas id="fx"></canvas><div id="prog"></div><div id="cur"></div>
+<div id="bg"></div><video id="bgv" autoplay muted loop playsinline></video><canvas id="fx"></canvas><div id="prog"></div><div id="cur"></div>
 <div id="loading"><div class="loader"></div></div>
 
 <main class="wrap"><section class="card" id="card">
@@ -304,9 +303,15 @@ body.light .desc,body.light .fd,body.light .ia{color:#55566b}body.light .lnk{col
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
 <script>
 firebase.initializeApp({apiKey:"AIzaSyB35ktkxiS_MPTrSflfHhBe5snYAV0iV6Q",authDomain:"myprofile-7db79.firebaseapp.com",databaseURL:"https://myprofile-7db79-default-rtdb.firebaseio.com",projectId:"myprofile-7db79",storageBucket:"myprofile-7db79.firebasestorage.app",messagingSenderId:"947862565874",appId:"1:947862565874:web:3116335ff6f1822f0df16b",measurementId:"G-KC2ZXS400D"});
-const auth=firebase.auth(),db=firebase.database(),PATH="profile";
+const auth=firebase.auth(),db=firebase.database(),storage=firebase.storage(),PATH="profile";
+/* IMPORTANTE: regras recomendadas (ajuste e publique no Firebase Console):
+Realtime Database: leitura pública somente se o perfil for público; escrita apenas auth.uid === UID_ADMIN.
+Storage: match /profile-media/{uid}/{allPaths=**} { allow read: if true; allow write: if request.auth != null && request.auth.uid == UID_ADMIN && request.resource.size < 30 * 1024 * 1024; }
+O HTML não consegue impor essas regras no servidor. Nunca use allow read, write: if true.
+*/
 const $=id=>document.getElementById(id),root=document.documentElement.style;
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const safeUrl=value=>{try{const u=new URL(String(value||""),location.href);return ["http:","https:"].includes(u.protocol)?u.href:""}catch(e){return ""}};
@@ -325,18 +330,20 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape")document.querySelect
 /* imagens: reduz antes de guardar (GIF fica intacto) */
 function shrink(src,max){return new Promise(ok=>{const im=new Image();im.onload=()=>{const r=Math.min(1,max/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=im.width*r;c.height=im.height*r;c.getContext("2d").drawImage(im,0,0,c.width,c.height);ok(c.toDataURL("image/jpeg",.82))};im.onerror=()=>ok("");im.src=src})}
 async function uploadMedia(file,folder="media"){
+  if(!auth.currentUser)throw new Error("Entre como administrador para enviar arquivos.");
   if(!file)throw new Error("Arquivo não selecionado.");
-  const t=file.type||"";
-  if(!/^(image|audio|video)\//.test(t))throw new Error("Formato de arquivo não permitido.");
-  const lim=t.startsWith("video/")?6:t.startsWith("audio/")?3:5;
-  if(file.size>lim*1024*1024)throw new Error(`Arquivo acima de ${lim} MB (o banco do Firebase tem limite). Use um link/URL para arquivos maiores.`);
-  let d=await toDataURL(file);
-  if(/^image\/(png|jpeg|webp)$/.test(t)&&file.size>300*1024)d=(await shrink(d,folder==="images"?1280:1600))||d;
-  return d;
+  const allowed=/^(image\/(png|jpeg|webp|gif)|audio\/(mpeg|mp3|wav|x-wav|ogg|mp4|aac|m4a|webm|x-m4a)|video\/(mp4|webm|ogg))$/i;
+  if(!allowed.test(file.type))throw new Error("Formato de arquivo não permitido.");
+  const limit=file.type.startsWith("video/")?30:file.type.startsWith("audio/")?15:5;
+  if(file.size>limit*1024*1024)throw new Error(`Arquivo acima do limite de ${limit} MB.`);
+  const clean=(file.name||"arquivo").normalize("NFKD").replace(/[^a-zA-Z0-9._-]/g,"_").slice(-70);
+  const ref=storage.ref(`profile-media/${auth.currentUser.uid}/${folder}/${Date.now()}_${uid()}_${clean}`);
+  const snap=await ref.put(file,{contentType:file.type,cacheControl:"public,max-age=3600"});
+  return await snap.ref.getDownloadURL();
 }
 async function readImg(f,max=600){
   if(!f||!f.type.startsWith("image/")){toast("Selecione uma imagem válida","error");return""}
-  try{return await uploadMedia(f,"images")}catch(e){toast(e.message||"Falha ao carregar imagem","error");return""}
+  try{return await uploadMedia(f,"images")}catch(e){toast(e.message||"Falha ao enviar imagem","error");return""}
 }
 
 /* ================= DADOS ================= */
@@ -368,7 +375,7 @@ function applyUI(){
   $("av").classList.toggle("click",on&&u.trigger!=="text");
 }
 function switchPage(p){
-  page=p;seen(p);if(p==="friends")refreshFriends();document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("on",t.dataset.p===p));
+  page=p;seen(p);document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("on",t.dataset.p===p));
   document.querySelectorAll(".page").forEach(e=>e.classList.toggle("on",e.id==="p-"+p));paintMini();
 }
 document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>switchPage(t.dataset.p));
@@ -392,7 +399,7 @@ function renderForum(){
   const list=th.filter(x=>forumCat==="all"||x.categoryId===forumCat).sort((a,b)=>(!!b.pinned-!!a.pinned)||(b.createdAt||0)-(a.createdAt||0));
   t.innerHTML=list.length?"":'<div class="empty"><b>📭</b>Nenhum tópico nesta categoria.</div>';
   list.forEach(x=>{const k=cats.find(c=>c.id===x.categoryId),d=document.createElement("div"),body=x.content||"";d.className="th";
-    d.innerHTML=`${x.image?`<img src="${esc(x.image)}" alt="" loading="lazy" decoding="async">`:'<div class="ni">💬</div>'}<div><div class="thh">${x.pinned?'<span class="tag pin">📌 Fixado</span>':""}${k?`<span class="tag">${esc(k.icon||"💬")} ${esc(k.name)}</span>`:""}<span class="dt">${fmtDate(x.createdAt)}</span></div><h3>${esc(x.title)}</h3><p>${esc(body.slice(0,150))}${body.length>150?"...":""}</p></div>`;
+    d.innerHTML=`${x.image?`<img src="${esc(x.image)}" alt="" loading="lazy">`:'<div class="ni">💬</div>'}<div><div class="thh">${x.pinned?'<span class="tag pin">📌 Fixado</span>':""}${k?`<span class="tag">${esc(k.icon||"💬")} ${esc(k.name)}</span>`:""}<span class="dt">${fmtDate(x.createdAt)}</span></div><h3>${esc(x.title)}</h3><p>${esc(body.slice(0,150))}${body.length>150?"...":""}</p></div>`;
     d.onclick=()=>{$("thT").textContent=x.title||"Tópico";const i=$("thI");i.style.display=x.image?"block":"none";if(x.image)i.src=x.image;$("thC").textContent=body;openM("mThread")};t.appendChild(d)});
 }
 const dAv=(id,h)=>h?`https://cdn.discordapp.com/avatars/${id}/${h}.${h.startsWith("a_")?"gif":"png"}?size=128`:`https://cdn.discordapp.com/embed/avatars/${Number(id)%5}.png`;
@@ -403,7 +410,7 @@ function renderFriends(){
   const g=$("friends");if(!P.friends.length){g.innerHTML='<div class="empty"><b>👥</b>Nenhum amigo adicionado ainda.</div>';return}
   g.innerHTML="";
   P.friends.forEach(f=>{const l=f.discordId&&friendCache[f.discordId]?.data,a=l?.activities?.find(x=>x.type!==4)||l?.activities?.[0],an=a&&(a.name||a.state||a.details),s=frStatus(f),d=document.createElement("div");d.className="fr";
-    d.innerHTML=`<div class="fav"><img src="${esc(frAvatar(f))}" alt="" loading="lazy" decoding="async">${s?`<span class="dot ${s}" title="${s}"></span>`:""}</div><div class="fi"><div class="fn">${esc(f.name||"Sem nome")}</div>${f.description?`<div class="fd">${esc(f.description)}</div>`:""}${an?`<div class="act">${["🎮","📺","🎵","👁️","✨"][a.type]||"💬"} ${esc(an)}</div>`:""}</div>`;
+    d.innerHTML=`<div class="fav"><img src="${esc(frAvatar(f))}" alt="" loading="lazy">${s?`<span class="dot ${s}" title="${s}"></span>`:""}</div><div class="fi"><div class="fn">${esc(f.name||"Sem nome")}</div>${f.description?`<div class="fd">${esc(f.description)}</div>`:""}${an?`<div class="act">${["🎮","📺","🎵","👁️","✨"][a.type]||"💬"} ${esc(an)}</div>`:""}</div>`;
     if(safeUrl(f.link)||f.discordId){d.style.cursor="pointer";d.onclick=()=>safeUrl(f.link)?window.open(safeUrl(f.link),"_blank","noopener,noreferrer"):navigator.clipboard.writeText(f.discordId).then(()=>toast("Discord ID copiado!","success"))}
     g.appendChild(d)});
 }
@@ -412,56 +419,43 @@ async function refreshFriends(){
   await Promise.all(ids.map(async id=>{const c=friendCache[id];if(c&&Date.now()-c.ts<30000)return;try{const j=await(await fetch("https://api.lanyard.rest/v1/users/"+id)).json();if(j.success)friendCache[id]={data:j.data,ts:Date.now()}}catch(e){}}));
   renderFriends();
 }
-setInterval(()=>{if(P&&!document.hidden&&(page==="friends"||P.live?.useDiscord))refreshFriends()},60000);
+setInterval(()=>{if(P&&!document.hidden)refreshFriends()},30000);
 
 /* ================= FUNDO ================= */
 let bgT,bgI=0;
 function startBg(){
   clearInterval(bgT);const bg=$("bg"),v=$("bgv"),b=P.backgrounds;
-  if(P.videoBgEnabled&&P.videoBg){
-    if(v.getAttribute("src")!==P.videoBg){v.pause();v.removeAttribute("src");v.load();v.src=P.videoBg}
-    v.classList.add("on");bg.classList.add("off");v.style.filter=P.videoBlur>0?`blur(${Math.min(8,P.videoBlur)}px)`:"none";
-    if(!document.hidden&&navigator.connection?.saveData!==true)v.play().catch(()=>{});
-  }else{v.pause();v.classList.remove("on");v.removeAttribute("src");v.load();bg.classList.remove("off");bg.style.filter=P.blur>0?`blur(${Math.min(8,P.blur)}px)`:"none"}
+  if(P.videoBgEnabled&&P.videoBg){if(v.getAttribute("src")!==P.videoBg)v.src=P.videoBg;v.classList.add("on");bg.classList.add("off");v.play().catch(()=>{});v.style.filter=P.videoBlur>0?`blur(${P.videoBlur}px)`:"none"}
+  else{v.pause();v.classList.remove("on");v.removeAttribute("src");bg.classList.remove("off");bg.style.filter=P.blur>0?`blur(${P.blur}px)`:"none"}
   if(!b.length){bg.style.backgroundImage="";return}
-  const next=()=>{if(document.hidden)return;bg.style.opacity=0;setTimeout(()=>{bg.style.backgroundImage=`url("${b[bgI%b.length]}")`;bg.style.opacity=1;bgI++},180)};
-  bgI=0;next();if(b.length>1)bgT=setInterval(next,Math.max(8,P.backgroundInterval||12)*1000);
+  const next=()=>{bg.style.opacity=0;setTimeout(()=>{bg.style.backgroundImage=`url("${b[bgI%b.length]}")`;bg.style.opacity=1;bgI++},300)};
+  bgI=0;next();if(b.length>1)bgT=setInterval(next,Math.max(1,P.backgroundInterval||8)*1000);
 }
 
-/* ================= PARTÍCULAS OTIMIZADAS ================= */
-const cv=$("fx"),cx=cv.getContext("2d",{alpha:true});let pts=[],raf=null,last=0;
-const lowPower=()=>innerWidth<700||navigator.connection?.saveData===true||matchMedia("(prefers-reduced-motion: reduce)").matches;
-function stopParticles(){if(raf!==null)cancelAnimationFrame(raf);raf=null;cx.clearRect(0,0,cv.width,cv.height)}
+/* ================= PARTÍCULAS ================= */
+const cv=$("fx"),cx=cv.getContext("2d");let pts=[],raf=null,last=0;
 function initParticles(){
-  stopParticles();pts=[];if(!P?.effectParticles||document.hidden||lowPower())return;
-  cv.width=Math.max(1,innerWidth);cv.height=Math.max(1,innerHeight);
-  const col=getComputedStyle(document.documentElement).getPropertyValue("--pc").trim();
-  const count=Math.min(Number(P.particleCount)||45,90);
-  pts=Array.from({length:count},()=>({x:Math.random()*cv.width,y:Math.random()*cv.height,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35,r:Math.random()*1.5+.5,o:Math.random()*.4+.2,c:col}));
-  last=0;raf=requestAnimationFrame(loop);
-}
-function loop(t){
-  if(document.hidden||!P?.effectParticles){stopParticles();return}
-  if(t-last<33){raf=requestAnimationFrame(loop);return}last=t;
-  cx.clearRect(0,0,cv.width,cv.height);
-  for(const p of pts){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>cv.width)p.vx*=-1;if(p.y<0||p.y>cv.height)p.vy*=-1;cx.beginPath();cx.arc(p.x,p.y,p.r,0,6.283);cx.fillStyle=`rgba(${p.c},${p.o})`;cx.fill()}
-  if(pts.length<=55){for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){const a=pts[i],b=pts[j],dx=a.x-b.x,dy=a.y-b.y,d2=dx*dx+dy*dy;if(d2<8100){cx.beginPath();cx.moveTo(a.x,a.y);cx.lineTo(b.x,b.y);cx.strokeStyle=`rgba(${a.c},${.1*(1-Math.sqrt(d2)/90)})`;cx.stroke()}}}
+  cancelAnimationFrame(raf);raf=null;cx.clearRect(0,0,cv.width,cv.height);if(!P.effectParticles)return;
+  cv.width=innerWidth;cv.height=innerHeight;const col=getComputedStyle(document.documentElement).getPropertyValue("--pc").trim();
+  pts=Array.from({length:Math.min(P.particleCount||60,180)},()=>({x:Math.random()*cv.width,y:Math.random()*cv.height,vx:(Math.random()-.5)*.5,vy:(Math.random()-.5)*.5,r:Math.random()*2+.5,o:Math.random()*.5+.3,c:col}));
   raf=requestAnimationFrame(loop);
 }
-document.addEventListener("visibilitychange",()=>{
-  if(document.hidden){stopParticles();clearInterval(bgT);$("bgv").pause()}
-  else{if(P){initParticles();if(P.backgrounds.length>1)startBg();if(P.videoBgEnabled&&P.videoBg&&navigator.connection?.saveData!==true)$("bgv").play().catch(()=>{})}}
-});
-addEventListener("resize",debounce(()=>{if(P){initParticles();initCursor()}},250));
+function loop(t){
+  raf=requestAnimationFrame(loop);if(t-last<16)return;last=t;cx.clearRect(0,0,cv.width,cv.height);
+  for(const p of pts){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>cv.width)p.vx*=-1;if(p.y<0||p.y>cv.height)p.vy*=-1;cx.beginPath();cx.arc(p.x,p.y,p.r,0,6.283);cx.fillStyle=`rgba(${p.c},${p.o})`;cx.fill()}
+  if(pts.length<=80)for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){const a=pts[i],b=pts[j],d=Math.hypot(a.x-b.x,a.y-b.y);if(d<110){cx.beginPath();cx.moveTo(a.x,a.y);cx.lineTo(b.x,b.y);cx.strokeStyle=`rgba(${a.c},${.12*(1-d/110)})`;cx.stroke()}}
+}
+document.addEventListener("visibilitychange",()=>{if(document.hidden){cancelAnimationFrame(raf);raf=null}else if(P&&P.effectParticles&&!raf)raf=requestAnimationFrame(loop)});
+addEventListener("resize",debounce(()=>{if(P){initParticles();initCursor()}},150));
 
 /* ================= CURSOR ================= */
-const cur=$("cur");let curOn=false,lastTrail=0,trailCount=0;
+const cur=$("cur");let curOn=false,lastTrail=0;
 function initCursor(){applyCursor();curOn=P.effectCursor!==false&&innerWidth>650&&matchMedia("(hover: hover) and (pointer: fine)").matches;cur.style.opacity=0;document.body.classList.toggle("nc",curOn)}
 document.addEventListener("pointermove",e=>{
   if(!curOn||!(e.pointerType==="mouse"||e.pointerType==="pen"))return;
   cur.style.opacity=1;cur.style.left=e.clientX+"px";cur.style.top=e.clientY+"px";
   cur.classList.toggle("hover",!!e.target.closest("a,button,.vinyl,.pi,.th,.fr,.chip,[data-c]"));
-  const n=performance.now();if(P.cursorTrail&&n-lastTrail>140&&trailCount<6){lastTrail=n;trailCount++;const t=document.createElement("div");t.className="trail";t.style.left=e.clientX+"px";t.style.top=e.clientY+"px";document.body.appendChild(t);requestAnimationFrame(()=>t.style.opacity=0);setTimeout(()=>{t.remove();trailCount=Math.max(0,trailCount-1)},700)}
+  const n=performance.now();if(P.cursorTrail&&n-lastTrail>75&&document.querySelectorAll(".trail").length<12){lastTrail=n;const t=document.createElement("div");t.className="trail";t.style.left=e.clientX+"px";t.style.top=e.clientY+"px";document.body.appendChild(t);requestAnimationFrame(()=>t.style.opacity=0);setTimeout(()=>t.remove(),700)}
 },{passive:true});
 document.addEventListener("pointerleave",e=>{if(e.pointerType==="mouse")cur.style.opacity=0});
 document.addEventListener("pointerenter",e=>{if(curOn&&e.pointerType==="mouse")cur.style.opacity=1});
@@ -470,7 +464,7 @@ addEventListener("scroll",()=>{const h=document.documentElement.scrollHeight-inn
 
 /* ================= MÚSICA ================= */
 const au=$("au"),ytThumb=id=>`https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
-let cur_=0,playing=false,vol=.30,loaded=null,fadeT=null,ytp=null,ytWant=false,ytTimer=null;
+let cur_=0,playing=false,vol=.30,loaded=null,fadeT=null,ytp=null,ytWant=false;
 const song=()=>P.playlist[cur_],isYT=()=>song()?.source==="youtube";
 const coverOf=()=>{const s=song();return(s&&(s.cover||(s.videoId&&ytThumb(s.videoId))))||P.avatar||""};
 function dominant(url){return new Promise(ok=>{const im=new Image();im.crossOrigin="anonymous";im.onload=()=>{try{const c=document.createElement("canvas");c.width=c.height=1;const x=c.getContext("2d");x.drawImage(im,0,0,1,1);const[r,g,b]=x.getImageData(0,0,1,1).data;ok(`rgb(${r},${g},${b})`)}catch(e){ok(null)}};im.onerror=()=>ok(null);im.src=url})}
@@ -497,7 +491,7 @@ function load(force){
   $("mt").textContent=$("mt2").textContent=s.name;listPaint();paintCover();media();
 }
 function setPlaying(p){
-  playing=p;clearInterval(ytTimer);ytTimer=null;if(p&&isYT())ytTimer=setInterval(tick,1000);if(p)unlock("music");$("vwrap").classList.toggle("play",p);$("vinyl").classList.toggle("spin",p);$("eq").classList.toggle("play",p);
+  playing=p;if(p)unlock("music");$("vwrap").classList.toggle("play",p);$("vinyl").classList.toggle("spin",p);$("eq").classList.toggle("play",p);
   $("pp").textContent=$("mpp").textContent=p?"⏸":"▶";paintMini();nowPaint();
 }
 function paintMini(){$("mini").classList.toggle("hide",page==="home"||!playing||!P?.playlist.length)}
@@ -527,7 +521,7 @@ function tick(){
   let c=au.currentTime,d=au.duration;if(isYT()){if(!ytp||!ytp.getCurrentTime)return;c=ytp.getCurrentTime();d=ytp.getDuration()}
   if(!d)return;$("prg").value=c/d*100;$("t1").textContent=fmtTime(c);$("t2").textContent=fmtTime(d);$("mpb").style.width=c/d*100+"%";
 }
-au.addEventListener("timeupdate",tick);au.addEventListener("ended",next);
+au.addEventListener("timeupdate",tick);au.addEventListener("ended",next);setInterval(()=>{if(playing&&isYT())tick()},500);
 $("pp").onclick=$("mpp").onclick=toggle;$("vinyl").onclick=toggle;$("nxt").onclick=next;$("prev").onclick=prev;
 $("shuf").onclick=()=>{P.shuffle=!P.shuffle;$("shuf").classList.toggle("on",P.shuffle)};
 $("rep").onclick=()=>{P.loop=!P.loop;$("rep").classList.toggle("on",P.loop)};
@@ -618,7 +612,7 @@ const SECS=[["👤 Perfil","a-prof"],["🎨 Aparência","a-look",'<label class="
  ["🔗 Links","a-links"],["🏷️ Badges","a-badges",'<label class="cap">Um badge por linha</label><textarea class="inp" id="a-bt"></textarea>'],["💬 Fóruns","a-forum",'<h4>📁 Categorias</h4><div id="a-cats"></div><h4>📝 Tópicos</h4><div id="a-threads"></div>'],
  ["👥 Amigos","a-friends"],["🎵 Playlist","a-music",'<input id="a-mf" class="inp" type="file" accept="audio/*" multiple><div class="imgf"><input id="a-yt" class="inp" placeholder="Link do YouTube"><button class="sb" id="a-yb" type="button">+ YouTube</button></div><div id="a-songs"></div><div id="a-mopt"></div>'],
  ["✨ Efeitos","a-fx"],["🖱️ Cursor","a-cur"],["📡 Status ao vivo","a-live"],["🌗 Modo e música ambiente","a-mode","<div id=\"a-amb\"></div>"],["🕵️ Modo secreto e easter eggs","a-secret","<h4>🥚 Mensagens escondidas</h4><div id=\"a-eggs\"></div>"],["🏆 Conquistas","a-ach","<button class=\"sb dn\" id=\"a-achr\" type=\"button\">Limpar meu progresso local</button>"]];
-$("aBody").innerHTML=`<div class="sec" style="border-color:rgba(6,182,212,.3)"><h3>☁️ Firebase <small id="fbStat" style="font-weight:400;font-size:12px"></small></h3><p class="fd">As imagens/áudios/vídeos ficam dentro do perfil (sem Storage). Para salvar funcionar: 1) Authentication → Sign-in method → ative E-mail/Senha e crie seu usuário; 2) Realtime Database → Regras: <code>{"rules":{"profile":{".read":true,".write":"auth != null"}}}</code>. Para arquivos grandes, use links.</p></div>`+SECS.map(([t,id,x=""])=>`<div class="sec"><h3>${t}</h3><div id="${id}"></div>${x}</div>`).join("");
+$("aBody").innerHTML=`<div class="sec" style="border-color:rgba(6,182,212,.3)"><h3>🛡️ Segurança e armazenamento</h3><p class="fd">Os arquivos novos são enviados ao Firebase Storage em vez de serem gravados como Base64 no Realtime Database. A proteção real depende também das regras do Firebase: restrinja gravação ao UID administrador e valide tamanho/tipo no Storage. Não publique regras de escrita abertas.</p></div>`+SECS.map(([t,id,x=""])=>`<div class="sec"><h3>${t}</h3><div id="${id}"></div>${x}</div>`).join("");
 function fillAdmin(){
   ctl($("a-prof"),PROF,P);ctl($("a-lookc"),LOOK,P);bgList();ctl($("a-ui"),UIDEF,P.ui);ctl($("a-info"),INFODEF,P.info,applyAll);
   listEd($("a-fields"),P.info.fields,FIELD,()=>({icon:"📍",label:"",value:""}),"Campo");listEd($("a-stats"),P.info.stats,STAT,()=>({value:"",label:""}),"Estatística");
@@ -632,9 +626,10 @@ const fillThreads=()=>listEd($("a-threads"),P.forumThreads,THREAD,()=>({id:uid()
 const listSongs=()=>listEd($("a-songs"),P.playlist,SONG,()=>({name:"",source:"local",data:""}),"(use os campos acima)",()=>{applyAll()},()=>{if(cur_>=P.playlist.length)cur_=Math.max(0,P.playlist.length-1);load()});
 $("a-uirs").onclick=()=>{P.ui=UI0();fillAdmin();applyAll()};
 $("a-bgf").onchange=async e=>{for(const f of e.target.files){const d=await readImg(f,1920);if(d)P.backgrounds.push(d)}e.target.value="";bgList();applyAll()};
-$("a-vf").onchange=async e=>{const f=e.target.files[0];if(!f)return;try{P.videoBg=await uploadMedia(f,"videos");P.videoBgEnabled=true;fillAdmin();applyAll();toast("Vídeo carregado","success")}catch(err){toast(err.message,"error")}};
+$("a-vf").onchange=async e=>{const f=e.target.files[0];if(!f)return;if(f.size>30*1024*1024){toast("Vídeo muito grande (máx 30MB)","error");return}try{P.videoBg=await uploadMedia(f,"videos");P.videoBgEnabled=true;fillAdmin();applyAll();toast("Vídeo enviado para o armazenamento","success")}catch(err){toast(err.message,"error")}};
 $("a-mf").onchange=async e=>{
-  for(const f of e.target.files){try{const url=await uploadMedia(f,"audio");P.playlist.push({name:f.name.replace(/\.[^.]+$/,""),source:"local",data:url,cover:await id3Cover(f)})}catch(err){toast(`${f.name}: ${err.message}`,"error")}}
+  for(const f of e.target.files){if(f.size>15*1024*1024){toast(`"${f.name}" muito grande (máx 15MB)`,"error");continue}
+    try{const url=await uploadMedia(f,"audio");P.playlist.push({name:f.name.replace(/\.[^.]+$/,""),source:"local",data:url,cover:""})}catch(err){toast(`${f.name}: ${err.message}`,"error")}}
   e.target.value="";listSongs();renderMain();load();listPaint();toast("Música(s) adicionada(s)","success");
 };
 $("a-yb").onclick=()=>{
@@ -643,27 +638,34 @@ $("a-yb").onclick=()=>{
   ytTitle(id).then(t=>{if(t){s.name=t;listSongs();listPaint()}});
 };
 
+async function migrateLegacyMedia(){
+  const migrate=async(value,folder)=>{
+    if(typeof value!=="string"||!value.startsWith("data:"))return value;
+    const blob=await (await fetch(value)).blob();
+    const ext=(blob.type.split("/")[1]||"bin").replace(/[^a-z0-9]/gi,"").slice(0,8)||"bin";
+    const file=new File([blob],`migrado.${ext}`,{type:blob.type||"application/octet-stream"});
+    return await uploadMedia(file,folder);
+  };
+  P.avatar=await migrate(P.avatar,"images");P.videoBg=await migrate(P.videoBg,"videos");
+  for(let i=0;i<P.backgrounds.length;i++)P.backgrounds[i]=await migrate(P.backgrounds[i],"images");
+  for(const song of P.playlist){song.data=await migrate(song.data,"audio");song.cover=await migrate(song.cover,"images")}
+  for(const friend of P.friends)friend.avatar=await migrate(friend.avatar,"images");
+  for(const thread of P.forumThreads)thread.image=await migrate(thread.image,"images");
+  P.secret.image=await migrate(P.secret.image,"images");P.cursorImg=await migrate(P.cursorImg,"images");
+}
 async function save(){
-  if(!auth.currentUser){toast("Entre como administrador para salvar.","error");openM("mLogin");return}
+  if(!auth.currentUser){toast("Sessão administrativa necessária para salvar.","error");return}
   const b=$("save");b.disabled=true;b.textContent="💾 Salvando...";
-  try{
-    const clean=JSON.parse(JSON.stringify(P)),kb=Math.round(JSON.stringify(clean).length/1024);
-    if(kb>12000)throw new Error(`Perfil grande demais (${kb} KB). Remova imagens/áudios pesados ou use links.`);
-    await db.ref(PATH).set(clean);toast(`Salvo com sucesso! (${kb} KB)`,"success");
-  }catch(e){
-    console.error(e);const msg=/permission_denied/i.test((e.code||"")+" "+e.message)?"Permissão negada: ajuste as regras do Realtime Database (instruções no topo do painel).":(e.message||"falha de conexão");
-    toast("Erro ao salvar: "+msg,"error");
-  }
+  try{b.textContent="☁️ Preparando arquivos...";await migrateLegacyMedia();b.textContent="💾 Salvando perfil...";await db.ref(PATH).set(P);toast("Salvo com sucesso!","success")}catch(e){toast("Erro ao salvar: "+(e.message||"verifique as regras do Firebase"),"error")}
   b.disabled=false;b.textContent="💾 SALVAR TUDO";
 }
 $("save").onclick=save;
 $("bAdm").onclick=()=>{if(auth.currentUser){fillAdmin();openM("mAdmin")}else openM("mLogin")};
 $("lGo").onclick=async()=>{const e=$("lEmail").value.trim(),p=$("lPass").value;if(!e||!p){toast("Preencha e-mail e senha","error");return}
-  try{await auth.signInWithEmailAndPassword(e,p);$("lPass").value="";closeM("mLogin");fillAdmin();openM("mAdmin")}catch(x){const c=x.code||"";toast(/invalid|wrong|not-found|credential/.test(c)?"E-mail ou senha incorretos. O usuário precisa existir em Firebase → Authentication.":"Falha no login: "+x.message,"error")}};
+  try{await auth.signInWithEmailAndPassword(e,p);$("lPass").value="";closeM("mLogin");fillAdmin();openM("mAdmin")}catch(x){toast("Falha no login: "+x.message,"error")}};
 $("lPass").onkeydown=e=>{if(e.key==="Enter")$("lGo").click()};
 $("out").onclick=async()=>{await auth.signOut();closeM("mAdmin");toast("Logout realizado")};
 auth.onAuthStateChanged(u=>$("aMail").textContent=u?u.email:"");
-db.ref(".info/connected").on("value",x=>{const e=$("fbStat");if(e)e.textContent=x.val()?"🟢 conectado":"🔴 sem conexão"});
 
 /* temas */
 $("tGrid").innerHTML=Object.entries(TH).map(([k,t])=>`<button class="chip" data-t="${k}" style="background:linear-gradient(135deg,${t[0]||"#8b5cf6"},${t[1]||"#06b6d4"})">${k}</button>`).join("");
